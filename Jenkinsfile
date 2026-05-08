@@ -1,6 +1,6 @@
 node {
      stage('Checkout SCM') {
-        git branch: 'main', url: 'https://github.com/your-repo/erp-client.git'
+        git branch: 'main', url: 'https://github.com/ibrahimcsharp/erp-client.git'
     }
 
     stage('Build') {
