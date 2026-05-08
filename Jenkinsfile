@@ -8,7 +8,7 @@ node {
     }
 
     stage('Build') {
-        bat 'npm run build --prod'
+        bat 'npm run build-prod'
     }
 
     stage('Copy') {
