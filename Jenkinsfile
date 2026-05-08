@@ -1,6 +1,12 @@
 node {
      stage('Checkout SCM') {
         git branch: 'main', url: 'https://github.com/ibrahimcsharp/erp-client.git'
+     }
+
+    stage('Check') {
+        steps {
+            bat 'dir node_modules\\@angular\\cli'
+        }
     }
 
     stage('Install node modules') {
