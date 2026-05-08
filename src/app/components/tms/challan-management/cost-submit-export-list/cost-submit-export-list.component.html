@@ -1,0 +1,122 @@
+<p-panel header="Export Cost Submit" [toggleable]="true">
+    <p-table #dt [value]="ChallanArriveList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+        [rows]="10" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 30px">SL</th>
+                <th>Date</th>
+                <th>Vehicle No</th>
+                <th>Transport Vendor</th>
+                <th>Delivery Challan No</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td style="width: 30px"></td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'challandate', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'covervanno', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'transportcompany', 'contains')" class="p-column-filter"
+                        style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'challanno', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-challan let-rowIndex="rowIndex">
+            <tr>
+                <td style="width: 30px">{{ rowIndex+1 }}</td>
+                <td>{{challan.challandate | date:'MMMM d, y'}}</td>
+                <td>{{challan.covervanno}}</td>
+                <td>{{challan.transportcompany}}</td>
+                <td>{{challan.challanno}}</td>
+                <td>
+                    <a type="button" target="_blank" href="/tms/arrival-form/{{challan.id}}-AC"
+                        class="btn btn-xs btn-outline-secondary">
+                        <i class="fa fa-external-link" aria-hidden="true"></i> Actual Costing</a>&nbsp;
+                    <a type="button" target="_blank" href="/tms/costing-form/{{challan.id}}"
+                        class="btn btn-xs btn-outline-success">
+                        <i class="fa fa-external-link" aria-hidden="true"></i> Costing</a>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>
+<br>
+<p-panel header="Export Cost Submitted List" [toggleable]="true">
+    <p-table #dt1 [value]="ChallanModelList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+        [rows]="200" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left">
+                <button type="button" pButton icon="pi pi-file-o" iconPos="right" label="Report" (click)="openLink()"
+                style="margin-right: 0.5em;" style="float:right;width: 80px;font-size: 12px!important;"></button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 30px">SL</th>
+                <th>Bill Date</th>
+                <th>Vehicle No</th>
+                <th>Transport Vendor</th>
+                <th>Bill No</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td style="width: 30px"></td>
+                <td>
+                    <input pInputText type="text" (input)="dt1.filter($event.target.value, 'billDate', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt1.filter($event.target.value, 'covervanno', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text"
+                        (input)="dt1.filter($event.target.value, 'transportcompany', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt1.filter($event.target.value, 'billNo', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-challan let-rowIndex="rowIndex">
+            <tr>
+                <td style="width: 30px">{{ rowIndex+1 }}</td>
+                <td>{{challan.transports.billDate | date:'MMMM d, y'}}</td>
+                <td>{{challan.covervanno}}</td>
+                <td>{{challan.transportcompany}}</td>
+                <td>{{challan.transports.billNo}}</td>
+                <td>
+                    <ng-container *ngIf="challan.auditBillAmount > 0">
+                        <span class="badge badge-secondary">Audit Complete</span>&#160;
+                    </ng-container>
+                    <ng-container *ngIf="!challan.auditBillAmount">
+                    <a type="button" target="_blank" href="/tms/costing-form/{{challan.id}}"
+                        class="btn btn-xs btn-outline-primary">
+                        <i class="fa fa-edit" aria-hidden="true"></i> Edit Costing</a>
+                    </ng-container>
+                    <!-- <button class="btn btn-xs text-danger btn-outline-danger ml-2" (click)="deleteChallan(challan.id)">
+                        Delete
+                    </button> -->
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>

@@ -1,0 +1,595 @@
+<p-panel header="Vehicle Requisition " [toggleable]="true">
+  <form [formGroup]="RequisitionPasserngersForm" id="sampleProjectionForm" class="needs-validation">
+    <br />
+    <div class="row">
+      <!-- row 1 -->
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">Required For <span class="required"> &nbsp; *</span>
+            </span>
+          </div>
+          <select formControlName="requiredFor" class="p-inputtext-sm form-control">
+            <option value="Internal Use" selected>Internal Use</option>
+            <option value="Personal Use">Personal Use</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">No Of Person<span class="required">&nbsp;*</span></span>
+            <!-- <span class="input-group-text col-12"> Size Range <span class="required"> &nbsp; *</span> -->
+          </div>
+          <input type="number" id="noOfPerson" formControlName="noOfPerson" class="form-control" />
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">Participant Name(s)
+            </span>
+          </div>
+          <input type="text" id="participantName" formControlName="participantName" class="form-control" />
+        </div>
+      </div>
+
+      <!-- <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">Required Vehicle Type <span class="required"> &nbsp; *</span></span>
+          </div>
+
+          <select id="vehicleTypeId" formControlName="vehicleTypeId" class="form-control" [ngClass]="{'is-invalid':RequisitionPasserngersForm.get('vehicleTypeId').errors &&
+                  (RequisitionPasserngersForm.get('vehicleTypeId').touched ||
+                  RequisitionPasserngersForm.get('vehicleTypeId').dirty)}">
+            <option *ngFor="let type of tmsService.allTypeListDropdown" [ngValue]="type.value">
+              {{ type.label }}
+            </option>
+          </select>
+        </div>
+      </div> -->
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">Used Type<span class="required">&nbsp;*</span></span>
+          </div>
+
+          <select formControlName="usedType" class="p-inputtext-sm form-control">
+            <option value="Pickup">Pickup</option>
+            <option value="Drop">Drop</option>
+            <option value="Pickup & Drop">Pickup & Drop</option>
+          </select>
+
+        </div>
+
+      </div>
+
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">Pickup Location<span class="required"> &nbsp; *</span>
+            </span>
+          </div>
+          <input type="text" id="pickupLocation" formControlName="pickupLocation" class="form-control" />
+        </div>
+      </div>
+
+
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <!-- <span class="input-group-text col-12">Style Name</span><span class="required"> &nbsp; *</span></span> -->
+            <span class="input-group-text col-12">Requisition Date & Time <span class="required"> &nbsp; *</span></span>
+          </div>
+          <!-- <input type="text" formControlName="styleNameText" class="form-control" /> -->
+          <input [ngClass]="{
+                    'is-invalid':
+                    RequisitionPasserngersForm.get('startTime').errors &&
+                      (RequisitionPasserngersForm.get('startTime').touched ||
+                      RequisitionPasserngersForm.get('startTime').dirty)
+                  }" class="p-inputtext-sm form-control" type="datetime-local" formControlName="startTime" />
+
+        </div>
+      </div>
+
+      <!-- row 2 -->
+
+
+
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+
+
+            <span class="input-group-text col-12">Requisition Purpose<span class="required">&nbsp;*</span></span>
+          </div>
+          <select id="purpose" formControlName="purpose" class="p-inputtext-sm form-control">
+            <option value="Buyer Meeting">Buyer Meeting</option>
+            <option value="Supplier Meeting">Supplier Meeting</option>
+            <option value="Meeting">Meeting</option>
+            <option value="Factory Visit">Factory Visit</option>
+            <option value="Shop Visit">Shop Visit</option>
+            <option value="Area Visit">Area Visit</option>
+            <option value="Sub Contract">Sub Contract</option>
+            <option value="Quality Check">Quality Check</option>
+            <option value="Sample Review">Sample Review</option>
+            <option value="Training">Training</option>
+            <option value="Commercial Work">Commercial Work</option>
+            <option value="Audit">Audit</option>
+            <option value="Accounts Work">Accounts Work</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+        <!-- <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Actual Made Qty:</span>
+                  </div>
+                  <input type="number" formControlName="actualMadeQty" class="form-control" />
+              </div> -->
+      </div>
+
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">Drop Location<span class="required">&nbsp;*</span></span>
+          </div>
+          <input type="text" id="dropLocation" formControlName="dropLocation" class="form-control" />
+
+        </div>
+        <!-- <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Sample Category: </span>
+                  </div>
+                  <input formControlName="SampleCategory" [typeahead]="commonService.GmtItemSelectList"
+                      [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                      (typeaheadOnSelect)="onSelectGMTItem($event)" (typeaheadNoResults)="gmtItemNoResults($event)"
+                      [typeaheadOptionsLimit]="50" typeaheadOptionField="label" class="form-control" />
+              </div> -->
+      </div>
+      <div class="col-md-4">
+        <!-- <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Wash/On Wash: </span>
+                  </div>
+                  <select name="wash_OnWash" formControlName="washStatus" class="form-control">
+                      <option value="">Select</option>
+                      <option value="Wash">Wash</option>
+                      <option value="Non Wash">Non Wash</option>
+                  </select>
+              </div> -->
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">Drop Date & Time<span class="required">&nbsp;*</span></span>
+          </div>
+          <input [ngClass]="{
+                    'is-invalid':
+                    RequisitionPasserngersForm.get('endTime').errors &&
+                      (RequisitionPasserngersForm.get('endTime').touched ||
+                      RequisitionPasserngersForm.get('endTime').dirty)
+                  }" class="p-inputtext-sm form-control" type="datetime-local" formControlName="endTime" />
+        </div>
+      </div>
+
+      <!-- row 3 -->
+
+
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">Requisition For<span class="required">&nbsp;*</span></span>
+          </div>
+          <select formControlName="requisitionFor" class="p-inputtext-sm form-control"
+            (change)="changeassignedFor($event)">
+            <option value="">===Select One===</option>
+            <option value=1>Buyers</option>
+            <option value=2>Management</option>
+            <option value=3>Department</option>
+            <option value=5>Company</option>
+            <option value=6>Employee</option>
+            <option value=7>Customer</option>
+          </select>
+        </div>
+        <!-- <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Material In House Date:</span>
+                  </div>
+                  <input type="date" formControlName="inhouseMatrlDate" class="form-control" />
+              </div> -->
+      </div>
+
+      <!-- row 4 -->
+
+      <ng-container *ngIf="RequisitionPasserngersForm.value.requisitionFor == 1">
+        <div class="col-md-4">
+          <div class="input-group mb-1">
+            <div class="input-group-prepend paheight col-6">
+              <span class="input-group-text col-12">Buyer </span>
+            </div>
+
+            <select class="form-control " formControlName="buyerId" id="buyerId" [ngClass]="{
+                      'is-invalid':
+                      RequisitionPasserngersForm.get('buyerId').errors &&
+                        (RequisitionPasserngersForm.get('buyerId').touched ||
+                        RequisitionPasserngersForm.get('buyerId').dirty)
+                    }">
+              <option *ngFor="let item of commonService.BuyerSelectList" [ngValue]="item.value">
+                <ng-container *ngIf="item.label != 'Select'">
+                  {{ item.label }}
+                </ng-container>
+                <ng-container *ngIf="item.label == 'Select'">
+                  ===Select One===
+                </ng-container>
+              </option>
+            </select>
+
+          </div>
+        </div>
+
+
+        <ng-container *ngIf="RequisitionPasserngersForm.value.buyerId">
+          <div class="col-md-4">
+            <div class="input-group mb-1">
+              <div class="input-group-prepend paheight col-6">
+                <span class="input-group-text col-12">Buyer Person Name
+                </span>
+              </div>
+              <input type="text" id="buyerPersonName" formControlName="buyerPersonName" class="form-control" />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="input-group mb-1">
+              <div class="input-group-prepend paheight col-6">
+                <span class="input-group-text col-12">Buyer Person Mobile No.
+                </span>
+              </div>
+              <input type="text" id="buyerPersonMobileNo" formControlName="buyerPersonMobileNo" class="form-control" />
+            </div>
+          </div>
+        </ng-container>
+
+      </ng-container>
+
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <!-- <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text">Remarks<span class="required">&nbsp;</span></span>
+
+                    <textarea id="remarks" name="remarks" rows="3" cols="30" formControlName="remarks" class="form-control"
+                    placeholder="Please Enter Remarks..." autocomplete="off"></textarea>
+                  </div> -->
+
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">Remarks<span class="required"> &nbsp; </span>
+            </span>
+          </div>
+          <!-- <input type="textarea" id="remarks" rows="3" cols="30" formControlName="remarks" class="form-control" /> -->
+          <!-- <textarea id="remarks" name="remarks" rows="3" cols="30" formControlName="remarks" class="form-control"
+          placeholder="Please Enter Remarks..." autocomplete="off"></textarea> -->
+
+
+          <textarea id="remarks" name="remarks" rows="1" cols="10" formControlName="remarks"
+            class="form-control textarea" placeholder="Please Enter Remarks..."></textarea>
+
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">Reference Document</span>
+          </div>
+          <div class="col-6">
+            <input type="file" #inputFile multiple (change)="getFileDetails($event)" />
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- row 10 -->
+      <br />
+      <div class="col-md-12">
+
+        <div class="form-group mt-2 ml-3">
+
+          <button type="button" class="btn btn-outline-success" (click)="Onsubmit()">
+            <i class="fa fa-database" aria-hidden="true"></i>
+            {{ ButtonName }}
+          </button>
+          &nbsp;
+          <button class="btn btn-outline-warning" type="button" (click)="clear()">
+            <i class="fa fa-refresh" aria-hidden="true"></i> Clear
+          </button>
+        </div>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+  </form>
+  <div class="container-fluid">
+    <br />
+  </div>
+</p-panel>
+<br>
+<app-pending-passengers #submitSuccess></app-pending-passengers>
+
+<!-- 
+<form [formGroup]="RequisitionPasserngersForm">
+  <br>
+  <section>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Required For<span class="required">&nbsp;*</span></span>
+                </div>
+                <select formControlName="requiredFor" class="p-inputtext-sm form-control">
+                  <option value="Internal User">Internal Use</option>
+                  <option value="External User">External Use</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Used Type<span class="required">&nbsp;*</span></span>
+                </div>
+                <select formControlName="usedType" class="p-inputtext-sm form-control">
+                  <option value="Pickup">Pickup</option>
+                  <option value="Drop">Drop</option>
+                  <option value="Pickup & Drop">Pickup & Drop</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Required Vehicle Type<span class="required">*</span></span>
+                </div>
+                <select id="vehicleTypeId" formControlName="vehicleTypeId" class="form-control" [ngClass]="{'is-invalid':RequisitionPasserngersForm.get('vehicleTypeId').errors &&
+                      (RequisitionPasserngersForm.get('vehicleTypeId').touched ||
+                      RequisitionPasserngersForm.get('vehicleTypeId').dirty)}">
+                  <option *ngFor="let type of tmsService.allTypeListDropdown" [ngValue]="type.value">
+                    {{ type.label  }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Requisition For<span class="required">&nbsp;*</span></span>
+                </div>
+                <select formControlName="requisitionFor" class="p-inputtext-sm form-control"
+                  (change)="changeassignedFor($event)">
+                  <option value="">===Select One===</option>
+                  <option value=1>Buyers</option>
+                  <option value=2>Management</option>
+                  <option value=3>Department</option>
+                  <option value=5>Company</option>
+                  <option value=6>Employee</option>
+                  <option value=7>Customer</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="isCompany">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Company<span class="required">&nbsp;*</span></span>
+                </div>
+                <select class="form-control " formControlName="companyId" id="companyId" [ngClass]="{
+                      'is-invalid':
+                      RequisitionPasserngersForm.get('companyId').errors &&
+                        (RequisitionPasserngersForm.get('companyId').touched ||
+                        RequisitionPasserngersForm.get('companyId').dirty)
+                    }">
+                  <option *ngFor="let company of commonService.CompanySelectedList" [ngValue]="company.value">
+                    <ng-container *ngIf="company.label != 'Select'">
+                      {{ company.label }}
+                    </ng-container>
+                    <ng-container *ngIf="company.label == 'Select'">
+                       ===Select One=== 
+                    </ng-container>
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="isBuyer">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Buyer<span class="required">&nbsp;*</span></span>
+                </div>
+                <select class="form-control " formControlName="buyerId" id="buyerId" [ngClass]="{
+                          'is-invalid':
+                          RequisitionPasserngersForm.get('buyerId').errors &&
+                            (RequisitionPasserngersForm.get('buyerId').touched ||
+                            RequisitionPasserngersForm.get('buyerId').dirty)
+                        }">
+                  <option *ngFor="let item of commonService.BuyerSelectList" [ngValue]="item.value">
+                    <ng-container *ngIf="item.label != 'Select'">
+                      {{ item.label }}
+                  </ng-container>
+                  <ng-container *ngIf="item.label == 'Select'">
+                      ===Select One===
+                  </ng-container>
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-6" *ngIf="isDepartment">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Department<span class="required">&nbsp;*</span></span>
+                </div>
+                <p-multiSelect formControlName="departmentId" id="departmentId" [ngClass]="{'is-invalid':RequisitionPasserngersForm.get('departmentId').errors &&(RequisitionPasserngersForm.get('departmentId').touched ||RequisitionPasserngersForm.get('departmentId').dirty)}" 
+                  [options]="commonService.GatePassEmployeeDepartmentList"
+                  [style]="{ 'width': '20vw','height':'25px', 'font-size':'3px !important'  }"
+                  [(ngModel)]="selectedDepartments" defaultLabel="===Select Department===" optionLabel="label"
+                  display="employee" [ngModelOptions]="{ standalone: true }"></p-multiSelect>
+
+
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6" *ngIf="isEmployee">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Employee<span class="required">&nbsp;*</span></span>
+                </div>
+                <p-multiSelect formControlName="employeeId" id="employeeId" [ngClass]="{
+                        'is-invalid':
+                        RequisitionPasserngersForm.get('employeeId').errors &&
+                          (RequisitionPasserngersForm.get('employeeId').touched ||
+                          RequisitionPasserngersForm.get('employeeId').dirty)
+                      }" [style]="{ 'width': '20vw','height':'25px', 'font-size':'3px !important'  }"
+                  [styleClass]="form-control" [options]="commonService.GatePassEmployeeList"
+                  [(ngModel)]="selectedEmployees" defaultLabel="===Select Employee===" optionLabel="label"
+                  display="employee" [ngModelOptions]="{ standalone: true }"></p-multiSelect>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="isCustomer">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Customer Name<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="text" id="customerName" formControlName="customerName" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">No Of Person<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="number" id="noOfPerson" formControlName="noOfPerson" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Pickup Location<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="text" id="pickupLocation" formControlName="pickupLocation" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Drop Location<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="text" id="dropLocation" formControlName="dropLocation" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Pickup Date & Time<span class="required">&nbsp;*</span></span>
+                </div>
+                <input [ngClass]="{
+                                'is-invalid':
+                                RequisitionPasserngersForm.get('startTime').errors &&
+                                  (RequisitionPasserngersForm.get('startTime').touched ||
+                                  RequisitionPasserngersForm.get('startTime').dirty)
+                              }" class="p-inputtext-sm form-control" type="datetime-local"
+                  formControlName="startTime" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Drop Date & Time<span class="required">&nbsp;*</span></span>
+                </div>
+                <input [ngClass]="{
+                              'is-invalid':
+                              RequisitionPasserngersForm.get('endTime').errors &&
+                                (RequisitionPasserngersForm.get('endTime').touched ||
+                                RequisitionPasserngersForm.get('endTime').dirty)
+                            }" class="p-inputtext-sm form-control" type="datetime-local" formControlName="endTime" />
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Requisition Purpose<span class="required">&nbsp;*</span></span>
+                </div>
+                <select id="purpose" formControlName="purpose" class="p-inputtext-sm form-control">
+                  <option value="Buyer Meeting">Buyer Meeting</option>
+                  <option value="Supplier Meeting">Supplier Meeting</option>
+                  <option value="Meeting">Meeting</option>
+                  <option value="Factory Visit">Factory Visit</option>
+                  <option value="Shop Visit">Shop Visit</option>
+                  <option value="Area Visit">Area Visit</option>
+                  <option value="Sub Contract">Sub Contract</option>
+                  <option value="Quality Check">Quality Check</option>
+                  <option value="Sample Review">Sample Review</option>
+                  <option value="Training">Training</option>
+                  <option value="Commercial Work">Commercial Work</option>
+                  <option value="Audit">Audit</option>
+                  <option value="Accounts Work">Accounts Work</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <textarea id="remarks" name="remarks" rows="3" cols="30" formControlName="remarks" class="form-control"
+                  placeholder="Please Enter Remarks..." autocomplete="off"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" style="padding-top: 10px">
+              <button class="btn btn-xs btn-outline-success mr-2" (click)="Onsubmit()">
+                <i class="fa fa-file"></i> {{ButtonName}}
+              </button>
+              <button class="btn btn-xs btn-outline-primary" (click)="clear()">
+                <i class="fa fa-refresh"></i> Clear
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</form> -->

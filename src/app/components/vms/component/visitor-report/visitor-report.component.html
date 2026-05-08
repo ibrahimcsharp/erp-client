@@ -1,0 +1,250 @@
+<p-panel header="DATE RANGE FILTER " [toggleable]="true">
+    <ng-template pTemplate="icons">
+        <!-- <button pButton class="p-panel-header-icon p-link">
+            <span class="pi pi-cog"></span>
+        </button> -->
+        <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+    <form autocomplete="off" class="form" role="form" [formGroup]="VisitingReportForm">
+        <div class="row">
+            <div class="col-md-3">      
+
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">From Date<span class="required">&nbsp;*</span></span>
+                    </div>      
+                        <input
+                      [ngClass]="{ 'is-invalid':
+                        VisitingReportForm.get('fromDate').errors &&
+                          (VisitingReportForm.get('fromDate').touched ||
+                          VisitingReportForm.get('fromDate').dirty)}"
+                      class="form-control" type="date" formControlName="fromDate"
+                    />
+                </div>
+
+
+            </div>
+            <div class="col-md-3">        
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">To Date<span class="required">&nbsp;*</span></span>
+                    </div>
+
+                    <!-- <input type="datetime-local" placeholder="dd-mm-yyyy" class="form-control" [ngClass]="{
+                          'is-invalid':
+                          VisitingReportForm.get('toDate').errors &&
+                            (VisitingReportForm.get('toDate').touched ||
+                            VisitingReportForm.get('toDate').dirty)
+                        }" formControlName="fromDate" /> -->
+                        <input
+                        [ngClass]="{
+                          'is-invalid':
+                          VisitingReportForm.get('toDate').errors &&
+                            (VisitingReportForm.get('toDate').touched ||
+                            VisitingReportForm.get('toDate').dirty)
+                        }"
+                        class="form-control"
+                        type="date"
+                        formControlName="toDate"
+                      />
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="input-group input-group-sm">
+                    <button pButton type="button" label="Search" class="ui-button-rounded"
+                        (click)="onSearech()"></button>
+                        <button pButton type="button" label="Pdf Report" class="ui-button-rounded"
+                        (click)="onReportSearech()"></button>
+                </div>
+                <!-- <div class="input-group input-group-sm">
+                    <button pButton type="button" label="Pdf Report" class="ui-button-rounded"
+                        (click)="onReportSearech()"></button>
+                </div> -->
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                  <div class="input-group input-group-sm mb-1">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        >Company Permission<span class="required">&nbsp;*</span></span
+                      >
+                    </div>
+                    <select
+                      [ngClass]="{
+                        'is-invalid':
+                        VisitingReportForm.get('permittedCompanyId').errors &&
+                          (VisitingReportForm.get('permittedCompanyId').touched ||
+                          VisitingReportForm.get('permittedCompanyId').dirty)
+                      }"
+                      class="form-control"
+                      type="text"
+                      formControlName="permittedCompanyId"
+                    >
+                      <option value="">==Select One==</option>
+                       <option
+                        *ngFor="let item of commonService.BranchListByCurrentUser"
+                        [ngValue]="item.branchOfficeId"
+                      >
+                        {{ item.companyShort }}
+                      </option>  
+                    </select>
+                  </div>
+                  
+                </div>
+              </div> 
+
+            <!-- <div class="col-md-3">
+                <div class="input-group input-group-sm">
+                    <button pButton type="button" label="Pdf Report" class="ui-button-rounded"
+                        (click)="onReportSearech()"></button>
+                </div>
+            </div> -->
+        </div>
+    </form>
+</p-panel>
+
+<br />
+<br />
+<p-panel header="VISITOR REPORT" [toggleable]="true">
+    <ng-template pTemplate="icons">
+        <button pButton class="p-panel-header-icon p-link">
+            <span class="pi pi-cog"></span>
+        </button>
+        <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+    <!-- <button class="btn btn-outline-primary btn-xs ml-3" type="button" label="Generate PDF Report" (click)="Preview(rowData)">
+          <i class="fa fa-eye" aria-hidden="true">Generate PDF</i>  
+    </button> -->
+    <form>
+
+        <p-table #dt1 [value]="onlyMissionApprovedList" rowExpandMode="single" expandableRows="true"
+            [globalFilterFields]="['']" dataKey="id" editMode="row" [scrollable]="true" scrollHeight="500px"
+            [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">
+
+            <ng-template pTemplate="header">
+                <tr class="bc">
+                    <th>SL</th>
+                    <th [pSortableColumn]="'visitorname'">
+                        Visitor
+                        
+                    </th>
+                    <th [pSortableColumn]="'visitormobilenumber'">
+                        Mobile No
+                         
+                    </th>
+                    <th [pSortableColumn]="'visitorcompany'">
+                        Company
+                        
+                    </th>
+                    
+                    <th [pSortableColumn]="'visitorpurpose'">
+                        Purpose
+                        
+                    </th>
+
+                    <th [pSortableColumn]="'visitorcardnumber'">
+                        Visitor Card 
+                        
+                    </th>
+                    
+                    <th [pSortableColumn]="'whomname'">
+                        Whom
+                        
+                    </th>
+                    
+                    <th [pSortableColumn]="'whomdepartment'">
+                        Which Department
+                       
+                    </th>
+                    <th [pSortableColumn]="'createddate'">
+                        Visitor In Time
+                        
+                    </th>
+                    <th [pSortableColumn]="'whomdepartment'">
+                        Visitor Out Time
+                        
+                    </th>
+                    <th>
+                        Action
+                        
+                    </th>
+                    <!-- <th>Report</th> -->
+                    <tr style="background-color:lightgray;">
+
+                        <td></td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt1.filter($event.target.value, 'visitorname', 'contains')"
+                                class="p-column-filter" />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt1.filter($event.target.value, 'visitormobilenumber', 'contains')"
+                                class="p-column-filter" />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt1.filter($event.target.value, 'visitorcompany', 'contains')"
+                                class="p-column-filter" />
+                        </td>
+           
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt1.filter($event.target.value, 'visitorpurpose', 'contains')"
+                                class="p-column-filter" />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt1.filter($event.target.value, 'visitorcardnumber', 'contains')"
+                                class="p-column-filter" />
+                        </td>
+               
+                        <td>
+                            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'whomname', 'contains')"
+                                class="p-column-filter" />
+                        </td>
+                 
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt1.filter($event.target.value, 'whomdepartment', 'contains')"
+                                class="p-column-filter" />
+                        </td>
+                          <td></td> 
+                            <td></td>
+                            <td></td>
+             
+    
+                    </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                <tr>
+                    <td>{{ri+1}}</td>
+                    <td>{{rowData.visitorname}}</td>
+                    <td>{{rowData.visitormobilenumber}}</td>
+                    <td>{{rowData.visitorcompany}}</td>
+                    <!-- <td>{{rowData.visitoraddress}}</td> -->
+                    <td>{{rowData.visitorpurpose}}</td>
+                    <td>{{rowData.visitorcardnumber}}</td>
+                    <!-- <td>{{rowData.whommobilenumber}}</td> -->
+                    <td>{{rowData.whomname}}</td>
+                    <!-- <td>{{rowData.whomdesignation}}</td> -->
+                    <td>{{rowData.whomdepartment}}</td>
+                    <td>{{rowData.createddate | date: "medium"}}</td>
+                    <td>{{rowData.visitoroutdate | date: "medium"}}</td>
+
+                    <td>
+                        <button pButton pRipple type="button" label="Card-View" icon="{{rowData.approveIcon}}"
+                        class="p-button-raised p-button-success p-button-text"
+                        style="background: #80ff80;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;"
+                        (click)="CardView(rowData.id)">
+                    </button>
+                    </td> 
+                </tr>
+            </ng-template>
+        </p-table>
+    </form>
+</p-panel>

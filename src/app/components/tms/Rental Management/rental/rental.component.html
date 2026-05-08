@@ -1,0 +1,158 @@
+<p-panel header="VehicleRegistration" [toggleable]="true">
+    <ng-template pTemplate="icons">
+        <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+            <span class="pi pi-cog"></span>
+        </button>
+        <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+
+    <form [formGroup]="RentalExpenseForm">
+        <section>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Vehicle<span class="required">&nbsp;*</span></span>
+                                </div>
+                                <select formControlName="vehicleId" id="vehicleId"
+                                    class="p-inputtext-sm form-control uppercase">
+                                    <option value="">--- Select One ---</option>
+                                    <option value=1></option>
+                                    <option value=0></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">start Date</span>
+                                    </div>
+                                    <input [ngClass]="{
+                                        'is-invalid':
+                                        RentalExpenseForm.get('startTime').errors &&
+                                          (RentalExpenseForm.get('startTime').touched ||
+                                          RentalExpenseForm.get('startTime').dirty)
+                                      }" class="p-inputtext-sm form-control" type="datetime-local"
+                                        formControlName="StartDate" />
+                                </div>
+                            </div>
+                        </div>
+                        < class="col-md-4">
+                            < class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">End Date</span>
+                                    </div>
+                                    <input [ngClass]="{
+                                                'is-invalid':
+                                                RentalExpenseForm.get('startTime').errors &&
+                                                  (RentalExpenseForm.get('startTime').touched ||
+                                                  RentalExpenseForm.get('startTime').dirty)
+                                              }" class="p-inputtext-sm form-control" type="datetime-local"
+                                        formControlName="EndDate" />
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Goods With<span
+                                                        class="required">&nbsp;*</span></span>
+                                            </div>
+                                            <input type="text" id="GoodsWith" formControlName="GoodsWith"
+                                                class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Other amount<span
+                                                        class="required">&nbsp;*</span></span>
+                                            </div>
+                                            <input type="text" id="OtherAmount" formControlName="OtherAmount"
+                                                class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Total Amount<span
+                                                        class="required">&nbsp;*</span></span>
+                                            </div>
+                                            <input type="text" id="TotalAmount" formControlName="TotalAmount"
+                                                class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Odometer<span
+                                                        class="required">&nbsp;*</span></span>
+                                            </div>
+                                            <input type="number" id="Odometer" formControlName="odometer"
+                                                class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Budget Code<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <select formControlName="budgetCode"
+                                            class="p-inputtext-sm form-control uppercase">
+                                            <option value="">--- Select One ---</option>
+                                            <option value=1></option>
+                                            <option value=0></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Reference Document<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <textarea id="remarks" name="remarks" rows="3" cols="30"
+                                                formControlName="remarks" class="form-control"
+                                                placeholder="Please Enter Remarks..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" style="padding-top: 10px">
+                                        <button class="btn btn-xs btn-outline-success mr-2" (click)="Onsubmit()">
+                                            <i class="fa fa-file"></i> Save
+                                        </button>
+                                        <button class="btn btn-xs btn-outline-primary" (click)="clear()">
+                                            <i class="fa fa-refresh"></i> Clear
+                                        </button>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </form>
+
+</p-panel>
+<br>

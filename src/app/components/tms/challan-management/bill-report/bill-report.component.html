@@ -1,0 +1,213 @@
+<p-panel header="Bill Report" [toggleable]="true">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="BillReport" class="form">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text">Challan Type<span class="required">&nbsp;*</span></span>
+                      </div>
+                      <select [ngClass]="{
+                        'is-invalid':
+                        BillReport.get('reportType').errors &&
+                          (BillReport.get('reportType').touched ||
+                          BillReport.get('reportType').dirty)
+                      }"
+                      formControlName="reportType"
+                      class="form-control input-xs select2"
+                      (ngModelChange)="onReportTypeChange($event)">
+                          <option value="">===Select One===</option>
+                          <option value="EXPORT">EXPORT</option>
+                          <option value="IMPORT">IMPORT</option>
+                          <option value="LOCAL">LOCAL</option>
+                      </select>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend ">
+                    <span class="input-group-text col-12">Report Header<span class="required">*</span></span>
+                  </div>
+                  <select class="form-control " formControlName="companyId" id="companyId" [ngClass]="{
+                    'is-invalid':
+                    BillReport.get('companyId').errors &&
+                      (BillReport.get('companyId').touched ||
+                      BillReport.get('companyId').dirty)
+                  }">
+
+                    <option *ngFor="let company of commonService.CompanySelectedList" [ngValue]="company.value">
+                      <ng-container *ngIf="company.label != 'Select'">
+                        {{ company.label }}
+                      </ng-container>
+                      <ng-container *ngIf="company.label == 'Select'">
+                        ===Select One===
+                      </ng-container>
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="control-label"> From Date </label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid':
+                        BillReport.get('fDate').errors &&
+                          (BillReport.get('fDate').touched ||
+                          BillReport.get('fDate').dirty)
+                      }"
+                      class="form-control"
+                      type="date"
+                      formControlName="fDate"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="control-label"> To Date </label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid':
+                        BillReport.get('tDate').errors &&
+                          (BillReport.get('tDate').touched ||
+                          BillReport.get('tDate').dirty)
+                      }"
+                      class="form-control"
+                      type="date"
+                      formControlName="tDate"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group" >
+                      <label class="control-label"> </label>
+                      <button pButton pRipple type="button" label="View Report" icon="pi pi-file"
+                      class="p-button-raised p-button-success p-button-text" [disabled]="BillReport.invalid"
+                      style="background: #D5F9F8;height: 25px;width: 50px;color: black;font-weight: bold;font-size: 8px!important;"
+                      (click)="onSubmit()" style="width:145px!important;font-size: 15px!important;"></button>
+                    </div>
+                </div>
+          </div>
+          <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Billing Month</span>
+                        </div>
+                        <select formControlName="billingMonth" class="form-control input-xs select2"
+                            [ngClass]="{
+                            'is-invalid':
+                            BillReport.get('billingMonth').errors &&
+                              (BillReport.get('billingMonth').touched ||
+                              BillReport.get('billingMonth').dirty)
+                          }">
+                            <option value="">===Select One===</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                    </div>
+                </div>
+              </div>
+                <div class="col-md-3" *ngIf="BillReport.value.reportType == 'EXPORT'">
+                  <div class="form-group">
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text">Transport Company</span>
+                          </div>
+                          <select formControlName="transportCompany" class="form-control input-xs select2"
+                              [ngClass]="{
+                              'is-invalid':
+                              BillReport.get('transportCompany').errors &&
+                                (BillReport.get('transportCompany').touched ||
+                                BillReport.get('transportCompany').dirty)
+                            }">
+                              <option value="">===Select One===</option>
+                              <option value="Snowtex">Snowtex</option>
+                              <option value="RASEL">RASEL</option>
+                              <option value="SNOWTEX">SNOWTEX</option>
+                              <option value="N.S.CARGO">N.S.CARGO</option>
+                          </select>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-3" *ngIf="BillReport.value.reportType == 'IMPORT'">
+                  <div class="form-group">
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text">Transport Company</span>
+                          </div>
+                          <select formControlName="transportCompany" class="form-control input-xs select2"
+                              [ngClass]="{
+                              'is-invalid':
+                              BillReport.get('transportCompany').errors &&
+                                (BillReport.get('transportCompany').touched ||
+                                BillReport.get('transportCompany').dirty)
+                            }">
+                              <option value="">===Select One===</option>
+                              <option value="RASEL TRANSPORT AGENCY">RASEL TRANSPORT AGENCY</option>
+                              <option value="Protitee Trade Agency">Protitee Trade Agency</option>
+                              <option value="SNOWTEX TRANSPORT">SNOWTEX TRANSPORT</option>
+                              <option value="CNF AIR">CNF AIR</option>
+                              <option value="M/S SUNNY ENTERPRISE">M/S SUNNY ENTERPRISE</option>
+                              <option value="M/S. DULALPUR S. R. TRADERS ">M/S. DULALPUR S. R. TRADERS</option>
+                              <option value="COURIER">COURIER</option>
+                              <option value="Others">Others</option>
+
+                          </select>
+                      </div>
+                  </div>
+                </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend ">
+                    <span class="input-group-text col-12">Buyer List</span>
+                  </div>
+                  <select class="form-control " formControlName="buyerName" id="buyerName" [ngClass]="{
+                    'is-invalid':
+                    BillReport.get('buyerName').errors &&
+                      (BillReport.get('buyerName').touched ||
+                      BillReport.get('buyerName').dirty)
+                  }">
+
+                    <option *ngFor="let buyer of commonService.BuyerSelectList" [ngValue]="buyer.label">
+                      <ng-container *ngIf="buyer.label != 'Select'">
+                        {{ buyer.label }}
+                      </ng-container>
+                      <ng-container *ngIf="buyer.label == 'Select'">
+                        ===Select One===
+                      </ng-container>
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer"></div>
+    </div>
+  </p-panel>
+  
+

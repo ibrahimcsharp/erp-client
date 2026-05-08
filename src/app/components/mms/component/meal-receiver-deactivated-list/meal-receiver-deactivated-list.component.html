@@ -1,0 +1,112 @@
+<p-panel header="Meal Receiver Decatived List" [toggleable]="true">
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Employee List</legend>
+          <p-table
+            #dt
+            [(selection)]="selectedEmpInfo"
+            *ngIf="empList != null"
+            [value]="empList"
+            [globalFilterFields]="['employeeId', 'employeeName', 'empType']"
+            dataKey="employeeId"
+            editMode="row"
+            [scrollable]="true"
+            [paginator]="true"
+            [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]"
+            >>
+            <ng-template pTemplate="caption">
+              <div class="ui-helper-clearfix" style="text-align: left">
+                <button class="btn btn-success btn-xs mr-2" type="button">
+                  {{ selectedEmpInfo.length }}- Employees Selected for lunch Acative
+                </button>
+
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  placeholder="Global Filter"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')"
+                  style="float: right"
+                />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr class="bc">
+                <th>
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <!-- <th>SL</th> -->
+                <th [pSortableColumn]="'employeeId'">
+                  Employee Id
+                  <p-sortIcon
+                    [field]="'employeeId'"
+                    ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"
+                  >
+                  </p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'employeeName'">
+                  Employee Name
+                  <p-sortIcon
+                    [field]="'employeeName'"
+                    ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"
+                  >
+                  </p-sortIcon>
+                </th>
+                <th>IsDeactive</th>
+              </tr>
+              <tr>
+                <!-- <td></td> -->
+                <td></td>
+                <td>
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dt.filter($event.target.value, 'employeeId', 'contains')
+                    "
+                    class="p-column-filter"
+                  />
+                </td>
+                <td>
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dt.filter($event.target.value, 'employeeName', 'contains')
+                    "
+                    class="p-column-filter"
+                  />
+                </td>
+                <td></td>
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-rowData
+              let-editing="editing"
+              let-ri="rowIndex"
+            >
+              <tr [ngStyle]="rowData.deactivate == 'Y' ?  { 'background-color': 'white' } : { 'background-color': '#e0fede' }" [pEditableRow]="rowData" class="center">
+                <td>
+                  <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                </td>
+                <!-- <td>{{ ri + 1 }}</td> -->
+                <td>{{ rowData.employeeId }}</td>
+                <td>{{ rowData.employeeName }}</td>
+                <td >{{ rowData.deactivate}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+         <br>
+
+           <button type="submit" class="btn btn-outline-info  mr-2" (click)="onSubmit()"><i class="fa fa-spinner"></i> ACTIVE  {{ selectedEmpInfo.length }}</button>          
+         
+      </fieldset>
+  </p-panel>
+

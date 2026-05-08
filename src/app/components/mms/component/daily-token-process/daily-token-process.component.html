@@ -1,0 +1,870 @@
+<p-panel header="Daily Alternative Meal Token Process" [toggleable]="true">
+  <form [formGroup]="customForm" class="form" role="form">
+    <div class="row">
+      <div class="col-md-6 offset-md-2">
+        <div class="form-group">
+          <label class="control-label">Date</label>
+          <input type="date" [ngClass]="{
+              'is-invalid':
+                customForm.get('currentDate').errors &&
+                (customForm.get('currentDate').touched ||
+                  customForm.get('currentDate').dirty)
+            }" class="form-control" formControlName="currentDate" />
+        </div>
+        <div class="form-group">
+          <button (click)="Search()" type="button" class="btn btn-outline-success btn-xs mr-5">
+            <i class="fa fa-search"></i> Search
+          </button>
+          <!-- <button pTooltip="Älternative token process. If punch machine is not working" (click)="TokenProcess()"
+            type="button" class="btn btn-outline-info btn-xs ml-5">
+            <i class="fa fa-spinner"></i>Alternative token process
+          </button> -->
+        </div>
+      </div>
+    </div>
+  </form>
+  <hr />
+
+  <div class="card" *ngIf="empList.length > 0">
+    <div class="card-header">
+      <h5>Total Meal - {{ empList.length + lstAdminDashboardGuestInfo.length}} Persons</h5>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="GScoEmpList.length > 0">
+    <div class="card-header">
+      <h5>General Menu For SCO -{{ GScoEmpList.length }} Persons</h5>
+    </div>
+    <div class="card-body">
+      <p-table #dt *ngIf="GScoEmpList.length > 0" [value]="GScoEmpList" [globalFilterFields]="[
+          'employeeId',
+          'employeeName',
+          'monthName',
+          'yearName'
+        ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+            <!-- <button
+              (click)="print()"
+              class="btn btn-outline-primary btn-xs mr-2"
+            >
+              <i class="fa fa-print"></i> Print
+            </button> -->
+            <input type="text" pInputText size="50" placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+            <th>SL</th>
+
+            <th [pSortableColumn]="'employeeId'">
+              Employee Id
+              <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'employeeName'">
+              Employee Name
+              <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'tokenNumber'">
+              Meal Token
+              <p-sortIcon [field]="'monthName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <!-- <th [pSortableColumn]="'tokenGenDate'">
+        Token Gen Date
+        <p-sortIcon [field]="'TokenGenDate'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th> -->
+            <!-- <th [pSortableColumn]="'tokenType'">
+        Token Type
+        <p-sortIcon [field]="'tokenType'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'tokenCancel'">
+        Active Status
+        <p-sortIcon [field]="'tokenCancel'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th> -->
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeId', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeName', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'tokenNumber', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <!-- <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenGenDate', 'contains')"
+          class="p-column-filter" />
+      </td> -->
+            <!-- <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenType', 'contains')"
+          class="p-column-filter" />
+      </td>
+      <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenCancel', 'contains')"
+          class="p-column-filter" />
+      </td> -->
+            <td></td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr [ngStyle]="
+              rowData.tokenCancel == 1
+                ? { 'background-color': 'yellow' }
+                : { 'background-color': 'white' }
+            " class="center">
+            <td>{{ ri + 1 }}</td>
+            <td>{{ rowData.employeeId }}</td>
+            <td>{{ rowData.employeeName }}</td>
+            <td>{{ rowData.tokenNumber }}</td>
+            <!-- <td>{{ rowData.tokenGenDate | date:'d/M/y' }}</td> -->
+            <!-- <td>{{rowData.tokenTypeDes}}</td> -->
+            <!-- <td *ngIf="rowData.tokenType=='P'">Personal Meal</td>
+      <td *ngIf="rowData.tokenType=='G'">Personal Guest</td>
+      <td *ngIf="rowData.tokenType=='O'">Official Guest</td> -->
+            <!-- <td *ngIf="rowData.tokenCancel==0">Active</td>
+      <td *ngIf="rowData.tokenCancel==1">Cancelled</td> -->
+            <td>
+              <!-- <button class="btn btn-outline-info btn-xs mr-1">
+          <i class="fa fa-eye"></i> Print Token
+        </button> -->
+              <button pTooltip="Cancel Token" *ngIf="rowData.tokenCancel == 0" class="btn btn-primary btn-xs mr-2"
+                type="button" (click)="CancelMealToken(rowData)">
+                <i class="fa fa-trash"></i>
+              </button>
+
+              <button pTooltip="Active Token" *ngIf="rowData.tokenCancel == 1" class="btn btn-success btn-xs mr-r"
+                type="button" (click)="ActiveMealToken(rowData)">
+                <i class="fa fa-check"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="card" *ngIf="HScoEmpList.length > 0">
+    <div class="card-header">
+      <h5>Special Menu For SCO -{{ HScoEmpList.length }} Persons</h5>
+    </div>
+    <div class="card-body">
+      <p-table #dt *ngIf="HScoEmpList.length > 0" [value]="HScoEmpList" [globalFilterFields]="[
+          'employeeId',
+          'employeeName',
+          'monthName',
+          'yearName'
+        ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+            <!-- <button
+              (click)="print()"
+              class="btn btn-outline-primary btn-xs mr-2"
+            >
+              <i class="fa fa-print"></i> Print
+            </button> -->
+            <input type="text" pInputText size="50" placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+            <th>SL</th>
+
+            <th [pSortableColumn]="'employeeId'">
+              Employee Id
+              <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'employeeName'">
+              Employee Name
+              <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'tokenNumber'">
+              Meal Token
+              <p-sortIcon [field]="'monthName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <!-- <th [pSortableColumn]="'tokenGenDate'">
+        Token Gen Date
+        <p-sortIcon [field]="'TokenGenDate'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th> -->
+            <!-- <th [pSortableColumn]="'tokenType'">
+        Token Type
+        <p-sortIcon [field]="'tokenType'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'tokenCancel'">
+        Active Status
+        <p-sortIcon [field]="'tokenCancel'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th> -->
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeId', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeName', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'tokenNumber', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <!-- <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenGenDate', 'contains')"
+          class="p-column-filter" />
+      </td> -->
+            <!-- <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenType', 'contains')"
+          class="p-column-filter" />
+      </td>
+      <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenCancel', 'contains')"
+          class="p-column-filter" />
+      </td> -->
+            <td></td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr [ngStyle]="
+              rowData.tokenCancel == 1
+                ? { 'background-color': 'yellow' }
+                : { 'background-color': 'white' }
+            " class="center">
+            <td>{{ ri + 1 }}</td>
+            <td>{{ rowData.employeeId }}</td>
+            <td>{{ rowData.employeeName }}</td>
+            <td>{{ rowData.tokenNumber }}</td>
+            <!-- <td>{{ rowData.tokenGenDate | date:'d/M/y' }}</td> -->
+            <!-- <td>{{rowData.tokenTypeDes}}</td> -->
+            <!-- <td *ngIf="rowData.tokenType=='P'">Personal Meal</td>
+      <td *ngIf="rowData.tokenType=='G'">Personal Guest</td>
+      <td *ngIf="rowData.tokenType=='O'">Official Guest</td> -->
+            <!-- <td *ngIf="rowData.tokenCancel==0">Active</td>
+      <td *ngIf="rowData.tokenCancel==1">Cancelled</td> -->
+            <td>
+              <!-- <button class="btn btn-outline-info btn-xs mr-1">
+          <i class="fa fa-eye"></i> Print Token
+        </button> -->
+              <button pTooltip="Cancel Token" *ngIf="rowData.tokenCancel == 0" class="btn btn-primary btn-xs mr-2"
+                type="button" (click)="CancelMealToken(rowData)">
+                <i class="fa fa-trash"></i>
+              </button>
+
+              <button pTooltip="Active Token" *ngIf="rowData.tokenCancel == 1" class="btn btn-success btn-xs mr-r"
+                type="button" (click)="ActiveMealToken(rowData)">
+                <i class="fa fa-check"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="card" *ngIf="GSaraEmplist.length > 0">
+    <div class="card-header">
+      <h5>General Menu For SaRa -{{ GSaraEmplist.length }} Persons</h5>
+    </div>
+    <div class="card-body">
+      <p-table #dt *ngIf="GSaraEmplist.length > 0" [value]="GSaraEmplist" [globalFilterFields]="[
+          'employeeId',
+          'employeeName',
+          'monthName',
+          'yearName'
+        ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+            <!-- <button
+              (click)="print()"
+              class="btn btn-outline-primary btn-xs mr-2"
+            >
+              <i class="fa fa-print"></i> Print
+            </button> -->
+            <input type="text" pInputText size="50" placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+            <th>SL</th>
+
+            <th [pSortableColumn]="'employeeId'">
+              Employee Id
+              <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'employeeName'">
+              Employee Name
+              <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'tokenNumber'">
+              Meal Token
+              <p-sortIcon [field]="'monthName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <!-- <th [pSortableColumn]="'tokenGenDate'">
+        Token Gen Date
+        <p-sortIcon [field]="'TokenGenDate'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th> -->
+            <!-- <th [pSortableColumn]="'tokenType'">
+        Token Type
+        <p-sortIcon [field]="'tokenType'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'tokenCancel'">
+        Active Status
+        <p-sortIcon [field]="'tokenCancel'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th> -->
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeId', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeName', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'tokenNumber', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <!-- <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenGenDate', 'contains')"
+          class="p-column-filter" />
+      </td> -->
+            <!-- <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenType', 'contains')"
+          class="p-column-filter" />
+      </td>
+      <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenCancel', 'contains')"
+          class="p-column-filter" />
+      </td> -->
+            <td></td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr [ngStyle]="
+              rowData.tokenCancel == 1
+                ? { 'background-color': 'yellow' }
+                : { 'background-color': 'white' }
+            " class="center">
+            <td>{{ ri + 1 }}</td>
+            <td>{{ rowData.employeeId }}</td>
+            <td>{{ rowData.employeeName }}</td>
+            <td>{{ rowData.tokenNumber }}</td>
+            <!-- <td>{{ rowData.tokenGenDate | date:'d/M/y' }}</td> -->
+            <!-- <td>{{rowData.tokenTypeDes}}</td> -->
+            <!-- <td *ngIf="rowData.tokenType=='P'">Personal Meal</td>
+      <td *ngIf="rowData.tokenType=='G'">Personal Guest</td>
+      <td *ngIf="rowData.tokenType=='O'">Official Guest</td> -->
+            <!-- <td *ngIf="rowData.tokenCancel==0">Active</td>
+      <td *ngIf="rowData.tokenCancel==1">Cancelled</td> -->
+            <td>
+              <!-- <button class="btn btn-outline-info btn-xs mr-1">
+          <i class="fa fa-eye"></i> Print Token
+        </button> -->
+              <button pTooltip="Cancel Token" *ngIf="rowData.tokenCancel == 0" class="btn btn-primary btn-xs mr-2"
+                type="button" (click)="CancelMealToken(rowData)">
+                <i class="fa fa-trash"></i>
+              </button>
+
+              <button pTooltip="Active Token" *ngIf="rowData.tokenCancel == 1" class="btn btn-success btn-xs mr-r"
+                type="button" (click)="ActiveMealToken(rowData)">
+                <i class="fa fa-check"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="card" *ngIf="HSaraEmpList.length > 0">
+    <div class="card-header">
+      <h5>Special Menu For SaRa -{{ HSaraEmpList.length }} Persons</h5>
+    </div>
+    <div class="card-body">
+      <p-table #dt *ngIf="HSaraEmpList.length > 0" [value]="HSaraEmpList" [globalFilterFields]="[
+          'employeeId',
+          'employeeName',
+          'monthName',
+          'yearName'
+        ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+            <!-- <button
+              (click)="print()"
+              class="btn btn-outline-primary btn-xs mr-2"
+            >
+              <i class="fa fa-print"></i> Print
+            </button> -->
+            <input type="text" pInputText size="50" placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+            <th>SL</th>
+
+            <th [pSortableColumn]="'employeeId'">
+              Employee Id
+              <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'employeeName'">
+              Employee Name
+              <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'tokenNumber'">
+              Meal Token
+              <p-sortIcon [field]="'monthName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <!-- <th [pSortableColumn]="'tokenGenDate'">
+        Token Gen Date
+        <p-sortIcon [field]="'TokenGenDate'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th> -->
+            <!-- <th [pSortableColumn]="'tokenType'">
+        Token Type
+        <p-sortIcon [field]="'tokenType'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'tokenCancel'">
+        Active Status
+        <p-sortIcon [field]="'tokenCancel'" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th> -->
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeId', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeName', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'tokenNumber', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <!-- <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenGenDate', 'contains')"
+          class="p-column-filter" />
+      </td> -->
+            <!-- <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenType', 'contains')"
+          class="p-column-filter" />
+      </td>
+      <td>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenCancel', 'contains')"
+          class="p-column-filter" />
+      </td> -->
+            <td></td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr [ngStyle]="
+              rowData.tokenCancel == 1
+                ? { 'background-color': 'yellow' }
+                : { 'background-color': 'white' }
+            " class="center">
+            <td>{{ ri + 1 }}</td>
+            <td>{{ rowData.employeeId }}</td>
+            <td>{{ rowData.employeeName }}</td>
+            <td>{{ rowData.tokenNumber }}</td>
+            <!-- <td>{{ rowData.tokenGenDate | date:'d/M/y' }}</td> -->
+            <!-- <td>{{rowData.tokenTypeDes}}</td> -->
+            <!-- <td *ngIf="rowData.tokenType=='P'">Personal Meal</td>
+      <td *ngIf="rowData.tokenType=='G'">Personal Guest</td>
+      <td *ngIf="rowData.tokenType=='O'">Official Guest</td> -->
+            <!-- <td *ngIf="rowData.tokenCancel==0">Active</td>
+      <td *ngIf="rowData.tokenCancel==1">Cancelled</td> -->
+            <td>
+              <!-- <button class="btn btn-outline-info btn-xs mr-1">
+          <i class="fa fa-eye"></i> Print Token
+        </button> -->
+              <button pTooltip="Cancel Token" *ngIf="rowData.tokenCancel == 0" class="btn btn-primary btn-xs mr-2"
+                type="button" (click)="CancelMealToken(rowData)">
+                <i class="fa fa-trash"></i>
+              </button>
+
+              <button pTooltip="Active Token" *ngIf="rowData.tokenCancel == 1" class="btn btn-success btn-xs mr-r"
+                type="button" (click)="ActiveMealToken(rowData)">
+                <i class="fa fa-check"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="lstAdminDashboardLunchTakenInfo.length > 0">
+    <div class="card-header">
+      <h5>Taken Meal Count Without Punch -{{ lstAdminDashboardLunchTakenInfo.length }} Persons</h5>
+    </div>
+    <div class="card-body">
+      <p-table #dt *ngIf="lstAdminDashboardLunchTakenInfo.length > 0" [value]="lstAdminDashboardLunchTakenInfo"
+        [globalFilterFields]="[
+          'employeeId',
+          'employeeName',
+          'tokenNumber'
+        ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+            <!-- <button
+              (click)="print()"
+              class="btn btn-outline-primary btn-xs mr-2"
+            >
+              <i class="fa fa-print"></i> Print
+            </button> -->
+            <input type="text" pInputText size="50" placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+            <th>SL</th>
+
+            <th [pSortableColumn]="'employeeId'">
+              Employee Id
+              <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'employeeName'">
+              Employee Name
+              <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'tokenNumber'">
+              Meal Token
+              <p-sortIcon [field]="'tokenNumber'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeId', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeName', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'tokenNumber', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td></td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr [ngStyle]="
+              rowData.hasMealToken == 0
+                ? { 'background-color': '#F1B1B3' }
+                : { 'background-color': 'white' }
+            " class="center">
+            <td>{{ ri + 1 }}</td>
+            <td>{{ rowData.employeeId }}</td>
+            <td>{{ rowData.employeeName }}</td>
+            <td>{{ rowData.tokenNumber }}</td>
+            <td>
+              <a type="button" class="btn btn-sm" title="Generate Token" *ngIf="rowData.hasMealToken == 0"
+                (click)="CreatePersonToken(rowData)">
+                <i class="fa fa-refresh"></i>
+              </a>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+    </div>
+  </div>
+
+
+  <div class="card" *ngIf="lstAdminDashboardGuestInfo.length > 0">
+    <div class="card-header">
+      <h5>Total Guest Count -{{ lstAdminDashboardGuestInfo.length }} Persons</h5>
+    </div>
+    <div class="card-body">
+      <p-table #dt *ngIf="lstAdminDashboardGuestInfo.length > 0" [value]="lstAdminDashboardGuestInfo"
+        [globalFilterFields]="[
+          'employeeId',
+          'employeeName',
+          'tokenNumber',
+          'tokenTypeDes'
+        ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+            <!-- <button
+              (click)="print()"
+              class="btn btn-outline-primary btn-xs mr-2"
+            >
+              <i class="fa fa-print"></i> Print
+            </button> -->
+            <input type="text" pInputText size="50" placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+            <th>SL</th>
+
+            <th [pSortableColumn]="'employeeId'">
+              Employee Id
+              <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'employeeName'">
+              Employee Name
+              <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'tokenNumber'">
+              Meal Token
+              <p-sortIcon [field]="'tokenNumber'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'tokenTypeDes'">
+              Guest Type
+              <p-sortIcon [field]="'tokenTypeDes'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <!-- <th>Action</th> -->
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeId', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeName', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'tokenNumber', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'tokenTypeDes', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <!-- <td></td> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr [ngStyle]="
+              rowData.hasMealToken == 0
+                ? { 'background-color': '#F1B1B3' }
+                : { 'background-color': 'white' }
+            " class="center">
+            <td>{{ ri + 1 }}</td>
+            <td>{{ rowData.employeeId }}</td>
+            <td>{{ rowData.employeeName }}</td>
+            <td>{{ rowData.tokenNumber }}</td>
+            <td>{{ rowData.tokenTypeDes }}</td>
+            <!-- <td>
+              <a type="button" class="btn btn-sm" title="Generate Token" *ngIf="rowData.hasMealToken == 0"
+                (click)="CreatePersonToken(rowData)">
+                <i class="fa fa-refresh"></i>
+              </a>
+            </td> -->
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+
+  <div class="card" *ngIf="tokenCancelEmpList.length > 0">
+    <div class="card-header">
+      <h5>Total Meal Token Cancel Count -{{ tokenCancelEmpList.length }} Persons</h5>
+    </div>
+    <div class="card-body">
+      <p-table #dt *ngIf="tokenCancelEmpList.length > 0" [value]="tokenCancelEmpList"
+        [globalFilterFields]="[
+          'employeeId',
+          'employeeName',
+          'tokenNumber'
+        ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+            <!-- <button
+              (click)="print()"
+              class="btn btn-outline-primary btn-xs mr-2"
+            >
+              <i class="fa fa-print"></i> Print
+            </button> -->
+            <input type="text" pInputText size="50" placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+            <th>SL</th>
+
+            <th [pSortableColumn]="'employeeId'">
+              Employee Id
+              <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'employeeName'">
+              Employee Name
+              <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'tokenNumber'">
+              Meal Token
+              <p-sortIcon [field]="'tokenNumber'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            
+            <!-- <th>Action</th> -->
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeId', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'employeeName', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'tokenNumber', 'contains')
+                " class="p-column-filter" />
+            </td>
+            <!-- <td></td> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr [ngStyle]="
+              rowData.hasMealToken == 0
+                ? { 'background-color': '#F1B1B3' }
+                : { 'background-color': 'white' }
+            " class="center">
+            <td>{{ ri + 1 }}</td>
+            <td>{{ rowData.employeeId }}</td>
+            <td>{{ rowData.employeeName }}</td>
+            <td>{{ rowData.tokenNumber }}</td>
+            <!-- <td>
+              <a type="button" class="btn btn-sm" title="Generate Token" *ngIf="rowData.hasMealToken == 0"
+                (click)="CreatePersonToken(rowData)">
+                <i class="fa fa-refresh"></i>
+              </a>
+            </td> -->
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <button (click)="print()" class="btn btn-outline-primary btn-xs mr-2"> <i class="fa fa-print"></i> Print </button>&nbsp;
+  <button type="button" class="btn btn-outline-success btn-xs" (click)="GetDailyMealRecReportExcel()"><i class="fa fa-file-excel-o"></i> Excel</button> 
+</p-panel>

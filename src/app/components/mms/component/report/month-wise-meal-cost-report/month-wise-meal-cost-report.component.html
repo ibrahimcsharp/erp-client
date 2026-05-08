@@ -1,0 +1,347 @@
+<p-panel header="Per Employee Monthly Meal Cost" [toggleable]="true">
+  <form
+    [formGroup]="reactiveForm"
+    class="form"
+    (ngSubmit)="Process()"
+    role="form"
+  >
+    <div class="row">
+      <div class="col-md-4 offset-md-4">
+        <div class="form-group">
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text"
+                >Month<span class="required">&nbsp;*</span></span
+              >
+            </div>
+            <select
+              [ngClass]="{
+                'is-invalid':
+                  reactiveForm.get('monthId').errors &&
+                  (reactiveForm.get('monthId').touched ||
+                    reactiveForm.get('monthId').dirty)
+              }"
+              class="form-control form-control-sm"
+              formControlName="monthId"
+            >
+              <option value="">==Select One==</option>
+              <option *ngFor="let item of mealMonthsList" [ngValue]="item.id">
+                {{ item.monthName }}
+              </option>
+            </select>
+          </div>
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text"
+                >Year<span class="required">&nbsp;*</span></span
+              >
+            </div>
+            <select
+              [ngClass]="{
+                'is-invalid':
+                  reactiveForm.get('yearId').errors &&
+                  (reactiveForm.get('yearId').touched ||
+                    reactiveForm.get('yearId').dirty)
+              }"
+              class="form-control form-control-sm"
+              formControlName="yearId"
+            >
+              <option value="">==Select One==</option>
+              <option
+                *ngFor="let year of commonService.YearSelectList"
+                [ngValue]="year.value"
+              >
+                {{ year.label }}
+              </option>
+            </select>
+          </div>
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text"
+                >Unit <span class="required">&nbsp;*</span></span
+              >
+            </div>
+            <select
+              [ngClass]="{
+                'is-invalid':
+                  reactiveForm.get('unitId').errors &&
+                  (reactiveForm.get('unitId').touched ||
+                    reactiveForm.get('unitId').dirty)
+              }"
+              class="form-control form-control-sm"
+              formControlName="unitId"
+            >
+              <option value="">==Select One==</option>
+              <option value="1">Snowtex</option>
+              <option value="2">SaRa</option>
+            </select>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-outline-success btn-block btn-xs"
+          >
+            <i class="fa fa-search"></i> Search
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <p-table
+      #dt
+      *ngIf="empList != null"
+      [value]="empList"
+      [globalFilterFields]="[
+        'costAmount',
+        'itemName',
+        'costType',
+        'monthName',
+        'yearName',
+        'entryDate'
+      ]"
+      dataKey="employeeId"
+      editMode="row"
+      [scrollable]="true"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[5, 10, 50, 100]"
+      >>
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+          <button
+            (click)="exportExcel()"
+            type="button"
+            class="btn btn-outline-success btn-xs mr-2"
+          >
+            <i class="fa fa-excel"></i>
+            Excel
+          </button>
+
+          <input
+            type="text"
+            pInputText
+            size="50"
+            placeholder="Global Filter"
+            (input)="dt.filterGlobal($event.target.value, 'contains')"
+            style="float: right"
+          />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr class="bc">
+          <!-- <th>
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th> -->
+          <th>SL</th>
+          <th [pSortableColumn]="'employeeId'">
+            Employee Id
+            <p-sortIcon
+              [field]="'employeeId'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'employeeName'">
+            Employee Name
+            <p-sortIcon
+              [field]="'employeeName'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'totalMealWithoutOfficial'">
+            Total Meal without official
+            <p-sortIcon
+              [field]="'totalMealWithoutOfficial'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'guestMeal'">
+            Personal Guest
+            <p-sortIcon
+              [field]="'guestMeal'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'officialMeal'">
+            Official Guest
+            <p-sortIcon
+              [field]="'officialMeal'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th style="text-align: right" [pSortableColumn]="'monthlyMealRate'">
+            Meal Rate
+            <p-sortIcon
+              [field]="'monthlyMealRate'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th style="text-align: right" [pSortableColumn]="'perEmpMonthlyCost'">
+            Total Cost (without official Guest)
+            <p-sortIcon
+              [field]="'perEmpMonthlyCost'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th style="text-align: right" [pSortableColumn]="'perEmpPayable'">
+            Person Contribution 40%
+            <p-sortIcon
+              [field]="'perEmpPayable'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <!-- <th [pSortableColumn]="'unitName'">
+            Unit
+            <p-sortIcon
+              [field]="'unitName'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th> -->
+        </tr>
+        <tr>
+          <td></td>
+          <!-- <td></td> -->
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'employeeId', 'contains')"
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter($event.target.value, 'employeeName', 'contains')
+              "
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'totalMealWithoutOfficial', 'contains')"
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'guestMeal', 'contains')"
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'officialMeal', 'contains')"
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter($event.target.value, 'monthlyMealRate', 'contains')
+              "
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter($event.target.value, 'perEmpMonthlyCost', 'contains')
+              "
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter($event.target.value, 'perEmpPayable', 'contains')
+              "
+              class="p-column-filter"
+            />
+          </td>
+          <!-- <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'unitName', 'contains')"
+              class="p-column-filter"
+            />
+          </td> -->
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-rowData
+        let-editing="editing"
+        let-ri="rowIndex"
+      >
+        <tr [pEditableRow]="rowData" class="center">
+          <!-- <td>
+              <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td> -->
+          <td>{{ ri + 1 }}</td>
+          <td>{{ rowData.employeeId }}</td>
+          <td>{{ rowData.employeeName }}</td>
+          <td>{{ rowData.totalMealWithoutOfficial }}</td>
+          <td>{{ rowData.guestMeal }}</td>
+          <td>{{ rowData.officialMeal }}</td>
+          <td>{{ rowData.monthlyMealRate }}</td>
+          <td>{{ rowData.perEmpMonthlyCost }}</td>
+          <td>{{ rowData.perEmpPayable }}</td>
+          <!-- <td>{{ rowData.unitName }}</td> -->
+        </tr>
+      </ng-template>
+      <!-- <ng-template pTemplate="footer" class="ui-table-tfoot">
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th style="text-align: right">{{ totalMonthlyCost }}</th>
+            <th></th>
+          </tr>
+        </ng-template> -->
+    </p-table>
+  </form>
+</p-panel>

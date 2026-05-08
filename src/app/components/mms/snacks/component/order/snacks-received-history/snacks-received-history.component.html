@@ -1,0 +1,62 @@
+<p-table *ngIf="snackService.snacksReceivedItems != null" [value]="snackService.snacksReceivedItems"
+[globalFilterFields]="['itemName', 'buyQty','saleQty']" dataKey="id"
+editMode="row" [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+[rowsPerPageOptions]="[5, 10, 50, 100]">>
+<ng-template pTemplate="caption">
+    <div class="ui-helper-clearfix" style="text-align: left">               
+
+        <input type="text" pInputText size="50" placeholder="Global Filter"
+            (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+    </div>
+</ng-template>
+<ng-template pTemplate="header">
+    <tr class="bc">
+        <!-- <th>SL</th>                -->
+        <th [pSortableColumn]="'itemName'">
+            Received Date
+            <!-- <p-sortIcon [field]="'itemName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order"
+                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon> -->
+        </th> 
+        <th [pSortableColumn]="'itemName'">
+            Snacks Name
+            <!-- <p-sortIcon [field]="'itemName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order"
+                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon> -->
+        </th>  
+        <th [pSortableColumn]="'buyQty'">
+            Snacks Qty
+            <!-- <p-sortIcon [field]="'currentStock'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order"
+                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon> -->
+        </th>
+        <th [pSortableColumn]="'salePrice'">
+            Unit Price
+            <!-- <p-sortIcon [field]="'salePrice'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order"
+                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon> -->
+        </th>
+        <th>
+            Total Price
+            
+        </th>
+        <!-- <th>Action</th>                 -->
+
+   
+    </tr>
+</ng-template>
+<ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+    <tr [pEditableRow]="rowData" class="center">
+        <!-- <td>{{ ri + 1 }}</td>              -->
+        <td>{{ rowData.orderDate2 }}</td>  
+        <td>{{ rowData.itemName }}</td>                 
+        <td>{{ rowData.buyQty }}</td>
+        <td>{{ rowData.salePrice }}</td>
+        <td>{{ rowData.subTotalCost }}</td>
+        <!-- <td><input type="number" min="1" class="form-control-sm" [(ngModel)]="rowData.buyQty" name="buyQty" value="rowData.buyQty"></td>
+        <td><button class="btn btn-outline-primary btn-xs" (click)="GenerateOrder(rowData)">Add to cart</button></td> -->
+        
+    </tr>
+</ng-template>
+</p-table>

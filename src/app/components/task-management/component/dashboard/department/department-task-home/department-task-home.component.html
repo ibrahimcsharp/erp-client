@@ -1,0 +1,264 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <a class="btn btn-outline-success ml-2" routerLink="/task-ms/task-submission" target="_blank"><i
+                    class="fa fa-external-link" aria-hidden="true"></i>
+                New Task</a>
+        </div>
+
+    </div>
+    <div class="col-md-9">
+        <form autocomplete="off" [formGroup]="reactiveForm" class="form" role="form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input placeholder="Searching......" style="background-color: bisque;"
+                            [typeahead]="employeeList" [typeaheadScrollable]="true"
+                            [typeaheadOptionsInScrollableView]="8" typeaheadOptionField="employeeName"
+                            [typeaheadMinLength]="0" (typeaheadNoResults)="empNoResults($event)"
+                            (typeaheadOnSelect)="OnSelectEmployee($event)" [ngClass]="{
+                            'is-invalid':
+                            reactiveForm.get('employeeName').errors &&
+                              (reactiveForm.get('employeeName').touched || reactiveForm.get('employeeName').dirty)
+                          }" class="form-control me-2" type="text" formControlName="employeeName" />
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <button (click)="onSearch()" class="btn btn-outline-success"><i class="fa fa-search"
+                                aria-hidden="true"></i>
+                            Search</button>
+                        <button (click)="refresh()" class="btn btn-outline-primary ml-2"><i class="fa fa-list"
+                                aria-hidden="true"></i>
+                            Get All</button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<section class="lists-container" cdkDropListGroup>
+    <div cdkDropList [cdkDropListData]="taskCommonService.departmentPendingTaskArray"
+        (cdkDropListDropped)="drop($event)" class="list" style="background-color:indigo;">
+        <h3 class="list-title"><i class="fa fa-bell-o" aria-hidden="true"></i> <span
+                style="margin-left: 80px;">Pending</span> <span
+                style="margin-left: 140px;">{{taskCommonService.departmentPendingTaskArray.length}}</span></h3>
+        <ul class="list-items">
+            <li *ngFor="let item of taskCommonService.departmentPendingTaskArray" cdkDrag>
+                <mat-accordion style="margin-bottom: 10px;">
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h4 style="color:blue;font-weight: bold;">{{item.title}}</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-panel-description>
+                            <h5>{{item.description}}</h5>
+                        </mat-panel-description>
+                        <p>Task No. {{item.id}}</p>
+                        <p>Date: {{item.createDate | date:'d/M/y, h:mm a'}}</p>
+                        <p>Creator : {{item.taskCreatorName}}</p>
+                        <p>Creator Dept. : {{item.taskCreatorDept}}</p>
+                        <p>Parent Task No. : {{item.parentId}}</p>
+                        <mat-action-row>
+                            <button mat-button color="info" (click)="ShowFile(item, popTaskTemplate)"><i
+                                    class="fa fa-file" aria-hidden="true"></i> Files</button>
+                            <button mat-button color="primary" (click)="DetailsInfo(item)"><i class="fa fa-info-circle"
+                                    aria-hidden="true"></i> Details</button>
+                            <button mat-button color="success" (click)="TaskAssign(item)"><i class="fa fa-user-plus"
+                                    aria-hidden="true"></i>
+                                Assign</button>
+
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header (click)="getComments(panelOpenState,item.id)">
+                            <mat-panel-title>
+                                <div matBadge="{{item.numberOfComments}}" matBadgeOverlap="false" class="mat-badge"><i
+                                        class="fa fa-commenting" aria-hidden="true"></i> Message</div>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <!-- <app-task-comment-list></app-task-comment-list> -->
+                        <!-- <app-task-comment-create></app-task-comment-create> -->
+
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
+        </ul>
+    </div>
+    <div class="list" style="background-color:#ff4d4d ;">
+        <h3 class="list-title"><i class="fa fa-cogs" aria-hidden="true"></i>
+            <span style="margin-left: 80px;">Forwarding</span> <span
+                style="margin-left: 140px;">{{taskCommonService.departmentForwardedTaskArray.length}}</span>
+        </h3>
+        <ul class="list-items">
+            <li *ngFor="let item of taskCommonService.departmentForwardedTaskArray"><mat-accordion
+                    style="margin-bottom: 10px;">
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h4 style="color:blue;font-weight: bold;">{{item.title}}</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-panel-description>
+                            <h5>{{item.description}}</h5>
+                        </mat-panel-description>
+                        <p>Task No. {{item.id}}</p>
+                        <p>Created Date: {{item.createDate | date:'d/M/y, h:mm a'}}</p>
+                        <p>Forwared Date: {{item.forwardedDate | date:'d/M/y, h:mm a'}}</p>
+                        <p>FD : {{item.forwardedDept}}</p>
+                        <p>FS : {{item.forwardedSec}}</p>
+                        <!-- <p>SP : {{item.serviceProviderName}}</p> -->
+                        <!-- <p>SP Dept. : {{item.taskServiceProviderDept}}</p> -->
+                        <p>Parent Task No. : {{item.parentId}}</p>
+                        <mat-action-row>
+                            <button pTooltip="Files" mat-button color="info"
+                                (click)="ShowFile(item, popTaskTemplate)"><i class="fa fa-file" aria-hidden="true"></i>
+                            </button>
+                            <button mat-button color="primary" pTooltip="Details" (click)="DetailsInfo(item)"><i
+                                    class="fa fa-info-circle" aria-hidden="true"></i></button>
+                            <button mat-button color="success" pTooltip="Assign" (click)="TaskAssign(item)"><i
+                                    class="fa fa-user-plus" aria-hidden="true"></i>
+                            </button>
+                            <button pTooltip="Assign Another Dept." mat-button color="info"
+                                (click)="TaskAssignAnotherDept(item)"><i class="fa fa-user-plus" aria-hidden="true"></i>
+                            </button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header (click)="getComments(panelOpenState,item.id)">
+                            <mat-panel-title>
+                                <div matBadge="{{item.numberOfComments}}" matBadgeOverlap="false" class="mat-badge"><i
+                                        class="fa fa-commenting" aria-hidden="true"></i> Message</div>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <app-task-comment-list></app-task-comment-list>
+                        <app-task-comment-create></app-task-comment-create>
+
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
+        </ul>
+    </div>
+    <div cdkDropList [cdkDropListData]="taskCommonService.departmentOnGoingTaskArray" class="example-list example-container"
+    (cdkDropListDropped)="drop($event)" class="list" style="background-color: #4d4dff;">
+        <h3 class="list-title"><i class="fa fa-spinner" aria-hidden="true"></i>
+            <span style="margin-left: 50px;">In
+                Progress</span> <span
+                style="margin-left: 50px;">{{taskCommonService.departmentOnGoingTaskArray.length}}</span>
+            <span style="margin-left: 50px; color: #ff4d4d;" (click)="GetNewRecord()">New:
+                {{taskCommonService.departmentOnGoingTaskArray1.length}}</span>
+        </h3>
+        <ul class="list-items">
+            <li *ngFor="let item of taskCommonService.departmentOnGoingTaskArray" cdkDrag>
+                <mat-accordion style="margin-bottom: 10px;">
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h4 style="color:blue;font-weight: bold;">{{item.title}}</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-panel-description>
+                            <h5>{{item.description}}</h5>
+                        </mat-panel-description>
+                        <p>Task No. {{item.id}}</p>
+                        <p>Created Date: {{item.createDate | date:'d/M/y, h:mm a'}}</p>
+                        <p>InProgress Date: {{item.serviceProviderAcceptDate | date:'d/M/y, h:mm a'}}</p>
+                        <p>SP : {{item.serviceProviderName}}</p>
+                        <p>SP Dept. : {{item.taskServiceProviderDept}}</p>
+                        <p>Parent Task No. : {{item.parentId}}</p>
+                        <mat-action-row>
+                            <button mat-button color="info" (click)="ShowFile(item, popTaskTemplate)"><i
+                                    class="fa fa-file" aria-hidden="true"></i> Files</button>
+                            <button mat-button color="primary" (click)="DetailsInfo(item)"><i class="fa fa-info-circle"
+                                    aria-hidden="true"></i> Details</button>
+                            <!-- <button mat-button color="success" (click)="TaskAssign(item)"><i class="fa fa-user-plus"
+                                    aria-hidden="true"></i>
+                                Assign</button> -->
+
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header (click)="getComments(panelOpenState,item.id)">
+                            <mat-panel-title>
+                                <div matBadge="{{item.numberOfComments}}" matBadgeOverlap="false" class="mat-badge"><i
+                                        class="fa fa-commenting" aria-hidden="true"></i> Message</div>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <app-task-comment-list></app-task-comment-list>
+                        <app-task-comment-create></app-task-comment-create>
+
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
+        </ul>
+    </div>
+    <div cdkDropList [cdkDropListData]="taskCommonService.departmentDoneTaskArray" class="example-list example-container"
+    (cdkDropListDropped)="drop($event)" class="list" style="background-color: green;">
+        <h3 class="list-title"><i class="fa fa-th-list" aria-hidden="true"></i>
+            <span style="margin-left: 60px;">Done</span> <span
+                style="margin-left: 60px;">{{taskCommonService.departmentDoneTaskArray.length}}</span>
+            <span style="margin-left: 60px; color: #ff4d4d;" (click)="GetDoneNewRecord()">New:
+                {{taskCommonService.departmentDoneTaskArray1.length}}</span>
+        </h3>
+        <ul class="list-items">
+            <li *ngFor="let item of taskCommonService.departmentDoneTaskArray" cdkDrag>
+                <mat-accordion style="margin-bottom: 10px;">
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h4 style="color:blue;font-weight: bold;">{{item.title}}</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-panel-description>
+                            <h5>{{item.description}}</h5>
+                        </mat-panel-description>
+                        <p>Task No. {{item.id}}</p>
+                        <p>Created Date: {{item.createDate | date:'d/M/y, h:mm a'}}</p>
+                        <p>Done Date: {{item.taskEndDate | date:'d/M/y, h:mm a'}}</p>
+                        <p>SP : {{item.serviceProviderName}}</p>
+                        <p>SP Dept. : {{item.taskServiceProviderDept}}</p>
+                        <p>Parent Task No. : {{item.parentId}}</p>
+                        <mat-action-row>
+                            <button mat-button color="info" (click)="ShowFile(item, popTaskTemplate)"><i
+                                    class="fa fa-file" aria-hidden="true"></i> Files</button>
+                            <button mat-button color="primary" (click)="DetailsInfo(item)"><i class="fa fa-info-circle"
+                                    aria-hidden="true"></i> Details</button>
+                            <!-- <button mat-button color="success" (click)="TaskAssign(item)"><i class="fa fa-user-plus"
+                                    aria-hidden="true"></i>
+                                Assign</button> -->
+
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header (click)="getComments(panelOpenState,item.id)">
+                            <mat-panel-title>
+                                <div matBadge="{{item.numberOfComments}}" matBadgeOverlap="false" class="mat-badge"><i
+                                        class="fa fa-commenting" aria-hidden="true"></i> Message</div>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <app-task-comment-list></app-task-comment-list>
+                        <app-task-comment-create></app-task-comment-create>
+
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
+        </ul>
+    </div>
+</section>
+<!-- End of lists container -->
+
+<ng-template #popTaskTemplate>
+    <p-galleria [value]="images">
+        <ng-template pTemplate="item" let-item>
+            <img [src]="item.previewImageSrc" [alt]="item.alt" />
+        </ng-template>
+    </p-galleria>
+</ng-template>

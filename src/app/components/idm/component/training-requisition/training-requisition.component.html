@@ -1,0 +1,343 @@
+<p-panel header="Traning Requisition" [toggleable]="true">
+    <ng-template pTemplate="icons">
+      <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+        <span class="pi pi-cog"></span>
+      </button>
+      <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+  
+    <form [formGroup]="trainingReqForm"> 
+      <section>
+        <div class="row">
+
+            <div class="col-md-6">
+                <fieldset class="scheduler-border">
+                  <legend class="scheduler-border">Training Search </legend>
+                  <div class="row"> 
+    
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"
+                                >Training Type<span class="required">&nbsp;*</span></span
+                              >
+                            </div>
+                            <select
+                              formControlName="typeId"
+                              class="p-inputtext-sm form-control uppercase"
+                              [ngClass]="{
+                                'is-invalid':
+                                trainingReqForm.get('typeId').errors &&
+                                  (trainingReqForm.get('typeId').touched ||
+                                  trainingReqForm.get('typeId').dirty)
+                              }"
+                              (change)="typeChange()"
+                              >
+                            <option *ngFor="let type of TrainingTypeListDropDown" [ngValue]="type.value">
+                            {{ type.label }}
+                          </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                        
+                        <div class="col-md-6" *ngIf="displayOthers">
+                          <div class="form-group">
+                            <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">Other Department</span>
+                              </div>
+                              <input
+                                formControlName="departmentName"
+                                [typeahead]="commonService.GatePassEmployeeDepartmentList"
+                                [typeaheadMinLength]="0"
+                                [typeaheadScrollable]="true"
+                                [typeaheadOptionsInScrollableView]="8"
+                                (typeaheadNoResults)="typeaheadNoResultsForDepartment($event)"
+                                (typeaheadOnSelect)="onSelectEmployeeDepartment($event)"
+                                typeaheadOptionField="label"
+                                class="form-control"
+                                (ngModelChange)="filterSectionListByDepartment()"
+                               
+                              />
+                            </div>
+                          </div>
+                        </div>
+      
+                        <div class="col-md-6" *ngIf="displayOthers">
+                          <div class="form-group">
+                            <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">Other Section</span>
+                              </div>
+                              <input
+                                formControlName="sectionName"
+                                [typeahead]="TrainingEntrySectionList"
+                                [typeaheadMinLength]="0"
+                                [typeaheadScrollable]="true"
+                                [typeaheadOptionsInScrollableView]="8"
+                                (typeaheadNoResults)="typeaheadNoResultsForSection($event)"
+                                (typeaheadOnSelect)="onSelectEmployeeSection($event)"
+                                typeaheadOptionField="label"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+    
+                        
+                      <div class="col-md-6" *ngIf="displayOthers">
+                        <div class="form-group">
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"> Other Training Type</span
+                              >
+                            </div>
+                            <select formControlName="otherTypeId" class="p-inputtext-sm form-control uppercase" (change)="otherTypeChange()">
+                            <option *ngFor="let type of TrainingTypeListDropDown" [ngValue]="type.value">
+                            {{ type.label }}
+                          </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+      
+                        
+                  </div>
+                </fieldset>    
+              </div>
+
+            <div class="col-md-4">
+                <fieldset class="scheduler-border">
+                  <legend class="scheduler-border">My Info </legend>
+                  <div class="row"> 
+
+
+                    <div class="col-md-12 pull-left">
+                        <table class="table table-hover">
+                            <thead *ngFor="let employee of myInfo;">
+                            <!-- <tr>
+                                <th>Employee Id</th>
+                                <th>{{myId}}</th>
+                            </tr>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>{{employee.employeeName}}</th>
+                               
+                            </tr> -->
+                            <!-- <tr>
+                                <th>Company</th>
+                                <th>{{ employee.company }}</th>
+                            </tr> -->
+                            <tr>
+                                <th>Department</th>
+                                <th>{{employee.department}}</th>
+                                
+                            </tr>
+                            <tr>
+                                <th>Section</th>
+                                <th>{{employee.section}}</th>
+                                
+                            </tr>
+                            <!-- <tr>
+                                <th>Designation</th>
+                                <th>{{employee.designation}}</th>
+                                
+                            </tr> -->
+                            
+                            </thead>
+                        </table>
+                    </div>
+                        
+
+                        
+
+
+                  </div>
+                </fieldset>    
+            </div>
+            <div class="col-md-2">
+
+            </div>
+            
+         
+
+     
+  
+  
+        </div>
+  
+      </section>
+  
+    </form>
+    <div class="row">
+      <div class="col-md-6">
+        <hr /> 
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Select Training</legend>
+          <div class="row">
+            <div class="col-md-12">
+              <!-- <p-table [value]="TrainingInfoList"  #dt  editMode="row" *ngIf="TrainingInfoList">
+                <ng-template pTemplate="header">
+                  <tr class="bc">
+                    <th>SL</th>
+                    <th>Training Title</th>
+                    <th>Trainner</th>
+                    
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                   <tr [pEditableRow]="rowData" [ngStyle]="{ 'background-color': '#e0fede' }">
+                    <td>{{ rowIndex+1 }}</td>
+                    <td>{{ rowData.trainingName}}</td>
+                    <td>{{ rowData.trainerName}}</td>
+                  </tr>
+                </ng-template>
+  
+              </p-table> -->
+  
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <!-- <th style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold; ">SL</th> -->
+                    <th style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold; "><input type="checkbox" [checked]="masterSelected"  (click)="allSelect($event)"></th>
+                    <th style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;width: 15%; ">Code</th>
+                    <th style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold; ">Training Title</th>
+                    <th style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;width: 20%; ">Trainner</th>
+                    <th style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;width: 6%; ">Status</th>
+                    <th style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;width: 20%; ">Training Date</th>
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let rowData of TrainingInfoList; let i = index" style=" background-color: #dee2e6; padding: 2px 3px !important; color: black !important; background-color: #e8e8e8 !important; text-align: center; font-size: 12px; font-weight: bold;border: 1px solid #007ad9; ">
+                    <!-- <td>{{ i + 1 }} </td> -->
+                    <td> <input type="checkbox" [checked]="rowData.isSelected"  (click)="addTrainingRequision($event,i,rowData)"></td>
+                    <td>{{rowData.trainingCode}}</td>
+                    <td>{{rowData.trainingName}}</td>
+                    <td>{{rowData.trainerName}}</td>
+                    <td>{{rowData.achievePoint}}</td>
+                    <td>{{rowData.trainingDate}}</td>
+                    
+                  </tr>
+  
+                </tbody>
+              </table>
+  
+            </div>
+          </div>   
+        </fieldset>
+      </div>
+  
+      <div class="col-md-6">
+        <hr /> 
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Training Requisition List</legend>
+          <div class="row">
+            <div class="col-md-12"> 
+  <!-- 
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold; ">SL</th>
+                        <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold; width: 50%">Training Title</th>
+                        <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold; ">Target</th>
+                        <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold; ">Point</th>
+                        <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;width: 20%; ">Target Date</th>
+                        <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold; "></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let rowData of TrainingInfoListForRequisition; let i = index" style=" background-color: #dee2e6; padding: 2px 3px !important; color: black !important; background-color: #e8e8e8 !important; text-align: center; font-size: 12px; font-weight: bold;border: 1px solid #007ad9; ">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ rowData.trainingName}}</td>
+                        <td>
+                            <select  (ngModel)="rowData.target" class="form-control-sm form-control uppercase" (change)="assignPointToRequision($event,i,rowData)">
+                            <option value="0">SELECT</option>
+                            <option value="3">3-Autonomous</option>
+                            <option value="4">4-Coach</option>
+                          </select>
+                        </td>
+                        <td>{{ rowData.targetPoint}}</td>
+                        <td>
+                          <input type="date" placeholder="dd-mm-yyyy" (ngModel)="rowData.targetDate" class="form-control-sm form-control uppercase" />
+                        </td>
+                        <td>
+                          <button pButton pRipple type="button" label="" icon="pi pi-trash"
+                            (click)="deleteRequision(rowData)" [disabled]="show" style="width:20px!important;height: 20px;font-size: 12px!important;background: #ff878d!important;cursor: pointer;">
+                          </button>
+                        </td>
+                      </tr>
+  
+                    </tbody>
+                  </table> -->
+  
+                  <p-table
+                  [value]="TrainingInfoListForRequisition"
+                  #dt
+                  dataKey="id"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">SL</th>
+                      <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;width: 15%;">Code</th>
+                        <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">Training Title</th>
+                        <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">Target</th>
+                        <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">Status</th>
+                        <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">Target Date</th>
+                        <th style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;"></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template
+                    pTemplate="body"
+                    let-rowData
+                    let-ri="rowIndex"
+                  >
+                    <tr style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      <td>{{ ri + 1 }}</td>
+                        <td>{{ rowData.trainingCode}}</td>
+                        <td>{{ rowData.trainingName}}</td>
+                        <td>
+                            <select [(ngModel)]="rowData.target" class="form-control-sm form-control uppercase" (change)="assignPointToRequision($event,ri,rowData)">
+                            <option value="0">SELECT</option>
+                            <option value="3">3-Autonomous</option>
+                            <option value="4">4-Coach</option>
+                          </select>
+                        </td>
+                        <td>{{ rowData.targetPoint}}</td>
+                        <td>
+                          <input pInputText type="date" placeholder="dd-mm-yyyy" [(ngModel)]="rowData.targetDate" class="form-control-sm form-control uppercase" />
+                        </td>
+                        <td>
+                          <button pButton pRipple type="button" label="" icon="pi pi-trash"
+                            (click)="deleteRequision(rowData)" [disabled]="show" style="width:20px!important;height: 20px;font-size: 12px!important;background: #ff878d!important;cursor: pointer;">
+                          </button>
+                         
+                        </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              
+  
+  
+            </div> 
+            
+            <div class="col-md-4" *ngIf="TrainingInfoListForRequisition.length > 0">
+                <div class="form-group">
+                  <!-- <button style="margin-top: 8px;" type="button" class="btn btn-outline-success btn-xs" (click)="createTraining()"><i class="fa fa-file" aria-hidden="true"></i> Save Training </button> -->
+                  <button pButton pRipple type="button" label="Save Requisition" icon="pi pi-file"
+                        (click)="onSubmit()" style="width:135px!important;font-size: 12px!important;background: #c15fe8!important;">
+                    </button>
+                </div>
+            </div>           
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+
+
+
+  
+  </p-panel>

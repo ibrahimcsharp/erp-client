@@ -1,0 +1,20 @@
+export class BomColorSetupDetailsModel{
+    id:number;
+    bomItemId:number;
+    itemId:number;
+    gmtColor:string;
+    itemColor:string;
+    itemColorCode:string;
+    colorWiseItemCode:string;
+    bomId:number;
+    consumption:number;
+    modelCode:string;
+    remarks:string;
+    threadShade:string;
+    threadFinish:string;
+    bomPo:string;
+    deliveryPlaceId:number;
+    deliveryPlace:string;
+    uvmInstruction:string;
+    comments:string;
+}

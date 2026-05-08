@@ -1,0 +1,189 @@
+<p-panel header="MISSION APPROVE" [toggleable]="true">
+    <ng-template pTemplate="icons">
+      <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+        <span class="pi pi-cog"></span>
+      </button>
+      <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+    <p-table #dt rowExpandMode="single" expandableRows="true" [value]="missionApprove" [globalFilterFields]="['']"
+      dataKey="id" editMode="rowData" [scrollable]="true" scrollHeight="500px">
+      <ng-template pTemplate="header">
+        <tr class="bc">
+          <th  style="background-color: hsl(282, 100%, 90%) !important;">SL</th>
+          <th  style="background-color: hsl(282, 100%, 90%) !important;">Vision</th>
+          <th  style="background-color: hsl(282, 100%, 90%) !important;">Vision Target</th>
+          <th  style="background-color: hsl(282, 100%, 90%) !important;">DeadLine</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">Action</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">Mission Achievement</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">How</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">Who</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">When</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+        <tr>
+          <td style="background-color: hsl(282, 100%, 90%) !important;">{{ri+1}}</td>
+          <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.vision}}</td>
+          <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.target}}</td>
+          <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.deadline | date: "d/M/y"}}</td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.action}}</td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;"><input type="text" class="form-control" [(ngModel)]="rowData.missionAchievement" style="background-color: hsl(227, 64%, 96%) !important;"/></td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.how}}</td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.who}}</td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.when | date: "d/M/y"}}</td>
+          <!-- <td></td> -->
+          <td>
+              <button pButton pRipple type="button" label="APPROVE" icon="{{rowData.approveIcon}}"
+                  class="p-button-raised p-button-success p-button-text"
+                  style="background: #80ff80;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;"
+                  (click)="ApproveMission(rowData)">
+              </button>
+
+              <button pButton pRipple type="button" label="REJECT"
+                  class="p-button-raised p-button-success p-button-text"
+                  style="background: #ff704d;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;"
+                  (click)="RejectMission(rowData)">
+              </button>
+          </td>
+      </tr>
+      </ng-template>    
+    </p-table>
+</p-panel>
+<br>
+
+<div class="row">
+  <div class="col-md-6">
+    <p-panel header="Approved IDM-Mission" [toggleable]="true">
+      <p-table #dt1 rowExpandMode="single" expandableRows="true" [value]="onlyMissionApprovedList" [globalFilterFields]="['']"
+      dataKey="id" editMode="row" [scrollable]="true" scrollHeight="500px">
+      <ng-template pTemplate="header">
+        <tr class="bc">
+          
+          <th style="background-color: hsl(282, 100%, 90%) !important;">SL</th>
+          <th style="background-color: hsl(282, 100%, 90%) !important;">Vision</th>
+          <th style="background-color: hsl(282, 100%, 90%) !important;">Vision Target</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">Action</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">Mission Achievement</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">How</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">Who</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">Update Achivement</th>
+          
+          
+        </tr>
+        <tr>
+                        
+          <td style="background-color: hsl(282, 100%, 90%) !important;"></td>
+          <td>
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'vision', 'contains')"
+              class="p-column-filter" />
+          </td>
+        
+          <td style="background-color: hsl(282, 100%, 90%) !important;">
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'target', 'contains')"
+             />
+          </td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;"> 
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'action', 'contains')"
+              />
+          </td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;">
+              <input pInputText type="text" (input)="dt1.filter($event.target.value, 'missionAchievement', 'contains')"
+                />
+            </td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;"> 
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'how', 'contains')"
+             />
+          </td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;"> 
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'who', 'contains')"
+              class="p-column-filter"/>
+          </td> 
+          <td></td>   
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+        <tr>         
+          <td style="background-color: hsl(282, 100%, 90%) !important;">{{ri+1}}</td>
+          <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.vision}}</td>
+          <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.target}}</td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.action}}</td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;"><input type="text" class="form-control" [(ngModel)]="rowData.missionAchievement" style="background-color: hsl(227, 64%, 96%) !important;"/></td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.how}}</td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.who}}</td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;"><button pButton pRipple type="button" label="Update" icon="{{rowData.approveIcon}}"
+            class="p-button-raised p-button-success p-button-text"
+            style="background:hsl(226, 60%, 93%);height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;"
+            (click)="UpdateMission(rowData)">
+            </button></td>
+        </tr>
+      </ng-template>    
+
+      </p-table>
+
+
+    </p-panel>
+
+  </div>
+  <div class="col-md-6">
+    <p-panel header="Rejected IDM-Mission" [toggleable]="true">
+      <p-table #dt2 rowExpandMode="single" expandableRows="true" [value]="missionRejecetedList" [globalFilterFields]="['']"
+      dataKey="id" editMode="row" [scrollable]="true" scrollHeight="500px">
+      <ng-template pTemplate="header">
+        <tr class="bc">     
+          <th style="background-color: hsl(282, 100%, 90%) !important;">SL</th>
+          <th style="background-color: hsl(282, 100%, 90%) !important;">Vision</th>
+          <th style="background-color: hsl(282, 100%, 90%) !important;">Vision Target</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">Action</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">Mission Achievement</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">How</th>
+          <th style="background-color: hsl(225, 100%, 87%) !important;">Who</th>
+        </tr>
+        <tr>
+          <td style="background-color: hsl(282, 100%, 90%) !important;"></td>
+          <td  style="background-color: hsl(282, 100%, 90%) !important;">
+            <input pInputText type="text" (input)="dt2.filter($event.target.value, 'vision', 'contains')"
+              class="p-column-filter"  />
+          </td>
+         
+          <td  style="background-color: hsl(282, 100%, 90%) !important;">
+            <input pInputText type="text" (input)="dt2.filter($event.target.value, 'target', 'contains')"
+              class="p-column-filter"  />
+          </td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;"> 
+            <input pInputText type="text" (input)="dt2.filter($event.target.value, 'action', 'contains')"
+              class="p-column-filter"/>
+          </td >
+          <td style="background-color: hsl(225, 100%, 87%) !important;">
+              <input pInputText type="text" (input)="dt2.filter($event.target.value, 'missionAchievement', 'contains')"
+                class="p-column-filter" />
+            </td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;"> 
+            <input pInputText type="text" (input)="dt2.filter($event.target.value, 'how', 'contains')"
+              class="p-column-filter" />
+          </td>
+          <td style="background-color: hsl(225, 100%, 87%) !important;"> 
+            <input pInputText type="text" (input)="dt2.filter($event.target.value, 'who', 'contains')"
+              class="p-column-filter" />
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+        <tr>         
+          <td style="background-color: hsl(282, 100%, 90%) !important;">{{ri+1}}</td>
+                        <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.vision}}</td>
+                        <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.target}}</td>
+                        <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.action}}</td>
+                        <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.missionAchievement}}</td>
+                        <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.how}}</td>
+                        <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.who}}</td>     
+        </tr>
+      </ng-template>    
+
+      </p-table>
+
+
+    </p-panel>
+
+  </div>
+</div>

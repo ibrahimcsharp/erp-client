@@ -1,0 +1,200 @@
+<div class="container-fluid" id="grad1">
+  <div class="row justify-content-center mt-0">
+    <div class="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+      <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+        <!-- <h2><strong>Visitor Management System [VMS]</strong></h2> -->
+        <div class="row">
+          <div class="col-md-12 mx-0">
+            <form id="msform" [formGroup]="visitorsForm" autocomplete="off">
+
+              <fieldset>
+                <div *ngIf="step == 1">
+                  <div class="form-group" formGroupName="visitorInfo">
+                    <br />
+                    <br />
+
+                    <!-- <h2><strong>Visitor Management System [VMS]</strong></h2> -->
+                     <h3 class="fs-title" style="text-align:center; font-size: 21px ; font-family: 'Roboto'"><strong>Welcome To Snowtex</strong></h3>
+                     <br/>
+                
+                    <h6 class="fs-title" style="text-align:center; font-size: 20px ; font-family: 'Roboto'">Visitor Information</h6>
+                    <br />
+
+                    <div class="form-card">
+
+                      <!-- <input type="radio" id="Internal" [checked]="internalValue"
+                        style="width: initial; margin-right: 6px; font: size 18px; " name="visitorType"
+                        formControlName="visitorType" value="Internal" (change)="changeInternalFlag()">
+                      <label for="Internal">Internal</label>
+                      <input type="radio" id="External" [checked]="externalValue" name="visitorType" value="External"
+                        style="width: initial; margin-right: 6px; margin-left: 20px; font: size 18px;"
+                        formControlName="visitorType" (change)="changeExternalFlag()">
+                      <label for="External">External</label> -->
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                            </div>
+                            <!-- <input formControlName="employeeNameNew" [typeahead]="employeeListForDisplayNew"
+                              [typeaheadMinLength]="0" [typeaheadScrollable]="true"
+                              [typeaheadOptionsInScrollableView]="8" typeaheadOptionField="text"
+                              (typeaheadOnSelect)="onSelectEmployeeNew($event)" class="form-control" employeeListForExternal
+                              placeholder="Internal Search" [class.display-none]="hideInternal" /> -->
+                          </div>
+                          <!-- <input formControlName="employeeNameExternal" [typeahead]="employeeListForDisplayExternal"
+                            [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                            typeaheadOptionField="text" (typeaheadOnSelect)="onSelectEmployeeNewExternal($event)"
+                            class="form-control" placeholder="External Search " [class.display-none]="hideExternal" /> -->
+
+                          <!-- <input formControlName="employeeNameExternal" [typeahead]="employeeListForDisplayExternal"
+                            [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                            typeaheadOptionField="text" (typeaheadOnSelect)="onSelectEmployeeNewExternal($event)"
+                            class="form-control" placeholder="External Search " [class.display-none]="hideExternal" /> -->
+                        </div>
+
+                      </div>
+
+                      <input type="text" class="form-control" formControlName="visitorName" id="visitorName"
+                        aria-describedby="name" placeholder="Enter Full Name" (keyup.enter)="submit()"
+                        [typeahead]="employeeListForDisplayNew" [typeaheadMinLength]="0" [typeaheadScrollable]="true"
+                        [typeaheadOptionsInScrollableView]="8" typeaheadOptionField="text"
+                        (typeaheadOnSelect)="onSelectEmployeeNew($event)">
+
+                      <!-- <input type="text" class="form-control" formControlName="visitorMobileNumber"
+                        id="visitorMobileNumber" aria-describedby="mobileNumber" placeholder="Enter Mobile Number"
+                        (keyup.enter)="submit()"  [ngClass]="{
+                        'is-invalid':
+                        visitorsForm.visitorInfo.get('visitorMobileNumber').errors &&
+                          (visitorsForm.visitorInfo.get('visitorMobileNumber').touched ||
+                          visitorsForm.visitorInfo.get('visitorMobileNumber').dirty)}" > -->
+
+                      <input type="text" class="form-control" formControlName="visitorMobileNumber"
+                        aria-describedby="mobileNumber" placeholder="Enter Mobile Number (*)" id="visitorMobileNumber"
+                        (keyup.enter)="submit()">
+
+
+
+                      <input type="text" class="form-control" formControlName="visitorCompany" id="visitorCompany"
+                        aria-describedby="company" placeholder="Enter Company Name" (keyup.enter)="submit()"
+                        [typeahead]="companyListofExternalDisplay" [typeaheadMinLength]="0" [typeaheadScrollable]="true"
+                        [typeaheadOptionsInScrollableView]="8" typeaheadOptionField="text"
+                        (typeaheadOnSelect)="onSelectCompany($event)">
+                      <input type="text" class="form-control" formControlName="visitorAddress" id="visitorAddress"
+                        aria-describedby="address" placeholder="Enter Address" (keyup.enter)="submit()">
+                      <!-- <input type="text" class="form-control" formControlName="visitorEmail" id="visitorEmail"
+                        aria-describedby="email" placeholder="Enter Email" (keyup.enter)="submit()"> -->
+                      <!-- <input type="text" class="form-control" formControlName="visitorPurpose" id="visitorPurpose"
+                        aria-describedby="purpose" placeholder="Enter Purpose" (keyup.enter)="submit()"> [checked]='true' -->
+                      <br />
+                      <div class="radio-group">
+                        <input type="radio" [checked]="true" id="Official"
+                          style="width: initial; margin-right: 6px; font: size 21px;" name="visitorPurpose"
+                          formControlName="visitorPurpose" value="Official" (change)="changeOfficialFlag()">
+                        <label for="Official" style="color:black !important">Official Purpose</label>
+                        <input type="radio" id="Official" name="visitorPurpose" value="Personal"
+                          style="width: initial; margin-right: 6px; margin-left: 20px; font: size 21px;"
+                          formControlName="visitorPurpose" (change)="changePersonalFlag()">
+                        <label for="Personal" style="color:black !important">Personal Purpose</label>
+                      </div>
+                      <!-- class="cdk-visually-hidden" -->
+                      <input type="text" class="form-control" formControlName="visitorOfficeId" id="visitorOfficeId"
+                        class="cdk-visually-hidden">
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="step == 2">
+                  <div class="form-group" formGroupName="whom">
+                    <br />
+                    <h6 class="fs-title" style="text-align:center">Whom I want to Visit</h6>
+                    <br />
+                    <div class="form-card">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <div class="input-group input-group-sm">
+                            <!-- <div class="input-group-prepend">
+                              <span class="input-group-text"
+                                >Attention
+                                <span class="required">&nbsp;*</span>
+                              </span>
+                            </div>
+                            <span class="input-group-text"
+                            >Attention
+                            <span class="required">&nbsp;*</span>
+                          </span> -->
+                           
+                          </div>
+                        </div>
+                      </div>
+                      <input formControlName="employeeName" [typeahead]="employeeListForDisplay"
+                      [typeaheadMinLength]="0" [typeaheadScrollable]="true"
+                      [typeaheadOptionsInScrollableView]="8" typeaheadOptionField="text"
+                      (typeaheadOnSelect)="onSelectEmployee($event)" class="form-control"
+                      placeholder="Search by OfficeId/Name/Departmentt" />
+
+                      <input type="text" class="form-control" formControlName="whommobileNumber" id="whommobileNumber"
+                        aria-describedby="MobileNumber" placeholder="Enter Mobile Number (*)" (keyup.enter)="submit()">
+                      <!-- <span class="required">&nbsp;*</span> -->
+                      <input type="text" class="form-control" formControlName="whomName" id="whomName"
+                        aria-describedby="Name" placeholder="Enter Full Name" (keyup.enter)="submit()">
+                      <input type="text" class="form-control" formControlName="whomDesignation" id="whomDesignation"
+                        aria-describedby="designation" placeholder="Enter Designation" (keyup.enter)="submit()">
+                      <input type="text" class="form-control" formControlName="whomDepartment" id="whomDepartment"
+                        aria-describedby="department" placeholder="Enter Department" (keyup.enter)="submit()">
+                      <input type="text" class="form-control" formControlName="whomCompany" id="whomCompany"
+                        aria-describedby="company" placeholder="Enter Company Name" (keyup.enter)="submit()">
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="step == 3">
+                  <div class="form-group">
+                    <br/>
+                    <h6 class="fs-title" style="text-align:center">Take A Photo</h6>
+                    <div class="form-card">
+                      <app-visitor-info-confirm (getPicture)="handleImage($event)"
+                        (keyup.enter)="submit()"></app-visitor-info-confirm>
+                      <!-- <app-new-camera (getPicture)="handleImage($event)"></app-new-camera> handleImage  handleCapturedImage  (getPicture)="handleCapturedImage($event)"-->
+                      <!-- <br /> -->
+                      <div *ngIf="WebcamImage" class="webcam-image">
+                        <img [src]="WebcamImage.imageAsDataUrl" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="step == 4" formGroupName="card">
+                  <div class="form-group">
+                    <br />
+                    <h6 class="fs-title" style="text-align:center">Visitor Card</h6>
+                    <br />
+                    <div class="form-card">
+                      <input type="text" class="form-control" formControlName="visitorCardNumber" id="visitorCardNumber"
+                        aria-describedby="cardNumber" placeholder="Enter Card Number (*)" (keyup.enter)="submit()">
+                    </div>
+
+                  </div>
+                </div>
+              </fieldset>
+
+              <input type="button" button type="button" name="Clear" class="previous action-button-previous"
+                value="Clear" (click)="onClear()" />
+
+              <input type="button" button type="button" name="previous" class="previous action-button-previous"
+                value="Previous" *ngIf="step !== 1" (click)="previous()" (keyup.arrowleft)="previous1($event)" />
+
+              <input type="button" button type="button" name="next" class="next action-button" value="Next Step"
+                *ngIf="step !== 4" (click)="submit()" (keypress)="submit($event)"
+                (keyup.arrowright)="submit1($event)" />
+
+              <input type="button" [disabled]="buttonDisabled" button type="button" class="next action-button"
+                (click)="onSubmit()" (keydown.enter)="onSubmit1($event)" value="Save" *ngIf="step == 4" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <router-outlet></router-outlet> -->
+
+<!-- <app-visitor-info-list #missionApprove (getAllPendingList)="getAllPendingList()"></app-visitor-info-list> -->

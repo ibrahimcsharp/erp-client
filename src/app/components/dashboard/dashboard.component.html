@@ -1,0 +1,344 @@
+<div class="row">
+
+  <div class="col-xl-6 xl-100">
+    <!-- <div class="card">
+      <div class="card-body" style="height: 600px;width:700px">
+        <app-meeting-calendar></app-meeting-calendar>
+      </div>
+    </div> -->
+
+    <div class="card">
+      <div class="card-body" style="height: 600px;width:700px">
+        <full-calendar [options]="calendarOptions"></full-calendar>
+      </div>
+    </div>
+  </div>
+  <!-- [style.overflow]="'auto'" [style.height.px]="'600'" -->
+  <div class="col-xl-6 xl-100" >
+    <div class="card">
+      <div class="card-header">
+        <h5>Buyer wise/Month Wise order update at ERP, Year:2023 (Based on shipment date) </h5>
+      </div>
+      <div class="card-body" >
+        <!-- <app-buyer-po-style-report></app-buyer-po-style-report> -->
+        <p-table #dt rowExpandMode="single" expandableRows="true" [value]="poStyleReport" [globalFilterFields]="[
+        'buyerName'  ]" dataKey="id" editMode="row"  [scrollable]="true" [responsive]="true"  scrollHeight="500px" [paginator]="true" [rows]="18" [showCurrentPageReport]="true"   
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+          [rowsPerPageOptions]="[15,50, 100]">
+          <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left">
+              <button (click)="OpenNew()" pTooltip="New Buyer" class="btn btn-success btn-xs mr-2">
+                <i class="fa fa-plus" aria-hidden="true"></i> View
+              </button>
+              <input type="text" pInputText size="50" placeholder="Global Filter"
+                (input)="dt.filterGlobal($event.target.value, 'contains')" (keyup.enter)="CalculateOrderQty(dt)" (click)="CalculateOrderQty(dt)"
+                style="float: right" />
+            </div>
+
+          </ng-template>
+          <ng-template pTemplate="header" >
+            <tr class="bc"  >
+              <th pSortableColumn="buyerName">
+                MONTHS/BUYER<p-sortIcon field="buyerName"></p-sortIcon>
+              </th>
+              <th pSortableColumn=" ">
+                TOTAL ORDER<p-sortIcon field="totalQty "></p-sortIcon>
+              </th>
+
+              <th pSortableColumn="january">
+                JANUARY<p-sortIcon field="january"></p-sortIcon>
+              </th>
+              <th pSortableColumn="february">
+                FEBRUARY<p-sortIcon field="february"></p-sortIcon>
+              </th>
+              <th pSortableColumn="march">
+                MARCH<p-sortIcon field="march"></p-sortIcon>
+              </th>
+              <th pSortableColumn="april">
+                APRIL<p-sortIcon field="april"></p-sortIcon>
+              </th>
+              <th pSortableColumn="may">
+                MAY<p-sortIcon field="may"></p-sortIcon>
+              </th>
+              <th pSortableColumn="june">
+                JUNE<p-sortIcon field="june"></p-sortIcon>
+              </th>
+              <th pSortableColumn="july">
+                JULY<p-sortIcon field="july"></p-sortIcon>
+              </th>
+              <th pSortableColumn="august">
+                AUGUST<p-sortIcon field="august"></p-sortIcon>
+              </th>
+              <th pSortableColumn="september">
+                SEPTEMBER<p-sortIcon field="september"></p-sortIcon>
+              </th>
+              <th pSortableColumn="october">
+                OCTOBER<p-sortIcon field="october"></p-sortIcon>
+              </th>
+              <th pSortableColumn="november">
+                NOVEMBER<p-sortIcon field="november"></p-sortIcon>
+              </th>
+              <th pSortableColumn="december">
+                DECEMBER<p-sortIcon field="december"></p-sortIcon>
+              </th>
+            </tr>
+                    <!-- <tr>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'poNo', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'styleName', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'delMonth2', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'gmtQty', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'totalSmv', 'contains')"
+                  class="p-column-filter" />
+              </td>
+            </tr> -->
+          </ng-template>
+          
+          <ng-template pTemplate="body" let-product let-expanded="expanded"  class="body"  > 
+            <tr  >
+              <td>{{ product.buyerName }}</td>
+              <td>{{ product.totalQty }} </td>
+              <td>{{ product.january }}</td>
+              <td>{{ product.february }}</td>
+              <td>{{ product.march }}</td>
+              <td>{{ product.april }}</td>
+              <td>{{ product.may }}</td>
+              <td>{{ product.june }}</td>
+              <td>{{ product.july }}</td>
+              <td>{{ product.august }}</td>
+              <td>{{ product.september }}</td>
+              <td>{{ product.october }}</td>
+              <td>{{ product.november }}</td>
+              <td>{{ product.december }}</td>
+              <!-- <td>{{ product.januaryTotal }}</td>
+              <td>{{ product.februaryTotal }}</td> -->
+            </tr>
+
+          </ng-template>
+          <ng-template pTemplate="footer"       >
+            <tr>
+              <td>Total</td>
+              <td style="text-align: center">{{ totalDeleveryQty }}</td>
+              <td style="text-align: center">{{ totalJanQty }}</td>
+              <td style="text-align: center">{{ totalFebQty }}</td>
+              <td style="text-align: center">{{ totalMarcQty }}</td>
+              <td style="text-align: center">{{ totalAprQty }}</td>
+              <td style="text-align: center">{{ totalMayQty }}</td>
+              <td style="text-align: center">{{ totalJunQty }}</td>
+              <td style="text-align: center">{{ totalJulQty }}</td>
+              <td style="text-align: center">{{ totalAugQty }}</td>
+              <td style="text-align: center">{{ totalSepQty }}</td>
+              <td style="text-align: center">{{ totalOctQty }}</td>
+              <td style="text-align: center">{{ totalNovQty }}</td>
+              <td style="text-align: center">{{ totalDecQty }}</td>
+            </tr>
+          </ng-template>
+         
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-6 xl-100">
+    <div class="card" style="height: 600px!important">
+      <div class="card-header">
+        <h5>Monthly Order Received & Delivery Qty</h5>
+      </div>
+      <div class="card-body">
+        <!-- <app-po-summary-report-all-buyer></app-po-summary-report-all-buyer> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-6 xl-100">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Buyer Wise Monthly PO Rec. & Del. Qty</h4>
+          </div>
+          <div class="col-md-6">
+            <form [formGroup]="excelUploadForm">
+              <select (ngModelChange)="LoadSeason($event)" class="form-control form-control-sm" [ngClass]="{
+                  'is-invalid':
+                    excelUploadForm.get('buyerId').errors &&
+                    (excelUploadForm.get('buyerId').touched ||
+                      excelUploadForm.get('buyerId').dirty)
+                }" formControlName="buyerId">
+                <option *ngFor="let buyer of commonService.BuyerSelectList" [ngValue]="buyer.value">
+                  {{ buyer.label }}
+                </option>
+              </select>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+<p-dialog header="Meeting Info" [(visible)]="displayPosition" [position]="position" [modal]="true"
+  [style]="{width: '25vw'}" [baseZIndex]="1000">
+  <span style="font-weight: bold;font-size: 14px;color: #5793cb;"><span
+      style="font-size: 14px;">{{meetingInfoTime}}</span></span><br>
+  <span style="font-weight: bold;font-size: 14px;color: #5793cb;"><span
+      style="font-size: 14px;">{{meetingInfoDepartment}}</span></span><br>
+  <span style="font-weight: bold;font-size: 14px;color: #5793cb;"><span
+      style="font-size: 14px;">{{meetingInfoAgenda}}</span></span><br>
+  <span style="font-weight: bold;font-size: 14px;color: #5793cb;"><span
+      style="font-size: 14px;">{{meetingInfoRoom}}</span></span>
+  <p-footer>
+    <!-- <button type="button" pButton icon="pi pi-check" (click)="displayPosition=false" label="Yes"></button> -->
+    <button type="button" pButton icon="pi pi-times" (click)="displayPosition=false" label="Close"
+      class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header=" " [(visible)]="displayBasic" [style]="{ width: '75vw' }" [baseZIndex]="10000">
+  <p-table #dt1 rowExpandMode="single" [value]="poStyleReportPopup" [globalFilterFields]="[    'buyerName'   ]"
+    dataKey="id" editMode="row" [paginator]="true" [rows]="15" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[20,30,40,50]">
+    <ng-template pTemplate="caption">
+
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <input type="text" pInputText size="50" placeholder="Global Filter"
+          (input)="dt1.filterGlobal($event.target.value, 'contains')" (keyup.enter)="CalculateOrderQty(dt1)" (click)="CalculateOrderQty(dt1)"
+          (ng-click)="CalculateOrderQty(dt1)" style="float: right" />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr class="bc">
+        <th pSortableColumn="buyerName">
+          MONTHS/BUYER<p-sortIcon field="buyerName"></p-sortIcon>
+        </th>
+        <th pSortableColumn=" ">
+          TOTAL ORDER<p-sortIcon field="totalQty "></p-sortIcon>
+        </th>
+
+        <th pSortableColumn="january">
+          JANUARY<p-sortIcon field="january"></p-sortIcon>
+        </th>
+        <th pSortableColumn="february">
+          FEBRUARY<p-sortIcon field="february"></p-sortIcon>
+        </th>
+        <th pSortableColumn="march">
+          MARCH<p-sortIcon field="march"></p-sortIcon>
+        </th>
+        <th pSortableColumn="april">
+          APRIL<p-sortIcon field="april"></p-sortIcon>
+        </th>
+        <th pSortableColumn="may">
+          MAY<p-sortIcon field="may"></p-sortIcon>
+        </th>
+        <th pSortableColumn="june">
+          JUNE<p-sortIcon field="june"></p-sortIcon>
+        </th>
+        <th pSortableColumn="july">
+          JULY<p-sortIcon field="july"></p-sortIcon>
+        </th>
+        <th pSortableColumn="august">
+          AUGUST<p-sortIcon field="august"></p-sortIcon>
+        </th>
+        <th pSortableColumn="september">
+          SEPTEMBER<p-sortIcon field="september"></p-sortIcon>
+        </th>
+        <th pSortableColumn="october">
+          OCTOBER<p-sortIcon field="october"></p-sortIcon>
+        </th>
+        <th pSortableColumn="november">
+          NOVEMBER<p-sortIcon field="november"></p-sortIcon>
+        </th>
+        <th pSortableColumn="december">
+          DECEMBER<p-sortIcon field="december"></p-sortIcon>
+        </th>
+      </tr>
+      <!-- <tr (keyup.enter)="CalculateOrderQty(dt)">
+        <td>
+         
+        </td>
+
+        
+
+        
+        
+
+        
+        <td>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'salesContract', 'contains')"
+            class="p-column-filter"
+          />
+        </td>
+      </tr> -->
+    </ng-template>
+
+
+    <ng-template pTemplate="body" let-product let-expanded="expanded">
+      <tr style="line-height:1.728571 !important;font-size: 13px;">
+        <td>{{ product.buyerName }} </td>
+        <td>{{ product.totalQty }} </td>
+        <td>{{ product.january }}</td>
+        <td>{{ product.february }}</td>
+        <td>{{ product.march }}</td>
+        <td>{{ product.april }}</td>
+        <td>{{ product.may }}</td>
+        <td>{{ product.june }}</td>
+        <td>{{ product.july }}</td>
+        <td>{{ product.august }}</td>
+        <td>{{ product.september }}</td>
+        <td>{{ product.october }}</td>
+        <td>{{ product.november }}</td>
+        <td>{{ product.december }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="footer" class="ui-table-tfoot">
+      <tr>
+        <td>Total</td>
+        <td style="text-align: center">{{ totalDeleveryQty }}</td>
+        <td style="text-align: center">{{ totalJanQty }}</td>
+        <td style="text-align: center">{{ totalFebQty }}</td>
+        <td style="text-align: center">{{ totalMarcQty }}</td>
+        <td style="text-align: center">{{ totalAprQty }}</td>
+        <td style="text-align: center">{{ totalMayQty }}</td>
+        <td style="text-align: center">{{ totalJunQty }}</td>
+        <td style="text-align: center">{{ totalJulQty }}</td>
+        <td style="text-align: center">{{ totalAugQty }}</td>
+        <!-- <td style="text-align: right">{{ totalOrderValue | number }}</td> -->
+        <td style="text-align: center">{{ totalSepQty }}</td>
+        <td style="text-align: center">{{ totalOctQty }}</td>
+        <td style="text-align: center">{{ totalNovQty }}</td>
+        <td style="text-align: center">{{ totalDecQty }}</td>
+
+
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+</p-dialog>

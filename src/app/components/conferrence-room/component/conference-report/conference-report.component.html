@@ -1,0 +1,88 @@
+<p-panel header="Meeting Report" [toggleable]="true">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="MeetingReport" class="form">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label"> Report Type </label>
+                        <select [ngClass]="{'is-invalid':MeetingReport.get('reportType').errors && (MeetingReport.get('reportType').touched || MeetingReport.get('reportType').dirty)}" 
+                        formControlName="reportType"
+                        type="text"
+                        class="form-control"
+                        >
+                            <option value=""> Select </option>
+                            <option value="ML">All Meeting List</option>
+                            <!-- <option value="Out">Out Gate Pass List</option>
+                            <option value="In">In Gate Pass List</option> -->
+                          </select>
+                      </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"> Company </label>
+                    <select [ngClass]="{'is-invalid':MeetingReport.get('companyId').errors && (MeetingReport.get('companyId').touched || MeetingReport.get('companyId').dirty)}"
+                      class="form-control"
+                      type="text"
+                      formControlName="companyId"
+                    >
+                      <option *ngFor="let item of commonService.CompanySelectedList" [ngValue]="item.value">
+                        {{ item.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"> From Date </label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid':
+                        MeetingReport.get('fDate').errors &&
+                          (MeetingReport.get('fDate').touched ||
+                          MeetingReport.get('fDate').dirty)
+                      }"
+                      class="form-control"
+                      type="date"
+                      formControlName="fDate"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"> To Date </label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid':
+                        MeetingReport.get('tDate').errors &&
+                          (MeetingReport.get('tDate').touched ||
+                          MeetingReport.get('tDate').dirty)
+                      }"
+                      class="form-control"
+                      type="date"
+                      formControlName="tDate"
+                    />
+                  </div>
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <label class="control-label"> </label>
+                <button pButton pRipple type="button" label="View Report" icon="pi pi-file"
+                class="p-button-raised p-button-success p-button-text"
+                style="background: #D5F9F8;height: 25px;width: 50px;color: black;font-weight: bold;font-size: 8px!important;"
+                (click)="onSubmit()" style="width:145px!important;font-size: 15px!important;"></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer"></div>
+    </div>
+  </p-panel>
+  

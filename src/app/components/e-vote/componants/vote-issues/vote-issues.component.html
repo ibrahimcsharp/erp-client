@@ -1,0 +1,221 @@
+<p-panel header="Create Vote Issue" [toggleable]="true">
+  <form
+    [formGroup]="customForm"
+    class="form"
+    (ngSubmit)="onSubmit()"
+    role="form"
+  >
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group row">
+          <label class="col-lg-3 col-form-label form-control-label"
+            >Issue <span class="required"> *</span></label
+          >
+          <div class="col-lg-9">
+            <textarea
+              style="height: 130px"
+              [ngClass]="{
+                'is-invalid':
+                  customForm.get('title').errors &&
+                  (customForm.get('title').touched ||
+                    customForm.get('title').dirty)
+              }"
+              class="form-control uppercase"
+              type="text"
+              formControlName="title"
+            ></textarea>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-lg-3 col-form-label form-control-label"
+            >File Upload <span class="required"> *</span></label
+          >
+          <div class="col-lg-9">
+            <input type="file" #inputFile multiple (change)="getFileDetails($event, 0)" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-lg-3 col-form-label form-control-label"
+            >Issue Type <span class="required"> *</span></label
+          >
+          <div class="col-lg-9">
+            <select
+              [ngClass]="{
+                'is-invalid':
+                  customForm.get('typeId').errors &&
+                  (customForm.get('typeId').touched ||
+                    customForm.get('typeId').dirty)
+              }"
+              class="form-control"
+              type="text"
+              formControlName="typeId"
+            >
+              <option [ngValue]="">===Select One===</option>
+              <option [ngValue]="1">Public</option>
+              <option [ngValue]="2">Private</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-lg-3 col-form-label form-control-label"
+            >Issue Owner <span class="required"> *</span></label
+          >
+          <div class="col-lg-9">
+            <input
+              [ngClass]="{
+                'is-invalid':
+                  customForm.get('owner').errors &&
+                  (customForm.get('owner').touched ||
+                    customForm.get('owner').dirty)
+              }"
+              class="form-control"
+              type="text"
+              formControlName="owner"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-lg-3 col-form-label form-control-label"
+            >Start Time <span class="required"> *</span></label
+          >
+          <div class="col-lg-9">
+            <input
+              [ngClass]="{
+                'is-invalid':
+                  customForm.get('startTime').errors &&
+                  (customForm.get('startTime').touched ||
+                    customForm.get('startTime').dirty)
+              }"
+              class="form-control"
+              type="datetime-local"
+              formControlName="startTime"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-lg-3 col-form-label form-control-label"
+            >End Time <span class="required"> *</span></label
+          >
+          <div class="col-lg-9">
+            <input
+              [ngClass]="{
+                'is-invalid':
+                  customForm.get('endTime').errors &&
+                  (customForm.get('endTime').touched ||
+                    customForm.get('endTime').dirty)
+              }"
+              class="form-control"
+              type="datetime-local"
+              formControlName="endTime"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-lg-3 col-form-label form-control-label"
+            >Sort Order <span class="required"> *</span></label
+          >
+          <div class="col-lg-9">
+            <input
+              [ngClass]="{
+                'is-invalid':
+                  customForm.get('sortOrder').errors &&
+                  (customForm.get('sortOrder').touched ||
+                    customForm.get('sortOrder').dirty)
+              }"
+              class="form-control"
+              type="number"
+              formControlName="sortOrder"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-lg-3 col-form-label form-control-label"
+            >Remarks</label
+          >
+          <div class="col-lg-9">
+            <input class="form-control" type="text" formControlName="remarks" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr class="text-center">
+              <th>
+                <button
+                  (click)="addNewItem()"
+                  type="button"
+                  class="btn btn-success btn-xs"
+                >
+                  <i class="fa fa-plus"></i>
+                  New Option
+                </button>
+              </th>
+              <th>Issue Option</th>
+              <th>Sort Order</th>
+              <th>Remarks</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody
+            formArrayName="issueOptions"
+            *ngFor="
+              let item of customForm.get('issueOptions')['controls'];
+              let i = index
+            "
+          >
+            <tr [formGroup]="item">
+              <td>
+                {{ i + 1 }}
+              </td>
+              <td>
+                <input
+                  formControlName="optionName"
+                  type="text"
+                  class="form-control form-control-sm uppercase"
+                  [ngClass]="{
+                    'is-invalid': submitted && item.controls.optionName.errors
+                  }"
+                />
+              </td>
+              <td>
+                <input
+                  formControlName="sortOrder"
+                  type="number"
+                  class="form-control form-control-sm"
+                  [ngClass]="{
+                    'is-invalid': submitted && item.controls.sortOrder.errors
+                  }"
+                />
+              </td>
+              <td>
+                <input
+                  formControlName="remarks"
+                  type="text"
+                  class="form-control form-control-sm"
+                />
+              </td>
+              <td>
+                <button
+                  class="btn btn-danger btn-xs"
+                  type="button"
+                  (click)="DeleteRow(i)"
+                >
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-success btn-xs mr-2">
+          <i class="fa fa-database"></i> Save
+        </button>
+        <a routerLink="/e-vote/e-vote-list" class="btn btn-primary btn-xs mr-2">
+          <i class="fa fa-list"></i> List
+        </a>
+      </div>
+    </div>
+  </form>
+</p-panel>

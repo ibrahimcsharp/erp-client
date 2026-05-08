@@ -1,0 +1,22 @@
+<p-panel header="Driver Management Setup" [toggleable]="true">
+  <!-- <div class="container"> -->
+  <ul class="nav nav-tabs">
+    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Driver Info</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu1">Driver Displinary</a></li>
+    <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu2">Type</a></li> -->
+    <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu3">Menu 3</a></li> -->
+  </ul>
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active show">
+      <app-driver-info-list></app-driver-info-list>
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      <app-driver-disciplinary-list></app-driver-disciplinary-list>
+    </div>
+    <!-- <div id="menu2" class="tab-pane fade">
+              <app-vehicle-type-list></app-vehicle-type-list>
+            </div> -->
+
+  </div>
+  <!-- </div> -->
+</p-panel>

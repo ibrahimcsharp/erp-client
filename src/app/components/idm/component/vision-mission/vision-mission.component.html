@@ -1,0 +1,125 @@
+<p-panel header="Vision Create" [toggleable]="true"> 
+    <form [formGroup]="visionForm">
+
+        <div class="row">
+            <div class="col-md-3 offset-md-4">
+              <div class="form-group">
+                <div class="input-group input-group-sm mb-1">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Vision</span>
+                  </div>
+                  <input class="form-control" type="text" formControlName="vision"/>
+                </div>
+                <div class="input-group input-group-sm mb-1">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Deadline</span>
+                  </div>
+                  <input class="form-control" type="date" formControlName="deadline"/>
+                </div>
+                <div class="input-group input-group-sm mb-1">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Target</span>
+                    </div>
+                    <input class="form-control" type="text" formControlName="target"/>
+                  </div>
+                  <div class="input-group input-group-sm mb-1">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Achievement</span>
+                    </div>
+                    <input class="form-control" type="text" formControlName="achievement"/>
+                  </div>
+                  <div class="input-group input-group-sm mb-1">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Comments</span>
+                    </div>
+                    <input class="form-control" type="text" formControlName="comments"/>
+                  </div>
+              </div>
+            </div>
+          </div>
+  
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered table-hover table-sm">
+            <thead>
+              <tr>
+                <th><button (click)="addNewItem()" type="button" class="btn btn-info btn-xs"><i class="fa fa-plus"></i> Mission</button></th>
+                <th style=" text-align: center; ">Action</th>
+                <th style=" text-align: center; ">How</th>
+                <th style=" text-align: center; ">Who</th>
+                <th style=" text-align: center; ">When</th>
+                <th style=" text-align: center; ">Indicator</th>
+                <th style=" text-align: center; ">Target</th>
+                <th style=" text-align: center; ">Achievement</th>
+                <th style=" text-align: center; ">Remarks</th>
+                <th style=" text-align: center; ">Delete</th>
+              </tr>
+            </thead>
+            <tbody
+              formArrayName="missionList" *ngFor="let item of visionForm.get('missionList')['controls'];let i = index">
+              <tr [formGroup]="item">
+                <td>{{ i + 1 }}</td>
+                <td>
+                    <input formControlName="action" type="text" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                  <input formControlName="how" type="text" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                  <input  formControlName="who" [typeahead]="commonService.GatePassEmployeeList"
+                         [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                         (typeaheadNoResults)="typeaheadNoResultsEmployee($event,i)" (typeaheadOnSelect)="onSelectEmployee($event,i)"
+                         typeaheadOptionField="label" class="form-control form-control-sm" />
+                </td>
+                <td>
+                    <input formControlName="when" type="date" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                  <input formControlName="indicator" type="text" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                  <input formControlName="target" type="text" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                  <input formControlName="achievement" type="text" class="form-control form-control-sm" readonly/>
+                </td>
+                <td>
+                  <input formControlName="remarks" type="text" class="form-control form-control-sm" readonly/>
+                </td>
+                <td>
+                  <button class="btn btn-primary btn-xs" (click)="DeleteRow(i)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+
+      <hr />
+      <div class="row">
+        <div class="col-md-4">
+          <button pButton pRipple type="button" label="Save" icon="pi pi-save" (click)="onSubmit()" style="width:75px!important;font-size: 12px!important;background: #3792cf!important;"></button>
+          <button pButton pRipple type="button" label="Clear" icon="pi pi-refresh" (click)="clear()" style="width:75px!important;font-size: 12px!important;background: #ff878d!important;"></button>
+        </div>
+      </div>
+    </form>
+  </p-panel>
+  <br>
+<!-- <div class="row">
+    <div class="col-md-12">
+        <app-vision-mission-list></app-vision-mission-list>
+      <br />
+    </div>
+
+    <div class="col-md-6"> 
+
+    </div>
+</div> -->
+
+  <p-confirmDialog  [style]="{ width: '50vw' }" key="positionDialog" [position]="position" [baseZIndex]="10000">
+  </p-confirmDialog>
+  
+

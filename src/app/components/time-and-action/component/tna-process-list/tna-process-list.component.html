@@ -1,0 +1,202 @@
+<p-panel header="TNA JOB" [toggleable]="true">
+    <p-table #dt rowExpandMode="single" expandableRows="true" *ngIf="tnaJobList != null" [value]="tnaJobList"
+        [globalFilterFields]="['buyerName']" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+        [rows]="50" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">
+
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left">
+
+                <input type="text" pInputText size="20" placeholder="Global Filter"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="bc">
+                <th style="width: 3rem"></th>
+                <th>SL</th>
+                <th>Buyer</th>
+                <th>Year</th>
+                <th>Season</th>
+                <th>Style</th>
+                <th>PO</th>
+                <th>Buy Date</th>
+                <th>Revised No</th>
+                <!-- <th>Ship Date</th> -->
+                <!-- <th>Template</th> -->
+                <th>Action</th>
+                <th>Material TNA</th>
+            </tr>
+            <tr>
+                <td> </td>
+                <td>
+                    <input pInputText type="text" class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'yearName', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'seasonName', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'styleName', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'poNo', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyDate', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'revisedNo', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <!-- <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                </td> -->
+                <!-- <td></td> -->
+                <!-- <td>                        
+                    Process
+                </td> -->
+            </tr>
+        </ng-template>
+        <ng-template let-rowData pTemplate="body" let-editing="editing" let-ri="rowIndex">
+
+            <tr>
+                <td>
+                    <button (click)="LoadTnaListRevised(rowData)" type="button" pButton pRipple [pRowToggler]="rowData"
+                        class="p-button-text p-button-rounded p-button-plain btn-sm"
+                        [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'">
+                    </button>
+                </td>
+                <td>{{ ri + 1 }}</td>
+                <td>{{rowData.buyerName}}</td>
+                <td>{{rowData.yearName}} </td>
+                <td>{{rowData.seasonName}}</td>
+                <td>{{rowData.styleName}}</td>
+                <td>{{rowData.poNo}}</td>
+                <td>{{rowData.buyDate}}</td>
+                <td>{{rowData.revisedNo}}</td>
+                <!-- <td>{{rowData.orderRcvDate | date :'short'}}</td> -->
+                <!-- <td>{{rowData.shiftDate | date :'short'}}</td> -->
+
+                <td>
+                    <a class="" target="_blank" href="/time-and-action/tna-manual-process/edit/{{rowData.id}}">
+                        <p-button label="Edit"></p-button></a>
+                </td>
+                <td>
+                    <p-button class="viewBtn" label="View" styleClass="p-button-success"
+                        (click)="material_tna_check(rowData)"></p-button>
+                </td>
+            </tr>
+
+        </ng-template>
+
+        <ng-template pTemplate="rowexpansion">
+            <tr>
+                <td colspan="11">
+                    <div class="p-p-3">
+                        <p-table #dt rowExpandMode="single" expandableRows="true" [value]="tnaJobListRevised"
+                            dataKey="id" [rows]="10">
+                            <ng-template pTemplate="header">
+            <tr class="bc">
+                <th></th>
+                <th>SL</th>
+                <th>Buyer</th>
+                <th>Year</th>
+                <th>Season</th>
+                <th>Style</th>
+                <th>PO</th>
+                <th>Buy Date</th>
+                <th>Revised No</th>
+                <!-- <th>Ship Date</th> -->
+                <!-- <th>Template</th> -->
+                <th>Action</th>
+                <th>Material TNA</th>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input pInputText type="text" class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'yearName', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'seasonName', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'styleName', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'poNo', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyDate', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'revisedNo', 'contains')"
+                        class="p-column-filter" />
+                </td>
+                <!-- <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                </td> -->
+                <!-- <td></td> -->
+                <!-- <td>                        
+                    Process
+                </td> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr
+                [ngStyle]="item.rowColor == 'Y' ? { 'background-color': '#007872' } : { 'background-color': '#E8FFEA' }">
+                <td></td>
+                <td>{{ i + 1 }}</td>
+                <td>{{item.buyerName}}</td>
+                <td>{{item.yearName}} </td>
+                <td>{{item.seasonName}}</td>
+                <td>{{item.styleName}}</td>
+                <td>{{item.poNo}}</td>
+                <td>{{item.buyDate}}</td>
+                <td>{{item.revisedNo}}</td>
+                <!-- <td>{{rowData.orderRcvDate | date :'short'}}</td> -->
+                <!-- <td>{{rowData.shiftDate | date :'short'}}</td> -->
+
+                <td>
+                    <!-- <a class="mr-2 btn btn-success btn-xs" target="_blank"
+                        href="/time-and-action/tna-manual-process/edit/{{item.id}}">
+                        <i class="fa fa-edit" aria-hidden="true"></i>Edit</a> -->
+                </td>
+                <td>
+                    <!-- <a class="mr-2 btn btn-success btn-xs" target="_blank"
+                        href="/time-and-action/material-tna/show/{{item.id}}">
+                        <i class="fa fa-eye" aria-hidden="true">View</i></a> -->
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    </div>
+    </td>
+    </tr>
+    </ng-template>
+    </p-table>
+</p-panel>

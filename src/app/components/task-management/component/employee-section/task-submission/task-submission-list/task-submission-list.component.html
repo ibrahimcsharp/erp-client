@@ -1,0 +1,87 @@
+<app-task-submission-create #taskcreate (TaskToCreate)="LoadTaskData()" ></app-task-submission-create>
+<br>
+<p-panel header="My Created Tasks" [toggleable]="true">
+  <p-treeTable #tt [value]="taskCommonService.data" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Task Title</th>
+        <th>Task Description</th>
+        <!-- <th>Task Location</th> -->
+        <th>Task No.</th>
+        <th>Resposible Dept.</th>
+        <th>Task Status</th>
+        <!-- <th>Forwared Status</th>         -->
+        <th>Task Verify</th>        
+        <th>Priority</th>
+        <th>Files</th>
+        <th>Action</th>
+        <th>Massage</th>
+      </tr>
+      <tr>
+        <th>
+          <input pInputText type="text" (input)="tt.filter($event.target.value, 'title', 'contains')">
+        </th>
+        <th>
+          <input pInputText type="text" (input)="tt.filter($event.target.value, 'description', 'contains')">
+        </th>
+        <!-- <th>
+          <input pInputText type="text" (input)="tt.filter($event.target.value, 'location', 'contains')">
+        </th> -->
+        <th>
+          <input pInputText type="text" (input)="tt.filter($event.target.value, 'id', 'contains')">
+        </th>
+        <th>
+          <input pInputText type="text" (input)="tt.filter($event.target.value, 'responsibleDeptName', 'contains')">
+        </th>
+        <th>
+          <input pInputText type="text" (input)="tt.filter($event.target.value, 'taskStatusText', 'contains')">
+        </th>
+        <!-- <th>
+          <input pInputText type="text" (input)="tt.filter($event.target.value, 'taskForwaredStatus', 'contains')">
+        </th>         -->
+        <th></th>        
+        <th>
+          <input pInputText type="text" (input)="tt.filter($event.target.value, 'taskPriority', 'contains')">
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+      <tr [ttRow]="rowNode">
+        <td>
+          <p-treeTableToggler  [rowNode]="rowNode"></p-treeTableToggler>
+          {{rowData.title}}
+        </td>
+        <td>{{rowData.description}}</td>
+        <!-- <td>{{rowData.location}}</td> -->
+        <td>{{rowData.id}}</td>
+        <td>{{rowData.responsibleDeptName}}</td>        
+        <td [ngStyle]="{'background-color': getColor(rowData.taskStatusText)}">{{rowData.taskStatusText}}</td>        
+        <!-- <td>{{rowData.taskForwaredStatus}}</td>         -->
+        <td><p-button  styleClass="p-button" (onClick)="DoneTaskVerify(rowData)" icon="pi pi-check" styleClass="ui-button-success"></p-button></td>        
+        <td>{{rowData.taskPriority}}</td>
+        <td><button class="btn-xs" (click)="ShowFile(rowData)">
+          <i class="fa fa-eye"></i>
+        </button></td>
+        <td><p-splitButton label="Action" icon="pi pi-cog" (onClick)="save(rowData)" [model]="cmds(rowData)"
+            styleClass="ui-button-warning"></p-splitButton>
+            
+        </td>
+        <td>
+           <p-button label="Massage - {{rowData.numberOfComments}}" styleClass="p-button" (onClick)="AddComment(rowData)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-treeTable>
+</p-panel>
+
+<!-- <ng-template #popTaskTemplate>
+  <p-galleria [value]="images">
+    <ng-template pTemplate="item" let-item>
+      <img [src]="item.previewImageSrc" [alt]="item.alt" />
+    </ng-template>
+  </p-galleria>
+</ng-template> -->
+

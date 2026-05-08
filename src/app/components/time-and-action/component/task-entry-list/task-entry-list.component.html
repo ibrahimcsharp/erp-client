@@ -1,0 +1,88 @@
+<!-- <div class="container"> -->
+        <!-- <app-task-entry #TaskEntry (LoadTask)="LoadTaskData()" [(visible)]="displayBasic"></app-task-entry> -->
+        <p-panel header="Task List" [toggleable]="true">
+            <div >
+              <p-table
+                *ngIf="taskList != null"
+                [value]="taskList"
+                [globalFilterFields]="['taskName']"
+                dataKey="id"
+                editMode="row"
+                [scrollable]="true"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[5, 10, 50, 100]"
+                >
+                <ng-template pTemplate="caption">
+                  <div class="ui-helper-clearfix" style="text-align: left">
+                    <button
+                      (click)="OpenNew()"
+                      pTooltip="New Task"
+                      class="btn btn-success btn-xs mr-2"
+                    >
+                      <i class="fa fa-plus" aria-hidden="true"></i> New
+                    </button>
+
+          
+                    <input
+                      type="text"
+                      pInputText
+                      size="50"
+                      placeholder="Global Filter"
+                      (input)="dt.filterGlobal($event.target.value, 'contains')"
+                      style="float: right"
+                    />
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr class="bc">
+                    <th>SL</th>
+                    <th [pSortableColumn]="'taskName'">
+                      Task Name
+                      <p-sortIcon
+                        [field]="'taskName'"
+                        ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"
+                      ></p-sortIcon>
+                    </th>
+          
+                    <th>Action</th>
+                  </tr>
+                </ng-template>
+                <ng-template
+                  pTemplate="body"
+                  let-rowData
+                  let-editing="editing"
+                  let-ri="rowIndex"
+                >
+                  <tr>
+                    <td>{{ ri + 1 }}</td>
+                    <td>{{ rowData.taskName }}</td>
+                    <td>
+                      <a style="cursor: pointer" class="mr-2" (click)="editTask(rowData)"
+                        ><i class="fa fa-edit"></i
+                      ></a>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-panel>
+          
+          <p-dialog
+            header="Task Create"
+            [(visible)]="displayBasic"
+            [style]="{ width: '40vw' }"
+            [baseZIndex]="10000"
+          >
+            <app-task-entry
+              #TaskEntry
+              (LoadTask)="LoadTaskData()"
+            ></app-task-entry>
+          </p-dialog>
+          
+      
+          

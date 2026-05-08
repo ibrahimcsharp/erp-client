@@ -1,0 +1,248 @@
+<p-panel header="Meal Receiver Setup" [toggleable]="true">
+  <form [formGroup]="reactiveForm" class="form" (ngSubmit)="Process()" role="form">
+    <div class="row">
+      <div class="col-md-4 offset-md-4">
+        <div class="form-group">
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Month<span class="required">&nbsp;*</span></span>
+            </div>
+            <select [ngClass]="{
+                'is-invalid':
+                  reactiveForm.get('monthId').errors &&
+                  (reactiveForm.get('monthId').touched ||
+                    reactiveForm.get('monthId').dirty)
+              }" class="form-control form-control-sm" formControlName="monthId">
+              <option value="">==Select One==</option>
+              <option *ngFor="let item of mealMonthsList" [ngValue]="item.id">
+                {{ item.monthName }}
+              </option>
+            </select>
+          </div>
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Year<span class="required">&nbsp;*</span></span>
+            </div>
+            <select [ngClass]="{
+                'is-invalid':
+                  reactiveForm.get('yearId').errors &&
+                  (reactiveForm.get('yearId').touched ||
+                    reactiveForm.get('yearId').dirty)
+              }" class="form-control form-control-sm" formControlName="yearId">
+              <option value="">==Select One==</option>
+              <option *ngFor="let year of commonService.YearSelectList" [ngValue]="year.value">
+                {{ year.label }}
+              </option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-outline-success btn-block btn-xs">
+            <i class="fa fa-search"></i> Search
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+    <br />
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5>SNOWTEX</h5>
+          </div>
+          <div class="card-body">
+            <p-table #dt [(selection)]="selectedEmpInfo" *ngIf="scoEmpList != null" [value]="scoEmpList"
+              [globalFilterFields]="[
+                'employeeId',
+                'employeeName',
+                'monthName',
+                'yearName'
+              ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+              [showCurrentPageReport]="true"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [rowsPerPageOptions]="[5, 10, 50, 100]">>
+              <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix" style="text-align: left">
+                  <input type="text" pInputText size="50" placeholder="Global Filter"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr class="bc">
+                  <th>SL</th>
+                  <th [pSortableColumn]="'employeeId'">
+                    Employee Id
+                    <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th [pSortableColumn]="'employeeName'">
+                    Employee Name
+                    <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th [pSortableColumn]="'activeYn'">
+                    Active Status
+                    <p-sortIcon [field]="'activeYn'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <!-- <th>Action</th> -->
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>
+                    <input pInputText type="text" (input)="
+                        dt.filter($event.target.value, 'employeeId', 'contains')
+                      " class="p-column-filter" />
+                  </td>
+                  <td>
+                    <input pInputText type="text" (input)="
+                        dt.filter(
+                          $event.target.value,
+                          'employeeName',
+                          'contains'
+                        )
+                      " class="p-column-filter" />
+                  </td>
+                  <td>
+                    <input pInputText type="text" (input)="
+                        dt.filter($event.target.value, 'activeYn', 'contains')
+                      " class="p-column-filter" />
+                  </td>
+                  <!-- <td></td> -->
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [ngStyle]="
+                    rowData.activeYn == 'Y'
+                      ? { 'background-color': '#e0fede' }
+                      : { 'background-color': 'white' }
+                  " [pEditableRow]="rowData" class="center">
+                  <td>{{ ri + 1 }}</td>
+                  <td>{{ rowData.employeeId }}</td>
+                  <td>{{ rowData.employeeName }}</td>
+                  <td>{{ rowData.activeYn }}</td>
+
+                  <!-- <td>
+                    <button *ngIf="rowData.activeYn == 'N'" (click)="activeMealReceiver(rowData)"
+                      class="btn btn-outline-success btn-xs mr-2">
+                      <i class="fa fa-check"></i>ACTIVE
+                    </button>
+                    <button *ngIf="rowData.activeYn == 'Y'" (click)="inactiveMealReceiver(rowData)"
+                      class="btn btn-outline-primary btn-xs mr-2">
+                      <i class="fa fa-trash"></i>IN ACTIVE
+                    </button>
+                  </td> -->
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5>SaRa</h5>
+          </div>
+          <div class="card-body">
+            <p-table #dt [(selection)]="selectedEmpInfo" *ngIf="saraEmpList != null" [value]="saraEmpList"
+              [globalFilterFields]="[
+                'employeeId',
+                'employeeName',
+                'monthName',
+                'yearName'
+              ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+              [showCurrentPageReport]="true"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [rowsPerPageOptions]="[5, 10, 50, 100]">>
+              <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix" style="text-align: left">
+                  <input type="text" pInputText size="50" placeholder="Global Filter"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr class="bc">
+                  <th>SL</th>
+                  <th [pSortableColumn]="'employeeId'">
+                    Employee Id
+                    <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th [pSortableColumn]="'employeeName'">
+                    Employee Name
+                    <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th [pSortableColumn]="'activeYn'">
+                    Active Status
+                    <p-sortIcon [field]="'activeYn'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+
+                  <!-- <th>Action</th> -->
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>
+                    <input pInputText type="text" (input)="
+                        dt.filter($event.target.value, 'employeeId', 'contains')
+                      " class="p-column-filter" />
+                  </td>
+                  <td>
+                    <input pInputText type="text" (input)="
+                        dt.filter(
+                          $event.target.value,
+                          'employeeName',
+                          'contains'
+                        )
+                      " class="p-column-filter" />
+                  </td>
+                  <td>
+                    <input pInputText type="text" (input)="
+                        dt.filter($event.target.value, 'activeYn', 'contains')
+                      " class="p-column-filter" />
+                  </td>
+                  <!-- <td></td> -->
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [ngStyle]="
+                    rowData.activeYn == 'Y'
+                      ? { 'background-color': '#e0fede' }
+                      : { 'background-color': 'white' }
+                  " [pEditableRow]="rowData" class="center">
+                  <td>{{ ri + 1 }}</td>
+                  <td>{{ rowData.employeeId }}</td>
+                  <td>{{ rowData.employeeName }}</td>
+                  <td>{{ rowData.activeYn }}</td>
+                  <!-- <td>
+                    <button *ngIf="rowData.activeYn == 'N'" (click)="activeMealReceiver(rowData)"
+                      class="btn btn-outline-success btn-xs mr-2">
+                      <i class="fa fa-check"></i>ACTIVE
+                    </button>
+                    <button *ngIf="rowData.activeYn == 'Y'" (click)="inactiveMealReceiver(rowData)"
+                      class="btn btn-outline-primary btn-xs mr-2">
+                      <i class="fa fa-trash"></i>IN ACTIVE
+                    </button> 
+                  </td>-->
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</p-panel>

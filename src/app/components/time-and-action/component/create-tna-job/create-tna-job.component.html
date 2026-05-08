@@ -1,0 +1,65 @@
+<p-panel header="Job Template Create" [toggleable]="true">
+    <form [formGroup]="jobTemplateForm">
+
+        <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Buyer<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <select formControlName="buyerId" class="p-inputtext-sm form-control uppercase" [ngClass]="{
+                                'is-invalid':
+                                jobTemplateForm.get('buyerId').errors &&
+                                  (jobTemplateForm.get('buyerId').touched ||
+                                  jobTemplateForm.get('buyerId').dirty)
+                              }">
+                          <option *ngFor="let buyer of BuyerSelectList" [ngValue]="buyer.value">
+                            {{ buyer.label | uppercase }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Job No</span>
+                        </div>
+                        <input
+                          type="text"
+                          id="jobNo"
+                          formControlName="jobNo"
+                          class="form-control"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Job Initiate<span class="required">&nbsp;*</span></span>
+                      </div>
+                      <input type="datetime-local"
+                        placeholder="dd-mm-yyyy"
+                        class="form-control"
+                        [ngClass]="{
+                          'is-invalid':
+                          jobTemplateForm.get('jobDate').errors &&
+                            (jobTemplateForm.get('jobDate').touched ||
+                            jobTemplateForm.get('jobDate').dirty)
+                        }"
+                        formControlName="jobDate"
+                        readonly
+                      />
+                    </div>
+                  </div>
+        </div>
+
+    </form>
+  </p-panel>
+
+

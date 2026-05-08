@@ -1,0 +1,875 @@
+<p-panel header="Employee List" [toggleable]="true">
+    <ng-template pTemplate="icons">
+        <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+            <span class="pi pi-cog"></span>
+        </button>
+        <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Employee List Under Your Supervision</legend>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p-table [value]="AllEmployeeList" #dt editMode="row" *ngIf="AllEmployeeList.length>0"
+                            [scrollable]="true" scrollHeight="300px">
+                            <ng-template pTemplate="header">
+                                <tr class="bc">
+                                    <th style="width:238px ;  background-color: #5793CB!important;  color: white!important;">SL</th>
+                                    <th style="width:238px ;  background-color: #5793CB!important;  color: white!important;"> Employee Id</th>
+                                    <th style="width:238px ;  background-color: #5793CB!important;  color: white!important;">Employee Name</th>
+                                    <th style="width:250px ;  background-color: #5793CB!important;  color: white!important;">Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                                <tr [pEditableRow]="rowData" [ngStyle]="{ 'background-color': '#e0fede' }">
+                                    <td style="width:238px ;background-color: #c8e3ff;">{{ rowIndex+1 }}</td>
+                                    <td style="width:238px ;background-color: #c8e3ff;">{{ rowData.employeeId}}</td>
+                                    <td style="width:238px ;background-color: #c8e3ff;">{{ rowData.employeeName}}</td>
+                                    <td style="width:250px ;background-color: #c8e3ff;">
+                                        <button pButton pRipple type="button" label="View" icon="pi pi-user"
+                                            [disabled]="show" (click)="getPanel(rowData)"
+                                            style="width:83px!important;font-size: 12px!important;background: #5793CB!important;">
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+
+                        </p-table>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</p-panel>
+
+<br>
+<!-- TABS START ---------------------------------------------------------------------------------------------------------------   -->
+<p-panel header="Employee Details" [toggleable]="true" *ngIf="showPanel">
+    <ul class="nav nav-tabs">
+        <li class="nav-item"><a class="nav-link active" data-toggle="tab"
+                href="#IndividualSatisfactoryComments">Satisfactory
+                Comments</a></li>
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#IndividualMissionApprove">Individual Mission
+                Approve</a></li>
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#IndividualTrainingApprove">Individual Training
+                Approve</a></li>
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#IndividualJobDescription">Job Description</a>
+        </li>
+    </ul>
+
+    <!-- TAB Satisfactory Comments ---------------------------------------------------------------------------------------------------------------   -->
+    <div class="tab-content">
+        <!---------------------------------------------------------popup here------------------------------------------------->
+        <p-dialog header="Previous History" [(visible)]="showHistory" [style]="{ width: '70vw'}">
+            <div class="row">
+                <div class="col-md-12">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Pleasure</legend>
+                        <!-- What <span class="scheduler-border" style="color: #c15fe8!important;">{{employee}}</span> has liked   -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p-table #dt rowExpandMode="single" expandableRows="true" [value]="allPlesureList"
+                                    dataKey="id" editMode="row" [scrollable]="true" scrollHeight="400px">
+                                    <ng-template pTemplate="header">
+                                        <tr class="bc">
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                                                SL</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                                                Date</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;width: 35%;">
+                                                Pleasures</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;width: 32%;">
+                                                Manager Comment</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                                                Discussed Status</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                                        <tr
+                                            style="padding: 2px 3px !important; color: black !important; background-color: #dbad6c !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                            <td style="width: 5%;">{{ri+1}}</td>
+                                            <td style="width: 10%;">{{rowData.pleasureDate | date: "d/M/y"}}</td>
+                                            <td style="width: 35%;">{{rowData.pleasure}}</td>
+                                            <td style="width: 32%;">
+                                                <input pInputText type="text" placeholder="Write your comment here..."
+                                                    [(ngModel)]="rowData.managerCmt"
+                                                    class="form-control-sm form-control" disabled />
+                                            </td>
+                                            <td style="width: 10%;">
+                                                <select class="form-control form-control-sm"
+                                                    [(ngModel)]="rowData.isDiscussed" disabled>
+                                                    <option value=""> Select </option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                    <option value="Sub">Submitted</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Displeasure</legend>
+                        <!-- What <span class="scheduler-border" style="color: #c15fe8!important;">{{employee}}</span> has not liked -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p-table #dt rowExpandMode="single" expandableRows="true" [value]="allDisPlesureList"
+                                    dataKey="id" editMode="row" [scrollable]="true" scrollHeight="400px">
+                                    <ng-template pTemplate="header">
+                                        <tr class="bc">
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                                                SL</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                                                Date</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 35%;">
+                                                Displeasures</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 32%;">
+                                                Manager Comment</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                                                Discussed Status</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                                        <tr
+                                            style="padding: 2px 3px !important; color: black !important; background-color: #ecb8b8 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                            <td style="width: 5%;">{{ri+1}}</td>
+                                            <td style="width: 10%;">{{rowData.displeasureDate | date: "d/M/y"}}</td>
+                                            <td style="width: 35%;">{{rowData.displeasure}}</td>
+                                            <td style="width: 32%;">
+                                                <input pInputText type="text" placeholder="Write your comment here..."
+                                                    [(ngModel)]="rowData.managerCmt"
+                                                    class="form-control-sm form-control" disabled />
+                                            </td>
+                                            <td style="width: 10%;">
+                                                <select class="form-control form-control-sm"
+                                                    [(ngModel)]="rowData.isDiscussed" disabled>
+                                                    <option value=""> Select </option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                    <option value="Sub">Submitted</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </p-dialog>
+
+        <!---------------------------------------------------------main table here------------------------------------------------->
+        <div id="IndividualSatisfactoryComments" class="tab-pane fade in active show">
+            <br>
+            <legend class="scheduler-border">Satisfactory Comments From <span class="scheduler-border"
+                    style="color: #c15fe8!important;"> {{employee}}</span>
+            </legend>
+            <button pButton pRipple type="button" label="History" icon="pi pi-user" (click)="viewprevious(employeeId)"
+                [disabled]="show" style="width:96px!important;font-size: 12px!important;background: #87cf96!important;">
+            </button>
+            <div class="row">
+                <div class="col-md-12">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">What was good</legend>
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <p-table #dt rowExpandMode="single" expandableRows="true"
+                                    [value]="allPlesureListThisMonth" dataKey="id" editMode="row" [scrollable]="true"
+                                    scrollHeight="400px">
+                                    <ng-template pTemplate="header">
+                                        <tr class="bc">
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                                                SL</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                                                Date</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 35%;">
+                                                Pleasures</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 32%;">
+                                                Manager Comment</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                                                Discussed Status</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 15%;">
+                                                Action</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                                        <tr
+                                            style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                            <td style="width: 5%;">{{ri+1}}</td>
+                                            <td style="width: 10%;">{{rowData.pleasureDate | date: "d/M/y"}}</td>
+                                            <td style="width: 35%;">{{rowData.pleasure}}</td>
+                                            <td style="width: 32%;">
+                                                <input pInputText type="text" placeholder="Write your comment here..."
+                                                    [(ngModel)]="rowData.managerCmt"
+                                                    class="form-control-sm form-control"
+                                                    [disabled]="rowData.isDiscussed === 'Sub'" />
+                                            </td>
+                                            <td *ngIf="rowData.isDiscussed != 'Sub'" style="width: 10%;">
+                                                <select class="form-control form-control-sm"
+                                                    [(ngModel)]="rowData.isDiscussed"
+                                                    [disabled]="rowData.isDiscussed === 'Sub'"
+                                                    (change)="selected(rowData)">
+                                                    <option value=""> Select </option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                            </td>
+                                            <td *ngIf="rowData.isDiscussed == 'Sub'" style="width: 10%;">
+                                                <select class="form-control form-control-sm"
+                                                    [(ngModel)]="rowData.isDiscussed"
+                                                    [disabled]="rowData.isDiscussed === 'Sub'"
+                                                    (change)="selected(rowData)">
+                                                    <option value=""> Select </option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                    <option value="Sub">Submitted</option>
+                                                </select>
+                                            </td>
+                                            <td style="width: 15%;">
+                                                <button pButton pRipple type="button" label="Save" icon="pi pi-file"
+                                                    (click)="SavePleasureComment(rowData)" [disabled]="show"
+                                                    style="width:70px!important;font-size: 12px!important;background: #3792cf!important;">
+                                                </button>
+                                                <button pButton pRipple type="button" label="Submit" icon="pi pi-file"
+                                                    (click)="SubmitPleasureComment(rowData)" [disabled]="show"
+                                                    style="width:70px!important;font-size: 12px!important;background: #51c853!important;">
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">What we could do better </legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p-table #dt rowExpandMode="single" expandableRows="true"
+                                    [value]="allDisplesureListThisMonth" dataKey="id" editMode="row" [scrollable]="true"
+                                    scrollHeight="400px">
+                                    <ng-template pTemplate="header">
+                                        <tr class="bc">
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                                                SL</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                                                Date</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 35%;">
+                                                Displeasures</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 32%;">
+                                                Manager Comment</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                                                Discussed Status</th>
+                                            <th
+                                                style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 15%;">
+                                                Action</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                                        <tr
+                                            style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                            <td style="width: 5%;">{{ri+1}}</td>
+                                            <td style="width: 10%;">{{rowData.displeasureDate | date: "d/M/y"}}</td>
+                                            <td style="width: 35%;">{{rowData.displeasure}}</td>
+                                            <td style="width: 32%;">
+                                                <input pInputText type="text" placeholder="Write your comment here..."
+                                                    [(ngModel)]="rowData.managerCmt"
+                                                    [disabled]="rowData.isDiscussed === 'Sub'"
+                                                    class="form-control-sm form-control" />
+                                            </td>
+                                            <td *ngIf="rowData.isDiscussed != 'Sub'" style="width: 10%;">
+                                                <select class="form-control form-control-sm"
+                                                    [(ngModel)]="rowData.isDiscussed"
+                                                    [disabled]="rowData.isDiscussed === 'Sub'">
+                                                    <option value=""> Select </option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                            </td>
+                                            <td *ngIf="rowData.isDiscussed == 'Sub'" style="width: 10%;">
+                                                <select class="form-control form-control-sm"
+                                                    [(ngModel)]="rowData.isDiscussed"
+                                                    [disabled]="rowData.isDiscussed === 'Sub'">
+                                                    <option value=""> Select </option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                  <option value="Sub">Submitted</option>
+                                                </select>
+                                            </td>
+                                            <td style="width: 15%;">
+                                                <button pButton pRipple type="button" label="Save" icon="pi pi-file"
+                                                    (click)="SaveDisPleasureComment(rowData)" [disabled]="show"
+                                                    style="width:70px!important;font-size: 12px!important;background: #3792cf!important;">
+                                                </button>
+                                                <button pButton pRipple type="button" label="Submit" icon="pi pi-file"
+                                                (click)="SubmitDisPleasureComment(rowData)" [disabled]="show"
+                                                style="width:70px!important;font-size: 12px!important;background: #51c853!important;">
+                                            </button>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 
+        TAB Mission Approve---
+        ----------------------b-y---t a m i m---->
+
+        <div id="IndividualMissionApprove" class="tab-pane fade">
+            <p-panel header="MISSION APPROVE" [toggleable]="true">
+                <br>
+                <legend class="scheduler-border">Mission Approve Request From <span class="scheduler-border"
+                        style="color: #c15fe8!important;"> {{employee}}</span>
+                </legend>
+                <p-table #dt rowExpandMode="single" expandableRows="true" [value]="missionApprove"
+                    [globalFilterFields]="['']" dataKey="id" editMode="row" [scrollable]="true" scrollHeight="500px">
+
+                    <ng-template pTemplate="header">
+                        <tr class="bc">
+                            <th style="background-color: hsl(282, 100%, 90%) !important;">SL</th>
+                            <th style="background-color: hsl(282, 100%, 90%) !important;">Vision</th>
+                            <th style="background-color: hsl(282, 100%, 90%) !important;">Vision Target</th>
+                            <th style="background-color: hsl(282, 100%, 90%) !important;">DeadLine</th>
+                            <th style="background-color: hsl(225, 100%, 87%) !important;">Action</th>
+                            <th style="background-color: hsl(225, 100%, 87%) !important;">Mission Achievement</th>
+                            <th style="background-color: hsl(225, 100%, 87%) !important;">How</th>
+                            <th style="background-color: hsl(225, 100%, 87%) !important;">Who</th>
+                            <th style="background-color: hsl(225, 100%, 87%) !important;">When</th>
+                            <th style="background-color: hsl(225, 100%, 87%) !important;">Action</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                        <tr>
+                            <td style="background-color: hsl(282, 100%, 90%) !important;">{{ri+1}}</td>
+                            <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.vision}}</td>
+                            <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.target}}</td>
+                            <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.deadline | date:
+                                "d/M/y"}}</td>
+                            <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.action}}</td>
+                            <td style="background-color: hsl(225, 100%, 87%) !important;"><input type="text"
+                                    class="form-control" [(ngModel)]="rowData.missionAchievement"
+                                    style="background-color: hsl(227, 64%, 96%) !important;" /></td>
+                            <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.how}}</td>
+                            <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.who}}</td>
+                            <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.when | date:
+                                "d/M/y"}}</td>
+                            <!-- <td></td> -->
+                            <td>
+                                <button pButton pRipple type="button" label="APPROVE" icon="{{rowData.approveIcon}}"
+                                    class="p-button-raised p-button-success p-button-text"
+                                    style="background: #80ff80;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;"
+                                    (click)="ApproveMission(rowData)">
+                                </button>
+
+                                <button pButton pRipple type="button" label="REJECT"
+                                    class="p-button-raised p-button-success p-button-text"
+                                    style="background: #ff704d;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;"
+                                    (click)="RejectMission(rowData)">
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-panel>
+
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <p-panel header="Approved IDM-Mission" [toggleable]="true">
+                        <p-table #dt1 rowExpandMode="single" expandableRows="true" [value]="onlyMissionApprovedList"
+                            [globalFilterFields]="['']" dataKey="id" editMode="row" [scrollable]="true"
+                            scrollHeight="500px">
+                            <ng-template pTemplate="header">
+                                <tr class="bc">
+                                    <th style="background-color: hsl(282, 100%, 90%) !important;">SL</th>
+                                    <th style="background-color: hsl(282, 100%, 90%) !important;">Vision</th>
+                                    <th style="background-color: hsl(282, 100%, 90%) !important;">Vision Target</th>
+                                    <th style="background-color: hsl(225, 100%, 87%) !important;">Action</th>
+                                    <th style="background-color: hsl(225, 100%, 87%) !important;">Mission Achievement
+                                    </th>
+                                    <th style="background-color: hsl(225, 100%, 87%) !important;">How</th>
+                                    <th style="background-color: hsl(225, 100%, 87%) !important;">Who</th>
+                                    <th style="background-color: hsl(225, 100%, 87%) !important;">Update Achivement</th>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: hsl(282, 100%, 90%) !important;"></td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'vision', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+
+                                    <td style="background-color: hsl(282, 100%, 90%) !important;">
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'target', 'contains')" />
+                                    </td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'action', 'contains')" />
+                                    </td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'missionAchievement', 'contains')" />
+                                    </td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'how', 'contains')" />
+                                    </td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'who', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                                <tr>
+                                    <td style="background-color: hsl(282, 100%, 90%) !important;">{{ri+1}}</td>
+                                    <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.vision}}
+                                    </td>
+                                    <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.target}}
+                                    </td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.action}}
+                                    </td>
+                                    <!-- <td style="background-color: hsl(225, 100%, 87%) !important;">
+                                        {{rowData.missionAchievement}}</td> -->
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;"><input type="text"
+                                        class="form-control" [(ngModel)]="rowData.missionAchievement"
+                                        style="background-color: hsl(227, 64%, 96%) !important;" /></td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.how}}</td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.who}}</td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;"><button pButton pRipple type="button" label="Update" icon="{{rowData.approveIcon}}"
+                                    class="p-button-raised p-button-success p-button-text"
+                                    style="background:hsl(226, 60%, 93%);height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;"
+                                    (click)="UpdateMission(rowData)">
+                                    </button></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+
+                    </p-panel>
+
+                </div>
+                <div class="col-md-6">
+                    <p-panel header="Rejected IDM-Mission" [toggleable]="true">
+                        <p-table #dt2 rowExpandMode="single" expandableRows="true" [value]="missionRejecetedList"
+                            [globalFilterFields]="['']" dataKey="id" editMode="row" [scrollable]="true"
+                            scrollHeight="500px">
+                            <ng-template pTemplate="header">
+                                <tr class="bc">
+                                    <th style="background-color: hsl(282, 100%, 90%) !important;">SL</th>
+                                    <th style="background-color: hsl(282, 100%, 90%) !important;">Vision</th>
+                                    <th style="background-color: hsl(282, 100%, 90%) !important;">Vision Target</th>
+                                    <th style="background-color: hsl(225, 100%, 87%) !important;">Action</th>
+                                    <th style="background-color: hsl(225, 100%, 87%) !important;">Mission Achievement
+                                    </th>
+                                    <th style="background-color: hsl(225, 100%, 87%) !important;">How</th>
+                                    <th style="background-color: hsl(225, 100%, 87%) !important;">Who</th>
+                                </tr>
+                                <tr class="bc">
+                                    <td style="background-color: hsl(282, 100%, 90%) !important;"></td>
+                                    <td style="background-color: hsl(282, 100%, 90%) !important;">
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'vision', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+
+                                    <td style="background-color: hsl(282, 100%, 90%) !important;">
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'target', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'action', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'missionAchievement', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'how', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'who', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                                <tr>
+                                    <td style="background-color: hsl(282, 100%, 90%) !important;">{{ri+1}}</td>
+                                    <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.vision}}
+                                    </td>
+                                    <td style="background-color: hsl(282, 100%, 90%) !important;">{{rowData.target}}
+                                    </td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.action}}
+                                    </td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">
+                                        {{rowData.missionAchievement}}</td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.how}}</td>
+                                    <td style="background-color: hsl(225, 100%, 87%) !important;">{{rowData.who}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-panel>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <!-- 
+        TAB Training Approve---
+        ----------------------b-y---t a m i m---->
+
+
+        <div id="IndividualTrainingApprove" class="tab-pane fade">
+            <p-panel header="IDM TRAINING APPROVE LIST" [toggleable]="true">
+                <form [formGroup]="trainingApproveForm">
+                    <br>
+                    <legend class="scheduler-border">Training Requisiton From <span class="scheduler-border"
+                            style="color: #c15fe8!important;"> {{employee}}</span>
+                    </legend>
+                    <p-table #dt rowExpandMode="single" expandableRows="true" [value]="trainingApprove"
+                        [globalFilterFields]="['']" dataKey="id" editMode="row" [scrollable]="true"
+                        scrollHeight="500px">
+                        <ng-template pTemplate="header">
+                            <tr class="bc">
+                                <th>SL</th>
+                                <th>TrainingName</th>
+                                <th>TrainerName</th>
+                                <th>Department</th>
+                                <th>Section</th>
+                                <th>EmployeeName</th>
+                                <th>EmployeeId</th>
+                                <th>Target</th>
+                                <th>TargetDate</th>
+                                <th>ScheduleStatus</th>
+                                <th>Status</th>
+                                <th style="width:10%">Action</th>
+
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                            <tr>
+                                <td>{{ri+1}}</td>
+                                <td>{{rowData.trainingName}}</td>
+                                <td>{{rowData.trainerName }}</td>
+                                <td>{{rowData.employeeDepartment}}</td>
+                                <td>{{rowData.employeeSection}}</td>
+                                <td>{{rowData.employeeName}}</td>
+                                <td>{{rowData.employeeId}}</td>
+                                <td>{{rowData.target}}</td>
+                                <td>{{rowData.targetDate | date: "d/M/y"}}</td>
+                                <td>{{rowData.scheduleStatus}}</td>
+                                <td>{{rowData.status}}</td>
+                                <td style="width:10%">
+                                    <button pButton pRipple type="button" label="APPROVE" icon="{{rowData.approveIcon}}"
+                                        class="p-button-raised p-button-success p-button-text"
+                                        style="background: #80ff80;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important; "
+                                        (click)="ApproveTraining(rowData)">
+                                    </button>
+
+                                    <button pButton pRipple type="button" label="REJECT"
+                                        class="p-button-raised p-button-success p-button-text"
+                                        style="background: #ff704d;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;"
+                                        (click)="RejectTraining(rowData)">
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </form>
+            </p-panel>
+            <br>
+            <!--Approved Training------------------------b-y---t a m i m---->
+            <div class="row">
+                <div class="col-md-6">
+                    <p-panel header="Approved IDM-TRAINING" [toggleable]="true">
+                        <p-table #dt1 rowExpandMode="single" expandableRows="true" [value]="onlyTrainingApprovedList"
+                            [globalFilterFields]="['']" dataKey="id" editMode="row" [scrollable]="true"
+                            scrollHeight="500px">
+                            <ng-template pTemplate="header">
+                                <tr class="bc">
+                                    <th>SL</th>
+                                    <th>TrainingName</th>
+                                    <th>TrainerName</th>
+                                    <th>Department</th>
+                                    <th>EmployeeName</th>
+                                    <th>EmployeeId</th>
+                                    <th>Target</th>
+                                    <th>TargetDate</th>
+                                    <th>ScheduleStatus</th>
+                                    <th>Status</th>
+                                </tr>
+                                <tr>
+
+                                    <td></td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'trainingName', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'trainerName', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'employeeDepartment', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'employeeName', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'employeeId', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'target', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'targetDate', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'scheduleStatus', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt1.filter($event.target.value, 'status', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+
+                                    <td></td>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                                <tr>
+                                    <td>{{ri+1}}</td>
+                                    <td>{{rowData.trainingName}}</td>
+                                    <td>{{rowData.trainerName }}</td>
+                                    <td>{{rowData.employeeDepartment}}</td>
+                                    <td>{{rowData.employeeName}}</td>
+                                    <td>{{rowData.employeeId}}</td>
+                                    <td>{{rowData.target}}</td>
+                                    <td>{{rowData.targetDate | date: "d/M/y"}}</td>
+                                    <td>{{rowData.scheduleStatus}}</td>
+                                    <td>{{rowData.status}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-panel>
+                </div>
+                <br>
+                <div class="col-md-6">
+                    <p-panel header="Rejected IDM-TRAINING" [toggleable]="true">
+                        <p-table #dt2 rowExpandMode="single" expandableRows="true" [value]="onlytrainingRejecetedList"
+                            [globalFilterFields]="['']" dataKey="id" editMode="row" [scrollable]="true"
+                            scrollHeight="500px">
+                            <ng-template pTemplate="header">
+                                <tr class="bc">
+                                    <th>SL</th>
+                                    <th>TrainingName</th>
+                                    <th>TrainerName</th>
+                                    <th>Department</th>
+                                    <th>EmployeeName</th>
+                                    <th>EmployeeId</th>
+                                    <th>Target</th>
+                                    <th>TargetDate</th>
+                                    <th>ScheduleStatus</th>
+                                    <th>Status</th>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'trainingName', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'trainerName', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'employeeDepartment', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'employeeName', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'employeeId', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'target', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'targetDate', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'scheduleStatus', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+
+                                    <td>
+                                        <input pInputText type="text"
+                                            (input)="dt2.filter($event.target.value, 'status', 'contains')"
+                                            class="p-column-filter" />
+                                    </td>
+
+                                    <td></td>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                                <tr>
+                                    <td>{{ri+1}}</td>
+                                    <td>{{rowData.trainingName}}</td>
+                                    <td>{{rowData.trainerName }}</td>
+                                    <td>{{rowData.employeeDepartment}}</td>
+                                    <td>{{rowData.employeeName}}</td>
+                                    <td>{{rowData.employeeId}}</td>
+                                    <td>{{rowData.target}}</td>
+                                    <td>{{rowData.targetDate | date: "d/M/y"}}</td>
+                                    <td>{{rowData.scheduleStatus}}</td>
+                                    <td>{{rowData.status}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-panel>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- TAB JOB DESCRIPTION ---------------------------------------------------------------------------------------------------------------   -->
+
+        <div id="IndividualJobDescription" class="tab-pane fade">
+            <div class="col-md-6">
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Job Summary/Title of <span class="scheduler-border"
+                            style="color: #c15fe8!important;">({{employee}})</span>
+                    </legend>
+                    <span
+                        style="color: #635f65!important;text-align:center;font-size:18px;font-weight: bold;">{{myJobSummary}}</span>
+                </fieldset>
+            </div>
+            <div class="col-md-6">
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Job Description of <span class="scheduler-border"
+                            style="color: #c15fe8!important;">({{employee}})</span>
+                    </legend>
+                    <p-table [value]="jobDescriptionListByEmployee" #dt editMode="row"
+                        *ngIf="jobDescriptionListByEmployee.length>0">
+                        <ng-template pTemplate="header">
+                            <tr class="bc">
+                                <th style="width: 30px!important;">SL</th>
+                                <th>Job Description</th>
+                                <th style="width:50px ;">Date</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                            <tr [pEditableRow]="rowData" [ngStyle]="{ 'background-color': '#e0fede' }">
+                                <td style="width: 30px!important;">
+                                    {{ rowIndex+1 }}
+                                </td>
+                                <td>{{ rowData.jobDes}}</td>
+                                <td style="width:50px ;">{{ rowData.createdDate | date:'dd MMM, yyyy'}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</p-panel>

@@ -1,0 +1,409 @@
+<p-panel header="Training Statistics" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+
+  <div class="row">
+    <div class="col-4">
+      <div class="card">
+        <p-chart type="bar"  [data]="valuegraphData" [options]="valuegraphOptions"></p-chart>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="card">
+        <p-chart type="bar" [data]="percgraphData" [options]="percgraphOptions"></p-chart>
+      </div>
+    </div>
+
+      <div class="col-4">
+        <div class="card flex justify-content-center">
+          <br>
+          <p-chart type="pie" [data]="piedata" [options]="pieoptions"></p-chart>
+        </div>
+      </div>
+  </div>
+</p-panel>
+
+
+<br>
+<p-panel header="Skill Plan" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+  <form [formGroup]="SkillPlanForm">
+    <div class="row">
+      <div class="col-md-12">
+        <fieldset class="scheduler-border" style="background: #b3f2f0;">
+          <div class="row" style="margin-bottom: -20px;">
+
+            <div class="col-md-2">
+              <div class="form-group">
+                <div class="input-group input-group-sm mb-1">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Company</span>
+                  </div>
+                  <select class="form-control" type="text" formControlName="companyId">
+                    <option value=0>ALL</option>
+                    <option *ngFor="let item of commonService.BranchListByCurrentUser" [ngValue]="item.branchOfficeId">
+                      {{ item.companyShort }}
+                    </option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Department</span>
+                  </div>
+                  <input formControlName="departmentName" [typeahead]="commonService.GatePassEmployeeDepartmentList"
+                    [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                    (typeaheadNoResults)="typeaheadNoResultsForDepartment($event)"
+                    (typeaheadOnSelect)="onSelectEmployeeDepartment($event)" typeaheadOptionField="label"
+                    class="form-control" (ngModelChange)="filterSectionListByDepartment()" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Section</span>
+                  </div>
+                  <input formControlName="sectionName" [typeahead]="SkillPlanSectionList" [typeaheadMinLength]="0"
+                    [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                    (typeaheadNoResults)="typeaheadNoResultsForSection($event)"
+                    (typeaheadOnSelect)="onSelectEmployeeSection($event)" typeaheadOptionField="label"
+                    class="form-control" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Employee</span>
+                  </div>
+                  <input formControlName="trainerName" [typeahead]="commonService.GatePassEmployeeList"
+                    [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                    (typeaheadNoResults)="typeaheadNoResultsSupervisor($event)"
+                    (typeaheadOnSelect)="onSelectSupervisor($event)" typeaheadOptionField="label"
+                    class="form-control" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-1" style=" margin-left: -16px; margin-top: -2px; ">
+              <button pButton pRipple type="button" label="Search" icon="pi pi-search" (click)="onSearch()"
+                style="width:75px!important;font-size: 12px!important;background: #3792cf!important;"></button>
+            </div>
+
+
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-12">
+        <p-table #dt rowExpandMode="single" expandableRows="true" [value]="employeeSkillList"
+          [globalFilterFields]="['']" dataKey="id" editMode="row" [scrollable]="true" scrollHeight="400px">
+
+          <ng-template pTemplate="header">
+            <tr class="bc">
+
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                SL</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Deapartment</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Name</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Designation</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Id</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Target Coach</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Realized Coach</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Target Autonomy</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Realized Autonomy</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Participation in Training</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Training Done(%)</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Coach(%)</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Autonomy(%)</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Deatails</th>
+
+            </tr>
+            <tr class="bc">
+
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              </th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              </th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              </th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              </th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              </th>
+              <th pTooltip="Total Coach Target"
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                <span style="color: #1682ce!important;"> {{totalTargetCoach}}</span>
+              </th>
+              <th pTooltip="Total Coach Achieved"
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                <span style="color: #1682ce!important;"> {{totalRealizedCoach}}</span>
+              </th>
+              <th pTooltip="Total Autonomy Target"
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                <span style="color: #1682ce!important;"> {{totalTargetAutonomy}}</span>
+              </th>
+              <th pTooltip="Total Autonomy Achieved"
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                <span style="color: #1682ce!important;"> {{totalRealizedAutonomy}}</span>
+              </th>
+              <th pTooltip="Total Participation"
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                <span style="color: #1682ce!important;"> {{totalParticipationInTraining}}</span>
+              </th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                <span style="color: #1682ce!important;"> {{trainingDonePercentage | number : '1.2-2'}}%</span>
+              </th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                <span style="color: #1682ce!important;"> {{totalCoachPercentage | number : '1.2-2'}}%</span>
+              </th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                <span style="color: #1682ce!important;"> {{totalAutonomyPercentage | number : '1.2-2'}}%</span>
+              </th>
+
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+
+              </th>
+
+            </tr>
+            <tr>
+
+              <td
+                style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'employeeDepartment', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'employeeName', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text"
+                  (input)="dt.filter($event.target.value, 'employeeDesignation', 'contains')" class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'employeeId', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'targetCoach', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'realizedCoach', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'targetAutonomy', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'realizedAutonomy', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text"
+                  (input)="dt.filter($event.target.value, 'participationInTraining', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'trainingDonePrcnt', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'coachPrcnt', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'autonomyPrcnt', 'contains')"
+                  class="p-column-filter" />
+              </td>
+              <td
+                style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              </td>
+
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+            <tr
+              style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              <td>{{ri+1}}</td>
+              <td>{{rowData.employeeDepartment}}</td>
+              <td>{{rowData.employeeName}}</td>
+              <td>{{rowData.employeeDesignation}}</td>
+              <td>{{rowData.employeeId}}</td>
+              <td>{{rowData.targetCoach}}</td>
+              <td>{{rowData.realizedCoach}}</td>
+              <td>{{rowData.targetAutonomy}}</td>
+              <td>{{rowData.realizedAutonomy}}</td>
+              <td>{{rowData.participationInTraining}}</td>
+              <td>{{rowData.trainingDonePrcnt}}%</td>
+              <td>{{rowData.coachPrcnt}}%</td>
+              <td>{{rowData.autonomyPrcnt}}%</td>
+              <td>
+                <!--            
+            <button pButton pRipple type="button" label="APPROVE" icon=""
+              class="p-button-raised p-button-success p-button-text"
+              style="background: #80ff80;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;" (click)="ApproveMission(rowData)">
+            </button> -->
+
+                <button
+                  style=" padding: 2px 3px !important; color: black !important; text-align: center; font-size: 12px; font-weight: bold!important; "
+                  (click)="getTrainingDetails(rowData)" class="btn btn-outline-warning btn-xs mr-2">
+                  <i class="fa fa-list"> Training</i>
+                </button>
+
+
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <hr />
+        <p-table #dt rowExpandMode="single" expandableRows="true" [value]="trainingList" dataKey="id" editMode="row"
+          [scrollable]="true" scrollHeight="400px" *ngIf="showTraining">
+          <ng-template pTemplate="header">
+            <tr class="bc">
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                SL</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Training Title</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Type</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Trainer</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Deaprtment</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Section</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Target</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Target Date</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Sheduled Date</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Status
+                <button
+                  style="padding: 0px 2px !important; color: black !important; text-align: center; font-size: 12px; font-weight: bold!important; "
+                  (click)="closeTrainingList()" class="btn btn-outline-primary btn-xs mr-2">
+                  <i class="fa fa-times"></i>
+                </button>
+              </th>
+            </tr>
+
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+            <tr
+              style=" background-color: #dee2e6; padding: 2px 3px !important; color: black !important; background-color: #e8e8e8 !important; text-align: center; font-size: 12px; font-weight: bold;border: 1px solid #007ad9; ">
+              <td style="width: 5%;">{{ri+1}}</td>
+              <td>{{rowData.trainingName}}</td>
+              <td>{{rowData.typeName}}</td>
+              <td>{{rowData.trainerName}}</td>
+              <td>{{rowData.employeeDepartment}}</td>
+              <td>{{rowData.employeeSection}}</td>
+              <td>{{rowData.target}}</td>
+              <td>{{rowData.targetDate | date: "d/M/y"}}</td>
+              <td>{{rowData.scheduleDate | date: "medium"}}</td>
+              <td>{{rowData.achievePoint}}</td>
+            </tr>
+            <tr *ngIf="showTrainingStatus">
+              <td style="color: #f6877d;font-weight: bold;font-size: 14px;" colspan="9">{{showMissionApproveStatus}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </form>
+
+  <!-- <div class="row">
+    <div class="col-4">
+    <div class="card">
+      <p-chart type="bar" style="width: 400px; height: 500px;" [data]="autonomygraphData" [options]="graphOptions"></p-chart>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card">
+      <p-chart type="bar" style="width: 400px; height: 500px;" [data]="graphData" [options]="graphOptions"></p-chart>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card">
+      <p-chart type="bar" [data]="percgraphData" [options]="percgraphOptions"></p-chart>
+    </div>
+  </div>
+  </div> -->
+
+</p-panel>

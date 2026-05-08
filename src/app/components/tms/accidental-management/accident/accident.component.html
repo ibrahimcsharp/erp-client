@@ -1,0 +1,230 @@
+
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+
+  <form [formGroup]="AccidentExpenseForm">    
+    <section>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+
+            <div class="col-md-4">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Vehicle<span class="required">&nbsp;*</span></span>
+                </div>
+                <select class="form-control " formControlName="vehicleId" id="vehicleId" [ngClass]="{
+                  'is-invalid':
+                  AccidentExpenseForm.get('vehicleId').errors &&
+                    (AccidentExpenseForm.get('vehicleId').touched ||
+                    AccidentExpenseForm.get('vehicleId').dirty)
+                }">
+                  <option *ngFor="let item of tmsService.allVehicleDropdown" [ngValue]="item.value">
+                    {{ item.label }}
+                  </option>
+                </select>
+                      
+
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Accident Date<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <input [ngClass]="{
+                      'is-invalid':
+                      AccidentExpenseForm.get('accidentDate').errors &&
+                        (AccidentExpenseForm.get('accidentDate').touched ||
+                        AccidentExpenseForm.get('accidentDate').dirty)
+                    }" class="p-inputtext-sm form-control" type="datetime-local" formControlName="accidentDate" /> 
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Location<span class="required">*</span></span>
+                  </div>
+                  <input type="text" id="accidentLocation" formControlName="accidentLocation" class="form-control"
+                    [ngClass]="{'is-invalid':AccidentExpenseForm.get('accidentLocation').errors &&(AccidentExpenseForm.get('accidentLocation').touched ||AccidentExpenseForm.get('accidentLocation').dirty)}" />
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Accident Type<span class="required">&nbsp;*</span></span>
+                </div>
+                <select class="form-control " formControlName="typeId" id="typeId" [ngClass]="{
+                  'is-invalid':
+                  AccidentExpenseForm.get('typeId').errors &&
+                    (AccidentExpenseForm.get('typeId').touched ||
+                    AccidentExpenseForm.get('typeId').dirty)
+                }">
+                  <option *ngFor="let item of allAccidentTypeDropdown" [ngValue]="item.value">
+                    {{ item.label }}
+                  </option>
+                </select>
+                 
+
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Involve With<span class="required">*</span></span>
+                  </div>
+                  <input type="text" id="involveWith" formControlName="involveWith" class="form-control"
+                    [ngClass]="{'is-invalid':AccidentExpenseForm.get('involveWith').errors &&(AccidentExpenseForm.get('involveWith').touched ||AccidentExpenseForm.get('involveWith').dirty)}" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Amount Status<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select formControlName="amountStatus" class="p-inputtext-sm form-control uppercase">
+                    <option value="">--- Select One ---</option>
+                    <option value=1>Paid</option>
+                    <option value=2>Received</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Total Amount<span class="required">*</span></span>
+                  </div>
+                  <input type="number" id="totalAmount" formControlName="totalAmount" class="form-control"
+                    [ngClass]="{'is-invalid':AccidentExpenseForm.get('totalAmount').errors &&(AccidentExpenseForm.get('totalAmount').touched ||AccidentExpenseForm.get('totalAmount').dirty)}" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Insturance Claim?<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select formControlName="insuranceClaim" class="p-inputtext-sm form-control uppercase">
+                    <option value="">--- Select One ---</option>
+                    <option value=1>Yes</option>
+                    <option value=2>No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Insturance Recovered?<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select formControlName="insuranceRecovered" class="p-inputtext-sm form-control uppercase">
+                    <option value="">--- Select One ---</option>
+                    <option value=1>Yes</option>
+                    <option value=2>No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Odometer<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <input type="text" id="odometer" formControlName="odometer" class="form-control" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Budget Code<span class="required">&nbsp;*</span></span>
+                </div>
+                <select id="budgetCode" formControlName="budgetCode" class="form-control" [ngClass]="{'is-invalid':AccidentExpenseForm.get('budgetCode').errors &&
+                    (AccidentExpenseForm.get('budgetCode').touched ||
+                    AccidentExpenseForm.get('budgetCode').dirty)}">
+                  <option *ngFor="let budgetCode of AllBudgetCodeDropdown" [ngValue]="budgetCode.value">
+                    {{ budgetCode.label }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+
+            <!-- <div class="col-md-8">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Reference Document<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="file" #inputFile multiple (change)="getFileDetails($event)" />
+              </div>
+            </div> -->
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Status<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select formControlName="status" class="p-inputtext-sm form-control uppercase">
+                    <option value="">--- Select One ---</option>
+                    <option value=1>Active</option>
+                    <option value=2>Inactive</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1 mx-3">
+                  <textarea id="remarks" name="remarks" rows="2" cols="30" formControlName="remarks"
+                    class="form-control textarea" placeholder="Please Enter Remarks..." autocomplete="off"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group" style="padding-top: 10px">
+                <button class="btn btn-x btn-outline-success mr-2 mx-3" (click)="OnSubmit()">
+                  <i class="fa fa-file"></i> {{ButtonName}}
+                </button>
+                <button class="btn btn-x btn-outline-warning" (click)="Clear()">
+                  <i class="fa fa-refresh"></i> Clear
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </form>
+

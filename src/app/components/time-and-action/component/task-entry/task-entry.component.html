@@ -1,0 +1,38 @@
+
+    <p-messages [value]="msgs"></p-messages>
+    <form [formGroup]="taskForm" id="taskForm" class="needs-validation">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Task Name<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <input type="text" [ngClass]="{ 
+                    'is-invalid': 
+                    taskForm.get('taskName').errors
+                        && (taskForm.get('taskName').touched 
+                        || (taskForm.get('taskName').dirty)) }" id="taskName" formControlName="taskName"
+                            class="form-control" maxlength="150" />
+                    </div>
+                                
+                </div>
+            </div>
+        <!-- </div>
+        <div class="row"> -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <button type="button" class="btn btn-outline-success btn-xs" [disabled]="!taskForm.valid"
+                        (click)="onSubmit()"><i class="fa fa-database" aria-hidden="true"></i> {{saveButtonTitle}}</button>
+                    &nbsp;
+                    <button class="btn btn-outline-success btn-xs" type="button" (click)="BtnClear()"><i
+                            class="fa fa-refresh" aria-hidden="true"></i> Clear</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    <!-- </p-panel> -->
+    <p-confirmDialog [style]="{ width: '50vw' }" key="positionDialog" [position]="position" [baseZIndex]="10000">
+    </p-confirmDialog>
+

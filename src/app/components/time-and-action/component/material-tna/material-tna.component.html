@@ -1,0 +1,751 @@
+<p-panel header="Material TNA" [toggleable]="true">
+    <form [formGroup]="MaterialTnaForm">
+
+        <fieldset>
+            <legend class="scheduler-border">Material TNA Master</legend>
+        
+            <div class="row">
+              <div class="col-md-4">
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Year</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="yearName"
+                      />
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Season</span>
+                        </div>
+                        <input
+                          class="form-control uppercase"
+                          type="text"
+                          formControlName="seasonName"
+                        />
+                    </div>
+  
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Buyer</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="buyerName"
+                      />
+                    </div>
+                    <!-- <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Style Id</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="number"
+                        formControlName="styleId"                       
+                      />
+                   </div> -->
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Style Name</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="styleName"
+                      />
+                  </div>
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Lead Time</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="number"
+                        formControlName="leadTime"
+                      />
+                  </div>  
+              </div>
+            <div class="col-md-5"></div>
+            <fieldset>
+              <legend class="scheduler-border">Style Image</legend>
+              <div class="col-md-2">                       
+                <img  [src]="styleImage"  alt="Image" width="250"  style="border: 2px solid;">
+               </div>
+            </fieldset>
+            
+          </div>
+        
+       </fieldset>
+    </form>
+
+
+    <fieldset>
+      <legend class="scheduler-border">FABRICS</legend>
+
+      <p-table #dt
+      *ngIf="materialTnaDataDetails != null"
+                  [value]="materialTnaDataDetails"
+                  [globalFilterFields]="['itemName','supplierName']"
+                  
+                  editMode="row"
+                  [scrollable]="true"
+                  scrollHeight="400px"              
+      >
+  
+      <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+  
+            <input
+              type="text"
+              pInputText
+              size="20"
+              placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')"
+              style="float: right"
+            />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+              <th>SL</th>
+              <th>Item</th>
+              <th>Supplier</th>
+              <th>Iteam Details</th>
+              <th>Suppiler lead time</th>
+              <th>Garments Color</th>
+              <th>Item Color</th>
+              <th>Consumption</th>
+              <th>Order Qty</th>
+              <th>Actual Required Qty</th>
+              <th>Booking Qty</th>
+              <th>In-House Qty.</th>
+              <th>Short/Excess</th>
+              <th>Reason</th>
+              <th>Inhouse Date</th>
+              <th>Order  Date</th>
+              <th>PI No.</th>
+              
+              <th>LC/TT No.</th>
+              <th>LC/TT Issue Date</th>
+              <th>Supplier Test Confirmation</th>
+              <th>ETD </th>
+              <th>ETA</th>
+              <th>Invoice No</th>
+              <th>Special Comments</th>
+          </tr>
+          <tr >
+              <td>                        
+                  
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'itemName', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'supplierName', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'description', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'styleName', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'gmtColor', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'itemColor', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'consumption', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'requiredQty', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'bookQty', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'piNo', 'contains')"  class="p-column-filter" />
+              </td>
+              
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+          </tr>
+      </ng-template>
+      <ng-template let-rowData pTemplate="body" let-editing="editing" let-ri="rowIndex">
+          
+          <tr>
+              <td>{{ ri + 1 }}</td>
+              <td>{{rowData.itemName}}</td>
+              <td>{{rowData.supplierName}} </td>
+              <td>{{rowData.description}}</td>
+              <td><input class="form-control"/></td>
+              <td>{{rowData.gmtColor}}</td>
+              <td>{{rowData.itemColor}}</td>
+              <td>{{rowData.consumption.toFixed(2)}}</td>
+              <td></td>
+              <td>{{rowData.requiredQty.toFixed(2)}}</td>
+              <td>{{rowData.bookQty.toFixed(2)}}</td>                  
+              <td>{{rowData.inhouseQty}}</td>
+              <td>{{rowData.shortOrExcess}}</td>
+              <td [ngStyle]="{'background-color': getColor(rowData.shortOrExcess)}"></td>
+              <td><input class="form-control"/></td>
+              <td><input class="form-control"/></td>
+              <td>{{rowData.piNo}}</td>
+             
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>{{rowData.etdDate}}</td>
+              <td>{{rowData.etaDate}}</td>
+              <td>{{rowData.invoiceNo}}</td>
+              <td></td>
+          </tr>
+
+      </ng-template>
+      </p-table>
+     </fieldset>
+     
+
+     <fieldset>
+      <legend class="scheduler-border">ACCESSORIES</legend>
+
+      <p-table #dt
+      *ngIf="materialTnaAccessoriesDetails != null"
+                  [value]="materialTnaAccessoriesDetails"
+                  [globalFilterFields]="['itemName','supplierName']"
+                  
+                  editMode="row"
+                  [scrollable]="true"
+                  scrollHeight="400px"              
+      >
+  
+      <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+  
+            <input
+              type="text"
+              pInputText
+              size="20"
+              placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')"
+              style="float: right"
+            />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+              <th>SL</th>
+              <th>Item</th>
+              <th>Supplier</th>
+              <th>Iteam Details</th>
+              <th>Suppiler lead time</th>
+              <th>Garments Color</th>
+              <th>Item Color</th>
+              <th>Consumption</th>
+              <th>Order Qty</th>
+              <th>Actual Required Qty</th>
+              <th>Booking Qty</th>
+              <th>In-House Qty.</th>
+              <th>Short/Excess</th>
+              <th>Reason</th>
+              <th>Inhouse Date</th>
+              <th>Order  Date</th>
+              <th>PI No.</th>
+              
+              <th>LC/TT No.</th>
+              <th>LC/TT Issue Date</th>
+              <th>Supplier Test Confirmation</th>
+              <th>ETD </th>
+              <th>ETA</th>
+              <th>Invoice No</th>
+              <th>Special Comments</th>
+          </tr>
+          <tr >
+              <td>                        
+                  
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'itemName', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'supplierName', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'description', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'styleName', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'gmtColor', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'itemColor', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'consumption', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'requiredQty', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'bookQty', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'piNo', 'contains')"  class="p-column-filter" />
+              </td>
+              
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+          </tr>
+      </ng-template>
+      <ng-template let-rowData pTemplate="body" let-editing="editing" let-ri="rowIndex">
+          
+          <tr>
+              <td>{{ ri + 1 }}</td>
+              <td>{{rowData.itemName}}</td>
+              <td>{{rowData.supplierName}} </td>
+              <td>{{rowData.description}}</td>
+              <td><input class="form-control"/></td>
+              <td>{{rowData.gmtColor}}</td>
+              <td>{{rowData.itemColor}}</td>
+              <td>{{rowData.consumption.toFixed(2)}}</td>
+              <td>{{rowData.gmtQty}}</td>
+              <td>{{rowData.requiredQty.toFixed(2)}}</td>
+              <td>{{rowData.bookQty.toFixed(2)}}</td>                  
+              <td>{{rowData.inhouseQty}}</td>
+              <td>{{rowData.shortOrExcess}}</td>
+              <td [ngStyle]="{'background-color': getColor(rowData.shortOrExcess)}"></td>
+              <td><input class="form-control"/></td>
+              <td><input class="form-control"/></td>
+              <td>{{rowData.piNo}}</td>
+             
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>{{rowData.etdDate}}</td>
+              <td>{{rowData.etaDate}}</td>
+              <td>{{rowData.invoiceNo}}</td>
+              <td></td>
+          </tr>
+
+      </ng-template>
+      </p-table>
+     </fieldset>
+
+
+
+     <fieldset>
+      <legend class="scheduler-border">LABELS</legend>
+
+      <p-table #dt
+      *ngIf="materialTnaLabelsDetails != null"
+                  [value]="materialTnaLabelsDetails"
+                  [globalFilterFields]="['itemName','supplierName']"
+                  
+                  editMode="row"
+                  [scrollable]="true"
+                  scrollHeight="400px"              
+      >
+  
+      <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+  
+            <input
+              type="text"
+              pInputText
+              size="20"
+              placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')"
+              style="float: right"
+            />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+              <th>SL</th>
+              <th>Item</th>
+              <th>Supplier</th>
+              <th>Iteam Details</th>
+              <th>Suppiler lead time</th>
+              <th>Garments Color</th>
+              <th>Item Color</th>
+              <th>Consumption</th>
+              <th>Order Qty</th>
+              <th>Actual Required Qty</th>
+              <th>Booking Qty</th>
+              <th>In-House Qty.</th>
+              <th>Short/Excess</th>
+              <th>Reason</th>
+              <th>Inhouse Date</th>
+              <th>Order  Date</th>
+              <th>PI No.</th>
+              
+              <th>LC/TT No.</th>
+              <th>LC/TT Issue Date</th>
+              <th>Supplier Test Confirmation</th>
+              <th>ETD </th>
+              <th>ETA</th>
+              <th>Invoice No</th>
+              <th>Special Comments</th>
+          </tr>
+          <tr >
+              <td>                        
+                  
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'itemName', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'supplierName', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'description', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'styleName', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'gmtColor', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'itemColor', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'consumption', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'requiredQty', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'bookQty', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'piNo', 'contains')"  class="p-column-filter" />
+              </td>
+              
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+          </tr>
+      </ng-template>
+      <ng-template let-rowData pTemplate="body" let-editing="editing" let-ri="rowIndex">
+          
+          <tr>
+              <td>{{ ri + 1 }}</td>
+              <td>{{rowData.itemName}}</td>
+              <td>{{rowData.supplierName}} </td>
+              <td>{{rowData.description}}</td>
+              <td><input class="form-control"/></td>
+              <td>{{rowData.gmtColor}}</td>
+              <td>{{rowData.itemColor}}</td>
+              <td>{{rowData.consumption.toFixed(2)}}</td>
+              <td>{{rowData.gmtQty}}</td>
+              <td>{{rowData.requiredQty.toFixed(2)}}</td>
+              <td>{{rowData.bookQty.toFixed(2)}}</td>                  
+              <td>{{rowData.inhouseQty}}</td>
+              <td>{{rowData.shortOrExcess}}</td>
+              <td [ngStyle]="{'background-color': getColor(rowData.shortOrExcess)}"></td>
+              <td><input class="form-control"/></td>
+              <td><input class="form-control"/></td>
+              <td>{{rowData.piNo}}</td>
+             
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>{{rowData.etdDate}}</td>
+              <td>{{rowData.etaDate}}</td>
+              <td>{{rowData.invoiceNo}}</td>
+              <td></td>
+          </tr>
+
+      </ng-template>
+      </p-table>
+     </fieldset>
+
+
+     
+     <fieldset>
+      <legend class="scheduler-border">PACKING</legend>
+
+      <p-table #dt
+      *ngIf="materialTnaPackingDetails != null"
+                  [value]="materialTnaPackingDetails"
+                  [globalFilterFields]="['itemName','supplierName']"
+                  
+                  editMode="row"
+                  [scrollable]="true"
+                  scrollHeight="400px"              
+      >
+  
+      <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+  
+            <input
+              type="text"
+              pInputText
+              size="20"
+              placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')"
+              style="float: right"
+            />
+          </div>
+        </ng-template>
+          <ng-template pTemplate="header">
+              <tr class="bc">
+                  <th>SL</th>
+                  <th>Item</th>
+                  <th>Supplier</th>
+                  <th>Iteam Details</th>
+                  <th>Suppiler lead time</th>
+                  <th>Garments Color</th>
+                  <th>Item Color</th>
+                  <th>Consumption</th>
+                  <th>Order Qty</th>
+                  <th>Actual Required Qty</th>
+                  <th>Booking Qty</th>
+                  <th>In-House Qty.</th>
+                  <th>Short/Excess</th>
+                  <th>Reason</th>
+                  <th>Inhouse Date</th>
+                  <th>Order  Date</th>
+                  <th>PI No.</th>
+                  
+                  <th>LC/TT No.</th>
+                  <th>LC/TT Issue Date</th>
+                  <th>Supplier Test Confirmation</th>
+                  <th>ETD </th>
+                  <th>ETA</th>
+                  <th>Invoice No</th>
+                  <th>Special Comments</th>
+              </tr>
+              <tr >
+                  <td>                        
+                      
+                  </td>
+                  <td>                        
+                      <input pInputText type="text" (input)="dt.filter($event.target.value, 'itemName', 'contains')" class="p-column-filter" />
+                  </td>
+                  <td>                        
+                      <input pInputText type="text" (input)="dt.filter($event.target.value, 'supplierName', 'contains')" class="p-column-filter" />
+                  </td>
+                  <td>                        
+                      <input pInputText type="text" (input)="dt.filter($event.target.value, 'description', 'contains')" class="p-column-filter" />
+                  </td>
+                  <td>                        
+                      <input pInputText type="text" (input)="dt.filter($event.target.value, 'styleName', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                      <input pInputText type="text" (input)="dt.filter($event.target.value, 'gmtColor', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                      <input pInputText type="text" (input)="dt.filter($event.target.value, 'itemColor', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                      <input pInputText type="text" (input)="dt.filter($event.target.value, 'consumption', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'requiredQty', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                      <input pInputText type="text" (input)="dt.filter($event.target.value, 'bookQty', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'piNo', 'contains')"  class="p-column-filter" />
+                  </td>
+                  
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+                  <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                  </td>
+              </tr>
+          </ng-template>
+          <ng-template let-rowData pTemplate="body" let-editing="editing" let-ri="rowIndex">
+              
+              <tr>
+                  <td>{{ ri + 1 }}</td>
+                  <td>{{rowData.itemName}}</td>
+                  <td>{{rowData.supplierName}} </td>
+                  <td>{{rowData.description}}</td>
+                  <td><input class="form-control"/></td>
+                  <td>{{rowData.gmtColor}}</td>
+                  <td>{{rowData.itemColor}}</td>
+                  <td>{{rowData.consumption.toFixed(2)}}</td>
+                  <td>{{rowData.gmtQty}}</td>
+                  <td>{{rowData.requiredQty.toFixed(2)}}</td>
+                  <td>{{rowData.bookQty.toFixed(2)}}</td>                  
+                  <td>{{rowData.inhouseQty}}</td>
+                  <td>{{rowData.shortOrExcess}}</td>
+                  <td  [ngStyle]="{'background-color': getColor(rowData.shortOrExcess)}"></td>
+                  <td><input class="form-control"/></td>
+                  <td><input class="form-control"/></td>
+                  <td>{{rowData.piNo}}</td>
+                 
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>{{rowData.etdDate}}</td>
+                  <td>{{rowData.etaDate}}</td>
+                  <td>{{rowData.invoiceNo}}</td>
+                  <td></td>
+              </tr>
+  
+          </ng-template>
+      </p-table>
+     </fieldset>
+     <wbr/>
+    <div>
+      <a class="bv" target="" href="/time-and-action/tna-process-list"><p-button label="Back to List"></p-button></a>
+    </div>
+     
+     
+</p-panel>

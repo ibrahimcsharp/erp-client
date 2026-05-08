@@ -1,0 +1,77 @@
+    <form [formGroup]="AccountForm">
+        <section>
+          <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-4">
+                      <div class="form-group">
+                        <div class="input-group mb-1">
+                          <div class="input-group-prepend paheight col-6">
+                              <span class="input-group-text col-12">GL Number<span class="required">&nbsp;*</span></span>
+                          </div>
+                          <input type="number" id="glNumber" formControlName="glNumber"
+                              class="form-control" autocomplete="off" [ngClass]="{'is-invalid':AccountForm.get('glNumber').errors &&(AccountForm.get('glNumber').touched ||AccountForm.get('glNumber').dirty)}"/>
+                      </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <div class="input-group mb-1">
+                        <div class="input-group-prepend paheight col-6">
+                            <span class="input-group-text col-12">GL Head<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <input type="text" id="glHead" formControlName="glHead"
+                            class="form-control" autocomplete="off" [ngClass]="{'is-invalid':AccountForm.get('glHead').errors &&(AccountForm.get('glHead').touched ||AccountForm.get('glHead').dirty)}"/>
+                    </div>
+                    </div>
+                </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <div class="input-group mb-1">
+                        <div class="input-group-prepend paheight col-6">
+                          <span class="input-group-text col-12">Status<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <select formControlName="status" class="p-inputtext-sm form-control uppercase">
+                          <option value="">--- Select One ---</option>
+                          <option value=1>Active</option>
+                          <option value=2>Inactive</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  
+  
+                  <div class="col-md-12">
+                      <div class="form-group">
+                        <div class="input-group mb-1 mx-3">
+                          <textarea id="remarks" name="remarks" rows="3" cols="30" formControlName="remarks" class="form-control textarea" 
+                          placeholder="Please Enter Remarks..." autocomplete="off"></textarea>
+                      </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group" style="padding-top: 10px">
+                        <button class="btn btn-s btn-outline-success mx-3 mr-2"
+                          (click)="Onsubmit()">
+                          <i class="fa fa-file"></i> {{ButtonName}}
+                        </button>
+                        <button class="btn btn-s btn-outline-warning" (click)="clear()">
+                          <i class="fa fa-refresh"></i> Clear
+                        </button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </section>
+    
+      </form>
+  
+  
+  
+  
+  
+  
+  

@@ -1,0 +1,88 @@
+<p-panel header="Approve Passengers" [toggleable]="true">
+  <p-table #dt [value]="VehicleRequisitionModelList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+    [rows]="200" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Created By</th>
+        <th>Created Date</th>
+        <th>Requisition For</th>
+        <th>Pickup Location</th>
+        <th>Drop Location</th>
+        <th>Requisition Date Time</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'createDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'requisitionForName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'pickupLocation', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'dropLocation', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'startTime', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'status', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-vehicle let-rowIndex="rowIndex">
+      <tr>
+        <td>{{vehicle.createBy}}</td>
+        <td>{{vehicle.createDate | date:'MMMM d, y, h:mm a'}}</td>
+        <td>{{vehicle.requisitionForName}}</td>
+        <td>{{vehicle.pickupLocation}}</td>
+        <td>{{vehicle.dropLocation}}</td>
+        <td>{{vehicle.startTime | date:'MMMM d, y, h:mm a'}}</td>
+        <td
+          [ngClass]="{ 'text-success':vehicle.status === 'Approved',  'text-danger':vehicle.status === 'Cancel' ,  'text-primary':vehicle.status === 'Pending',  'text-warning':vehicle.status === 'Rejected',  'bg-info text-white':vehicle.status === 'Vehicle Assigned',  'bg-success text-white':vehicle.status === 'Trip Completed'}">
+          {{vehicle.status}}</td>
+
+        <td>
+
+          <ng-container *ngIf="vehicle.status === 'Pending'">
+            <button class="btn-xs btn-outline-primary mr-2" (click)="reject(vehicle)">
+              <i class="fa fa-pencil"></i> Reject
+            </button>
+            <button class="btn-xs btn-outline-success mr-2" (click)="approve(vehicle)">
+              <i class="fa fa-pencil"></i> Approve
+            </button>
+            <button class="btn-xs btn-outline-success mr-2" (click)="show(vehicle)">
+              <i class="fa fa-eye"></i>
+            </button>
+          </ng-container>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+
+
+<p-dialog header="Vehicle Requisition Details" [(visible)]="displayCreate" [style]="{ width: '70vw' }"
+  [baseZIndex]="10000">
+  <app-requisition-passengers-view #VehicleRequisitionDeatills (VehicleRequisitionModelList)="loadVehicleRequisition()">
+  </app-requisition-passengers-view>
+</p-dialog>
+<p-dialog header="Vehicle Requisition Rejected Reason" [(visible)]="displayCancel" [style]="{ width: '70vw' }"
+  [baseZIndex]="10000">
+  <app-requisition-cancel (submitSuccess)="onChildSubmit()" #VehicleRequisitionCancel
+    (VehicleRequisitionModelList)="loadVehicleRequisition()">
+  </app-requisition-cancel>
+</p-dialog>

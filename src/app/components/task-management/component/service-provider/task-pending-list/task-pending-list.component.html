@@ -1,0 +1,62 @@
+<p-panel header="Task Assined By Team Leader" [toggleable]="true">
+    <p-treeTable #tt [value]="taskCommonService.pendingData" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Task Title</th>
+          <th>Task Description</th>
+          <th>Task No.</th>
+          <th>Resposible Dept.</th>
+          <th>Created By</th>
+          <th>Created Date</th>
+          <th>Assigned By</th>
+          <th>Assigned Date</th>         
+          <th>Action</th>
+        </tr>
+        <tr>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'title', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'description', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'id', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'responsibleDeptName', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'taskCreatorName', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'createDate', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'tlName', 'contains')">
+          </th>        
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'tlAcceptDate', 'contains')">
+          </th>        
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+        <tr [ttRow]="rowNode">
+          <td>
+            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+            {{rowData.title}}
+          </td>
+          <td>{{rowData.description}}</td>
+          <td>{{rowData.id}}</td>
+          <td>{{rowData.responsibleDeptName}}</td>
+          <td>{{rowData.taskCreatorName}}</td>
+          <td>{{rowData.createDate}}</td>
+          <td>{{rowData.tlName}}</td>
+          <td>{{rowData.tlAcceptDate}}</td>
+          <td><p-splitButton label="Action" icon="pi pi-cog" (onClick)="save(rowData)" [model]="cmds(rowData)"
+            styleClass="ui-button-warning"></p-splitButton>
+        </td>
+        </tr>
+      </ng-template>
+    </p-treeTable>
+  </p-panel>

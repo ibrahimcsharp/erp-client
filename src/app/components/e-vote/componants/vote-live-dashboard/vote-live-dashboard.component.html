@@ -1,0 +1,42 @@
+<!-- <div style="display: block" *ngIf="data">
+  <canvas
+    baseChart
+    [datasets]="data"
+    [labels]="chartLabels"
+    [options]="chartOptions"
+    [legend]="chartLegend"
+    [chartType]="chartType"
+    [colors]="colors"
+    (chartClick)="chartClicked($event)"
+  ></canvas>
+</div> -->
+
+<p-panel header="Live Voting Dashboard">
+  <div class="row">
+    <div style="text-align: right" class="col-md-12">
+      <img style="height: 50px" src="assets/images/live/live.png" /><span
+        >&nbsp;&nbsp;</span
+      >
+      <span style="color: green; font-weight: bold; font-size: 18px">{{
+        demo
+      }}</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h3 class="alert alert-info">
+        <span style="font-size: 20px">{{ title }}</span>
+      </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+    </div>
+    <div class="col-md-6">
+      <p-chart type="pie" [data]="basicData" [options]="basicOptions"></p-chart>
+    </div>
+  </div>
+</p-panel>
+
+<!-- <p-chart type="doughnut" [data]="basicData"></p-chart> -->

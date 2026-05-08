@@ -1,0 +1,309 @@
+<p-panel header="Individual Meeting" [toggleable]="true">
+  <form [formGroup]="individualMeetingForm">
+
+    <div class="row">
+      <div class="col-md-3 offset-md-4">
+        <div class="form-group">
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Year</span>
+            </div>
+            <select formControlName="yearId" class="p-inputtext-sm form-control uppercase" (change)="changeYear()"
+              [ngClass]="{'is-invalid':individualMeetingForm.get('yearId').errors &&(individualMeetingForm.get('yearId').touched ||individualMeetingForm.get('yearId').dirty)}">
+              <option *ngFor="let year of commonService.YearSelectList" [ngValue]="year.value">
+                {{ year.label | uppercase }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <!-- <table class="table table-bordered table-hover table-sm" style="width: 100%!important;">
+            <thead>
+              <tr>
+                <th style=" text-align: center;width: 8%;"></th>
+                <th style=" text-align: center;width: 7%">January</th>
+                <th style=" text-align: center;width: 7%">February</th>
+                <th style=" text-align: center;width: 7%">March</th>
+                <th style=" text-align: center;width: 7%">April</th>
+                <th style=" text-align: center;width: 7%">May</th>
+                <th style=" text-align: center;width: 7%">June</th>
+                <th style=" text-align: center;width: 7%">July</th>
+                <th style=" text-align: center;width: 7%">Auguest</th>
+                <th style=" text-align: center;width: 7%">September</th>
+                <th style=" text-align: center;width: 7%">October</th>
+                <th style=" text-align: center;width: 7%">November</th>
+                <th style=" text-align: center;width: 7%">December</th>
+                <th>Total Metting</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Forecast</td>
+                <td>
+                    <input formControlName="forecastJanuary" type="date" min="{{january}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="forecastFebruary" type="date" min="{{february}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="forecastMarch" type="date" min="{{march}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="forecastApril" type="date" min="{{april}}" max="2023-05-01" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    
+                    <input formControlName="forecastMay" type="date" min="{{may}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="forecastJune" type="date" min="{{june}}"  class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="forecastJuly" type="date" min="{{july}}"  class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="forecastAugust" type="date" min="{{august}}"  class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="forecastSeptember" type="date" min="{{september}}"  class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="forecastOctober" type="date" min="{{october}}"  class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="forecastNovember" type="date" min="{{november}}"  class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="forecastDecember" type="date" min="{{december}}"  class="form-control form-control-sm"/>
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+              <tr>
+                <td>Real</td>
+                <td>
+                    <input formControlName="realJanuary" type="date" min="{{january}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="realFebruary" type="date" min="{{february}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="realMarch" type="date" min="{{march}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="realApril" type="date"  min="{{april}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="realMay" type="date" min="{{may}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="realJune" type="date" min="{{june}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="realJuly" type="date" min="{{july}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="realAugust" type="date" min="{{august}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="realSeptember" type="date" min="{{september}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="realOctober" type="date" min="{{october}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="realNovember" type="date" min="{{november}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                    <input formControlName="realDecember" type="date" min="{{december}}" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                  
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+
+<hr/> -->
+
+
+        <p-table #dt dataKey="id" editMode="row" [scrollable]="true" scrollHeight="400px">
+
+          <ng-template pTemplate="header">
+            <tr class="bc">
+
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              </th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                January</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                February</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                March</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                April</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                May</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                June</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                July</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Auguest</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                September</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                October</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                November</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                December</th>
+              <th
+                style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                Total</th>
+
+            </tr>
+            <tr
+              style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              <td>Forecast</td>
+              <td>
+                <input formControlName="forecastJanuary" type="date" min="{{january}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="forecastFebruary" type="date" min="{{february}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="forecastMarch" type="date" min="{{march}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="forecastApril" type="date" min="{{april}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="forecastMay" type="date" min="{{may}}" class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="forecastJune" type="date" min="{{june}}" class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="forecastJuly" type="date" min="{{july}}" class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="forecastAugust" type="date" min="{{august}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="forecastSeptember" type="date" min="{{september}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="forecastOctober" type="date" min="{{october}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="forecastNovember" type="date" min="{{november}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="forecastDecember" type="date" min="{{december}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                {{forecastMeeting}}
+              </td>
+            </tr>
+            <tr
+              style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              <td>Real</td>
+              <td>
+                <input formControlName="realJanuary" type="date" min="{{january}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="realFebruary" type="date" min="{{february}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="realMarch" type="date" min="{{march}}" class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="realApril" type="date" min="{{april}}" class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="realMay" type="date" min="{{may}}" class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="realJune" type="date" min="{{june}}" class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="realJuly" type="date" min="{{july}}" class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="realAugust" type="date" min="{{august}}" class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="realSeptember" type="date" min="{{september}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="realOctober" type="date" min="{{october}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="realNovember" type="date" min="{{november}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                <input formControlName="realDecember" type="date" min="{{december}}"
+                  class="form-control form-control-sm" />
+              </td>
+              <td>
+                {{realMeeting}}
+              </td>
+
+            </tr>
+
+          </ng-template>
+        
+        </p-table>
+
+
+
+
+      </div>
+    </div>
+
+    <hr />
+    <div class="row">
+      <div class="col-md-4">
+        <button pButton pRipple type="button" label="Save" icon="pi pi-save" (click)="onSubmit()"
+          style="width:75px!important;font-size: 12px!important;background: #3792cf!important;"></button>
+        <button pButton pRipple type="button" label="Clear" icon="pi pi-refresh" (click)="clear()"
+          style="width:75px!important;font-size: 12px!important;background: #ff878d!important;"></button>
+      </div>
+    </div>
+  </form>
+</p-panel>
+<br>

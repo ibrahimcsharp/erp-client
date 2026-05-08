@@ -1,0 +1,81 @@
+<p-panel>
+  <!-- <div class="container"> -->
+  <ul class="nav nav-tabs">
+    <!-- <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#GoogleMap">Live Tracking</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#SchedulerCalender">Scheduler Calender</a></li> -->
+    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Easytrax">Easytrax</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Carcopolo">Carcopolo</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#TrackSolid">TrackSolid</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <!--
+            <div id="GoogleMap" class="tab-pane fade in active show">
+                <br>
+                <div class="row">
+                    <div class="col-xl-12">
+                      <div class="card card-custom bg-gray-100 gutter-b card-stretch card-shadowless" id="dash-chart-widget">
+                        <div class="card-body" id="map" style="height: 600px; position: center; overflow: hidden;">
+                          <div
+                            style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+                            <app-google-map></app-google-map>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            <div id="SchedulerCalender" class="tab-pane fade">
+              <app-scheduler-calender></app-scheduler-calender>
+            </div>
+          -->
+    <div id="Easytrax" class="tab-pane fade in active show">
+      <br>
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card card-custom bg-gray-100 gutter-b card-stretch card-shadowless" id="dash-chart-widget">
+            <div class="card-body" id="easytrax" style="height: 1000px; position: center; overflow: hidden;">
+              <div
+                style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+                <iframe src="https://track.easytrax.com/index.php" height="100%" width="100%" target="_self"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="Carcopolo" class="tab-pane fade">
+      <br>
+      <div class="row">
+
+        <div class="col-xl-12">
+          <div class="card card-custom bg-gray-100 gutter-b card-stretch card-shadowless" id="dash-chart-widget">
+            <div class="card-body" id="carcopolo" style="height: 1000px; position: center; overflow: hidden;">
+              <div
+                style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+                <iframe src="https://gps.carcopolo.com/authentication/create" height="100%" width="100%"
+                  target="_self"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="TrackSolid" class="tab-pane fade">
+      <br>
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card card-custom bg-gray-100 gutter-b card-stretch card-shadowless" id="dash-chart-widget">
+            <div class="card-body" id="tracksolidpro" style="height: 1000px; position: center; overflow: hidden;">
+              <div
+                style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+                <iframe src="https://hk.tracksolidpro.com/resource/dev/index.html#/login" height="100%" width="100%"
+                  target="_self"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-panel>

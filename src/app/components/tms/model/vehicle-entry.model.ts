@@ -1,0 +1,32 @@
+export class VehicleCreateModel {
+    vehicleId: number;
+    registrationNumber: string;
+    registrationSeries: string;
+    registrationDate: Date;
+    vehicleTypeId: number;
+    vehicleType: string;
+    brandId: number;
+    brandName: string;
+    modelId: number;
+    fuelType: number;
+    modelYear: string;
+    engineNumber: string;
+    chassisNumber: string;
+    engineCc: string;
+    tyreSize: string;
+    battery: string;
+    totalSeat: string;
+    color: string;
+    fuelCapacity: string;
+    companyId: string;
+    companyName: string;
+    purchaseDate: Date;
+    purchaseMileage: string;
+    isDisposed: number;
+    disposeDate: Date;
+    trackerId: string;
+    status: string;
+    remarks: string;
+    ownershipType: string;
+    isActive: string;
+}

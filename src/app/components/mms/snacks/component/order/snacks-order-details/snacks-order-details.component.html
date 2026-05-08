@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <h5 class="modal-title f-w-600" id="exampleModalLabel">{{ title }}</h5>
+    <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p-table *ngIf="snackService.orderDetails != null" [value]="snackService.orderDetails"
+    [globalFilterFields]="['itemName', 'salePrice','buyQty','subTotalPrice']" dataKey="id"
+    editMode="row" [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">>
+    <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">           
+            <input type="text" pInputText size="50" placeholder="Global Filter"
+                (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr class="bc">
+            <th>SL</th>               
+            <th [pSortableColumn]="'itemName'">
+                Item Name
+                <p-sortIcon [field]="'itemName'" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'salePrice'">
+                Sale Price
+                <p-sortIcon [field]="'salePrice'" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'buyQty'">
+                Buy Qty
+                <p-sortIcon [field]="'buyQty'" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'subTotalPrice'">
+                Sub Total Price
+                <p-sortIcon [field]="'subTotalPrice'" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+          
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="rowData" class="center">
+            <td>{{ ri + 1 }}</td>             
+            <td>{{ rowData.itemName }}</td>
+            <td>{{ rowData.salePrice }}</td>
+            <td>{{ rowData.buyQty }}</td>
+            <td>{{ rowData.subTotalPrice }}</td>  
+        </tr>
+    </ng-template>
+</p-table>
+  
+</div>
+<div class="modal-footer">
+    <div class="alert">
+        <button (click)="bsModalRef.hide()" class="button-back mr-2" role="button">
+            <i class="fa fa-arrow-left mr-2"></i>Back
+        </button>
+    </div>
+</div>

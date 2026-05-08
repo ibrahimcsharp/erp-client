@@ -1,0 +1,402 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-3 col-md-6 xl-50">
+      <div class="card o-hidden widget-cards">
+        <div class="bg-warning card-body">
+          <div class="media static-top-widget row">
+            <div class="icons-widgets col-4">
+              <div class="align-self-center text-center">
+                <app-feather-icons [icon]="'navigation'" class="font-warning"></app-feather-icons>
+              </div>
+            </div>
+            <div class="media-body col-8">
+              <span class="m-0">Total Meal This Month</span>
+              <h3 class="mb-0">
+                Meals
+                <span class="counter">{{ thisMonthMealCount }}</span>
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 xl-50">
+      <div class="card o-hidden widget-cards">
+        <div class="bg-secondary card-body">
+          <div class="media static-top-widget row">
+            <div class="icons-widgets col-4">
+              <div class="align-self-center text-center">
+                <app-feather-icons [icon]="'box'" class="font-secondary"></app-feather-icons>
+              </div>
+            </div>
+            <div class="media-body col-8">
+              <span class="m-0">Meal Rate This Month</span>
+              <h3 class="mb-0">
+                TK.
+                <span class="counter">{{
+                  thisMonthAvgMealRate | number: "1.2-2"
+                  }}</span>
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 xl-50">
+      <div class="card o-hidden widget-cards">
+        <div class="bg-primary card-body">
+          <div class="media static-top-widget row">
+            <div class="icons-widgets col-4">
+              <div class="align-self-center text-center">
+                <app-feather-icons [icon]="'message-square'" class="font-primary"></app-feather-icons>
+              </div>
+            </div>
+            <div class="media-body col-8">
+              <span class="m-0">Meal Cost This Month(40%)</span>
+              <h3 class="mb-0">
+                TK.
+                <span class="counter">{{
+                  thisMonthNetPayable | number: "1.2-2"
+                  }}</span>
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6 xl-50">
+      <div class="card o-hidden widget-cards">
+        <div class="bg-danger card-body">
+          <div class="media static-top-widget row">
+            <div class="icons-widgets col-4">
+              <div class="align-self-center text-center">
+                <app-feather-icons [icon]="'users'" class="font-danger"></app-feather-icons>
+              </div>
+            </div>
+            <div class="media-body col-8">
+              <span class="m-0">Meal Cancelled</span>
+              <h3 class="mb-0">
+                Meal
+                <span class="counter">{{ thisMonthMealCancelled }}</span>
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6" >
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="text-left">
+                <h5>My Meal Manage-{{ currentDate }}</h5>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="text-right">
+                <button class="btn btn-outline-success btn-xs" (click)="GenerateToken()">
+                  <i class="fa fa-key"></i> Generate Token
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" style="border: 1px solid #E8E8E8; border-radius: 5px;padding: 8px;">
+          <table class="table table-borderless table-condensed table-hover">
+            <thead class="table-dark">
+              <tr style="text-align: center">
+                <th>Employee Id</th>
+                <th>Token Number</th>
+                <th>Token Date</th>
+                <th>Token Type</th>
+                <th>Meal Option</th>
+                <th>Token Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let item of personalTokenInfo">
+              <tr [ngStyle]="
+                  item.tokenCancel == 1
+                    ? { 'background-color': 'yellow' }
+                    : { 'background-color': 'white' }
+                " style="text-align: center">
+                <td>{{ item.employeeId }}</td>
+                <td>{{ item.tokenNumber }}</td>
+                <td>{{ item.tokenDate | date: "d/M/y" }}</td>
+                <td>{{ item.tokenTypeDes }}</td>
+                <td>{{ item.mealOptionDes }}</td>
+                <td *ngIf="item.tokenCancel == 0">Active</td>
+                <td *ngIf="item.tokenCancel == 1">Cancelled</td>
+                <td>
+                  <button pTooltip="Cancel Token" *ngIf="item.tokenCancel == 0" class="btn btn-primary btn-xs mr-r"
+                    type="button" (click)="CancelMealToken(item)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+
+                  <button pTooltip="Active Token" *ngIf="item.tokenCancel == 1" class="btn btn-success btn-xs mr-r"
+                    type="button" (click)="ActiveMealToken(item)">
+                    <i class="fa fa-check"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="text-left">
+                <h5>My Guest Meal Manage -{{ currentDate }}</h5>
+              </div>
+            </div>
+            <!-- <div class="col-md-4">
+              <div class="text-right">
+                <button type="button" class="btn btn-outline-success btn-xs" [popover]="popTemplate"
+                  popoverTitle="Token Gen. For Guest" placement="left" [outsideClick]="true">
+                  <i class="fa fa-key"></i> Gen. Token For Guest
+                </button>
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8" style="border: 1px solid #E8E8E8; border-radius: 5px;padding: 5px;">
+              <div class="text-left">
+                <span style="font-size: 16px;font-weight: 600;">Guest List</span>
+
+              </div>
+              <hr />
+              <table class="table table-borderless table-condensed table-hover">
+                <thead class="table-dark">
+                  <tr style="text-align: center">
+                    <th>SL</th>
+                    <th>Employee Id</th>
+                    <th>Token Number</th>
+                    <th>Guest Id</th>
+                    <th>Token Date</th>
+                    <th>Guest Type</th>
+                    <th>Token Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let item of guestTokenInfo; let i = index">
+                  <tr [ngStyle]="
+                    item.tokenCancel == 1
+                      ? { 'background-color': 'yellow' }
+                      : { 'background-color': 'white' }
+                  " style="text-align: center">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.employeeId }}</td>
+                    <td>{{ item.tokenNumber }}</td>
+                    <td>{{ item.guestId }}</td>
+                    <td>{{ item.tokenDate | date: "d/M/y" }}</td>
+                    <td *ngIf="item.tokenType == 'G'">Personal</td>
+                    <td *ngIf="item.tokenType == 'O'">Official</td>
+                    <td *ngIf="item.tokenCancel == 0">Active</td>
+                    <td *ngIf="item.tokenCancel == 1">Cancelled</td>
+                    <td>
+                      <button pTooltip="Cancel Token" *ngIf="item.tokenCancel == 0" class="btn btn-primary btn-xs mr-2"
+                        type="button" (click)="CancelMealToken(item)">
+                        <i class="fa fa-trash"></i>
+                      </button>
+
+                      <button pTooltip="Active Token" *ngIf="item.tokenCancel == 1" class="btn btn-success btn-xs mr-r"
+                        type="button" (click)="ActiveMealToken(item)">
+                        <i class="fa fa-check"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-4" style="border: 1px solid #E8E8E8; border-radius: 5px;padding: 5px;">
+              <div class="text-left">
+                <span style="font-size: 16px;font-weight: 600;">Create Guest Token</span>
+              </div>
+              <hr />
+              <form [formGroup]="guestTokenForm">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="control-label">Guest Type <span class="required">*</span></label>
+                      <select [ngClass]="{
+                            'is-invalid':
+                              guestTokenForm.get('tokenType').errors &&
+                              (guestTokenForm.get('tokenType').touched ||
+                                guestTokenForm.get('tokenType').dirty)
+                          }" class="form-control" formControlName="tokenType">
+                        <option value="G">Personal</option>
+                        <option value="O">Official</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="control-label">Number Of Guest <span class="required">*</span></label>
+                      <input [ngClass]="{
+                            'is-invalid':
+                              guestTokenForm.get('numeberOfGuest').errors &&
+                              (guestTokenForm.get('numeberOfGuest').touched ||
+                                guestTokenForm.get('numeberOfGuest').dirty)
+                          }" type="number" min="0" class="form-control" formControlName="numeberOfGuest" />
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-outline-success btn-xs" (click)="CreateGuestToken()">
+                        <i class="fa fa-save"></i> Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Upcoming Special Meal Item</h5>
+        </div>
+        <div class="card-Body">
+          <table class="table table-borderless table-condensed table-hover">
+            <thead>
+              <tr style="text-align: center">
+                <th>Date</th>
+                <th>Meal Des.</th>
+                <th>Valid From</th>
+                <th>Valid To</th>
+                <th>Remarks</th>
+                <th>Images</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let item of smList">
+              <tr style="text-align: center">
+                <td>
+                  {{ item.curDate | date: "d/M/y" }}
+                </td>
+                <td>{{ item.mealDes }}</td>
+                <td>{{ item.fromDateTime | date: "medium" }}</td>
+                <td>{{ item.toDateTime | date: "medium" }}</td>
+                <td>{{ item.remarks }}</td>
+                <td>
+                  <button class="btn-xs" (click)="ShowFile(item, popTemplate1)">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                </td>
+                <td>
+                  <button *ngIf="CheckMealOptionButton() == false" (click)="AcceptHealthyMenu(item)"
+                    class="btn btn-success btn-xs">
+                    Accept
+                  </button>
+                  <button *ngIf="CheckMealOptionButton() == true" class="btn btn-success btn-xs mr-r" type="button">
+                    Accepted
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Upcoming Reqular Meal Item</h5>
+        </div>
+        <div class="card-Body">
+          <table class="table table-borderless table-condensed table-hover">
+            <thead>
+              <tr style="text-align: center">
+                <th>Date</th>
+                <th>Meal Des.</th>
+                <th>Remarks</th>
+                <th>Images</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let item of rmList">
+              <tr style="text-align: center">
+                <td>
+                  {{ item.curDate | date: "d/M/y" }}
+                </td>
+                <td>{{ item.mealDes }}</td>
+                <td>{{ item.remarks }}</td>
+                <td>
+                  <button class="btn-xs" (click)="ShowFile(item, popTemplate1)">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <ng-template #popTemplate>
+  <form [formGroup]="guestTokenForm">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="control-label">Guest Type <span class="required">*</span></label>
+          <select [ngClass]="{
+              'is-invalid':
+                guestTokenForm.get('tokenType').errors &&
+                (guestTokenForm.get('tokenType').touched ||
+                  guestTokenForm.get('tokenType').dirty)
+            }" class="form-control" formControlName="tokenType">
+            <option value="G">Personal</option>
+            <option value="O">Official</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="control-label">Number Of Guest <span class="required">*</span></label>
+          <input [ngClass]="{
+              'is-invalid':
+                guestTokenForm.get('numeberOfGuest').errors &&
+                (guestTokenForm.get('numeberOfGuest').touched ||
+                  guestTokenForm.get('numeberOfGuest').dirty)
+            }" type="number" min="0" class="form-control" formControlName="numeberOfGuest" />
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <button type="button" class="btn btn-outline-success btn-xs" (click)="CreateGuestToken()">
+            <i class="fa fa-save"></i> Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template> -->
+
+<ng-template #popTemplate1>
+  <p-galleria [value]="images">
+    <ng-template pTemplate="item" let-item>
+      <img [src]="item.previewImageSrc" [alt]="item.alt" />
+    </ng-template>
+  </p-galleria>
+</ng-template>

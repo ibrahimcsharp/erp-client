@@ -1,0 +1,79 @@
+<p-panel header="Snack Ready Items" [toggleable]="true">
+    <p-table *ngIf="Items != null" [value]="Items"
+        [globalFilterFields]="['itemName', 'remarks','qty','declareDate2','damageQty']" dataKey="id" editMode="row"
+        [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left">
+                <button (click)="NewItem()" pTooltip="New Category" class="btn btn-success btn-xs mr-2">
+                    <i class="fa fa-plus" aria-hidden="true"></i> New
+                </button>
+
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="bc">
+                <th>SL</th>
+                <th [pSortableColumn]="'itemName'">
+                    Item Name
+                    <p-sortIcon [field]="'itemName'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'declareDate2'">
+                    Declare Date(DD/MM/YYYY)
+                    <p-sortIcon [field]="'declareDate2'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'qty'">
+                    Sale Qty
+                    <p-sortIcon [field]="'qty'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'damageQty'">
+                    Damage Qty
+                    <p-sortIcon [field]="'damageQty'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'remarks'">
+                    Remarks
+                    <p-sortIcon [field]="'upperName'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="rowData" class="center">
+                <td>{{ ri + 1 }}</td>
+                <td>{{ rowData.itemName }}</td>
+                <td>{{ rowData.declareDate2 }}</td>
+                <td>{{ rowData.qty }}</td>
+                <td>{{ rowData.damageQty }}</td>
+                <td>{{ rowData.remarks }}</td>
+
+                <td>
+                    <a *ngIf="rowData.stockSynced==0 && rowData.isApproved==0" class="btn btn-outline-primary btn-xs mr-2"
+                        (click)="EditItem(rowData)"><i class="fa fa-edit"></i> Edit</a>
+                    <a *ngIf="rowData.isApproved==0 && (authService.decodedToken?.unique_name == '010100474' || authService.decodedToken?.unique_name == '010100161')" class="btn btn-success btn-xs mr-2"
+                        (click)="ApproveItem(rowData)"><i class="fa fa-check"></i> Approve</a>
+                    <a *ngIf="rowData.stockSynced==1"
+                        class="btn btn-outline-success btn-xs mr-2"><i class="fa fa-check"></i> Stock Synced</a>
+                    <a *ngIf="rowData.stockSynced==0 && rowData.isApproved==1" class="btn btn-outline-info btn-xs mr-2"
+                        (click)="StockSynced(rowData)"><i class="fa fa-refresh"></i> Stock Sync</a>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ngx-spinner [name]="spinnerName" [fullScreen]="false" size="medium">
+        <p class="loading">Loading...</p>
+    </ngx-spinner>
+</p-panel>

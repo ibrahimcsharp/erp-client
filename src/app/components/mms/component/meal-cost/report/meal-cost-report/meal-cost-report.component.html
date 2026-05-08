@@ -1,0 +1,57 @@
+<p-panel header="Daily Meal Cost" [toggleable]="true">
+    <form [formGroup]="reactiveForm" class="form" (ngSubmit)="Process()" role="form">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Month<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <select [ngClass]="{
+                  'is-invalid':
+                    reactiveForm.get('monthId').errors &&
+                    (reactiveForm.get('monthId').touched ||
+                      reactiveForm.get('monthId').dirty)
+                }" class="form-control form-control-sm" formControlName="monthId">
+                            <option value="">==Select One==</option>
+                            <option *ngFor="let item of mealMonthsList" [ngValue]="item.id">
+                                {{ item.monthName }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Year<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <select [ngClass]="{
+                  'is-invalid':
+                    reactiveForm.get('yearId').errors &&
+                    (reactiveForm.get('yearId').touched ||
+                      reactiveForm.get('yearId').dirty)
+                }" class="form-control form-control-sm" formControlName="yearId">
+                            <option value="">==Select One==</option>
+                            <option *ngFor="let year of commonService.YearSelectList" [ngValue]="year.value">
+                                {{ year.label }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Date<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <input type="date" [ngClass]="{
+                  'is-invalid':
+                    reactiveForm.get('currentDate').errors &&
+                    (reactiveForm.get('currentDate').touched ||
+                      reactiveForm.get('currentDate').dirty)
+                }" class="form-control form-control-sm" formControlName="currentDate" />
+
+                    </div>
+                    <button type="submit" class="btn btn-outline-success btn-block btn-xs">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</p-panel>

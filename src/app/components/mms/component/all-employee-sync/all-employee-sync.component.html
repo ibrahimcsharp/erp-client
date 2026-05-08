@@ -1,0 +1,123 @@
+<p-panel header="All Employee Sync" [toggleable]="true">
+
+  <div class="col-md-6">
+    <button class="btn btn-primary" (click)="syncAllEmployeeData()">Sync Employee</button>
+    <br>
+      <form
+        [formGroup]="reactiveForm"
+        class="form"
+        (ngSubmit)="onSubmit()"
+        role="form"
+      >
+        <div class="form-group">
+          <label class="label-control">Unit</label>
+          <select
+            [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('unitType').errors &&
+                (reactiveForm.get('unitType').touched ||
+                  reactiveForm.get('unitType').dirty)
+            }"
+            class="form-control form-control-sm"
+            formControlName="unitType"
+          >
+            <option value="">==Select One==</option>
+            <option [ngValue]="1">SCO</option>
+            <option [ngValue]="2">SaRa</option>
+            <option [ngValue]="3">All</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-outline-success btn-xs mb-3">
+          <i class="fa fa-search"></i> Search
+        </button>
+      </form>
+  </div>
+
+<p-table
+#dt
+[value]="empList"
+[globalFilterFields]="['employeeId', 'employeeName', 'empType']"
+dataKey="employeeId"
+editMode="row"
+[scrollable]="true"
+[paginator]="true"
+[rows]="10"
+[showCurrentPageReport]="true"
+currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+[rowsPerPageOptions]="[5, 10, 50, 100]"
+>>
+<ng-template pTemplate="caption">
+  <div class="ui-helper-clearfix" style="text-align: left">
+
+    <input
+      type="text"
+      pInputText
+      size="50"
+      placeholder="Global Filter"
+      (input)="dt.filterGlobal($event.target.value, 'contains')"
+      style="float: right"
+    />
+  </div>
+</ng-template>
+<ng-template pTemplate="header">
+  <tr class="bc">
+    <!-- <th>SL</th> -->
+    <th [pSortableColumn]="'employeeId'">
+      Employee Id
+      <p-sortIcon
+        [field]="'employeeId'"
+        ariaLabel="Activate to sort"
+        ariaLabelDesc="Activate to sort in descending order"
+        ariaLabelAsc="Activate to sort in ascending order"
+      >
+      </p-sortIcon>
+    </th>
+    <th [pSortableColumn]="'employeeName'">
+      Employee Name
+      <p-sortIcon
+        [field]="'employeeName'"
+        ariaLabel="Activate to sort"
+        ariaLabelDesc="Activate to sort in descending order"
+        ariaLabelAsc="Activate to sort in ascending order"
+      >
+      </p-sortIcon>
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <input
+        pInputText
+        type="text"
+        (input)="
+          dt.filter($event.target.value, 'employeeId', 'contains')
+        "
+        class="p-column-filter"
+      />
+    </td>
+    <td>
+      <input
+        pInputText
+        type="text"
+        (input)="
+          dt.filter($event.target.value, 'employeeName', 'contains')
+        "
+        class="p-column-filter"
+      />
+    </td>
+  </tr>
+</ng-template>
+<ng-template
+  pTemplate="body"
+  let-rowData
+  let-editing="editing"
+  let-ri="rowIndex"
+>
+  <tr [pEditableRow]="rowData" class="center">
+    <td>{{ rowData.employeeId }}</td>
+    <td>{{ rowData.employeeName }}</td>
+  </tr>
+</ng-template>
+</p-table>
+
+</p-panel>
+

@@ -1,0 +1,288 @@
+<p-panel header="TNA Dashboard" [toggleable]="true">     
+    <p-table #dt
+               *ngIf="tnaJobListForDashboard != null" 
+                [value]="tnaJobListForDashboard"
+                [globalFilterFields]="['buyerName', 'yearName', 'seasonName','styleName','poNo']"
+                dataKey="id"
+                editMode="row"
+                [scrollable]="true"
+                [paginator]="true"
+                [rows]="20"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[5, 10, 50, 100]"
+                
+    >
+
+    <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+          <input
+            type="text"
+            pInputText
+            size="20"
+            placeholder="Global Filter"
+            (input)="dt.filterGlobal($event.target.value, 'contains')"
+            style="float: right"
+          />
+        </div>
+      </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>SL No</th>
+                <th>Buyer Name</th>
+                <th>Contract No</th>
+                <th>Season</th>
+                <th>Year</th>
+                <th>Style Name</th>
+                <th>Item Description</th>
+                <th>PO</th>
+                <th>PO Rcvd Dt</th>
+                <th>QTY</th>
+                <!-- <th>Color Name</th> -->
+                <!-- <th>Color Code</th> -->
+                <th>Size</th>
+                <!-- <th>Size Code</th> -->
+                <th>SMV</th>
+                <th>Efficiency</th>
+                <td>Booking Consumption</td>
+                <td>C/S Making</td>
+                <td>C/S Submit</td>
+                <td>C/S Comments</td>
+                <td>PPS Making</td>
+                <td>PPS Submit</td>
+                <td>PPS Comments</td>
+                <td>SSS making</td>
+                <td>PP Meeting</td>
+                <td>Plan prod. start</td>
+                <td>Plan prod. End</td>
+            </tr>
+            <tr >
+                <td>                        
+                    <input pInputText type="text"  class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'salesContractNo', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'seasonName', 'contains')"  class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'yearName', 'contains')"  class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'styleName', 'contains')"  class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'orderRcvDate', 'contains')"  class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'poNo', 'contains')"  class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'orderQty', 'contains')"  class="p-column-filter" />
+                </td>
+                <!-- <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                </td> -->
+                <!-- <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td> -->
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <!-- <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td> -->
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+
+            </tr>
+        </ng-template>
+        <ng-template let-rowData pTemplate="body" let-editing="editing"  let-ri="rowIndex">
+            
+            <tr>
+                <td>{{ ri + 1 }}</td>
+                <td>{{rowData.buyerName}}</td>
+                <td>{{rowData.salesContractNo}}</td>
+                <td>{{rowData.seasonName}}</td>
+                <td>{{rowData.yearName}}</td>
+                <td>{{rowData.styleName}}</td>
+                <td>{{rowData.styleDescription}}</td>
+                <td>{{rowData.poNo}}</td>
+                <td>{{rowData.buyDate}}</td>
+                <td>{{rowData.orderQty}}</td>
+                <!-- <td></td> -->
+                <!-- <td></td> -->
+                <td>
+                    <button  class="btn btn-success btn-xs mr-2"
+                    (click)="ShowPOColorList(rowData)" > Size Show </button>
+                </td>
+                <!-- /<td></td> -->
+                <td>{{rowData.smv}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+        </ng-template>
+    </p-table>
+    
+    
+</p-panel>
+
+
+
+
+
+ <p-dialog
+ [(visible)]="displayBasic"
+ header="Size/Ratio/Qty"
+ [style]="{ width: '50vw' }"
+ [baseZIndex]="10000">    
+ <div class="row">
+   <div class="col-md-2"></div>
+   <div class="col-md-8">
+     <div *ngIf="poDiv">
+       <fieldset class="scheduler-border">
+         <legend class="scheduler-border">Size/Ratio/Qty</legend>
+         <table class="header_scroll" *ngIf="poSizeShow.length>0">
+           <thead>
+             <tr>
+               <th>PO</th>
+               <th [attr.colspan]="totalSizeShow">
+                 <span *ngFor="let item of poListShowFromPO; let i = index">
+                   <!-- <input type="checkbox" (click)="poCheck($event, item.poNo)" class="chk"
+                     [checked]="item.isCheckedPO" /> -->
+                   {{item.poNo }}, 
+                 </span>
+               </th>
+               <th style="text-align: center;"></th>
+             </tr>
+             <tr>
+               <th>Color</th>
+               <th [attr.colspan]="totalSizeShow">
+                 <span *ngFor="let item5 of poColorListShowFromPO; let i = index">
+                   <!-- <input type="checkbox" (click)="colorCheck($event, item.color)" class="chk"
+                     [checked]="item.isCheckedColor" /> -->
+                   {{item5.color}}, 
+                 </span>
+               </th>
+               <th style="text-align: center;"></th>
+             </tr>
+             <tr>
+               <th>Size</th>
+               <th *ngFor="let item6 of poSizeShow" style="text-align: center;">{{item6.sizeName}}</th>
+               <th style="text-align: center;">Total</th>
+             </tr>
+             <tr *ngFor="let item7 of colorQtyShow">
+               <th >{{item7.color}}</th>
+               <td *ngFor="let item11 of item7.qtyList" style="background-color: #e0fede; text-align: center;">{{item11.qty}}</td>
+               <td style="background-color: #81D8D0; color: darkblue !important;"><strong>{{item7.totalStyleSizeQty | number:
+                   "1.2-2"}}</strong></td>
+             </tr>
+           </thead>
+         </table>
+       </fieldset>
+     </div>
+     <div *ngIf="buyDateDiv">
+       <fieldset class="scheduler-border">
+         <legend class="scheduler-border">Size/Ratio/Qty</legend>
+         <table class="header_scroll" *ngIf="poSizeShow.length>0">
+           <thead>
+             <tr>
+               <th>Buy Date</th>
+               <th [attr.colspan]="totalSizeShow">
+                 <span *ngFor="let item of poListShowFromPO; let i = index">
+                   <!-- <input type="checkbox" (click)="buyDateCheck($event, item.buyDate)" class="chk"
+                     [checked]="item.isCheckedPO" /> -->
+                   {{item.buyDate | date: 'd-MMM-y'}}, 
+                 </span>
+               </th>
+               <th style="text-align: center;"></th>
+             </tr>
+             <tr>
+               <th>Color</th>
+               <th [attr.colspan]="totalSizeShow">
+                 <span *ngFor="let item13 of poColorListShowFromPO; let i = index">
+                   <!-- <input type="checkbox" (click)="colorCheck($event, item.color)" class="chk"
+                     [checked]="item.isCheckedColor" />  -->
+                     {{item13.color}}, 
+                 </span>
+ 
+               </th>
+               <th style="text-align: center;"></th>
+             </tr>
+             <tr>
+               <th>Size</th>
+               <th *ngFor="let item14 of poSizeShow" style="text-align: center;">{{item14.sizeName}}</th>
+               <th style="text-align: center;">Total</th>
+             </tr>
+             <tr *ngFor="let item15 of colorQtyShow">
+               <th >{{item15.color}}</th>
+               <td *ngFor="let item16 of item15.qtyList" style="background-color: #e0fede; text-align: center;">{{item16.qty}}</td>
+               <td style="background-color: #81D8D0; color: darkblue !important;"><strong>{{item15.totalStyleSizeQty | number:
+                   "1.2-2"}}</strong></td>
+             </tr>
+           </thead>
+         </table>
+       </fieldset>
+     </div>
+     
+   </div>
+   <div class="col-md-2"></div>
+ </div>
+ 
+
+</p-dialog>

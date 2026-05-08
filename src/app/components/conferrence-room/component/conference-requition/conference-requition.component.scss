@@ -1,0 +1,544 @@
+
+  fieldset.scheduler-border {
+    border: 1px groove #ddd !important;
+    margin-bottom: 5px;
+   
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+  }
+  
+    legend.scheduler-border {
+        font-size: 13px !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width:auto;
+        padding:0 10px;
+        border-bottom:none;
+    }
+    legend{
+      margin-bottom: 0.2em !important;
+    }
+  
+    input[readonly2] {
+      background-color: #87CEEB !important;
+      text-align: right !important;
+      font-weight: bold !important;
+      color: black !important;
+      font-size: 12px !important;
+      height: 23px !important;
+    }
+  
+    input[readonly3] {
+      background-color: #FDEDEC !important;
+      text-align: left !important;
+      font-weight: bold !important;
+      color: black !important;
+      font-size: 12px !important;
+      height: 23px !important;
+    }
+  
+    #autobom {
+      text-align: left !important;
+      font-weight: bold !important;
+      color: black !important;
+      font-size: 12px !important;
+      height: 23px !important;
+      background: #FDEDEC;
+      -webkit-appearance: none;
+  
+  }
+  
+  #autobom option {
+      background-color: #FDEDEC;
+      text-align: left !important;
+      font-weight: bold !important;
+      color: black !important;
+      font-size: 12px !important;
+      height: 23px !important;
+  }
+
+  .Occupied{
+    background-color:#F1F055;
+  }
+
+  .Vacant{
+    background-color:#81F2B2;
+  }
+
+
+  body .ui-multiselect .ui-multiselect-label {
+    padding: 0px !important;
+    padding-right: 2em !important;
+    color: #333333 !important;
+  }
+  dt{
+    border-collapse: separate;
+  }
+  
+  th:nth-child(1){
+    text-align: center;
+    width: 280px;
+    cursor: pointer;
+    // left:0;
+    // z-index:1;
+    // position:sticky;
+
+    
+  }
+  td > input:nth-child(1){
+    text-align: center;
+    width: 100%;
+    // position:sticky;
+    // left:0;
+    // z-index:1; 
+    // border-style: solid!important;
+    // border-color: white !important;   
+    
+    
+  }
+  td:nth-child(1){
+    text-align: center;
+    width: 280px;
+    cursor: pointer;
+    // position:sticky;
+    // left:0;
+    // z-index:1;  
+  } 
+     
+  
+  th:nth-child(2){
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+    // position:sticky;
+    // left:150px;
+    // z-index:2;
+    
+    
+  }
+  td > input:nth-child(2){
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+    // position:sticky;
+    
+    
+  }
+  td:nth-child(2){
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+    // position:sticky;
+    // left:150px;
+    // z-index:2;
+    
+  } 
+  
+  th:nth-child(3){
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+    // position:sticky;
+    // left:250px;
+    // z-index:3;
+   
+  }
+  td > input:nth-child(3){
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+    // position:sticky;
+    // left:250px;
+    // z-index:3;
+    
+    
+  }
+  td:nth-child(3){
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+    // position:sticky;
+    // left:250px;
+    // z-index:3;
+   
+  } 
+  
+  th:nth-child(4){
+    text-align: center;
+    width: 60px;
+    cursor: pointer!important;
+  }
+  th > input:nth-child(4){
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+  }
+  td:nth-child(4){
+    text-align: center;
+    width: 60px;
+    cursor: pointer!important;
+  } 
+  
+  th:nth-child(5){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(5){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(5){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(6){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(6){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(6){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(7){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(7){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(7){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }  
+  
+  th:nth-child(8){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(8){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(8){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(9){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(9){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(9){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(10){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(10){
+    text-align: center;
+    
+    width: 100%
+  }
+  td:nth-child(10){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(11){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(11){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(11){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(12){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(12){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(12){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(13){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(13){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(13){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(14){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(14){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(14){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(15){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(15){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(15){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(16){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(16){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(16){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(17){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(17){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(17){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(18){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(18){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(18){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+  
+  th:nth-child(19){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(19){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(19){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  } 
+
+  th:nth-child(20){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(20){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(20){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+
+  th:nth-child(21){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(21){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(21){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+
+
+  th:nth-child(22){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(22){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(22){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+
+  th:nth-child(23){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(23){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(23){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+
+  th:nth-child(24){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(24){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(24){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+
+  th:nth-child(25){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(25){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(25){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+
+  th:nth-child(26){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(26){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(26){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+
+  th:nth-child(27){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(27){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(27){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+
+  th:nth-child(28){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+  th > input:nth-child(28){
+    text-align: center;
+    width: 100%
+  }
+  td:nth-child(28){
+    text-align: center;
+    width: 60px;
+    cursor: pointer;
+  }
+
+  

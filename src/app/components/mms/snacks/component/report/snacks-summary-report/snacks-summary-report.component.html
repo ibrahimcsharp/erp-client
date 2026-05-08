@@ -1,0 +1,235 @@
+<p-panel header="Snacks Summary Report" [toggleable]="true">
+    <form [formGroup]="SnacksSummaryReport" class="form" (ngSubmit)="Process()" role="form">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">From Date<span class="required">&nbsp;*</span></span>
+                        </div>
+
+                        <input type="date" placeholder="dd-mm-yyyy" class="form-control" [ngClass]="{
+                          'is-invalid':
+                          SnacksSummaryReport.get('snacksSummaryReportFromDate').errors &&
+                            (SnacksSummaryReport.get('snacksSummaryReportFromDate').touched ||
+                            SnacksSummaryReport.get('snacksSummaryReportFromDate').dirty)
+                        }" formControlName="snacksSummaryReportFromDate" />
+                    </div>
+
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">To Date<span class="required">&nbsp;*</span></span>
+                        </div>
+
+                        <input type="date" placeholder="dd-mm-yyyy" class="form-control" [ngClass]="{
+                          'is-invalid':
+                          SnacksSummaryReport.get('snacksSummaryReportToDate').errors &&
+                            (SnacksSummaryReport.get('snacksSummaryReportToDate').touched ||
+                            SnacksSummaryReport.get('snacksSummaryReportToDate').dirty)
+                        }" formControlName="snacksSummaryReportToDate" />
+                    </div>
+
+
+                    <button type="submit" class="btn btn-outline-success btn-block btn-xs">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+        <hr />
+
+        <p-table #dt *ngIf="itemList != null" [value]="itemList" [globalFilterFields]="[
+                'declareDate',
+                'itemName',
+                'makeQty',
+                'makeCost',
+                'saleQty',
+                'salePrice',
+                'totalSaleAmount',
+                'officialQty',
+                'officialGuestCost',
+                'damageQty',
+                'damageCost',
+                'balance'
+            ]" dataKey="itemId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">>
+            <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix" style="text-align: left">
+                    <button (click)="exportExcel()" type="button" class="btn btn-outline-success btn-xs mr-2">
+                        <i class="fa fa-excel"></i>
+                        Excel
+                    </button>
+
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="bc">
+                    <th>SL</th>
+                    <th [pSortableColumn]="'declareDate'">
+                        Date
+                        <p-sortIcon [field]="'declareDate'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'itemName'">
+                        Item Name
+                        <p-sortIcon [field]="'itemName'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'makeQty'">
+                        Making Qty
+                        <p-sortIcon [field]="'makeQty'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'makeCost'">
+                        Making Cost Per Unit
+                        <p-sortIcon [field]="'makeCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'saleQty'">
+                        Sale Qty
+                        <p-sortIcon [field]="'saleQty'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'salePrice'">
+                        Sale Price
+                        <p-sortIcon [field]="'salePrice'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'totalSaleAmount'">
+                        Total Sale Amount
+                        <p-sortIcon [field]="'totalSaleAmount'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'officialQty'">
+                        Official Guest Qty
+                        <p-sortIcon [field]="'officialQty'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'officialGuestCost'">
+                        Official Guest Cost
+                        <p-sortIcon [field]="'officialGuestCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'damageQty'">
+                        Damage Qty
+                        <p-sortIcon [field]="'damageQty'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'damageCost'">
+                        Damage Cost
+                        <p-sortIcon [field]="'damageCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'balance'">
+                        Balance
+                        <p-sortIcon [field]="'balance'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+
+
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'declareDate', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'itemName', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'makeQty', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'makeCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'saleQty', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'salePrice', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'totalSaleAmount', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'officialQty', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'officialGuestCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'damageQty', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'damageCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'balance', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData" class="center">
+                    <td>{{ ri + 1 }}</td>
+                    <td>{{ rowData.declareDate }}</td>
+                    <td>{{ rowData.itemName }}</td>
+                    <td>{{ rowData.makeQty }}</td>
+                    <td>{{ rowData.makeCost }}</td>
+                    <td>{{ rowData.saleQty }}</td>
+                    <td>{{ rowData.salePrice }}</td>
+                    <td>{{ rowData.totalSaleAmount }}</td>
+                    <td>{{ rowData.officialQty }}</td>
+                    <td>{{ rowData.officialGuestCost }}</td>
+                    <td>{{ rowData.damageQty }}</td>
+                    <td>{{ rowData.damageCost }}</td>
+                    <td>{{ rowData.balance }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+    </form>
+</p-panel>

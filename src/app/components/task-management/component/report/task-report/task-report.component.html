@@ -1,0 +1,257 @@
+<p-panel header="Task Report" [toggleable]="true">
+    <form [formGroup]="reactiveForm" class="form" (ngSubmit)="Process()" role="form">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">From Date<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <input [ngClass]="{
+                  'is-invalid':
+                    reactiveForm.get('fromDate').errors &&
+                    (reactiveForm.get('fromDate').touched ||
+                      reactiveForm.get('fromDate').dirty)
+                }" class="form-control form-control-sm" formControlName="fromDate" type="date" />
+
+                    </div>
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">To Date<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <input [ngClass]="{
+                  'is-invalid':
+                    reactiveForm.get('toDate').errors &&
+                    (reactiveForm.get('toDate').touched ||
+                      reactiveForm.get('toDate').dirty)
+                }" class="form-control form-control-sm" type="date" formControlName="toDate" />
+
+                    </div>
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Service Provider</span>
+                        </div>
+                        <input class="form-control form-control-sm" formControlName="employeeId" />
+                    </div>
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Department</span>
+                        </div>
+                        <input [typeahead]="taskCommonService.departments" [typeaheadMinLength]="0"
+                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                            (typeaheadNoResults)="DepartmentSelectNoResults($event)"
+                            (typeaheadOnSelect)="OnSelectDepartment($event)" typeaheadOptionField="departmentName"
+                            [ngClass]="{
+'is-invalid':
+reactiveForm.get('department').errors &&
+  (reactiveForm.get('department').touched ||
+  reactiveForm.get('department').dirty)
+}" class="form-control form-control-sm" type="text" formControlName="department" />
+                    </div>
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Section</span>
+                        </div>
+                        <input [typeahead]="taskCommonService.sections" [typeaheadMinLength]="0"
+                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                            (typeaheadNoResults)="SectionSelectNoResults($event)"
+                            (typeaheadOnSelect)="OnSelectSection($event)" typeaheadOptionField="sectionName" [ngClass]="{
+'is-invalid':
+reactiveForm.get('section').errors &&
+  (reactiveForm.get('section').touched ||
+  reactiveForm.get('section').dirty)
+}" class="form-control" type="text" formControlName="section" />
+                    </div>
+
+
+                    <button type="submit" class="btn btn-outline-success btn-block btn-xs">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <p-table #dt [value]="resultList" [globalFilterFields]="[
+          'id',
+          'title',
+          'description',
+          'responsibleDeptName',
+          'responsibleSectionName',
+          'taskCreatorName',
+          'createDate',
+          'taskEndDate',
+          'supervisorName',
+          'serviceProviderName',
+          'taskStatusText'
+        ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">>
+            <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix" style="text-align: left">
+                    <button (click)="exportExcel()" type="button" class="btn btn-outline-success btn-xs mr-2">
+                        <i class="fa fa-excel"></i>
+                        Excel
+                    </button>
+
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="bc">
+                    <th>SL</th>
+                    <th [pSortableColumn]="'id'">
+                        Task No.
+                        <p-sortIcon [field]="'id'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'title'">
+                        Task Title
+                        <p-sortIcon [field]="'title'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'description'">
+                        Task Description
+                        <p-sortIcon [field]="'description'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'responsibleDeptName'">
+                        Department
+                        <p-sortIcon [field]="'responsibleDeptName'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'responsibleSectionName'">
+                        Section
+                        <p-sortIcon [field]="'responsibleSectionName'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th style="text-align: right" [pSortableColumn]="'taskCreatorName'">
+                        Request From
+                        <p-sortIcon [field]="'taskCreatorName'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'createDate'">
+                        Create Date
+                        <p-sortIcon [field]="'createDate'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'taskEndDate'">
+                        Done Date
+                        <p-sortIcon [field]="'taskEndDate'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'supervisorName'">
+                        Assigned By
+                        <p-sortIcon [field]="'supervisorName'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'serviceProviderName'">
+                        Done By
+                        <p-sortIcon [field]="'serviceProviderName'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'taskStatusText'">
+                        Status
+                        <p-sortIcon [field]="'taskStatusText'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                </tr>
+                <tr>
+                    <td></td>                   
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'id', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'title', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'description', 'contains')
+                " class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'responsibleDeptName', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'responsibleSectionName', 'contains')
+                " class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'taskCreatorName', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'createDate', 'contains')
+                " class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'taskEndDate', 'contains')
+                " class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'supervisorName', 'contains')
+                " class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'serviceProviderName', 'contains')
+                " class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="
+                  dt.filter($event.target.value, 'taskStatusText', 'contains')
+                " class="p-column-filter" />
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData" class="center">
+                    <td>{{ ri + 1 }}</td>
+                    <td>{{ rowData.id }}</td>
+                    <td>{{ rowData.title }}</td>
+                    <td>{{ rowData.description }}</td>
+                    <td>{{ rowData.responsibleDeptName }}</td>
+                    <td>{{ rowData.responsibleSectionName }}</td>
+                    <td>{{ rowData.taskCreatorName }}</td>
+                    <td>{{ rowData.createDate | date:'M/d/yy, h:mm a' }}</td>
+                    <td>{{ rowData.taskEndDate | date:'M/d/yy, h:mm a' }}</td>
+                    <td>{{ rowData.supervisorName }}</td>
+                    <td>{{ rowData.serviceProviderName }}</td>
+                    <td>{{ rowData.taskStatusText }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </form>
+</p-panel>

@@ -1,0 +1,94 @@
+<form [formGroup]="DriverAssignmentForm">
+  <section>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Driver<span class="required">&nbsp;*</span></span>
+                </div>
+                <input [ngClass]="{
+                      'is-invalid':
+                      DriverAssignmentForm.get('driverName').errors &&
+                        (DriverAssignmentForm.get('driverName').touched ||
+                        DriverAssignmentForm.get('driverName').dirty)
+                    }" formControlName="driverName" [typeahead]="AllDriverDropdown" [typeaheadMinLength]="0"
+                  [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                  (typeaheadNoResults)="typeaheadNoResults($event)" (typeaheadOnSelect)="onSelectDriver($event)"
+                  typeaheadOptionField="label" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Vehicle<span class="required">&nbsp;*</span></span>
+                </div>
+                <input [ngClass]="{
+                    'is-invalid':
+                    DriverAssignmentForm.get('vehicleName').errors &&
+                      (DriverAssignmentForm.get('vehicleName').touched ||
+                      DriverAssignmentForm.get('vehicleName').dirty)
+                  }" formControlName="vehicleName" [typeahead]="AllVehicleDropdown" [typeaheadMinLength]="0"
+                  [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                  (typeaheadNoResults)="typeaheadNoResultsVehicle($event)" (typeaheadOnSelect)="onSelectVehicle($event)"
+                  typeaheadOptionField="label" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Assign From<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="datetime-local" id="assignFromDate" formControlName="assignFromDate" class="form-control"
+                  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Assign To<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="datetime-local" id="assignToDate" formControlName="assignToDate" class="form-control"
+                  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <div class="input-group mb-1 mx-3">
+                <textarea id="remarks" name="remarks" rows="3" cols="30" formControlName="remarks"
+                  class="form-control textarea" placeholder="Please Enter Remarks..." autocomplete="off"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group" style="padding-top: 0px">
+              <button class="btn btn-x btn-outline-success mr-2 mx-3" (click)="Onsubmit()">
+                <i class="fa fa-file"></i> {{ButtonName}}
+              </button>
+              <button class="btn btn-x btn-outline-warning" (click)="clear()">
+                <i class="fa fa-refresh"></i> Clear
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</form>

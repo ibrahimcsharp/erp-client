@@ -1,0 +1,373 @@
+<p-panel header="My KPI Dashboard" [toggleable]="true">
+
+
+  <div class="card">
+    <!-- Caption -->
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <button pTooltip="New Project Add" class="btn btn-success btn-xs mr-2">
+          <i class="fa fa-plus" aria-hidden="true"></i> Add New Project
+        </button><br>
+
+        <input type="text" pInputText size="50" placeholder="Global Filter"
+          (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+      </div>
+
+    </ng-template>
+    <!-- header -->
+    <p-table #dt6 rowExpandMode="single" expandableRows="true" [value]="allKpiAssignedList" dataKey="id" editMode="row"
+      [scrollable]="true" scrollHeight="400px">
+      <ng-template pTemplate="header">
+        <tr>
+          <th
+            style=" width: 100px; padding: 2px 3px !important; color: black !important; background-color: #58cdff !important; text-align: center; font-size: 12px; font-weight: bold;">
+            SL</th>
+          <th
+            style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #58cdff !important; text-align: center; font-size: 12px; font-weight: bold;">
+            KPI</th>
+          <th
+            style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #58cdff!important; text-align: center; font-size: 12px; font-weight: bold;">
+            Weight</th>
+          <th
+            style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #58cdff !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Target/Goal</th>
+          <th
+            style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #58cdff !important; text-align: center; font-size: 12px; font-weight: bold;">
+           Details</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+        <tr
+          style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          <td>{{ri+1}}</td>
+          <td>{{rowData.kpiName}}</td>
+          <td>{{rowData.weightNumber}}</td>
+          <td>{{rowData.targetNumber}}</td>
+          <td>
+            <button
+              style=" padding: 2px 3px !important; color: black !important; text-align: center; font-size: 12px; font-weight: bold!important; "
+              class="btn btn-outline-warning btn-xs mr-2" (click)="getKpiDetailsDisplay(rowData)">
+              Details
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <p-dialog header="KPI INFO" [(visible)]="kpidetailsDisplay" [style]="{ width: '80vw'}" [baseZIndex]="10000">
+    <form [formGroup]="kpiForm">
+      <p-table #dt7 dataKey="id" [scrollable]="true" [value]="kpidetails" scrollDirection="both" scrollHeight="50vw">
+        <ng-template pTemplate="header">
+          <tr class="bc">
+            <td colspan="7">
+              <input type="text" formControlName="kpiName" class="form-control form-control-sm"
+                style="text-align:center;" readonly />
+            </td>
+            <td colspan="2">
+              <!-- prev year -->
+              <input type="number" formControlName="previousYearId" class="form-control form-control-sm"
+                style="text-align:center;" readonly />
+            </td>
+            <td colspan="2">
+              <input type="number" formControlName="yearId" class="form-control form-control-sm"
+                style="text-align:center;" readonly />
+            </td>
+            <td colspan="2"
+              style=" padding: 2px 3px !important; color: rgb(76, 76, 76) !important; background-color: #E8ADAA !important; text-align: center; font-size: 12px; font-weight: bold;">
+              %
+            </td>
+          </tr>
+          <tr>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              SL
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Leader
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Co-Leader
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Target
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              YTD
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Type
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Month
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="doubleTypeColOne" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="doubleTypeColTwo" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="doubleTypeColOne" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="doubleTypeColTwo" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="avgKpiOneTitle" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="avgKpiTwoTitle" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+          <tr>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12">{{ri+1}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="leaderName" pInputText type="text" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="coLeaderName" pInputText type="text" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="targetNumber" pInputText type="number" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="ytdValue" pInputText type="number" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="typeName" pInputText type="text" class="form-control" readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{rowData.month}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.dblTypValOnePrevYr"
+                class="form-control form-control-sm" (input)="doubleTypeCalPrevYrOne(rowData)"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Independent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.dblTypValTwoPrevYr"
+                (input)="doubleTypeCalPrevYrTwo(rowData)" class="form-control form-control-sm"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Independent'? true : null " />
+            </td>
+
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.doubleTypeValOne"
+                class="form-control form-control-sm" (input)="doubleTypeCalOne(rowData)"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Independent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.doubleTypeValTwo"
+                (input)="doubleTypeCalTwo(rowData)" class="form-control form-control-sm"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Independent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">{{rowData.firstAverage}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;">{{rowData.secondAverage}}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              colspan="7">Total Value =</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{doubleTypeTotalValOnePrevYr}}</td>
+              <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{doubleTypeTotalValTwoPrevYr}}</td>
+              <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          
+              {{doubleTypeTotalValOne}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{doubleTypeTotalValTwo}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{doubleTypeTotalValFirstAvg}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{doubleTypeTotalValSecAvg}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <button type="button" class="btn btn-outline-success" style="margin-top: 20px;" (click)="onSaveKpiDetail()"><i
+          class="fa fa-plus" aria-hidden="true"></i> Save </button>&nbsp;&nbsp;
+    </form>
+
+  </p-dialog>
+
+
+
+
+
+  <!-- //new table -->
+
+  <p-dialog header="KPI INFO" [(visible)]="kpidetailsDisplay2" [style]="{ width: '80vw'}" [baseZIndex]="10000">
+    <form [formGroup]="kpiForm">
+      <p-table #dt7 dataKey="id" [scrollable]="true" [value]="kpidetails" scrollDirection="both" scrollHeight="50vw">
+        <ng-template pTemplate="header">
+
+          <tr>
+            <td colspan="10">
+              <input type="text" formControlName="kpiName" class="form-control form-control-sm"
+                style="text-align:center;" readonly />
+            </td>
+            <td colspan="2"
+              style=" padding: 2px 3px !important; color: rgb(76, 76, 76) !important; background-color: #E8ADAA !important; text-align: center; font-size: 12px; font-weight: bold;">
+              %
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style=" width: 50px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              SL
+            </td>
+            <td
+              style=" width: 120px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Leader
+            </td>
+            <td
+              style=" width: 120px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Co-Leader
+            </td>
+            <td
+              style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Target
+            </td>
+            <td
+              style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              YTD
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Type
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Month
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="tripleTypeColOne" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="tripleTypeColTwo" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="tripleTypeColThree" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="avgKpiOneTitle" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="avgKpiTwoTitle" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+          <tr>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12">{{ri+1}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="leaderName" pInputText type="text" class="form-control" readonly />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="coLeaderName" pInputText type="text" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="targetNumber" pInputText type="number" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="ytdValue" pInputText type="number" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="typeName" pInputText type="text" class="form-control" readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{rowData.month}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.tripleTypeValOne"
+                class="form-control form-control-sm" (input)="tripleTypeCalFstCol(rowData)"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Independent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.tripleTypeValTwo"
+                class="form-control form-control-sm" (input)="tripleTypeCalAvgSecCol(rowData)"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Independent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.tripleTypeValThree"
+                class="form-control form-control-sm" (input)="tripleTypeCalAvgThirdCol(rowData)"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Independent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">{{rowData.firstAverage}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;">{{rowData.secondAverage}}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              colspan="7">Total Value =</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{tripleTypeTotalValOne}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{tripleTypeTotalValTwo}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{tripleTypeTotalValThree}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{tripleTypeTotalValFirstAvg}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{tripleTypeTotalValSecAvg}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <button type="button" class="btn btn-outline-success" style="margin-top: 20px;" (click)="onSaveKpiDetail()"><i
+          class="fa fa-plus" aria-hidden="true"></i> Save </button>&nbsp;&nbsp;
+    </form>
+
+  </p-dialog>

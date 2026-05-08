@@ -1,0 +1,16 @@
+td > input {
+  width: 100%;
+  background-color: #9da6ff;
+  font-weight: bold;
+}
+input {
+  background-color: #9da6ff;
+  font-weight: bold !important;
+}
+tr > th {
+  text-transform: uppercase;
+  text-align: center;
+}
+tr > td {
+  font-weight: bold;
+}

@@ -1,0 +1,89 @@
+<p-panel header="Monthly Meal Cost Summary" [toggleable]="true">
+    <form [formGroup]="MealSummaryForm" class="form" (ngSubmit)="Process()" role="form">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Month<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <select [ngClass]="{
+                       'is-invalid':
+                        MealSummaryForm.get('monthId').errors &&
+                        (MealSummaryForm.get('monthId').touched ||
+                        MealSummaryForm.get('monthId').dirty)}" 
+                        class="form-control form-control-sm" formControlName="monthId">
+                            <option value="">==Select One==</option>
+                            <option *ngFor="let item of mealMonthsList" [ngValue]="item.id">
+                                {{ item.monthName }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="input-group input-group-sm mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Year<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <select [ngClass]="{
+                        'is-invalid':
+                         MealSummaryForm.get('yearId').errors &&
+                        (MealSummaryForm.get('yearId').touched ||
+                         MealSummaryForm.get('yearId').dirty)}" 
+
+                        class="form-control form-control-sm" formControlName="yearId">
+                            <option value="">==Select One==</option>
+                            <option *ngFor="let year of commonService.YearSelectList" [ngValue]="year.value">
+                                {{ year.label }}
+                            </option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-outline-success btn-block btn-xs">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <p-table 
+         #dt 
+         *ngIf="summaryList != null"
+         [value]="summaryList"
+          [globalFilterFields]="[]" 
+          dataKey="Id" 
+          editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[5, 10, 50, 100]">>
+          <ng-template pTemplate="caption">
+             <div class="ui-helper-clearfix" style="text-align: left">
+                 <button (click)="exportExcel()" type="button" class="btn btn-outline-info btn-xs mr-2">
+                    <i class="fa fa-spinner"></i> Excel Download
+                 </button>
+        
+                 <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+             </div>
+           </ng-template>
+         <ng-template pTemplate="header">
+            <tr class="bc">
+                <th>Type Or Name</th>
+                <th>No. of Meal</th>
+                <th>Monthly Food Cost</th>
+                <th>Monthly Fixed Cost</th>
+                <th>Total Monthly Meal Cost</th>
+                <th>Payable Amount</th>
+                <th>Comment</th>
+            </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData" class="center">
+                    <td>{{rowData.typeOrName}}</td>
+                    <td>{{rowData.noOfMeal}}</td>
+                    <td>{{rowData.monthlyFoodCost.toFixed(2)}}</td>
+                    <td>{{rowData.monthlyFixedCost.toFixed(2)}}</td>
+                    <td>{{rowData.totalMonthlyMealCost.toFixed(2)}}</td>
+                    <td>{{rowData.payableAmount.toFixed(2)}}</td>
+                    <td>{{rowData.comment}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </form>
+</p-panel>

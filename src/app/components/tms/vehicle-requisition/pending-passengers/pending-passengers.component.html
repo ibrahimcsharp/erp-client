@@ -1,0 +1,144 @@
+<p-panel header="Requisition Status For Passengers" [toggleable]="true">
+  <p-table #dt [value]="VehicleRequisitionModelList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+    [rows]="200" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Created By</th>
+        <th>Created Date</th>
+        <th>Requisition For</th>
+        <th>Pickup Location</th>
+        <th>Drop Location</th>
+        <th>Requisition Date Time</th>
+        <th>Pickup Date Time</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'createBy', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'requisitionForName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'pickupLocation', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'dropLocation', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'startTime', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'status', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-vehicle let-rowIndex="rowIndex">
+      <tr>
+        <td>{{vehicle.createBy}}</td>
+        <td>{{vehicle.createDate | date:'MMMM d, y, h:mm a'}}</td>
+        <td>{{vehicle.requisitionForName}}</td>
+        <td>{{vehicle.pickupLocation}}</td>
+        <td>{{vehicle.dropLocation}}</td>
+        <td>{{vehicle.startTime | date:'MMMM d, y, h:mm a'}}</td>
+        <td>{{vehicle.fromDate | date:'MMMM d, y, h:mm a'}}</td>
+        <td
+          [ngClass]="{ 'text-success':vehicle.status === 'Approved',  'text-danger':vehicle.status.includes('Cancel') ,  'text-primary':vehicle.status === 'Pending',  'text-warning':vehicle.status.includes('Rejected'),  'bg-info text-white':vehicle.status === 'Vehicle Assigned',  'bg-success text-green':vehicle.status === 'Complete'}">
+          {{vehicle.status}}</td>
+
+        <td>
+          <ng-container *ngIf="vehicle.status === 'Pending'">
+            <button class="btn-xs btn-outline-primary mr-2" (click)="cancel(vehicle)">
+              <i class="fa fa-pencil"></i> Cancel
+            </button>
+          </ng-container>
+          <button class="btn-xs btn-outline-success mr-2" (click)="show(vehicle)">
+            <i class="fa fa-eye"></i>
+          </button>
+          <ng-container *ngIf="vehicle.fileCount > 0">
+            <button class="btn-xs btn-outline-success mr-2" (click)="fileView(vehicle)">
+              <i class="fa fa-file"></i>
+            </button>
+          </ng-container>
+          <!--  LIVE LOCATION is turned off
+            <ng-container *ngIf="vehicle.status === 'Vehicle Assigned'">
+              <button (click)="openMap(vehicle)" pTooltip="Live Location" class="btn btn-success btn-xs mr-2">
+                <i class="fa fa-map-marker" aria-hidden="true"></i> Live Location
+              </button>
+            </ng-container> -->
+        </td>
+      </tr>
+    </ng-template>
+
+
+  </p-table>
+</p-panel>
+
+<p-dialog header="Vehicle Requisition Details" [(visible)]="displayCreate" [style]="{ width: '90vw' }"
+  [baseZIndex]="10000">
+  <app-requisition-passengers-view #VehicleRequisitionDeatills (VehicleRequisitionModelList)="loadVehicleRequisition()">
+  </app-requisition-passengers-view>
+</p-dialog>
+
+<p-dialog header="Vehicle Requisition Rejected Reason" [(visible)]="displayCancel" [style]="{ width: '70vw' }"
+  [baseZIndex]="10000">
+  <app-requisition-cancel (submitSuccess)="onChildSubmit()" #VehicleRequisitionCancel
+    (VehicleRequisitionModelList)="loadVehicleRequisition()">
+  </app-requisition-cancel>
+</p-dialog>
+
+<p-dialog header="map" [(visible)]="displayGoogleMap" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+  <div class="row">
+
+    <div class="col-xl-12">
+      <!--begin::Charts Widget 1-->
+      <div class="card card-custom bg-gray-100 gutter-b card-stretch card-shadowless" id="dash-chart-widget">
+
+        <!--end::Header-->
+        <!--begin::Body-->
+        <div class="card-body" id="map" style="height: 400px; position: relative; overflow: hidden;">
+          <div
+            style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+            <app-google-map></app-google-map>
+          </div>
+        </div>
+        <!--end::Body-->
+      </div>
+      <!--end::Charts Widget 1-->
+
+
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog header="File Info" [(visible)]="displayBasic" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+  <p-table [value]="commonFilesList" dataKey="id" [scrollable]="true">
+    <ng-template pTemplate="header">
+      <tr style="border: 0 !important" class="bc">
+        <th style="width: 20px; position: relative;">SL</th>
+        <th style="width: 80px;">File</th>
+        <th style="width: 40px;">Upload Date</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+      <tr style="border: 0 !important" [pEditableRow]="rowData" class="center">
+        <td style="width: 20px; position: relative;">{{ ri + 1 }}</td>
+        <td style="width: 80px;"> <a href="{{url}}{{ rowData.location}}" target="_blank">{{rowData.docTitle}}</a>
+        </td>
+        <td style="width: 40px;">{{rowData.uploadDate | date:'dd/MM/yyyy h:mm a'}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>

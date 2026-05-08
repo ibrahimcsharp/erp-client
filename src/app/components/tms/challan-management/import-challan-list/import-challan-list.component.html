@@ -1,0 +1,64 @@
+<button style="margin-bottom: 20px;" (click)="saveAPIImportData()" [disabled]="isLoading"
+    class="btn btn-xs btn-outline-success mr-2">
+    Refresh Import Challan
+</button>
+<br>
+<p-panel header="Import Challan List" [toggleable]="true">
+    <p-table #dt [value]="ChallanImportList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+        [rows]="10" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 30px">SL</th>
+                <th>Date</th>
+                <th>Vehicle No</th>
+                <th>Transport Vendor</th>
+                <th>Delivery Challan No</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td style="width: 30px"></td>
+                <td>
+                    <input pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'goodsReleaseDate', 'contains')" class="p-column-filter"
+                        style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'truckNumber', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'transportName', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'truckChallanNo', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-challan let-rowIndex="rowIndex">
+            <tr>
+                <td style="width: 30px">{{ rowIndex+1 }}</td>
+                <td>{{challan.goodsReleaseDate | date:'MMMM d, y'}}</td>
+                <td>{{challan.truckNumber}}</td>
+                <td>{{challan.transportName}}</td>
+                <td>{{challan.truckChallanNo}}</td>
+                <td>
+                    <a type="button" target="_blank" href="/tms/costing-form-import/{{challan.id}}"
+                        class="btn btn-xs btn-outline-success">
+                        <i class="fa fa-external-link" aria-hidden="true"></i> Costing</a>
+                    <!-- <button type="button" class="btn btn-xs btn-outline-success mr-2"
+                        (click)="showChallanDialog(challan)">
+                        <i class="fa fa-pencil"></i> Costing
+                    </button> -->
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>
+<!-- <p-dialog header="Costing Form" [(visible)]="displayDialog" [modal]="true">
+    <app-costing-form #createCosting></app-costing-form>
+</p-dialog> -->

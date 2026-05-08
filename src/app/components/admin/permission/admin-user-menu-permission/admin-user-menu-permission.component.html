@@ -1,0 +1,81 @@
+<div class="ex1">
+    <div *ngFor="let choice of items; let i = index" class="col-md-12">
+      <div class="col-md-12">
+        <label style="font-size: 18px; font-weight: 900">
+          <input type="checkbox" [value]="choice.id" [checked]="choice.isSelected" (change)="onCheckChange($event)" />
+          {{ choice.title }}
+        </label>
+        <ul style="padding-left: 80px">
+          <li class="mr-3" *ngFor="let dp of choice.appUserDataPermissionList; let i = index">
+            <i><label style="font-size: 12px; font-weight: 500; color: #ff8084">
+                <input type="checkbox" [value]="dp.actionSetupId" [checked]="dp.isSelected"
+                  (change)="onActionCheckChange($event)" />
+                {{ dp.actionName }} 
+              </label></i>
+          </li>
+        </ul>
+  
+        <div style="padding-left: 60px" *ngFor="let choice1 of choice.children; let i = index" class="col-md-12">
+          <label style="font-size: 16px; font-weight: 700">
+            <input type="checkbox" [value]="choice1.id" [checked]="choice1.isSelected" (change)="onCheckChange($event)" />
+            {{ choice1.title }}
+          </label>
+          <ul style="padding-left: 60px">
+            <li class="mr-3" *ngFor="let dp1 of choice1.appUserDataPermissionList; let i = index">
+              <i><label style="font-size: 12px; font-weight: 500; color: #ff8084">
+                  <input type="checkbox" [value]="dp1.actionSetupId" [checked]="dp1.isSelected"
+                    (change)="onActionCheckChange($event)" />
+                  {{ dp1.actionName }} 
+                </label></i>
+            </li>
+          </ul>
+          <div style="padding-left: 60px" *ngFor="let choice2 of choice1.children; let i = index" class="col-md-12">
+            <label style="font-size: 14px; font-weight: 600">
+              <input type="checkbox" [value]="choice2.id" [checked]="choice2.isSelected"
+                (change)="onCheckChange($event)" />
+              {{ choice2.title }}
+            </label>
+            <ul style="padding-left: 60px">
+              <li class="mr-3" *ngFor="
+                  let dp2 of choice2.appUserDataPermissionList;
+                  let i = index
+                ">
+                <i><label style="font-size: 12px; font-weight: 500; color: #ff8084">
+                    <input type="checkbox" [value]="dp2.actionSetupId" [checked]="dp2.isSelected"
+                      (change)="onActionCheckChange($event)" />
+                    {{ dp2.actionName }} 
+                  </label></i>
+              </li>
+            </ul>
+            <div style="padding-left: 60px" *ngFor="let choice3 of choice2.children; let i = index" class="col-md-12">
+              <label style="font-size: 12px; font-weight: 500">
+                <input type="checkbox" [value]="choice3.id" [checked]="choice3.isSelected"
+                  (change)="onCheckChange($event)" />
+                {{ choice3.title }}
+              </label>
+              <ul style="padding-left: 60px">
+                <li class="mr-3" *ngFor="
+                    let dp3 of choice3.appUserDataPermissionList;
+                    let i = index
+                  ">
+                  <i><label style="font-size: 12px; font-weight: 500; color: #ff8084">
+                      <input type="checkbox" [value]="dp3.actionSetupId" [checked]="dp3.isSelected"
+                        (change)="onActionCheckChange($event)" />
+                      {{ dp3.actionName }} 
+                    </label></i> 
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
+  <hr />
+  <!-- 
+  <p-tree [value]="items" selectionMode="checkbox"
+    [style]="{ 'font-size': '16px', 'font-weight': '700', 'width':'100%' }" (onNodeSelect)="onNodeSelect($event)"
+    (onNodeUnselect)="onNodeUnselect($event)"></p-tree>
+  <hr /> -->
+  <button class="btn btn-success" (click)="GetCheckBoxvalue()">Permission</button>

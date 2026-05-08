@@ -1,0 +1,260 @@
+<form [formGroup]="RequisitionLogisticsForm">
+  <br>
+  <section>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Required For<span class="required">&nbsp;*</span></span>
+                </div>
+                <select formControlName="requiredFor" class="p-inputtext-sm form-control">
+                  <option value="Export">Export</option>
+                  <option value="Import">Import</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Required Vehicle Type<span class="required">*</span></span>
+                </div>
+                <select id="vehicleTypeId" formControlName="vehicleTypeId" class="form-control" [ngClass]="{'is-invalid':RequisitionLogisticsForm.get('vehicleTypeId').errors &&
+                      (RequisitionLogisticsForm.get('vehicleTypeId').touched ||
+                      RequisitionLogisticsForm.get('vehicleTypeId').dirty)}">
+                  <option *ngFor="let type of tmsService.allTypeListDropdown" [ngValue]="type.value">
+                    {{ type.label }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Requisition For<span class="required">&nbsp;*</span></span>
+                </div>
+                <select formControlName="requisitionFor" class="p-inputtext-sm form-control"
+                  (change)="changeassignedFor($event)">
+                  <option value="">===Select One===</option>
+                  <option value=1>Buyers</option>
+                  <option value=2>Management</option>
+                  <option value=3>Department</option>
+                  <option value=5>Company</option>
+                  <option value=6>Employee</option>
+                  <option value=7>Customer</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="isCompany">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Company<span class="required">&nbsp;*</span></span>
+                </div>
+                <select class="form-control " formControlName="companyId" id="companyId" [ngClass]="{
+                      'is-invalid':
+                      RequisitionLogisticsForm.get('companyId').errors &&
+                        (RequisitionLogisticsForm.get('companyId').touched ||
+                        RequisitionLogisticsForm.get('companyId').dirty)
+                    }">
+                  <option *ngFor="let company of commonService.CompanySelectedList" [ngValue]="company.value">
+                    <ng-container *ngIf="company.label != 'Select'">
+                      {{ company.label }}
+                    </ng-container>
+                    <ng-container *ngIf="company.label == 'Select'">
+                      ===Select One===
+                    </ng-container>
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="isBuyer">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Buyer<span class="required">&nbsp;*</span></span>
+                </div>
+                <select class="form-control " formControlName="buyerId" id="buyerId" [ngClass]="{
+                          'is-invalid':
+                          RequisitionLogisticsForm.get('buyerId').errors &&
+                            (RequisitionLogisticsForm.get('buyerId').touched ||
+                            RequisitionLogisticsForm.get('buyerId').dirty)
+                        }">
+                  <option *ngFor="let item of commonService.BuyerSelectList" [ngValue]="item.value">
+                    <ng-container *ngIf="item.label != 'Select'">
+                      {{ item.label }}
+                    </ng-container>
+                    <ng-container *ngIf="item.label == 'Select'">
+                      ===Select One===
+                    </ng-container>
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-6" *ngIf="isDepartment">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Department<span class="required">&nbsp;*</span></span>
+                </div>
+                <p-multiSelect formControlName="departmentId" id="departmentId" [ngClass]="{
+                      'is-invalid':
+                      RequisitionLogisticsForm.get('departmentId').errors &&
+                        (RequisitionLogisticsForm.get('departmentId').touched ||
+                        RequisitionLogisticsForm.get('departmentId').dirty)
+                    }" [options]="tmsService.allDepartmentListDropdown"
+                  [style]="{ 'width': '20vw','height':'25px', 'font-size':'3px !important'  }"
+                  [(ngModel)]="selectedDepartments" defaultLabel="===Select Department===" optionLabel="label"
+                  display="employee" [ngModelOptions]="{ standalone: true }"></p-multiSelect>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="isEmployee">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Employee<span class="required">&nbsp;*</span></span>
+                </div>
+                <p-multiSelect formControlName="employeeId" id="employeeId" [ngClass]="{
+                        'is-invalid':
+                        RequisitionLogisticsForm.get('employeeId').errors &&
+                          (RequisitionLogisticsForm.get('employeeId').touched ||
+                          RequisitionLogisticsForm.get('employeeId').dirty)
+                      }" [style]="{ 'width': '25vw','height':'20px', 'font-size':'3px !important'  }"
+                  [styleClass]="form-control" [options]="tmsService.allEmployeeListDropdown"
+                  [(ngModel)]="selectedEmployees" defaultLabel="===Select Employee===" optionLabel="label"
+                  display="employee" [ngModelOptions]="{ standalone: true }"></p-multiSelect>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="isCustomer">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Customer Name<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="text" id="customerName" formControlName="customerName" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Loading Capacity<span class="required">&nbsp;*</span></span>
+                </div>
+                <select formControlName="loadingCapacity" class="p-inputtext-sm form-control">
+                  <option value="1.5 Ton">1.5 Ton</option>
+                  <option value="2 Ton">2 Ton</option>
+                  <option value="3 Ton">3 Ton</option>
+                  <option value="5 Ton">5 Ton</option>
+                  <option value="7 Ton">7 Ton</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Goods Weight<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="text" id="goodsWeight" formControlName="goodsWeight" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Store Name<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="text" id="storeName" formControlName="storeName" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Pickup Location<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="text" id="pickupLocation" formControlName="pickupLocation" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Drop Location<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="text" id="dropLocation" formControlName="dropLocation" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Pickup Date & Time<span class="required">&nbsp;*</span></span>
+                </div>
+                <input [ngClass]="{
+                                'is-invalid':
+                                RequisitionLogisticsForm.get('startTime').errors &&
+                                  (RequisitionLogisticsForm.get('startTime').touched ||
+                                  RequisitionLogisticsForm.get('startTime').dirty)
+                              }" class="p-inputtext-sm form-control" type="datetime-local"
+                  formControlName="startTime" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <textarea id="goodsDetails" rows="3" cols="30" formControlName="goodsDetails" class="form-control"
+                  placeholder="Please Enter Goods Details..." autocomplete="off"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <textarea id="remarks" name="remarks" rows="3" cols="30" formControlName="remarks" class="form-control"
+                  placeholder="Please Enter Remarks..." autocomplete="off"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" style="padding-top: 10px">
+              <button class="btn btn-xs btn-outline-success mr-2" (click)="Onsubmit()">
+                <i class="fa fa-file"></i> {{ButtonName}}
+              </button>
+              <button class="btn btn-xs btn-outline-primary" (click)="clear()">
+                <i class="fa fa-refresh"></i> Clear
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</form>

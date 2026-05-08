@@ -1,0 +1,63 @@
+<p-panel header="Route List" [toggleable]="true">
+  <p-table #dt [value]="AllRouteList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true" [rows]="200"
+    [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <button (click)="OpenNew()" pTooltip="Add New Route" class="btn btn-success btn-xs mr-2">
+          <i class="fa fa-plus" aria-hidden="true"></i> New
+        </button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 30px">SL</th>
+        <th>Route Name</th>
+        <th>Fare</th>
+        <th>Remarks</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'routeName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'fare', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'remarks', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'statusName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-route let-rowIndex="rowIndex">
+      <tr>
+        <td style="width: 30px">{{ rowIndex+1 }}</td>
+
+        <td>{{route.routeName}}</td>
+        <td>{{route.fare}}</td>
+        <td [ngClass]="{ 'text-success':route.status === 'Active',  'text-danger':route.status === 'Inactive' }">
+          {{route.status}}</td>
+
+        <td>
+          <button class="btn btn-xs btn-outline-success mr-2" (click)="edit(brand)">
+            <i class="fa fa-pencil"></i> Edit
+          </button>
+        </td>
+
+      </tr>
+    </ng-template>
+
+
+  </p-table>
+</p-panel>

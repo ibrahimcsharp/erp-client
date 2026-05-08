@@ -1,0 +1,140 @@
+<p-panel header="Meal Receiver Setup" [toggleable]="true">
+  <div class="row">
+    <div class="col-md-6">
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Employee Search</legend>
+        <form [formGroup]="reactiveForm" class="form" (ngSubmit)="onSubmit()" role="form">
+          <div class="form-group">
+            <label class="label-control">Unit</label>
+            <select [ngClass]="{
+                'is-invalid':
+                  reactiveForm.get('unitType').errors &&
+                  (reactiveForm.get('unitType').touched ||
+                    reactiveForm.get('unitType').dirty)
+              }" class="form-control form-control-sm" formControlName="unitType">
+              <option value="">==Select One==</option>
+              <option [ngValue]="1">SCO</option>
+              <option [ngValue]="2">SaRa</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-outline-success btn-xs mb-3">
+            <i class="fa fa-search"></i> Search
+          </button>
+
+          <p-table #dt [(selection)]="selectedEmpInfo" *ngIf="empList != null" [value]="activeEmpList"
+            [globalFilterFields]="['employeeId', 'employeeName', 'empType']" dataKey="employeeId" editMode="row"
+            [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">>
+            <ng-template pTemplate="caption">
+              <div class="ui-helper-clearfix" style="text-align: left">
+                <button class="btn btn-success btn-xs mr-2">
+                  {{ selectedEmpInfo.length }}- Employees Selected for lunch
+                </button>
+
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr class="bc">
+                <th>
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <!-- <th>SL</th> -->
+                <th [pSortableColumn]="'employeeId'">
+                  Employee Id
+                  <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order">
+                  </p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'employeeName'">
+                  Employee Name
+                  <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order">
+                  </p-sortIcon>
+                </th>
+              </tr>
+              <tr>
+                <td></td>
+                <!-- <td></td> -->
+                <td>
+                  <input pInputText type="text" (input)="
+                      dt.filter($event.target.value, 'employeeId', 'contains')
+                    " class="p-column-filter" />
+                </td>
+                <td>
+                  <input pInputText type="text" (input)="
+                      dt.filter($event.target.value, 'employeeName', 'contains')
+                    " class="p-column-filter" />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+              <tr [pEditableRow]="rowData" class="center">
+                <td>
+                  <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                </td>
+                <!-- <td>{{ ri + 1 }}</td> -->
+                <td>{{ rowData.employeeId }}</td>
+                <td>{{ rowData.employeeName }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </form>
+      </fieldset>
+    </div>
+    <div class="col-md-6">
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Meal Setup</legend>
+        <form [formGroup]="MealSetupForm" class="form" (ngSubmit)="Process()" role="form">
+          <div class="form-group">
+            <button type="button" class="btn btn-outline-info btn-block btn-xs">
+              <i class="fa fa-users"></i> {{ selectedEmpInfo.length }}-
+              Employees Selected for lunch
+            </button>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <label class="label-control">Month</label>
+                <select [ngClass]="{
+                    'is-invalid':
+                      MealSetupForm.get('monthId').errors &&
+                      (MealSetupForm.get('monthId').touched ||
+                        MealSetupForm.get('monthId').dirty)
+                  }" class="form-control form-control-sm" formControlName="monthId">
+                  <option value="">==Select One==</option>
+                  <option *ngFor="let item of mealMonthsList" [ngValue]="item.id">
+                    {{ item.monthName }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="label-control">Year</label>
+                <select [ngClass]="{
+                    'is-invalid':
+                      MealSetupForm.get('yearId').errors &&
+                      (MealSetupForm.get('yearId').touched ||
+                        MealSetupForm.get('yearId').dirty)
+                  }" class="form-control form-control-sm" formControlName="yearId">
+                  <option value="">==Select One==</option>
+                  <option *ngFor="let year of commonService.YearSelectList" [ngValue]="year.value">
+                    {{ year.label }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-outline-success btn-block btn-xs">
+              <i class="fa fa-spinner"></i> {{ selectedEmpInfo.length }} Process
+            </button>
+          </div>
+        </form>
+      </fieldset>
+    </div>
+  </div>
+</p-panel>

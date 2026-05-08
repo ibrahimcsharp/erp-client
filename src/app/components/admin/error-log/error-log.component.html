@@ -1,0 +1,66 @@
+<p-panel header="Error Logs List" [toggleable]="true">
+    <p-table #dt *ngIf="lstErrorLog.length > 0" [value]="lstErrorLog"
+        [globalFilterFields]="['errorMessage', 'moduleName', 'createdByName']" dataKey="id" editMode="row"
+        [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left">
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="bc">
+                <th>SL</th>
+                <th [pSortableColumn]="'moduleName'">Module Name</th>
+                <th [pSortableColumn]="'errorMessage'">Error Message</th>
+                <th [pSortableColumn]="'createdByName'">Created By</th>
+                <th [pSortableColumn]="'createdDate'">Created Date</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'moduleName', 'contains')"
+                        class="p-column-filter uppercase" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'errorMessage', 'contains')"
+                        class="p-column-filter uppercase" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'createdByName', 'contains')"
+                        class="p-column-filter uppercase" />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'createdDate', 'contains')"
+                        class="p-column-filter uppercase" />
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="rowData" class="center">
+                <td>{{ ri + 1 }}</td>
+                <td>{{ rowData.moduleName }}</td>
+                <td>
+                    <span *ngIf="rowData.errorMessage != null">
+                        {{ isExpanded[ri] ? rowData.errorMessage : (rowData.errorMessage | slice:0:50) + '...' }}
+                        <span (click)="toggleDescription(ri)" style="color: #0D57D0;cursor: pointer !important;">
+                            {{ isExpanded[ri] ? 'Show Less' : 'Show More' }}
+                        </span>
+                    </span>
+                   
+                </td>
+                <!-- <td>
+                    <span *ngIf="!isDescriptionExpanded(rowData)">{{ truncateDescription(rowData.errorMessage) }}</span>
+                    <span *ngIf="isDescriptionExpanded(rowData)">{{ rowData.errorMessage }}</span>
+                    <a *ngIf="rowData.errorMessage?.length > maxChars" (click)="toggleDescriptionExpansion(rowData)">
+                        {{ isDescriptionExpanded(rowData) ? 'Show less' : 'Show more' }}
+                    </a>
+                </td> -->
+                <td>{{ rowData.createdByName }}</td>
+                <td>{{ rowData.createdDate}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>

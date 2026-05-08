@@ -1,0 +1,117 @@
+<div class="modal-header">
+  <h5 class="modal-title f-w-600" id="exampleModalLabel">{{ title }}</h5>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="bsModalRef.hide()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <p-table
+    #dt
+    [value]="res"
+    [globalFilterFields]="[
+      'employeeName',
+      'designation',
+      'department',
+      'optionName'
+    ]"
+    dataKey="id"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]"
+    >>
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <input
+          type="text"
+          pInputText
+          size="50"
+          placeholder="Global Filter"
+          (input)="dt.filterGlobal($event.target.value, 'contains')"
+          style="float: right"
+        />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <!-- <th>SL</th> -->
+        <th [pSortableColumn]="'employeeName'">Employee</th>
+        <th [pSortableColumn]="'designation'">Designation</th>
+        <th [pSortableColumn]="'department'">Department</th>
+        <th [pSortableColumn]="'optionName'">Option</th>
+        <th [pSortableColumn]="'voteDateTime'">Vote Time</th>
+      </tr>
+      <tr>
+        <!-- <td></td> -->
+        <td>
+          <input
+            placeholder="Search...."
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'employeeName', 'contains')"
+            class="p-column-filter uppercase"
+          />
+        </td>
+        <td>
+          <input
+            placeholder="Search...."
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'designation', 'contains')"
+            class="p-column-filter uppercase"
+          />
+        </td>
+        <td>
+          <input
+            placeholder="Search...."
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'department', 'contains')"
+            class="p-column-filter uppercase"
+          />
+        </td>
+        <td>
+          <input
+            placeholder="Search...."
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'optionName', 'contains')"
+            class="p-column-filter uppercase"
+          />
+        </td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-rowData
+      let-editing="editing"
+      let-ri="rowIndex"
+    >
+      <tr [pEditableRow]="rowData">
+        <!-- <td>{{ ri + 1 }}</td> -->
+        <td style="text-align: left">{{ rowData.employeeName }}</td>
+        <td style="text-align: left">{{ rowData.designation }}</td>
+        <td style="text-align: left">{{ rowData.department }}</td>
+        <td style="text-align: left">{{ rowData.optionName }}</td>
+        <td style="text-align: left">
+          {{ rowData.voteDateTime | date: "medium" }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<div class="modal-footer">
+  <div class="alert">
+    <button (click)="bsModalRef.hide()" class="button-back mr-2" role="button">
+      <i class="fa fa-arrow-left mr-2"></i>Back
+    </button>
+  </div>
+</div>

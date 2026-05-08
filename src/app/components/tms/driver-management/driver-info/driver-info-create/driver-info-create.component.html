@@ -1,0 +1,259 @@
+<form [formGroup]="DriverInfoForm">
+  <section>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Driver Name<span class="required">&nbsp;*</span></span>
+                </div>
+                <!-- <input [ngClass]="{
+                  'is-invalid':
+                  DriverInfoForm.get('employeeName').errors &&
+                    (DriverInfoForm.get('employeeName').touched ||
+                    DriverInfoForm.get('employeeName').dirty)
+                }" type="text" id="employeeName" formControlName="employeeName" class="form-control"
+                  autocomplete="off" /> -->
+                <input [ngClass]="{
+                    'is-invalid':
+                    DriverInfoForm.get('employeeName').errors &&
+                      (DriverInfoForm.get('employeeName').touched ||
+                      DriverInfoForm.get('employeeName').dirty)
+                  }" formControlName="employeeName" [typeahead]="GatePassEmployeeList" [typeaheadMinLength]="0"
+                  [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                  (typeaheadNoResults)="typeaheadNoResultsSupervisor($event)"
+                  (typeaheadOnSelect)="onSelectSupervisor($event)" typeaheadOptionField="label" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Employee ID<span class="required">&nbsp;*</span></span>
+                </div>
+                <input [ngClass]="{
+                      'is-invalid':
+                      DriverInfoForm.get('employeeId').errors &&
+                        (DriverInfoForm.get('employeeId').touched ||
+                        DriverInfoForm.get('employeeId').dirty)
+                    }" type="number" id="employeeId" formControlName="employeeId" class="form-control"
+                  autocomplete="off" />
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Mobile No</span>
+                </div>
+                <input type="text" id="mobileNo" formControlName="mobileNo" class="form-control" autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">License No</span>
+                </div>
+                <input type="text" id="licenseNo" formControlName="licenseNo" class="form-control" autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">NID</span>
+                </div>
+                <input type="number" id="nId" formControlName="nId" class="form-control" autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Days to Remind</span>
+                </div>
+                <input type="number" id="daysToRemind" formControlName="daysToRemind" class="form-control"
+                  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">License Expiry Date</span>
+                </div>
+                <input type="date" placeholder="dd-mm-yyyy" class="form-control" formControlName="licenseExpiryDate" />
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                        <span class="input-group-text col-12">Contact Number</span>
+                    </div>
+                    <input type="text" id="contactNo" formControlName="contactNo" class="form-control" autocomplete="off" />
+                </div>
+                </div>
+            </div> -->
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Company</span>
+                </div>
+                <select id="companyId" formControlName="companyId" class="form-control">
+                  <option *ngFor="let company of commonService.CompanySelectedList" [ngValue]="company.value">
+                    {{ company.label | uppercase }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Department Name</span>
+                </div>
+                <input type="text" id="departmentName" formControlName="departmentName" class="form-control"
+                  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Designation</span>
+                </div>
+                <input type="text" id="designation" formControlName="designation" class="form-control"
+                  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Position</span>
+                </div>
+                <input type="text" id="position" formControlName="position" class="form-control" autocomplete="off" />
+              </div>
+            </div>
+          </div> -->
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Work Location</span>
+                </div>
+                <input type="text" id="workLocation" formControlName="workLocation" class="form-control"
+                  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Grade</span>
+                </div>
+                <input type="text" id="grade" formControlName="grade" class="form-control" autocomplete="off" />
+              </div>
+            </div>
+          </div> -->
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Joining Date</span>
+                </div>
+                <input type="date" placeholder="dd-mm-yyyy" class="form-control" formControlName="joiningDate" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Employee Status</span>
+                </div>
+                <select id="employeeStatus" formControlName="employeeStatus" class="form-control">
+                  <option selected value="Active"> Active </option>
+                  <option value="Inactive"> Inactive </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="input-group mb-1">
+              <div class="input-group-prepend paheight col-6">
+                <span class="input-group-text col-12">Weekend</span>
+              </div>
+              <select formControlName="weekend" class="p-inputtext-sm form-control">
+                <option value="">===Select One===</option>
+                <option value="Sunday">Sunday</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="input-group mb-1">
+              <div class="input-group-prepend paheight col-6">
+                <span class="input-group-text col-12">License Document</span>
+              </div>
+              <div class="col-6">
+                <input type="file" #inputFile multiple (change)="getFileDetails($event)" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group" style="padding-top: 10px">
+              <button class="btn btn-s btn-outline-success mx-3 mr-2" (click)="Onsubmit()">
+                <i class="fa fa-file"></i> {{ButtonName}}
+              </button>
+              <button class="btn btn-s btn-outline-warning" (click)="clear()">
+                <i class="fa fa-refresh"></i> Clear
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</form>

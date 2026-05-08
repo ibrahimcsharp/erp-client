@@ -1,0 +1,418 @@
+<form [formGroup]="arrivalForm">
+    <p-panel header="Challan Form" [toggleable]="true">
+        <ng-template pTemplate="icons">
+            <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                <span class="pi pi-cog"></span>
+            </button>
+        </ng-template>
+        <section>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Challan No<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <input type="hidden" formControlName="status" class="form-control" />
+                                <input type="text" id="challanno" formControlName="challanno" class="form-control"
+                                    style="background-color: yellow;" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Challan Date<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" id="challandate" formControlName="challandate"
+                                        style="background-color: yellow;" class="form-control" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Depo Name</span>
+                                    </div>
+                                    <input type="text" id="deponame" formControlName="deponame" class="form-control"
+                                        style="background-color: yellow;" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Depo Address</span>
+                                    </div>
+                                    <input type="text" id="depoaddress" formControlName="depoaddress"
+                                        class="form-control" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Type of Goods</span>
+                                    </div>
+                                    <select formControlName="typeOfGoods" class="form-control input-xs select2" disabled>
+                                         <option value="RMG">Ready Made Garments</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Concern CNF Person</span>
+                                    </div>
+                                    <input type="text" id="cnfname" formControlName="cnfname" class="form-control"
+                                        disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">CNF Mobile No</span>
+                                    </div>
+                                    <input type="text" formControlName="cnfcontactno" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Forwarder Name</span>
+                                    </div>
+                                    <input type="text" formControlName="forwardername" class="form-control" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Driver Name</span>
+                                    </div>
+                                    <input type="text" formControlName="drivername" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Driver Mobile No.</span>
+                                    </div>
+                                    <input type="text" formControlName="drivermobileno" class="form-control" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Driver License No</span>
+                                    </div>
+                                    <input type="text" id="licenseno" formControlName="licenseno" class="form-control"
+                                        disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Vehicle No<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" formControlName="covervanno" class="form-control"
+                                        style="background-color: yellow;" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Loading Date</span>
+                                    </div>
+                                    <input type="date" formControlName="loaddatetime" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Unloading Date</span>
+                                    </div>
+                                    <input type="date" formControlName="unloaddatetime" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Covervan Vendor Name</span>
+                                    </div>
+                                    <input type="text" formControlName="transportcompany" class="form-control"
+                                        style="background-color: yellow;" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Security Lock No</span>
+                                    </div>
+                                    <input type="text" formControlName="securitylockno" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Type of Vehicle</span>
+                                    </div>
+                                    <select formControlName="typeOfVehicle" class="form-control input-xs select2"
+                                        disabled>
+                                        <option value="Covered Van">Covered Van</option>
+                                        <option value="Truck">Truck</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Departure </span>
+                                    </div>
+                                    <input type="text" formControlName="departure" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Company Name</span>
+                                    </div>
+                                    <input type="text" formControlName="companyname" class="form-control"
+                                        style="background-color: yellow;" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <ng-container *ngIf="tag == 'AC'">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Submitted Bill Amount</span>
+                                        </div>
+                                        <input type="number" formControlName="actualCost" class="form-control" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </p-panel>
+    <br>
+    <p-panel header="Arrival Info" [toggleable]="true" *ngIf="tag != 'V' && tag != 'AC'">
+        <ng-template pTemplate="icons">
+            <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                <span class="pi pi-cog"></span>
+            </button>
+        </ng-template>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Arrival<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <select formControlName="arrival" class="form-control input-xs select2" [ngClass]="{
+                                    'is-invalid':
+                                    arrivalForm.get('arrival').errors &&
+                                    (arrivalForm.get('arrival').touched ||
+                                    arrivalForm.get('arrival').dirty)
+                                }">
+                            <option value="null">===Select One===</option>
+                            <option value="Sea Port">Sea Port</option>
+                            <option value="Benapol">Benapol</option>
+                            <option value="Airport">Airport</option>
+                            <option value="ICP">ICP</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Arrival Date Time<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <input type="datetime-local" formControlName="arrivalDateTime" class="form-control" [ngClass]="{
+                            'is-invalid':
+                            arrivalForm.get('arrivalDateTime').errors &&
+                            (arrivalForm.get('arrivalDateTime').touched ||
+                            arrivalForm.get('arrivalDateTime').dirty)
+                        }" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Parking Time (Depo)</span>
+                        </div>
+                        <input type="datetime-local" formControlName="parkingTime" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Vehicle In Time (Depo)</span>
+                        </div>
+                        <input type="datetime-local" formControlName="vehicleInTime" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Vehicle Out Time (Depo)</span>
+                        </div>
+                        <input type="datetime-local" formControlName="exitTime" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Factory In Time</span>
+                        </div>
+                        <input type="datetime-local" formControlName="factoryInTime" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </p-panel>
+    <br>
+    <p-panel header="Product Info" [toggleable]="true" *ngIf="tag != 'AC'">
+        <p-table #dt [value]="challanInfoDets" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+            [rows]="20" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 30px">SL</th>
+                    <th style="min-width:150px;">Buyer Name</th>
+                    <th style="min-width:150px;">PO</th>
+                    <th style="min-width:150px;">Style</th>
+                    <th style="min-width:100px;">Color</th>
+                    <th style="min-width:100px;">CTN Qty</th>
+                    <th style="min-width:100px;">Total Qty</th>
+                    <th style="min-width:100px;">UnitMeasure</th>
+                    <th style="min-width:100px;">CBM</th>
+                </tr>
+                <tr>
+                    <td style="width: 30px"></td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyername', 'contains')"
+                            class="p-column-filter" style=" width: 100%; " />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'pono', 'contains')"
+                            class="p-column-filter" style=" width: 100%; " />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'stylename', 'contains')"
+                            class="p-column-filter" style=" width: 100%; " />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'color', 'contains')"
+                            class="p-column-filter" style=" width: 100%; " />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'deliverycartonqty', 'contains')"
+                            class="p-column-filter" style=" width: 100%; " />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'deliverypcsqty', 'contains')"
+                            class="p-column-filter" style=" width: 100%; " />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'unitmeasure', 'contains')" class="p-column-filter"
+                            style=" width: 100%; " />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'deliverycbm', 'contains')" class="p-column-filter"
+                            style=" width: 100%; " />
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-challan let-rowIndex="rowIndex">
+
+                <tr>
+                    <td style="width: 30px">{{ rowIndex+1 }}</td>
+                    <td>{{challan.buyername}}</td>
+                    <td>{{challan.pono}}</td>
+                    <td>{{challan.stylename}}</td>
+                    <td>{{challan.color}}</td>
+                    <td>{{challan.deliverycartonqty}}</td>
+                    <td>{{challan.deliverypcsqty}}</td>
+                    <td>{{challan.unitmeasure}}</td>
+                    <td>{{challan.deliverycbm}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+    <br>
+    <div class="form-group" style="padding-top: 10px">
+        <div class="col-md-6" *ngIf="tag != 'V'">
+            <button type="button" (click)="saveData()" class=" btn btn-xs btn-outline-success mr-2"><i
+                    class="fa fa-file"></i> {{ButtonName}}
+            </button>
+            <!-- <button type="button" class="btn btn-xs btn-outline-primary" (click)="Clear()">
+                <i class="fa fa-refresh"></i> Clear
+              </button>  -->
+        </div>
+    </div>
+    <br>
+</form>

@@ -1,0 +1,71 @@
+<div class="modal-header">
+    <h5 class="modal-title f-w-600" id="exampleModalLabel">{{ title }}</h5>
+    <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form autocomplete="off" [formGroup]="reactiveForm" class="form" role="form">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Snack Item Category</label>
+                    <select [ngClass]="{
+              'is-invalid':
+              reactiveForm.get('catId').errors &&
+                (reactiveForm.get('catId').touched || reactiveForm.get('catId').dirty)
+            }" class="form-control" type="text" formControlName="catId">
+                        <option value="">===Select One====</option>
+                        <option *ngFor="let item of categoryList" [ngValue]="item.id">{{item.categoryName}}</option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Snack Item Name</label>
+                    <input [ngClass]="{
+              'is-invalid':
+              reactiveForm.get('itemName').errors &&
+                (reactiveForm.get('itemName').touched || reactiveForm.get('itemName').dirty)
+            }" class="form-control" type="text" formControlName="itemName" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Cost Price</label>
+                    <input [ngClass]="{
+              'is-invalid':
+              reactiveForm.get('costPrice').errors &&
+                (reactiveForm.get('costPrice').touched || reactiveForm.get('costPrice').dirty)
+            }" class="form-control" type="number" formControlName="costPrice" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Sale Price</label>
+                    <input [ngClass]="{
+              'is-invalid':
+              reactiveForm.get('salePrice').errors &&
+                (reactiveForm.get('salePrice').touched || reactiveForm.get('salePrice').dirty)
+            }" class="form-control" type="number" formControlName="salePrice" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Remarks</label>
+                    <input class="form-control" type="text" formControlName="remarks" />
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="alert">
+        <button type="button" (click)="onSubmit()" class="button-save mr-2" role="button">
+            <i class="fa fa-save mr-2"></i> Save
+        </button>
+        <button (click)="OnClear()" class="button-clear mr-2" role="button">
+            <i class="fa fa-refresh mr-2"></i>Clear
+        </button>
+
+        <button (click)="bsModalRef.hide()" class="button-back mr-2" role="button">
+            <i class="fa fa-arrow-left mr-2"></i>Back
+        </button>
+    </div>
+</div>

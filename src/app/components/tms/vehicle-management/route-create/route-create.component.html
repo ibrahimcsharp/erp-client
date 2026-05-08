@@ -1,0 +1,70 @@
+<form [formGroup]="RouteForm">
+  <section>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Route<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="text" id="routeName" formControlName="routeName" class="form-control" autocomplete="off"
+                  [ngClass]="{'is-invalid':RouteForm.get('routeName').errors &&(RouteForm.get('routeName').touched ||RouteForm.get('routeName').dirty)}" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Fare<span class="required">&nbsp;*</span></span>
+                </div>
+                <input type="text" id="fare" formControlName="fare" class="form-control" autocomplete="off"
+                  [ngClass]="{'is-invalid':RouteForm.get('fare').errors &&(RouteForm.get('fare').touched ||RouteForm.get('fare').dirty)}" />
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Status<span class="required">&nbsp;*</span></span>
+                </div>
+                <select formControlName="status" class="p-inputtext-sm form-control uppercase">
+                  <option value="">===Select One===</option>
+                  <option value=1>Active</option>
+                  <option value=2>Inactive</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-8">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <textarea id="remarks" name="remarks" rows="3" cols="30" formControlName="remarks" class="form-control"
+                  placeholder="Please Enter Remarks..." autocomplete="off"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" style="padding-top: 10px">
+              <button class="btn btn-xs btn-outline-success mr-2" (click)="Onsubmit()">
+                <i class="fa fa-file"></i> {{ButtonName}}
+              </button>
+              <button class="btn btn-xs btn-outline-primary" (click)="clear()">
+                <i class="fa fa-refresh"></i> Clear
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</form>

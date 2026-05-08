@@ -1,0 +1,150 @@
+<p-panel header="Pleasure & Displeasure" [toggleable]="true"> 
+    <form [formGroup]="PleasureDispleasureForm">
+
+        <div class="row">
+            <div class="col-md-3 offset-md-4">
+              <div class="form-group">
+                
+                <div class="input-group input-group-sm mb-1">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Date</span>
+                  </div>
+                  <input class="form-control" type="datetime-local"
+                  placeholder="dd-mm-yyyy" formControlName="pleasureDispleasureDate"/>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered table-hover table-sm">
+            <thead>
+              <tr>
+                <th style=" width: 7%; "><button (click)="addNewPleasureItem()" type="button" class="btn btn-info btn-xs"><i class="fa fa-plus"></i> Plesure</button></th>
+                <th style=" text-align: center; color: rgba(14, 221, 14, 0.955)!important;font-weight: bold !important; ">What was good</th>
+                <th style=" text-align: center;width: 7%; ">Delete</th>
+              </tr>
+            </thead>
+            <tbody
+              formArrayName="pleasureList" *ngFor="let pleasure of PleasureDispleasureForm.get('pleasureList')['controls'];let i = index">
+              <tr [formGroup]="pleasure">
+                <td style=" width: 7%; ">{{ i + 1 }}</td>
+                <td>
+                    <input formControlName="pleasure" type="text" class="form-control form-control-sm"/>
+                </td>
+                
+                <td style=" width: 7%; ">
+                  <button class="btn btn-primary btn-xs" (click)="DeletePlesureRow(i)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered table-hover table-sm">
+            <thead>
+              <tr>
+                <th style=" width: 8%; "><button (click)="addNewDispleasureItem()" type="button" class="btn btn-info btn-xs"><i class="fa fa-plus"></i> Displesure</button></th>
+                <th style=" text-align: center;color: #ea4049e7!important;font-weight: bold !important; ">What we could do better</th>
+                <th style=" text-align: center;width: 7%; ">Delete</th>
+              </tr>
+            </thead>
+            <tbody
+              formArrayName="displeasureList" *ngFor="let displesure of PleasureDispleasureForm.get('displeasureList')['controls'];let i = index">
+              <tr [formGroup]="displesure">
+                <td style=" width: 7%; ">{{ i + 1 }}</td>
+                <td>
+                    <input formControlName="displeasure" type="text" class="form-control form-control-sm"/>
+                </td>
+                
+                <td style=" width: 7%; ">
+                  <button class="btn btn-primary btn-xs" (click)="DeleteDisplesureRow(i)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+
+      <hr />
+      <div class="row">
+        <div class="col-md-4">
+          <button pButton pRipple type="button" label="Save" icon="pi pi-save" (click)="onSubmit()" style="width:75px!important;font-size: 12px!important;background: #3792cf!important;"></button>
+          <button pButton pRipple type="button" label="Clear" icon="pi pi-refresh" (click)="clear()" style="width:75px!important;font-size: 12px!important;background: #ff878d!important;"></button>
+        </div>
+      </div>
+    </form>
+  </p-panel>
+  <br>
+  <p-panel header="Plesure List" [toggleable]="true">
+    <ng-template pTemplate="icons">
+      <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+        <span class="pi pi-cog"></span>
+      </button>
+      <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+  <p-table #dt rowExpandMode="single" expandableRows="true" [value]="allPlesureList"
+  dataKey="id" editMode="row" [scrollable]="true" scrollHeight="400px">
+  <ng-template pTemplate="header">
+    <tr class="bc"> 
+      <th style=" padding: 2px 3px !important; color: black !important; background-color: rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">SL</th>
+      <th style=" padding: 2px 3px !important; color: black !important; background-color: rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">Date</th>
+      <th style=" padding: 2px 3px !important; color: black !important; background-color: rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 45%;">What was good</th>
+      <th style=" padding: 2px 3px !important; color: black !important; background-color: rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 40%;">Manager Comment</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+    <tr style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">         
+      <td style="width: 5%;">{{ri+1}}</td>
+      <td style="width: 10%;">{{rowData.pleasureDate | date: "d/M/y"}}</td>
+      <td style="width: 45%;">{{rowData.pleasure}}</td>
+      <td style="width: 40%;">{{rowData.managerCmt}}</td>
+      
+    </tr>
+  </ng-template>    
+  </p-table>
+  </p-panel>
+  <br>
+  <p-panel header="Displesure List" [toggleable]="true">
+    <ng-template pTemplate="icons">
+      <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+        <span class="pi pi-cog"></span>
+      </button>
+      <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+  <p-table #dt rowExpandMode="single" expandableRows="true" [value]="allDisPlesureList"
+  dataKey="id" editMode="row" [scrollable]="true" scrollHeight="400px">
+  <ng-template pTemplate="header">
+    <tr class="bc"> 
+      <th style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">SL</th>
+      <th style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">Date</th>
+      <th style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 45%;">What we could do better</th>
+      <th style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 40%;">Manager Comment</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+    <tr style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">         
+      <td style="width: 5%;">{{ri+1}}</td>
+      <td style="width: 10%;">{{rowData.displeasureDate | date: "d/M/y"}}</td>
+      <td style="width: 45%;">{{rowData.displeasure}}</td>
+      <td style="width: 40%;">{{rowData.managerCmt}}</td>
+      
+    </tr>
+  </ng-template>    
+  </p-table>
+  </p-panel>
+  <br>
+  <p-confirmDialog  [style]="{ width: '50vw' }" key="positionDialog" [position]="position" [baseZIndex]="10000">
+  </p-confirmDialog>

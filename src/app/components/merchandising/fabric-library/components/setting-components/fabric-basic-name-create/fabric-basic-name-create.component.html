@@ -1,0 +1,72 @@
+<!-- <p-panel header="Fabric Basic Name Create" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button
+      pButton
+      class="p-panel-header-icon p-link"
+      (click)="menu.toggle($event)"
+    >
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [popup]="true"></p-menu>
+  </ng-template>
+
+</p-panel> -->
+
+<div class="row">
+  <div class="col-md-8">
+    <form
+      [formGroup]="fabricBasicNameForm"
+      id="fabricBasicNameForm"
+      class="needs-validation"
+    >
+      <div class="form-group">
+        <label for="fabricBasicName" class="label-title"
+          >Fabric Basic Name<span>*</span></label
+        >
+
+        <input type="hidden" id="id" formControlName="id" />
+
+        <input
+          type="text"
+          [ngClass]="{
+            'is-invalid':
+              fabricBasicNameForm.get('fabricBasicName').errors &&
+              (fabricBasicNameForm.get('fabricBasicName').touched ||
+                fabricBasicNameForm.get('fabricBasicName').dirty)
+          }"
+          id="fabricBasicName"
+          formControlName="fabricBasicName"
+          class="form-control"
+          placeholder=" Enter Fabric Basic Name"
+        />
+
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            fabricBasicNameForm.get('fabricBasicName').hasError('required')
+          "
+        >
+          Fabric Basic Name is required!
+        </div>
+      </div>
+      <div class="form-group">
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          [disabled]="!fabricBasicNameForm.valid"
+          (click)="onSubmit()"
+        >
+          <i class="fa fa-database" aria-hidden="true"></i>
+          {{ saveButtonTitle }}
+        </button>
+        <button
+          class="btn btn-outline-info ml-3"
+          type="button"
+          (click)="BtnClear()"
+        >
+          <i class="fa fa-refresh" aria-hidden="true"></i> Clear
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

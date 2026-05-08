@@ -1,0 +1,12 @@
+export class BOMSizeColorUploadMst {
+    id: string;
+    seasonId: string;
+    yearId: number;
+    buyerId: number;    
+    buyerName: string;
+    yearName: number;
+    styleId: number;
+    styleNo: string;
+
+
+ }

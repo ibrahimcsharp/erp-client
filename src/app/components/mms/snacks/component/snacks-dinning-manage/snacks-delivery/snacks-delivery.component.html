@@ -1,0 +1,164 @@
+<p-panel header="Snacks Delivery" [toggleable]="true">
+    <form autocomplete="off" [formGroup]="reactiveForm"  role="form" class="form-inline">
+        <div class="form-group mb-2">
+          <label class="label-control mr-2">Date </label>
+          <input type="date" formControlName="searchDate"  class="form-control">
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <label class="label-control mr-2">Order Status </label>
+          <select formControlName="orderStatus" class="form-control">
+            <option value="">==Select One==</option>
+            <option value="PENDING">PENDING</option>
+            <option value="CANCELED">CANCELED</option>
+            <option value="DELIVERED">DELIVERED</option>
+        </select>    
+        </div>
+        <button type="button" (click)="Search()" class="btn btn-primary mb-2"><i class="fa fa-search"></i> Search</button>
+      </form>
+      <hr>
+      <p-table *ngIf="snackService.orderedItems != null" [value]="snackService.orderedItems"
+        [globalFilterFields]="['id', 'totalCost','orderStatus','dinningComments','employeeId','employeeName']" dataKey="id"
+        editMode="row" [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left">               
+
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="bc">                        
+                <th [pSortableColumn]="'id'">
+                    Order No
+                    <p-sortIcon [field]="'id'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'employeeId'">
+                    Emp. Id
+                    <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'employeeName'">
+                    Emp. Name
+                    <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'orderDate'">
+                    order Date
+                    <p-sortIcon [field]="'orderDate'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+               
+                <th [pSortableColumn]="'totalCost'">
+                    Total Cost
+                    <p-sortIcon [field]="'totalCost'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'orderStatus'">
+                    Order Status
+                    <p-sortIcon [field]="'orderStatus'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'costType'">
+                    Cost Type
+                    <p-sortIcon [field]="'costType'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+               
+                <th>Action</th>                
+
+           
+            </tr>
+            <tr>
+                <td>
+                    <input
+                      pInputText
+                      type="text"
+                      (input)="dt.filter($event.target.value, 'id', 'contains')"
+                      class="p-column-filter"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      pInputText
+                      type="text"
+                      (input)="dt.filter($event.target.value, 'employeeId', 'contains')"
+                      class="p-column-filter"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      pInputText
+                      type="text"
+                      (input)="dt.filter($event.target.value, 'employeeName', 'contains')"
+                      class="p-column-filter"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      pInputText
+                      type="text"
+                      (input)="dt.filter($event.target.value, 'orderDate2', 'contains')"
+                      class="p-column-filter"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      pInputText
+                      type="text"
+                      (input)="dt.filter($event.target.value, 'totalCost', 'contains')"
+                      class="p-column-filter"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      pInputText
+                      type="text"
+                      (input)="dt.filter($event.target.value, 'orderStatus', 'contains')"
+                      class="p-column-filter"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      pInputText
+                      type="text"
+                      (input)="dt.filter($event.target.value, 'costType', 'contains')"
+                      class="p-column-filter"
+                    />
+                  </td>
+                  <td></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+            <tr [ngStyle]="
+            rowData.orderStatus == 'PENDING'
+              ? { 'background-color': 'yellow' }
+              : { 'background-color': 'white' }
+          " [pEditableRow]="rowData">                      
+                <td>{{ rowData.id }}</td>
+                <td>{{ rowData.employeeId }}</td>
+                <td>{{ rowData.employeeName }}</td>
+                <td>{{ rowData.orderDate2 }}</td>
+                <td>{{ rowData.totalCost }}</td>
+                <td>{{ rowData.orderStatus }}</td>
+                <td>{{ rowData.costType }}</td>              
+              
+                <td><button class="btn btn-outline-primary btn-xs mr-2" (click)="Details(rowData)"><i class="fa fa-list"></i>DTL</button>
+                  <button *ngIf="rowData.orderStatus=='PENDING'" class="btn btn-outline-success btn-xs mr-2" (click)="DELIVERED(rowData)"><i class="fa fa-check"></i>DELIVER</button>
+                  <button *ngIf="rowData.orderStatus=='PENDING'" class="btn btn-outline-info btn-xs mr-2" (click)="CANCELED(rowData)"><i class="fa fa-times"></i>CANCEL</button>
+                </td>
+
+                
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>

@@ -1,0 +1,151 @@
+<p-panel header="Conference Room Booking List" [toggleable]="true">
+    <ng-template pTemplate="icons">
+      <button
+        pButton
+        class="p-panel-header-icon p-link"
+        (click)="menu.toggle($event)"
+      >
+        <span class="pi pi-cog"></span>
+      </button>
+      <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+    <form [formGroup]="CustomConferenceListForm">
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Search</legend>
+        <div class="row">
+
+          <div class="col-md-3">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  >Booking Date<span class="required">&nbsp;*</span></span
+                >
+              </div>
+              <input
+              
+                type="date"
+                placeholder="dd-mm-yyyy"
+                class="form-control"
+                formControlName="bookDate"
+                [ngClass]="{
+                  'is-invalid':
+                  CustomConferenceListForm.get('bookDate').errors &&
+                    (CustomConferenceListForm.get('bookDate').touched ||
+                    CustomConferenceListForm.get('bookDate').dirty)
+                }"
+              />
+              
+            </div>
+          </div>
+
+          
+        <div class="col-md-3">
+         
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text"
+                >Company<span class="required">&nbsp;*</span></span
+              >
+            </div>
+            <select
+              [ngClass]="{
+                'is-invalid':
+                CustomConferenceListForm.get('companyId').errors &&
+                  (CustomConferenceListForm.get('companyId').touched ||
+                  CustomConferenceListForm.get('companyId').dirty)
+              }"
+              class="form-control"
+              type="text"
+              formControlName="companyId"
+              (ngModelChange)="LoadDateWiseAvailableRoom()"
+            >
+              <option value=""> Select One </option>
+              <option
+                *ngFor="let item of commonService.CompanySelectedList"
+                [ngValue]="item.value"
+              >
+                {{ item.label }}
+              </option>
+            </select>
+          </div>
+          
+      
+      </div>
+
+
+
+
+          <div class="col-md-3">
+            <div class="input-group input-group-sm" style="margin-top: -8px;">
+              <button (click)="LoadDateWiseAvailableRoom()" class="btn btn-success btn-xs mt-2">
+                <i class="fa fa-search"></i> Search
+              </button>
+            </div>
+          </div>
+        </div>
+        </fieldset>
+        <br>
+
+        <fieldset class="form-group p-4">
+
+            <legend class="w-auto px-2">Booked Room List</legend>
+            
+            <p-table
+              [value]="ConferenceRoomBookList"
+              #dt
+              dataKey="id"
+              [scrollable]="true"
+              scrollHeight="500px"
+              editMode="row"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Room Name</th>
+                  <th>Booked Time</th>
+                  <th>Department</th>
+                  <th>Booked By</th>
+                  <th>Meeting Agenda</th>
+                  <th>Action</th>
+                  
+                </tr>
+                <tr>
+                  <td>
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </ng-template>
+              <ng-template
+                pTemplate="body"
+                let-rowData
+                let-editing="editing"
+                let-ri="rowIndex"
+              >
+                <tr [pEditableRow]="rowData">
+                  <td [ngStyle]="{ 'background-color': rowData.color }" *ngIf="roomNameRowGroup[rowData.roomName].index === ri" [attr.rowspan]="roomNameRowGroup[rowData.roomName].size"><span class="p-ml-2">{{ rowData.roomName }}</span></td>
+                  <td [ngStyle]="{ 'background-color': rowData.color }">{{ rowData.startTime | date: "hh:mm a" }} - {{ rowData.endTime | date: "hh:mm a"}}</td>
+                  <td [ngStyle]="{ 'background-color': rowData.color }">{{ rowData.department }}</td>
+                  <td [ngStyle]="{ 'background-color': rowData.color }">{{ rowData.bookedBy }}</td>
+                  <td [ngStyle]="{ 'background-color': rowData.color }">{{ rowData.agenda }}</td>
+                  <td [ngStyle]="{ 'background-color': rowData.color }">
+                    <button class="btn btn-danger btn-xs" (click)="DeleteConferenceBook(rowData)">Free Room</button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+          </fieldset>
+  
+         
+      </form>
+
+   
+    </p-panel>
+
+    
+    
+  
+

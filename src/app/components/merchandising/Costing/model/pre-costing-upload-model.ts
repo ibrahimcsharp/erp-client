@@ -1,0 +1,41 @@
+export class PreCostingUploadModel {
+    id: number;
+    buyerId: number;    
+    buyerName: string;
+    seasonId: number;
+    seasonName: number;
+    yearId: number;
+    yearName: number;
+    styleId: number;
+    styleNo: string;
+    stylePartId: number;
+    partName: string;
+    sfc: string;
+    matType: string;
+    itemCode: string;
+    itemDescription: string;
+    itemColor: string;   
+    placement: string;
+    consumption: number;
+    comments: string;
+    remarks: string;
+    supplierId: number;
+    supplierName: string;
+    itemType: string;
+    fabricCategoryId: number;
+    fabricCategoryName: string;
+    itemId: number;
+    itemName: string;
+    uploadItemName: string;
+    uploadSupplierName: string;
+    partCount: number;
+    cuttableWidth: number;
+    size: string;
+    sizeUnitId:number;
+    sizeUnit: string;
+    consumptionUnit: string;
+    consumptionUnitId: number;
+    unitPrice: number;
+
+    originalList: [];
+ }

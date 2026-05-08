@@ -1,0 +1,35 @@
+export class VehicleAssignmentModel {
+  assignmentId: number;
+  requisitionId: number;
+  registrationNumber: number
+  driverId: number
+  driverName: string;
+  buyerId: number
+  buyerName: string;
+  Departments: any[];
+  departmentId: number
+  departmentName: string;
+  divisionId: number
+  divisionName: string;
+  companyId: number
+  companyName: string;
+  Employees: any[];
+  employeeId: number
+  employeeName: string;
+  vehicleId: number;
+  assignedType: number;
+  usedType: string;
+  assignedFor: number;
+  assignedTypeName: string;
+  assignedForName: string;
+  fromDate: Date;
+  toDate: Date;
+  status: string;
+  statusName: string;
+  remarks: string;
+  pickupLocation: string;
+  dropLocation: string;
+  noOfPerson: number;
+  totalNoOfPerson: number;
+  SelectedRequisitions: any[];
+}

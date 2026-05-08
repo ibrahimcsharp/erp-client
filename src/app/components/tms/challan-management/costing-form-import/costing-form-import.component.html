@@ -1,0 +1,370 @@
+<form [formGroup]="costingForm">
+    <p-panel header="Import Challan Form" [toggleable]="true">
+        <ng-template pTemplate="icons">
+            <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                <span class="pi pi-cog"></span>
+            </button>
+        </ng-template>
+
+        <section>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Good Release Date<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" id="goodsReleaseDate" formControlName="goodsReleaseDate"
+                                        class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">CNF Name</span>
+                                    </div>
+                                    <input type="text" formControlName="cnfAgentName" class="form-control" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">CNF Clearing Zone</span>
+                                    </div>
+                                    <input type="text" formControlName="cnfClearingZoneName" class="form-control"
+                                        disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Truck Challan No<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <input type="hidden" formControlName="status" class="form-control" />
+                                <input type="text" id="truckChallanNo" formControlName="truckChallanNo"
+                                    class="form-control" required disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Vehicle No<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" formControlName="truckNumber" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Transport Authority</span>
+                                    </div>
+                                    <input type="text" id="transportName" formControlName="transportName"
+                                        class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Driver Name & No.</span>
+                                    </div>
+                                    <input type="text" formControlName="driverDlNumber" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </p-panel>
+    <br>
+    <p-panel header="Import Bill Info" [toggleable]="true">
+        <ng-template pTemplate="icons">
+            <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                <span class="pi pi-cog"></span>
+            </button>
+            <!--<p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>-->
+        </ng-template>
+        <section formArrayName="ImportTransport">
+            <div *ngFor="let transport of costingForm.get('ImportTransport')['controls']; let i=index">
+                <div [formGroupName]="i" class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Bill No<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" formControlName="billNo" class="form-control" [ngClass]="{
+                                        'is-invalid':
+                                        transport.get('billNo').errors &&
+                                          (transport.get('billNo').touched ||
+                                          transport.get('billNo').dirty)
+                                      }" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Fare Amount</span>
+                                        </div>
+                                        <input type="text" formControlName="fareAmount" (change)="calculateTotal()"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Bill Date<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <input type="date" formControlName="billDate" class="form-control" [ngClass]="{
+                                            'is-invalid':
+                                            transport.get('billDate').errors &&
+                                              (transport.get('billDate').touched ||
+                                              transport.get('billDate').dirty)
+                                          }" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Damage Amount</span>
+                                        </div>
+                                        <input type="text" formControlName="damageAmount" (change)="calculateTotal()"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Type of Trip<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+
+                                        <ng-container *ngIf="challanType">
+                                            <input formControlName="typeOfTrip" class="form-control"
+                                                [value]="challanType" disabled />
+                                        </ng-container>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Warehouse Rent</span>
+                                        </div>
+                                        <input type="text" formControlName="warehouseRent" (change)="calculateTotal()"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Billing Month<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <select formControlName="billingMonth" class="form-control input-xs select2"
+                                            [ngClass]="{
+                                            'is-invalid':
+                                            transport.get('billingMonth').errors &&
+                                              (transport.get('billingMonth').touched ||
+                                              transport.get('billingMonth').dirty)
+                                          }">
+                                            <option value="">===Select One===</option>
+                                            <option value="January">January</option>
+                                            <option value="February">February</option>
+                                            <option value="March">March</option>
+                                            <option value="April">April</option>
+                                            <option value="May">May</option>
+                                            <option value="June">June</option>
+                                            <option value="July">July</option>
+                                            <option value="August">August</option>
+                                            <option value="September">September</option>
+                                            <option value="October">October</option>
+                                            <option value="November">November</option>
+                                            <option value="December">December</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Additional Charge</span>
+                                        </div>
+                                        <input type="text" formControlName="additionalCharge"
+                                            (change)="calculateTotal()" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Extra Charge</span>
+                                        </div>
+                                        <input type="text" formControlName="extraCharge" (change)="calculateTotal()"
+                                            class="form-control" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Total</span>
+                                        </div>
+                                        <input type="text" formControlName="totalCharge" disabled
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </p-panel>
+    <br>
+    <p-panel header="Import Product Info" [toggleable]="true">
+        <ng-template pTemplate="icons">
+            <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                <span class="pi pi-cog"></span>
+            </button>
+        </ng-template>
+
+
+        <section formArrayName="ImportDetails">
+            <div class="table-responsive" style="height: 300px; overflow: auto;">
+                <table class="table table-bordered table-striped table-hover AppointmentDetTable sticky-header">
+
+                    <thead class="sticky">
+                        <tr>
+                            <th style="width: 30px">SL</th>
+                            <th style="min-width:150px;">Buyer Name</th>
+                            <th style="min-width:400px;">Supplier Name</th>
+                            <th style="min-width:80px;">Consignment</th>
+                            <th style="min-width:210px;">Invoice No</th>
+                            <th style="min-width:80px;">Invoice Date</th>
+                            <th style="min-width:80px;">Delivery Qty</th>
+                            <th style="min-width:80px;">CBM Unit</th>
+                            <th style="min-width:80px;">CBM</th>
+                            <th style="min-width:80px;">Cost</th>
+                            <th style="min-width:80px;">Percentage</th>
+                            <th style="min-width:150px;">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of costingForm.get('ImportDetails')['controls']; let i = index"
+                            [formGroupName]="i">
+
+                            <td style="min-width:30px;">{{i+1}}</td>
+                            <input type="hidden" formControlName="id" /><input type="hidden"
+                                formControlName="importChallanMstId" />
+                            <!--<td style="min-width:30px;"><input formControlName="sn" class="form-control " /></td>-->
+                            <td style="min-width:150px;">
+                                <select formControlName="buyerId" class="form-control input-xs select2">
+                                    <option value="">===Select One===</option>
+                                    <option *ngFor="let buyer of commonService.BuyerSelectList" [ngValue]="buyer.value">
+                                        {{ buyer.label }}
+                                    </option>
+                                </select>
+                            </td>
+                            <td style="min-width:400px;"><input formControlName="supplierName" class="form-control " />
+                            </td>
+                            <td style="min-width:80px;"><input formControlName="consignment" class="form-control " />
+                            </td>
+                            <td style="min-width:210px;"><input formControlName="invoiceNo" class="form-control" /></td>
+                            <td style="min-width:80px;"><input formControlName="invoiceDate" type="date"
+                                    class="form-control" /></td>
+                            <td style="min-width:80px;"><input formControlName="deliveryQty" class="form-control" />
+                            </td>
+                            <td style="min-width:80px;"><input formControlName="cbmUnit"
+                                    class="form-control input-xs " /></td>
+                            <td style="min-width:80px;"><input formControlName="cbm" class="form-control input-xs "
+                                    (change)="calculateCost(i)" disabled /></td>
+                            <td style="min-width:80px;"><input formControlName="cost" class="form-control input-xs "
+                                    disabled />
+                            </td>
+                            <td style="min-width:80px;"><input formControlName="percentage"
+                                    class="form-control input-xs " disabled /></td>
+                            <td style="min-width:150px;"><input formControlName="remarks"
+                                    class="form-control input-xs " /></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td style="height:30px;font-size: 12px;"><strong>Total:</strong></td>
+                            <td style="text-align: left;padding-left: 20px;font-size: 12px;">
+                                <strong>{{totalcbm}}</strong> </td>
+                            <td style="text-align: left;padding-left: 20px;font-size: 12px;">
+                                <strong>{{totalBuyerCostPrice}}</strong> </td>
+                            <td style="text-align: left;padding-left: 20px;font-size: 12px;">
+                                <strong>{{totalBuyerCostPercentage}}</strong> </td>
+                            <td></td>
+
+                        </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+        </section>
+
+    </p-panel>
+    <div class="form-group" style="padding-top: 10px">
+        <div class="col-md-6">
+            <button type="button" (click)="saveData()" class=" btn btn-xs btn-outline-success mr-2"><i
+                    class="fa fa-file"></i>{{ButtonName}}
+            </button>
+            <!-- <button type="button" class="btn btn-xs btn-outline-primary" (click)="Clear()">
+                <i class="fa fa-refresh"></i> Clear
+            </button> -->
+        </div>
+    </div>
+    <br>
+</form>

@@ -1,0 +1,295 @@
+<p-panel header="Pleasure & Displeasure Comments" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+
+  <div class="row">
+    <div class="col-md-12">
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Employee List Under Your Supervision</legend>
+        <div class="row">
+          <div class="col-md-12">
+            <p-table [value]="AllEmployeeList" #dt editMode="row" *ngIf="AllEmployeeList.length>0" [scrollable]="true"
+              scrollHeight="300px">
+              <ng-template pTemplate="header">
+                <tr class="bc">
+                  <th style="width: 5%;">SL</th>
+                  <th style="width: 30%;">Employee Id</th>
+                  <th>Employee Name</th>
+                  <th style="width:80px ;">Action</th>
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                <tr [pEditableRow]="rowData" [ngStyle]="{ 'background-color': '#e0fede' }">
+                  <td style="width: 5%;">{{ rowIndex+1 }}</td>
+                  <td style="width: 30%;">{{ rowData.employeeId}}</td>
+                  <td>{{ rowData.employeeName}}</td>
+                  <td style="width:80px ;">
+                    <button pButton pRipple type="button" label="Satisfactory" icon="pi pi-user"
+                      (click)="viewSatisfactory(rowData)" [disabled]="show"
+                      style="width:96px!important;font-size: 12px!important;background: #c15fe8!important;">
+                    </button>
+                    <button pButton pRipple type="button" label=" History" icon="pi pi-user"
+                      (click)="viewprevious(rowData)" [disabled]="show"
+                      style="width:96px!important;font-size: 12px!important;background: #87cf96!important;">
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+
+            </p-table>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-12" *ngIf="showSatisfactory">
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border">What was good</legend>
+        <!-- What <span class="scheduler-border" style="color: #c15fe8!important;">{{employee}}</span> has liked   -->
+        <div class="row">
+
+          <div class="col-md-12">
+            <p-table #dt rowExpandMode="single" expandableRows="true" [value]="allPlesureList" dataKey="id"
+              editMode="row" [scrollable]="true" scrollHeight="400px">
+              <ng-template pTemplate="header">
+                <tr class="bc">
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: rgba(14, 221, 14, 0.76) !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                    SL</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: rgba(14, 221, 14, 0.76) !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Date</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: rgba(14, 221, 14, 0.76) !important; text-align: center; font-size: 12px; font-weight: bold;width: 35%;">
+                    Pleasures</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: rgba(14, 221, 14, 0.76) !important; text-align: center; font-size: 12px; font-weight: bold;width: 32%;">
+                    Manager Comment</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: rgba(14, 221, 14, 0.76) !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Discussed Status</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: rgba(14, 221, 14, 0.76) !important; text-align: center; font-size: 12px; font-weight: bold;width: 8%;">
+                    Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                <tr
+                  style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                  <td style="width: 5%;">{{ri+1}}</td>
+                  <td style="width: 10%;">{{rowData.pleasureDate | date: "d/M/y"}}</td>
+                  <td style="width: 35%;">{{rowData.pleasure}}</td>
+                  <td style="width: 32%;">
+                    <input pInputText type="text" placeholder="Write your comment here..."
+                      [(ngModel)]="rowData.managerCmt" class="form-control-sm form-control" />
+                  </td>
+                  <td style="width: 10%;">
+                    <select class="form-control form-control-sm" [(ngModel)]="rowData.isDiscussed">
+                      <option value=""> Select </option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </td>
+                  <td style="width: 8%;">
+                    <button pButton pRipple type="button" label="Save" icon="pi pi-file"
+                      (click)="SavePleasureComment(rowData)" [disabled]="show"
+                      style="width:70px!important;font-size: 12px!important;background: #3792cf!important;">
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-12" *ngIf="showSatisfactory">
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border">What we could do better </legend>
+        <!-- What <span class="scheduler-border" style="color: #c15fe8!important;">{{employee}}</span> has not liked -->
+        <div class="row">
+          <div class="col-md-12">
+            <p-table #dt rowExpandMode="single" expandableRows="true" [value]="allDisPlesureList" dataKey="id"
+              editMode="row" [scrollable]="true" scrollHeight="400px">
+              <ng-template pTemplate="header">
+                <tr class="bc">
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                    SL</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Date</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 35%;">
+                    Displeasures</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 32%;">
+                    Manager Comment</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Discussed Status</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 8%;">
+                    Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                <tr
+                  style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                  <td style="width: 5%;">{{ri+1}}</td>
+                  <td style="width: 10%;">{{rowData.displeasureDate | date: "d/M/y"}}</td>
+                  <td style="width: 35%;">{{rowData.displeasure}}</td>
+                  <td style="width: 32%;">
+                    <input pInputText type="text" placeholder="Write your comment here..."
+                      [(ngModel)]="rowData.managerCmt" class="form-control-sm form-control" />
+                  </td>
+                  <td style="width: 10%;">
+                    <select class="form-control form-control-sm" [(ngModel)]="rowData.isDiscussed">
+                      <option value=""> Select </option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </td>
+                  <td style="width: 8%;">
+                    <button pButton pRipple type="button" label="Save" icon="pi pi-file"
+                      (click)="SaveDisPleasureComment(rowData)" [disabled]="show"
+                      style="width:70px!important;font-size: 12px!important;background: #3792cf!important;">
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</p-panel>
+
+
+
+
+
+
+
+<!---------------------------------------------------------popup here------------------------------------------------->
+<p-dialog header="Previous History" [(visible)]="showHistory" [style]="{ width: '70vw', height: '70vw'}">
+<div class="row">
+    <div class="col-md-12" >
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Pleasure</legend>
+        <!-- What <span class="scheduler-border" style="color: #c15fe8!important;">{{employee}}</span> has liked   -->
+        <div class="row">
+          <div class="col-md-12">
+            <p-table #dt rowExpandMode="single" expandableRows="true" [value]="allPlesureList" dataKey="id"
+              editMode="row" [scrollable]="true" scrollHeight="400px">
+              <ng-template pTemplate="header">
+                <tr class="bc">
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                    SL</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Date</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;width: 35%;">
+                    Pleasures</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;width: 32%;">
+                    Manager Comment</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Discussed Status</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                <tr
+                  style="padding: 2px 3px !important; color: black !important; background-color: #dbad6c !important; text-align: center; font-size: 12px; font-weight: bold;">
+                  <td style="width: 5%;">{{ri+1}}</td>
+                  <td style="width: 10%;">{{rowData.pleasureDate | date: "d/M/y"}}</td>
+                  <td style="width: 35%;">{{rowData.pleasure}}</td>
+                  <td style="width: 32%;">
+                    <input pInputText type="text" placeholder="Write your comment here..."
+                      [(ngModel)]="rowData.managerCmt" class="form-control-sm form-control" disabled/>
+                  </td>
+                  <td style="width: 10%;">
+                    <select class="form-control form-control-sm" [(ngModel)]="rowData.isDiscussed" disabled>
+                      <option value=""> Select </option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-12">
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Displeasure</legend>
+        <!-- What <span class="scheduler-border" style="color: #c15fe8!important;">{{employee}}</span> has not liked -->
+        <div class="row">
+          <div class="col-md-12">
+            <p-table #dt rowExpandMode="single" expandableRows="true" [value]="allDisPlesureList" dataKey="id"
+              editMode="row" [scrollable]="true" scrollHeight="400px">
+              <ng-template pTemplate="header">
+                <tr class="bc">
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                    SL</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Date</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 35%;">
+                    Displeasures</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 32%;">
+                    Manager Comment</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Discussed Status</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                <tr
+                  style="padding: 2px 3px !important; color: black !important; background-color: #ecb8b8 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                  <td style="width: 5%;">{{ri+1}}</td>
+                  <td style="width: 10%;">{{rowData.displeasureDate | date: "d/M/y"}}</td>
+                  <td style="width: 35%;">{{rowData.displeasure}}</td>
+                  <td style="width: 32%;">
+                    <input pInputText type="text" placeholder="Write your comment here..."
+                      [(ngModel)]="rowData.managerCmt" class="form-control-sm form-control" disabled/>
+                  </td>
+                  <td style="width: 10%;">
+                    <select class="form-control form-control-sm" [(ngModel)]="rowData.isDiscussed" disabled>
+                      <option value=""> Select </option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</p-dialog> 

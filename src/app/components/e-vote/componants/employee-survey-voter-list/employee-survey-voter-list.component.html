@@ -1,0 +1,109 @@
+<p-panel header="Voter List" [toggleable]="true">
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Employee Survey Voter List</legend>
+        <p-table #dt2 rowExpandMode="single" expandableRows="true" [value]="voterList" dataKey="voteBy"
+            [scrollable]="true"
+            [paginator]="true"
+            [rows]="20"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">
+            <ng-template pTemplate="header">
+                <tr style="word-break: break-all;">
+                    <th style="width: 40px;"  [hidden]="authService.decodedToken?.unique_name !='010801001'"></th>
+                    <th style="width: 200px; text-align: center;">Employee Id</th>
+                    <th style="width: 200px; text-align: center;">Employee Name</th>
+                    <th style="width: 200px; text-align: center;">Designation</th>
+                    <th style="width: 200px; text-align: center;">Unit</th>
+                    <th style="width: 200px; text-align: center;">Department</th>
+                    <th style="width: 200px; text-align: center;">Section</th>
+                    <th style="width: 200px; text-align: center;">Vote Given Count</th>
+                </tr>
+                <tr>
+                    <td style="width: 40px;"  [hidden]="authService.decodedToken?.unique_name !='010801001'"></td>
+                    <td style="width: 200px; text-align: center;">
+                        <input pInputText type="text" (input)="dt2.filter($event.target.value, 'voteBy', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td style="width: 200px; text-align: center;">
+                        <input pInputText type="text" (input)="dt2.filter($event.target.value, 'voteByName', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td style="width: 200px; text-align: center;">
+                        <input pInputText type="text" (input)="dt2.filter($event.target.value, 'designation', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td style="width: 200px; text-align: center;">
+                        <input pInputText type="text" (input)="dt2.filter($event.target.value, 'unit', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td style="width: 200px; text-align: center;">
+                        <input pInputText type="text" (input)="dt2.filter($event.target.value, 'department', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td style="width: 200px; text-align: center;">
+                        <input pInputText type="text" (input)="dt2.filter($event.target.value, 'section', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td style="width: 200px; text-align: center;">
+                        <input pInputText type="text" (input)="dt2.filter($event.target.value, 'totalVote', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr style="word-break: break-all;">
+                    <td style="width: 40px;"  [hidden]="authService.decodedToken?.unique_name !='010801001'">
+                        <button (click)="GetMyVoteCount(item.voteBy)" type="button" pButton pRipple
+                        [pRowToggler]="item" class="p-button-text p-button-rounded p-button-plain btn-sm"
+                        [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'">
+                    </button>
+                    </td>
+                    <td style="width: 200px; text-align: center;">{{item.voteBy}}</td>
+                    <td style="width: 200px; text-align: center;">{{item.voteByName}}</td>
+                    <td style="width: 200px; text-align: center;">{{item.designation}}</td>
+                    <td style="width: 200px; text-align: center;">{{item.unit}}</td>
+                    <td style="width: 200px; text-align: center;">{{item.department}}</td>
+                    <td style="width: 200px; text-align: center;">{{item.section}}</td>
+                    <td style="width: 200px; text-align: center;">{{item.totalVote}}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion">
+                <tr>
+                    <td colspan="8">
+                        <div class="p-p-3">
+                            <p-table #dt2 rowExpandMode="single" expandableRows="true" [value]="myVoteList"
+                              dataKey="voteBy" [rows]="10">
+                               <ng-template pTemplate="header">
+                                    <tr style="word-break: break-all;">
+                                        <th style="width: 200px;">Vote given to (Employee Id)</th>
+                                        <th style="width: 200px;">Vote given to (Employee Name)</th>
+                                         <!-- <th style="width: 200px;">Vote By</th> -->
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 200px;">
+                                        <input pInputText type="text" (input)="dt2.filter($event.target.value, 'employeeId', 'contains')" class="p-column-filter" />
+                                        </td>
+                                        <td style="width: 200px;">
+                                        <input pInputText type="text" (input)="dt2.filter($event.target.value, 'employeeName', 'contains')" class="p-column-filter" />
+                                        </td>
+                                        <!-- <td style="width: 200px;">
+                                          <input pInputText type="text" (input)="dt2.filter($event.target.value, 'voteBy', 'contains')" class="p-column-filter" />
+                                       </td> -->
+                                   </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                                    <tr style="word-break: break-all;">
+                                        <td style="width: 200px;">{{item.employeeId}}</td>
+                                        <td style="width: 200px;">{{item.employeeName}}</td>
+                                        <!-- <td style="width: 200px;">{{item.voteByName}}</td> -->
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                      </div>
+                   </td>
+                </tr>
+             </ng-template>
+        </p-table>
+    </fieldset>
+</p-panel>

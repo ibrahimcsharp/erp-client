@@ -1,0 +1,436 @@
+<p-panel header="VISITOR IN  LIST VIEW [Individual]" [toggleable]="true">
+    <ng-template pTemplate="icons">
+        <button pButton class="p-panel-header-icon p-link">
+            <span class="pi pi-cog"></span>
+        </button>
+        <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+    <form [formGroup]="visitorApproveForm">
+
+        <p-table #dt rowExpandMode="single" expandableRows="true"    
+            editMode="row" [scrollable]="true" scrollHeight="500px" [value]="missionApprove" [globalFilterFields]="[
+            'visitorname',             
+            'visitormobilenumber', 
+            'visitorcardnumber'              
+          ]" dataKey="id"     [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">
+            <ng-template pTemplate="header">
+                <tr class="bc">
+                    <th>SL</th>
+                    <th [pSortableColumn]="'visitorname'">
+                        visitorname
+                        <p-sortIcon [field]="'visitorname'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'visitormobilenumber'">
+                        v-mobile
+                        <p-sortIcon [field]="'visitormobilenumber'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'visitorcompany'">
+                        v-company
+                        <p-sortIcon [field]="'visitorcompany'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'visitoraddress'">
+                        v-address
+                        <p-sortIcon [field]="'visitoraddress'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+
+                    <th [pSortableColumn]="'visitoremail'">
+                        v-email
+                        <p-sortIcon [field]="'visitoremail'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'visitorpurpose'">
+                        v-purpose
+                        <p-sortIcon [field]="'visitorpurpose'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+
+                    <th [pSortableColumn]="'visitorcardnumber'">
+                        v-card number
+                        <p-sortIcon [field]="'visitorcardnumber'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'whommobilenumber'">
+                        w_mobile
+                        <p-sortIcon [field]="'whommobilenumber'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'whomname'">
+                        w_name
+                        <p-sortIcon [field]="'whomname'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'whomdesignation'">
+                        w-desig
+                        <p-sortIcon [field]="'whomdesignation'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'whomdepartment'">
+                        w-dept
+                        <p-sortIcon [field]="'whomdepartment'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'whomcompany'">
+                        w-company
+                        <p-sortIcon [field]="'whomcompany'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'visitoroutstatus'">
+                        Status
+                        <p-sortIcon [field]="'visitoroutstatus'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th>Action</th>
+                </tr>
+
+
+                <tr style="background-color:lightgray;">
+
+                    <td></td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'visitorname', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'visitormobilenumber', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'visitorcompany', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'visitoraddress', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'visitoremail', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'visitorpurpose', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'visitorcardnumber', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'whommobilenumber', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'whomname', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'whomdesignation', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'whomdepartment', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'whomcompany', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'visitoroutstatus', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                <tr>
+                    <td>{{ri+1}}</td>
+                    <td>{{rowData.visitorname}}</td>
+                    <td>{{rowData.visitormobilenumber}}</td>
+                    <td>{{rowData.visitorcompany}}</td>
+                    <td>{{rowData.visitoraddress}}</td>
+                    <td>{{rowData.visitoremail}}</td>
+                    <td>{{rowData.visitorpurpose}}</td>
+                    <td>{{rowData.visitorcardnumber}}</td>
+                    <td>{{rowData.whommobilenumber}}</td>
+                    <td>{{rowData.whomname}}</td>
+                    <td>{{rowData.whomdesignation}}</td>
+                    <td>{{rowData.whomdepartment}}</td>
+                    <td>{{rowData.whomcompany}}</td>
+                    <td>{{rowData.visitoroutstatus}}</td>
+                    <!-- <td>{{rowData.when | date: "d/M/y"}}</td> -->
+
+                    <td>
+                        <button pButton pRipple type="button" label="OUT" icon="{{rowData.approveIcon}}"
+                            class="p-button-raised p-button-success p-button-text"
+                            style="background: #80ff80;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;"
+                            (click)="Approve(rowData)">
+                        </button>
+                        <button pButton pRipple type="button" label="Card-View" icon="{{rowData.approveIcon}}"
+                            class="p-button-raised p-button-success p-button-text"
+                            style="background: #80ff80;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;"
+                            (click)="CardView(rowData.id)">
+                        </button>
+
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </form>
+</p-panel>
+<br>
+
+<p-panel header="VISITOR OUT LIST VIEW  [Individual]" [toggleable]="true">
+    <ng-template pTemplate="icons">
+        <button pButton class="p-panel-header-icon p-link">
+            <span class="pi pi-cog"></span>
+        </button>
+        <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+    <form>
+
+        <p-table #dt1 rowExpandMode="single" expandableRows="true" [globalFilterFields]="['']" dataKey="id"
+            editMode="row" [scrollable]="true" scrollHeight="500px" [value]="onlyMissionApprovedList"
+            [globalFilterFields]="[
+            'visitormobilenumber',             
+            'visitorname', 
+            'visitorcardnumber'              
+          ]" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">
+
+            <ng-template pTemplate="header">
+                <tr class="bc">
+                    <th>SL</th>
+                    <th [pSortableColumn]="'visitorname'">
+                        visitorname
+                        <p-sortIcon [field]="'visitorname'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'visitormobilenumber'">
+                        v-mobile
+                        <p-sortIcon [field]="'visitormobilenumber'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'visitorcompany'">
+                        v-company
+                        <p-sortIcon [field]="'visitorcompany'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'visitoraddress'">
+                        v-address
+                        <p-sortIcon [field]="'visitoraddress'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+
+                    <th [pSortableColumn]="'visitoremail'">
+                        v-email
+                        <p-sortIcon [field]="'visitoremail'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'visitorpurpose'">
+                        v-purpose
+                        <p-sortIcon [field]="'visitorpurpose'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+
+                    <th [pSortableColumn]="'visitorcardnumber'">
+                        v-card number
+                        <p-sortIcon [field]="'visitorcardnumber'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'whommobilenumber'">
+                        w_mobile
+                        <p-sortIcon [field]="'whommobilenumber'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'whomname'">
+                        w_name
+                        <p-sortIcon [field]="'whomname'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'whomdesignation'">
+                        w-desig
+                        <p-sortIcon [field]="'whomdesignation'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'whomdepartment'">
+                        w-dept
+                        <p-sortIcon [field]="'whomdepartment'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'whomcompany'">
+                        w-company
+                        <p-sortIcon [field]="'whomcompany'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'visitoroutstatus'">
+                        Status
+                        <p-sortIcon [field]="'visitoroutstatus'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+
+
+                </tr>
+                <tr style="background-color:lightgray;">
+
+                    <td></td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt1.filter($event.target.value, 'visitorname', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt1.filter($event.target.value, 'visitormobilenumber', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt1.filter($event.target.value, 'visitorcompany', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt1.filter($event.target.value, 'visitoraddress', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt1.filter($event.target.value, 'visitorpurpose', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt1.filter($event.target.value, 'visitorcardnumber', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt1.filter($event.target.value, 'whommobilenumber', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'whomname', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt1.filter($event.target.value, 'whomdesignation', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt1.filter($event.target.value, 'whomdepartment', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt1.filter($event.target.value, 'whomcompany', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt1.filter($event.target.value, 'visitoroutstatus', 'contains')"
+                            class="p-column-filter" />
+                    </td>
+
+                    <td></td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                <tr>
+                    <td>{{ri+1}}</td>
+                    <td>{{rowData.visitorname}}</td>
+                    <td>{{rowData.visitormobilenumber}}</td>
+                    <td>{{rowData.visitorcompany}}</td>
+                    <td>{{rowData.visitoraddress}}</td>
+                    <td>{{rowData.visitoremail}}</td>
+                    <td>{{rowData.visitorpurpose}}</td>
+                    <td>{{rowData.visitorcardnumber}}</td>
+                    <td>{{rowData.whommobilenumber}}</td>
+                    <td>{{rowData.whomname}}</td>
+                    <td>{{rowData.whomdesignation}}</td>
+                    <td>{{rowData.whomdepartment}}</td>
+                    <td>{{rowData.whomcompany}}</td>
+                    <td>{{rowData.visitoroutstatus}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </form>
+</p-panel>
+<br>

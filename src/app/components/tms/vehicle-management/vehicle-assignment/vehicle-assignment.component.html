@@ -1,0 +1,421 @@
+<p-panel header="Vechicle Assignment" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+
+  <form [formGroup]="VehicleAssignForm">
+    <section>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+
+            <div class="col-md-4">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6 paheight col-6">
+                  <span class="input-group-text col-12 col-12">Vehicle<span class="required">&nbsp;*</span></span>
+                </div>
+                <select class="form-control " formControlName="vehicleId" id="vehicleId" [ngClass]="{
+                  'is-invalid':
+                  VehicleAssignForm.get('vehicleId').errors &&
+                    (VehicleAssignForm.get('vehicleId').touched ||
+                    VehicleAssignForm.get('vehicleId').dirty)
+                }">
+                  <option *ngFor="let item of tmsService.allVehicleDropdown" [ngValue]="item.value">
+                    {{ item.label }}
+                  </option>
+                </select>
+
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Driver<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select class="form-control " formControlName="driverId" id="driverId" [ngClass]="{
+                    'is-invalid':
+                    VehicleAssignForm.get('driverId').errors &&
+                      (VehicleAssignForm.get('driverId').touched ||
+                      VehicleAssignForm.get('driverId').dirty)
+                  }">
+                    <option *ngFor="let item of tmsService.driverIdSelectList" [ngValue]="item.value">
+                      {{ item.label }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Assigned Type<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select formControlName="assignedType" class="p-inputtext-sm form-control  ">
+                    <option value="">===Select One===</option>
+                    <option value=1>Attached</option>
+                    <option value=2>Dedicated</option>
+                    <option value=3>Requisition</option>
+                    <option value=4>Monthly Dedicated</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Status<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select formControlName="status" class="p-inputtext-sm form-control   uppercase">
+                    <option value="">===Select One===</option>
+                    <option value=1>Active</option>
+                    <option value=2>Inactive</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Used Type<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select formControlName="usedType" class="p-inputtext-sm form-control uppercase">
+                    <option value="Pickup">Pickup</option>
+                    <option value="Drop">Drop</option>
+                    <option value="Pickup & Drop">Pickup & Drop</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">No Of Person<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <input type="number" id="noOfPerson" formControlName="noOfPerson" class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Pickup Location<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <input type="text" id="pickupLocation" formControlName="pickupLocation" class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Drop Location<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <input type="text" id="dropLocation" formControlName="dropLocation" class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Road Routes</span>
+                  </div>
+                  <p-multiSelect formControlName="roadRoutesId" id="roadRoutesId" [ngClass]="{
+                    'is-invalid':
+                    VehicleAssignForm.get('roadRoutesId').errors &&
+                      (VehicleAssignForm.get('roadRoutesId').touched ||
+                      VehicleAssignForm.get('roadRoutesId').dirty)
+                  }" [options]="tmsService.allRoadRoutesListDropdown"
+                    [style]="{ 'width': '13vw','height':'35px', 'font-size':'3px !important'  }"
+                    [(ngModel)]="selectedRoadRoutes" defaultLabel="===Select Road Routes===" optionLabel="label"
+                    display="roadRoutes" [ngModelOptions]="{ standalone: true }"></p-multiSelect>
+
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Assigned From Date<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <input [ngClass]="{
+                    'is-invalid':
+                    VehicleAssignForm.get('fromDate').errors &&
+                      (VehicleAssignForm.get('fromDate').touched ||
+                      VehicleAssignForm.get('fromDate').dirty)
+                  }" class="p-inputtext-sm form-control" type="datetime-local" formControlName="fromDate" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Assigned To Date<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <input [ngClass]="{
+                    'is-invalid':
+                    VehicleAssignForm.get('toDate').errors &&
+                      (VehicleAssignForm.get('toDate').touched ||
+                      VehicleAssignForm.get('toDate').dirty)
+                  }" class="p-inputtext-sm form-control" type="datetime-local" formControlName="toDate" />
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Assigned For<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select formControlName="assignedFor" class="p-inputtext-sm form-control"
+                    (change)="changeassignedFor($event)">
+                    <option value="">===Select One===</option>
+                    <option value=1>Buyers</option>
+                    <option value=2>Management</option>
+                    <option value=3>Department</option>
+                    <option value=5>Company</option>
+                    <option value=6>Employee</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4" *ngIf="isBuyer">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Buyer<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select class="form-control " formControlName="buyerId" id="buyerId" [ngClass]="{
+                        'is-invalid':
+                        VehicleAssignForm.get('buyerId').errors &&
+                          (VehicleAssignForm.get('buyerId').touched ||
+                          VehicleAssignForm.get('buyerId').dirty)
+                      }">
+                    <option *ngFor="let item of commonService.BuyerSelectList" [ngValue]="item.value">
+                      <ng-container *ngIf="item.label != 'Select'">
+                        {{ item.label }}
+                      </ng-container>
+                      <ng-container *ngIf="item.label == 'Select'">
+                        ===Select One===
+                      </ng-container>
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4" *ngIf="isCompany">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Company<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select class="form-control " formControlName="companyId" id="companyId" [ngClass]="{
+                    'is-invalid':
+                    VehicleAssignForm.get('companyId').errors &&
+                      (VehicleAssignForm.get('companyId').touched ||
+                      VehicleAssignForm.get('companyId').dirty)
+                  }">
+                    <option *ngFor="let company of commonService.CompanySelectedList" [ngValue]="company.value">
+
+                      <ng-container *ngIf="company.label != 'Select'">
+                        {{ company.label }}
+                      </ng-container>
+                      <ng-container *ngIf="company.label == 'Select'">
+                        ===Select One===
+                      </ng-container>
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4" *ngIf="isDepartment">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Department<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <p-multiSelect formControlName="departmentId" id="departmentId" [ngClass]="{
+                    'is-invalid':
+                    VehicleAssignForm.get('departmentId').errors &&
+                      (VehicleAssignForm.get('departmentId').touched ||
+                      VehicleAssignForm.get('departmentId').dirty)
+                  }" [options]="tmsService.allDepartmentListDropdown"
+                    [style]="{ 'width': '20vw','height':'25px', 'font-size':'3px !important'  }"
+                    [(ngModel)]="selectedDepartments" defaultLabel="===Select Department===" optionLabel="label"
+                    display="employee" [ngModelOptions]="{ standalone: true }"></p-multiSelect>
+
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4" *ngIf="isEmployee">
+              <div class="form-group">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend paheight col-6">
+                    <span class="input-group-text col-12">Employee<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <p-multiSelect formControlName="employeeId" id="employeeId" [ngClass]="{
+                      'is-invalid':
+                      VehicleAssignForm.get('employeeId').errors &&
+                        (VehicleAssignForm.get('employeeId').touched ||
+                        VehicleAssignForm.get('employeeId').dirty)
+                    }" [style]="{ 'width': '20vw','height':'25px', 'font-size':'3px !important'  }"
+                    [styleClass]="form-control" [options]="tmsService.allEmployeeListDropdown"
+                    [(ngModel)]="selectedEmployees" defaultLabel="===Select Employee===" optionLabel="label"
+                    display="employee" [ngModelOptions]="{ standalone: true }"></p-multiSelect>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-group">
+                <div class="input-group mb-1 mx-3">
+                  <textarea id="remarks" name="remarks" rows="3" cols="30" formControlName="remarks"
+                    class="form-control textarea" placeholder="Please Enter Remarks..." autocomplete="off"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" style="padding-top: 10px">
+                <button class="btn btn-x btn-outline-success mr-2 mx-3" (click)="OnSubmit()">
+                  <i class="fa fa-file"></i> {{ButtonName}}
+                </button>
+                <button class="btn btn-x btn-outline-warning" (click)="Clear()">
+                  <i class="fa fa-refresh"></i> Clear
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </form>
+
+</p-panel>
+<br>
+<p-panel header="Vechicle Assignment List" [toggleable]="true">
+  <p-table #dt [value]="VehicleAssignmentModelList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+    [rows]="200" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 30px">SL</th>
+        <th>Registration Number</th>
+        <th>Driver Name</th>
+        <th>Assign Type</th>
+        <th>Assigned For</th>
+        <th>Assigned From</th>
+        <th>Assigned To</th>
+        <th>Status</th>
+        <th>Action</th>
+        <th>Live Location</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'registrationNumber', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'driverName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'assignedTypeName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'assignedForName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'fromDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'toDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'statusName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-model let-rowIndex="rowIndex">
+      <tr>
+        <td style="width: 30px">{{ rowIndex+1 }}</td>
+        <td>{{model.registrationNumber}}</td>
+        <td>{{model.driverName}}</td>
+        <td>{{model.assignedTypeName}}</td>
+        <td>{{model.assignedForName}}</td>
+        <td>{{model.fromDate | date:'MMMM d, y, h:mm:ss a'}}</td>
+        <td>{{model.toDate | date:'MMMM d, y, h:mm:ss a'}}</td>
+        <td
+          [ngClass]="{ 'text-success':model.statusName === 'Active',  'text-danger':model.statusName === 'Inactive' }">
+          {{model.statusName}}</td>
+        <td>
+          <button class="btn btn-xs btn-outline-success mr-2" (click)="EditVehicleAssign(model)">
+            <i class="fa fa-pencil"></i> Edit
+          </button>
+        </td>
+        <td>
+          <button (click)="openMap(vehicle)" pTooltip="Live Location" class="btn btn-success btn-xs mr-2">
+            <i class="fa-map-marker" aria-hidden="true"></i> Live
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+
+
+  </p-table>
+</p-panel>
+
+
+<p-dialog header="map" [(visible)]="displayGoogleMap" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+  <div class="row">
+
+    <div class="col-xl-12">
+      <!--begin::Charts Widget 1-->
+      <div class="card card-custom bg-gray-100 gutter-b card-stretch card-shadowless" id="dash-chart-widget">
+
+        <!--end::Header-->
+        <!--begin::Body-->
+        <div class="card-body" id="map" style="height: 400px; position: relative; overflow: hidden;">
+          <div
+            style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+            <app-google-map></app-google-map>
+          </div>
+        </div>
+        <!--end::Body-->
+      </div>
+      <!--end::Charts Widget 1-->
+
+
+    </div>
+  </div>
+</p-dialog>

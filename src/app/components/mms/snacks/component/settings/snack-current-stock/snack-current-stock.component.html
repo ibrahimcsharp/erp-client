@@ -1,0 +1,69 @@
+<p-panel header="Snacks Current Stock" [toggleable]="true">
+    <p-table *ngIf="Items != null" [value]="Items"
+        [globalFilterFields]="['itemName', 'addQty','damageQty','saleQty']" dataKey="id"
+        editMode="row" [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left">               
+
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="bc">
+                <th>SL</th>               
+                <th [pSortableColumn]="'itemName'">
+                    Item Name
+                    <p-sortIcon [field]="'itemName'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+               
+                <th [pSortableColumn]="'addQty'">
+                    Added Qty
+                    <p-sortIcon [field]="'addQty'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'saleQty'">
+                    Sale Qty
+                    <p-sortIcon [field]="'saleQty'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'damageQty'">
+                    Damage Qty
+                    <p-sortIcon [field]="'damageQty'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'currentStock'">
+                    Current Stock
+                    <p-sortIcon [field]="'currentStock'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th>Action</th>    
+
+           
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="rowData" class="center">
+                <td>{{ ri + 1 }}</td>             
+                <td>{{ rowData.itemName }}</td>
+                <td>{{ rowData.addQty }}</td>
+                <td>{{ rowData.saleQty }}</td>
+                <td>{{ rowData.damageQty }}</td>
+                <td>{{ rowData.currentStock }}</td>
+                <td><button *ngIf="rowData.currentStock>0" class="btn btn-outline-info btn-xs" (click)="AddDamage(rowData)"><i class="fa fa-trash-o" aria-hidden="true"></i> Add Damage</button></td>
+                
+            </tr>
+        </ng-template>
+    </p-table>
+    <ngx-spinner [name]="spinnerName" [fullScreen]="false" size="medium">
+        <p class="loading">Loading...</p>
+    </ngx-spinner>
+</p-panel>

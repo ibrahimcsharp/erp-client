@@ -1,0 +1,388 @@
+<p-panel header="Training Requisition List" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+  <form [formGroup]="trainingScheduleForm">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Schedule Date</span>
+          </div>
+          <input class="form-control" type="datetime-local" formControlName="scheduleDate" />
+        </div>
+
+      </div>
+      <div class="col-md-3">
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Training Title</span>
+          </div>
+          <input formControlName="scheduleTitle" [typeahead]="skillPlanCourseListData" [typeaheadMinLength]="0"
+            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8" typeaheadOptionField="label"
+            class="form-control" class="form-control" type="text" />
+        </div>
+
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Trainer</span>
+            </div>
+            <input formControlName="trainerName" [typeahead]="commonService.GatePassEmployeeList"
+              [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+              typeaheadOptionField="label" class="form-control" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3" style="margin-bottom: 3px;margin-top: -5px;margin-left: -15px;">
+        <button pButton pRipple type="button" label="Generate Schedule" icon="pi pi-check-square"
+          *ngIf="SelectedCheckboxRequisitions.length>0" (click)="DisplaySchedule()"
+          style="width:170px!important;font-size: 14px!important;background: #ffba01!important;color: black;">
+        </button>
+
+      <a target="_blank" href="/idm/add-trainee" ><button pButton pRipple type="button" label="Add Member" icon="pi pi-check-square"
+        style="width:170px!important;font-size: 14px!important;background: #65b52b!important;color: black;">
+      </button></a>
+      <!-- *ngIf="SelectedCheckboxRequisitions.length>0"  -->
+      </div>
+    </div>
+
+
+
+    <p-table #dt1 rowExpandMode="single" expandableRows="true" [value]="trainingScheduleList"
+      [globalFilterFields]="['']" dataKey="id" editMode="row" [scrollable]="true" scrollHeight="400px"
+      [(selection)]="SelectedCheckboxRequisitions">
+
+      <ng-template pTemplate="header">
+        <tr class="bc">
+
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            SL</th>
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Code</th>
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Training Title</th>
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Type</th>
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Trainer</th>
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Deaprtment</th>
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Section</th>
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Req. Employee</th>
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Employee ID</th>
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Target</th>
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Target Date</th>
+          <th
+            style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Select</th>
+
+        </tr>
+        <tr>
+
+          <td
+            style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'trainingCode', 'contains')"
+              class="p-column-filter" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'trainingName', 'contains')"
+              class="p-column-filter" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'typeName', 'contains')"
+              class="p-column-filter" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'trainerName', 'contains')"
+              class="p-column-filter" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'employeeDepartment', 'contains')"
+              class="p-column-filter" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'employeeSection', 'contains')"
+              class="p-column-filter" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'employeeName', 'contains')"
+              class="p-column-filter" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'employeeId', 'contains')"
+              class="p-column-filter" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'target', 'contains')"
+              class="p-column-filter" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'targetDate', 'contains')"
+              class="p-column-filter" />
+          </td>
+          <td
+            style=" padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </td>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+        <tr
+          style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          <td>{{ri+1}}</td>
+          <td>{{rowData.trainingCode}}</td>
+          <td>{{rowData.trainingName}}</td>
+          <td>{{rowData.typeName}}</td>
+          <td>{{rowData.trainerName}}</td>
+          <td>{{rowData.employeeDepartment}}</td>
+          <td>{{rowData.employeeSection}}</td>
+          <td>{{rowData.employeeName}}</td>
+          <td>{{rowData.employeeId}}</td>
+          <td>{{rowData.target}}</td>
+          <td>{{rowData.targetDate | date: "d/M/y"}}</td>
+          <td>
+            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            <!-- <button pButton pRipple type="button" label="APPROVE" icon="{{rowData.approveIcon}}"
+              class="p-button-raised p-button-success p-button-text"
+              style="background: #80ff80;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;" (click)="ApproveMission(rowData)">
+            </button>
+            
+              <button pButton pRipple type="button" label="REJECT"
+              class="p-button-raised p-button-success p-button-text"
+              style="background: #ff704d;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;" (click)="RejectMission(rowData)">
+            </button> -->
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </form>
+</p-panel>
+<br>
+<br>
+<br>
+<p-panel header="Training Schedule List" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+  <p-table #dt rowExpandMode="single" expandableRows="true" [value]="trainingMasterList" dataKey="id" editMode="row"
+    [scrollable]="true" scrollHeight="400px">
+    <ng-template pTemplate="header">
+      <tr class="bc">
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          SL</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Schedule Title</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Schedule Date & Time</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Status</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Postponed</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;width: 25%;">
+          Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+      <tr
+        style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+        <td>{{ri+1}}</td>
+        <td>{{rowData.scheduleTitle}}</td>
+        <td>{{rowData.scheduleDate | date: "medium"}}</td>
+        <td>{{rowData.status}}</td>
+        <td>{{rowData.isPostponed}}</td>
+        <td style="width: 25%;">
+          <button pButton pRipple type="button" label="Reject" icon="pi pi-ban" (click)="rejectSchedule(rowData)"
+            style="width:80px!important;height: 28px;font-size: 12px!important;background: #ff878d!important;cursor: pointer;">
+          </button>
+          <button pButton pRipple type="button" label="Postponed" icon="pi pi-chevron-circle-right"
+            (click)="postponedSchedule(rowData)"
+            style="width:90px!important;height: 28px;font-size: 12px!important;background: #c187ff!important;cursor: pointer;">
+          </button>
+          <button pButton pRipple type="button" label="Add/View" icon="pi pi-plus"
+            (click)="getAllScheduleSubByMasterId(rowData)"
+            style="width:90px!important;height: 28px;font-size: 12px!important;background: #64daa2!important;cursor: pointer;">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+<br>
+
+<p-dialog [(visible)]="SelectedRequisitionDisplay" [style]="{ width: '68vw' }" [baseZIndex]="10000"
+  (onHide)="cancelAddOrViewPopup()">
+  <div class="row">
+    <div class="col-md-2">
+      <button pButton pRipple type="button" label="Save Schedule" icon="pi pi-file"
+        *ngIf="SelectedCheckboxRequisitions.length>0" (click)="onSubmit()"
+        style="width:140px!important;font-size: 14px!important;background: #4f91ce !important;color: white;">
+      </button>
+    </div>
+    <div class="col-md-3" style=" margin-top: 8px; ">
+      <span style="font-weight: bold;font-size: 14px;;color: #ee9c96;"> Date: </span><span
+        style="font-weight: bold;font-size: 14px;color: #ee9c96;">{{addViewModel.scheduleDate | date: "medium" }}</span>
+    </div>
+    <div class="col-md-7" style=" margin-top: 8px; ">
+      <span style="font-weight: bold;font-size: 14px;;color: #ee9c96;"> Title: </span><span
+        style="font-weight: bold;font-size: 14px;color: #ee9c96;">{{trainingScheduleForm.value.scheduleTitle}}</span>
+    </div>
+
+  </div>
+  <p-table #dt rowExpandMode="single" expandableRows="true" [value]="SelectedCheckboxRequisitions"
+    [globalFilterFields]="['']" dataKey="id" editMode="row" [scrollable]="true" scrollHeight="400px">
+
+    <ng-template pTemplate="header">
+      <tr class="bc">
+
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          SL</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Training Title</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Type</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Trainer</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Deaprtment</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Section</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Req. Employee</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Employee ID</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Target</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Target Date</th>
+        <th
+          style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          Action</th>
+
+      </tr>
+
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+      <tr
+        style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+        <td>{{ri+1}}</td>
+        <td>{{rowData.trainingName}}</td>
+        <td>{{rowData.typeName}}</td>
+        <td>{{rowData.trainerName}}</td>
+        <td>{{rowData.employeeDepartment}}</td>
+        <td>{{rowData.employeeSection}}</td>
+        <td>{{rowData.employeeName}}</td>
+        <td>{{rowData.employeeId}}</td>
+        <td>{{rowData.target}}</td>
+        <td>{{rowData.targetDate | date: "d/M/y"}}</td>
+        <td>
+          <button pButton pRipple type="button" label="" icon="pi pi-trash" (click)="deleteFromCheckList(ri)"
+            [disabled]="show"
+            style="width:20px!important;height: 20px;font-size: 12px!important;background: #ff878d!important;cursor: pointer;">
+          </button>
+
+          <!-- <button pButton pRipple type="button" label="APPROVE" icon="{{rowData.approveIcon}}"
+        class="p-button-raised p-button-success p-button-text"
+        style="background: #80ff80;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;" (click)="ApproveMission(rowData)">
+      </button>
+      
+        <button pButton pRipple type="button" label="REJECT"
+        class="p-button-raised p-button-success p-button-text"
+        style="background: #ff704d;height: 22px;width: 70px;color: black;font-weight: bold;font-size: 8px!important;" (click)="RejectMission(rowData)">
+      </button> -->
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+</p-dialog>
+
+
+<p-dialog [(visible)]="PostponedDisplay" [style]="{ width: '30vw' }" [baseZIndex]="10000"
+  (onHide)="cancelPostponePopup()">
+  <div class="row">
+
+    <div class="col-md-12" style=" margin-top: 8px; ">
+      <span style="font-weight: bold;font-size: 14px;;color: #5e5861;">Scheduled Date: </span><span
+        style="font-weight: bold;font-size: 14px;color: #ee9c96;">{{postponedModel.scheduleDate | date: "medium"
+        }}</span>
+    </div>
+    <div class="col-md-12" style=" margin-top: 8px; ">
+      <span style="font-weight: bold;font-size: 14px;;color: #5e5861;"> Title: </span><span
+        style="font-weight: bold;font-size: 14px;color: #ee9c96;">{{trainingScheduleForm.value.scheduleTitle}}</span>
+    </div>
+
+    <div class="col-md-12" style=" margin-top: 8px; ">
+      <div class="form-group">
+        <div class="input-group input-group-sm">
+          <div class="input-group-prepend">
+            <span class="input-group-text">New Schedule Date</span>
+          </div>
+          <input pInputText type="datetime-local" style="width: 65%;" #postponedDateValue>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" style=" margin-top: 8px; ">
+      <div class="form-group">
+        <div class="input-group input-group-sm">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Reason</span>
+          </div>
+          <input pInputText type="text" style="width: 81%;" #postponedReasonValue>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <button pButton pRipple type="button" label="Save Postponed" icon="pi pi-file" (click)="onSubmitPostponed()"
+        style="width:155px!important;font-size: 14px!important;background: #c187ff !important;color: white;">
+      </button>
+    </div>
+
+  </div>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '50vw' }" key="positionDialog" [position]="position" [baseZIndex]="10000">
+</p-confirmDialog>

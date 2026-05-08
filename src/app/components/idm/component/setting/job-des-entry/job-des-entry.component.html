@@ -1,0 +1,246 @@
+<p-panel header="Job Description" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+  <form [formGroup]="jobDesEntryForm">
+    <section>
+      <div class="row">
+        <div class="col-md-7">
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Employee Information</legend>
+            <div class="row">
+              <div class="col-md-12">
+                <p-table #dt1 [value]="AllEmployeeList" rowExpandMode="single" [globalFilterFields]="['']" dataKey="id"
+                  expandableRows="true" editMode="row" *ngIf="AllEmployeeList.length>0" [scrollable]="true"
+                  scrollHeight="300px">
+                  <ng-template pTemplate="header">
+                    <tr class="bc">
+                      <th style="width:20px ;">SL</th>
+                      <th style="width:60px ;">Employee Id</th>
+                      <th style="width:100px ;">Employee Name</th>
+                      <th style="width:100px ;">Company</th>
+                      <th style="width:80px ;"> Department</th>
+                      <th style="width:80px ;"> Section</th>
+                      <th style="width:80px ;">Action</th>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>
+                        <input pInputText type="text"
+                          (input)="dt1.filter($event.target.value, 'employeeId', 'contains')" class="p-column-filter" />
+                      </td>
+                      <td>
+                        <input pInputText type="text"
+                          (input)="dt1.filter($event.target.value, 'employeeName', 'contains')"
+                          class="p-column-filter" />
+                      </td>
+                      <td>
+                        <input pInputText type="text" (input)="dt1.filter($event.target.value, 'company', 'contains')"
+                          class="p-column-filter" />
+                      </td>
+                      <td>
+                        <input pInputText type="text"
+                          (input)="dt1.filter($event.target.value, 'department', 'contains')" class="p-column-filter" />
+                      </td>
+                      <td>
+                        <input pInputText type="text" (input)="dt1.filter($event.target.value, 'section', 'contains')"
+                          class="p-column-filter" />
+                      </td>
+                      <td></td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                    <tr [pEditableRow]="rowData" [ngStyle]="{ 'background-color': '#e0fede' }">
+                      <td style="width:20px ; background-color: hsl(225, 100%, 87%) !important;">{{ rowIndex+1 }}</td>
+                      <td style="width:60px ; background-color: hsl(225, 100%, 87%) !important; font-weight: bold;">{{ rowData.employeeId}}</td>
+                      <td style="width:100px; background-color: hsl(225, 100%, 87%) !important; font-weight: bold;">{{ rowData.employeeName}}</td>
+                      <td style="width:100px; background-color: hsl(225, 88%, 90%)">{{ rowData.company}}</td>
+                      <td style="width:80px ; background-color: hsl(225, 88%, 90%)">{{ rowData.department}}</td>
+                      <td style="width:80px ; background-color: hsl(225, 88%, 90%)">{{ rowData.section}}</td>
+                      <td style="width:80px ; background-color: hsl(225, 88%, 90%)">
+                        <button pButton pRipple type="button" label="JD View" icon="pi pi-user"
+                          (click)="viewJd(rowData)" [disabled]="show"
+                          style="width:83px!important;font-size: 12px!important;background: #695eff!important;">
+                        </button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-5" *ngIf="showJD">
+
+          <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#ListUpload">Insert</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#SingleUpload"> Upload</a></li>
+          </ul>
+        <div class="tab-content">
+          <div id="ListUpload" class="tab-pane fade in active show">
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border">Add Job Description To <span class="scheduler-border"
+                  style="color: #c15fe8!important;">({{employee}})</span></legend>
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="form-group">
+                    <div class="input-group input-group-sm">
+                      <textarea id="jobSummary" formControlName="jobSummary" name="jobSummary" rows="2" cols="50"
+                        class="form-control" placeholder="Write Job Summary/Title Here..."></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <button pButton pRipple type="button" label="Title" icon="pi pi-plus-circle"
+                      (click)="addJobSummary(rowData)" [disabled]="show"
+                      style="width:75px!important;font-size: 12px!important;background: #3792cf!important;">
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="form-group">
+                    <div class="input-group input-group-sm">
+                      <textarea id="jobDescription" formControlName="jobDescription" name="jobDescription" rows="4"
+                        cols="50" class="form-control" placeholder="Write Job Description Here..."></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <button pButton pRipple type="button" label="Add JD" icon="pi pi-plus-circle"
+                      (click)="addJobdescription(rowData)" [disabled]="show"
+                      style="width:75px!important;font-size: 11px!important;background: #3792cf!important;">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div id="SingleUpload" class="tab-pane fade">
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border">Add Job Description To <span class="scheduler-border"
+                  style="color: #c15fe8!important;">({{employee}})</span></legend>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="dropzone-wrapper">
+                      <div class="dropzone-desc">
+                        <i class="glyphicon glyphicon-download-alt"></i>
+                        <h3 style="padding-top: 20px;">Choose an excel file</h3>
+                      </div>
+                      <input name="img_logo" formControlName="file" title="text" style="height: 100px !important;
+                        background-color: #5dade2 !important;" value="test" type="file" class="dropzone"
+                        (change)="onUpload($event)" placeholder="Upload file"
+                        accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3" style="word-break: break-all;">
+                  <div class="form-group">
+                    <button class="btn btn-outline-info btn-xs mr-2"
+                      style="padding-top: 7px;padding-bottom: 7px;padding-right: 20px;padding-left: 20px;"
+                      (click)="showDataFromExcel()">
+                      <i class="fa fa-upload"></i> Extract
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <br>
+            <div class="row">
+              <p-table [value]="dataList" rowExpandMode="single" expandableRows="true" dataKey="id" editMode="row" [scrollable]="true" scrollHeight="500px">
+                <ng-template pTemplate="header">
+                  <tr class="bc">
+                    <th>SL</th>
+                    <th>Job Description</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-editing="editing" let-dataIndex="rowIndex">
+                  <tr [pEditableRow]="rowData" [ngStyle]="{ 'background-color': '#e0fede' }">
+                    <td style="background-color: hsl(225, 100%, 87%) !important;">
+                      {{ dataIndex+1 }}
+                    </td>
+                    <!-- <td style="width:50px ;">{{data.jobDes}}</td> -->
+                    <td style="background-color: hsl(225, 100%, 87%) !important;"><input  type="text"
+                      [(ngModel)]="data.jobDes" [ngModelOptions]="{standalone: true}" 
+                      style="height: 30px; background-color: hsl(0, 0%, 100%) !important;" /></td>
+                      
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div class="row">
+              <button *ngIf="dataList.length>0" class="btn btn-outline-info btn-xs mr-2"
+                style="padding-top: 7px;padding-bottom: 7px;padding-right: 20px;padding-left: 20px;"
+                (click)="uploadJdList()">
+                <i class="fa fa-floppy-o"></i> Save JD
+              </button>
+            </div>
+          </div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+  </form>
+</p-panel>
+
+
+
+
+<p-panel header="Job Description" [toggleable]="true">
+  <fieldset class="scheduler-border">
+    <div class="row" style="margin-left: 10px;">
+      <div *ngIf="showJD">
+        <legend class="scheduler-border" style="color: #c15fe8!important;  font-weight: bold;">{{employee}}</legend>
+        <legend style="font-weight: bold;" class="scheduler-border">Job Summary/Title </legend>
+        <span
+          style="color: #c15fe8!important; text-align:right;  font-weight: bold; margin-left: 10px;">{{myJobSummary}}</span>
+        <br>
+        <br>
+        <legend style="font-weight: bold;" class="scheduler-border">Job Description </legend>
+        <div class="row">
+          <div class="col-md-8">
+            <p-table [value]="jobDescriptionListByEmployee" #dt editMode="row"
+              *ngIf="jobDescriptionListByEmployee.length>0">
+              <ng-template pTemplate="header">
+                <tr class="bc">
+                  <th style="width: 30px!important;">SL</th>
+                  <th >Job Description</th>
+                  <th style="width:50px ;">Date</th>
+                  <th style="width:30px ;"></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                <tr [pEditableRow]="rowData" [ngStyle]="{ 'background-color': '#e0fede' }">
+                  <td style="width: 30px!important; background-color: hsl(225, 100%, 87%) !important;">
+                    {{ rowIndex+1 }}
+                  </td>
+                  <td [ngClass]="'job-description'" style="text-align: left; white-space: normal; background-color: hsl(226, 100%, 97%) !important;">
+                    <span [innerHTML]="formatTextWithLineBreaks(rowData.jobDes)"></span>
+                  </td>
+                  <td style="width:50px; background-color: hsl(226, 100%, 97%) !important;">{{ rowData.createdDate | date:'dd MMM, yyyy'}}</td>
+                  <td style="width:30px;  background-color: hsl(226, 100%, 97%) !important;">
+                    <button pButton pRipple type="button" label="" icon="pi pi-trash"
+                      (click)="deleteJobdescription(rowData)" [disabled]="show"
+                      style="width:30px!important;font-size: 12px!important;background: #ff878d!important;">
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</p-panel>

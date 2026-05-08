@@ -1,0 +1,104 @@
+<p-panel header="Accident Expense List" [toggleable]="true">
+    <p-table #dt [value]="AllAccidentList" 
+    dataKey="id" editMode="row" [scrollable]="true" [paginator]="true" [rows]="200" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+          <button
+            (click)="OpenNew()"
+            pTooltip="Add New Type"
+            class="btn btn-success btn-xs mr-2"
+          >
+            <i class="fa fa-plus" aria-hidden="true"></i> New
+          </button>
+        </div>
+      </ng-template>
+    <ng-template pTemplate="header">
+       <tr>
+        <th style="width: 30px">SL</th>
+        <th>Vehicle registration</th>
+        <th>Accident Type</th>
+        <th>Accident Date</th>
+        <th>Location</th>
+        <th>Involve With</th>
+        <th>Amount Status</th>
+        <th>Total Amount</th>
+        <th>Odometer</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'vehicleId', 'contains')"
+            class="p-column-filter" style=" width: 100%; "/>
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'accidentTypeId', 'contains')"
+            class="p-column-filter" style=" width: 100%; "/>
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'accidentDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; "/>
+        </td>
+        <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'location', 'contains')"
+              class="p-column-filter" style=" width: 100%; "/>
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'involveWith', 'contains')"
+              class="p-column-filter" style=" width: 100%; "/>
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'amountStatus', 'contains')"
+              class="p-column-filter" style=" width: 100%; "/>
+          </td>
+
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'totalAmount', 'contains')"
+              class="p-column-filter" style=" width: 100%; "/>
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'odometer', 'contains')"
+              class="p-column-filter" style=" width: 100%; "/>
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'action', 'contains')"
+              class="p-column-filter" style=" width: 100%; "/>
+          </td>
+        
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-type let-rowIndex="rowIndex">
+      <tr>
+        <td style="width: 30px">{{ rowIndex+1 }}</td>
+    
+        <td>{{type.vehicleId}}</td>
+        <td>{{type.accidentTypeId}}</td>
+        <td>{{type.accidentDate}}</td>
+        <td>{{type.location}}</td>
+        <td>{{type.involveWith}}</td>
+        <td>{{type.amountStatus}}</td>
+        <td>{{type.totalamount}}</td>
+        <td>{{type.odometer}}</td>
+        <td>{{type.action}}</td>
+
+        <td [ngClass]="{ 'text-success':type.statusName === 'Active',  'text-danger':type.statusName === 'Inactive' }">{{type.statusName}}</td>
+        
+        <td>
+          <button class="btn btn-xs btn-outline-success mr-2"
+                          (click)="EditTypes(type)">
+                          <i class="fa fa-pencil"></i> Edit
+                        </button>
+        </td>
+       
+      </tr>
+    </ng-template>
+  
+    
+    </p-table>
+  </p-panel>
+
+  <p-dialog header="Accident Expense Create"  [(visible)]="displayCreate" [style]="{ width: '70vw' }" [baseZIndex]="10000">    
+    <app-accident #CreateAccidentExpense (accidentExpenseList)="LoadTypes()"></app-accident>    
+  </p-dialog>

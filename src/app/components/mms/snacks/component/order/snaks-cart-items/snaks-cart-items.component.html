@@ -1,0 +1,57 @@
+<p-table *ngIf="snackService.cartItems != null" [value]="snackService.cartItems"
+    [globalFilterFields]="['itemName', 'addQty','damageQty','saleQty']" dataKey="id" editMode="row" [scrollable]="true"
+    [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">>
+    <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+            <button (click)="SaveOrderPersonal()" pTooltip="Personal" class="btn btn-success btn-xs mr-2">
+                <i class="fa fa-save" aria-hidden="true"></i> Order for Personal
+            </button>            
+            <button (click)="SaveOrderOfficialGuest()" pTooltip="Official" class="btn btn-primary btn-xs mr-2">
+                <i class="fa fa-save" aria-hidden="true"></i> Order for Official
+            </button>            
+            <input type="text" pInputText size="50" placeholder="Global Filter"
+                (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr class="bc">
+            <th>SL</th>
+            <th [pSortableColumn]="'itemName'">
+                Item Name
+                <p-sortIcon [field]="'itemName'" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th>
+                Buy Qty
+            </th>
+            <th>
+                Price
+            </th>
+            <th>Action</th>
+
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="rowData" class="center">
+            <td>{{ ri + 1 }}</td>
+            <td>{{ rowData.itemName }}</td>
+            <td>{{ rowData.buyQty }}</td>
+            <td>{{ rowData.buyQty * rowData.salePrice }}</td>
+            <td><button class="btn btn-outline-primary btn-xs" (click)="RemoveBuyItems(rowIndex)">Remove</button></td>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <tr>
+           <td></td>
+           <td></td>
+           <td></td>
+           <td>{{CalculateTotalPrice()}}</td>
+           <td></td>
+        </tr>
+    </ng-template>
+</p-table>

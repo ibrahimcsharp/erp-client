@@ -1,0 +1,437 @@
+<form [formGroup]="RequisitionPasserngersViewForm">
+    <section>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Requisition Details</legend>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6 paheight col-6">
+                                                <span class="input-group-text col-12">Required For</span>
+                                            </div>
+                                            <select formControlName="requiredFor" class="p-inputtext-sm form-control"
+                                                disabled>
+                                                <option value="Internal Use">Internal Use</option>
+                                                <option value="Personal Use">Personal Use</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Used Type</span>
+                                            </div>
+                                            <select formControlName="usedType" class="p-inputtext-sm form-control"
+                                                disabled>
+                                                <option value="Pickup">Pickup</option>
+                                                <option value="Drop">Drop</option>
+                                                <option value="Pickup & Drop">Pickup & Drop</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Required Vehicle Type</span>
+                                            </div>
+                                            <select id="vehicleTypeId" formControlName="vehicleTypeId"
+                                                class="form-control" [ngClass]="{'is-invalid':RequisitionPasserngersViewForm.get('vehicleTypeId').errors &&
+                      (RequisitionPasserngersViewForm.get('vehicleTypeId').touched ||
+                      RequisitionPasserngersViewForm.get('vehicleTypeId').dirty)}" disabled>
+                                                <option *ngFor="let type of tmsService.allTypeListDropdown"
+                                                    [ngValue]="type.value">
+                                                    {{ type.label }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Requisition For</span>
+                                            </div>
+                                            <select formControlName="requisitionFor" class="p-inputtext-sm form-control"
+                                                disabled>
+                                                <option value="">===Select One===</option>
+                                                <option value=1>Buyers</option>
+                                                <option value=2>Management</option>
+                                                <option value=3>Department</option>
+                                                <option value=5>Company</option>
+                                                <option value=6>Employee</option>
+                                                <option value=7>Customer</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" *ngIf="isCompany">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Company</span>
+                                            </div>
+                                            <select class="form-control " formControlName="companyId" id="companyId"
+                                                disabled>
+                                                <option *ngFor="let company of commonService.CompanySelectedList"
+                                                    [ngValue]="company.value">
+                                                    <ng-container *ngIf="company.label != 'Select'">
+                                                        {{ company.label }}
+                                                    </ng-container>
+                                                    <ng-container *ngIf="company.label == 'Select'">
+                                                        ===Select One===
+                                                    </ng-container>
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" *ngIf="isBuyer">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Buyer</span>
+                                            </div>
+                                            <select class="form-control " formControlName="buyerId" id="buyerId"
+                                                disabled>
+                                                <option *ngFor="let item of commonService.BuyerSelectList"
+                                                    [ngValue]="item.value">
+                                                    <ng-container *ngIf="item.label != 'Select'">
+                                                        {{ item.label }}
+                                                    </ng-container>
+                                                    <ng-container *ngIf="item.label == 'Select'">
+                                                        ===Select One===
+                                                    </ng-container>
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" *ngIf="isDepartment">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Department</span>
+                                            </div>
+                                            <p-multiSelect formControlName="departmentId" id="departmentId"
+                                                [options]="tmsService.allDepartmentListDropdown"
+                                                [style]="{ 'width': '10vw','height':'30px', 'font-size':'2px !important'  }"
+                                                [(ngModel)]="selectedDepartments" defaultLabel="===Select Department==="
+                                                optionLabel="label" display="employee"
+                                                [ngModelOptions]="{ standalone: true }" disabled>
+                                            </p-multiSelect>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" *ngIf="isEmployee">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Employee</span>
+                                            </div>
+                                            <p-multiSelect formControlName="employeeId" id="employeeId"
+                                                [style]="{ 'width': '10vw','height':'30px', 'font-size':'2px !important'  }"
+                                                [styleClass]="form-control"
+                                                [options]="tmsService.allEmployeeListDropdown"
+                                                [(ngModel)]="selectedEmployees" defaultLabel="===Select Employee==="
+                                                optionLabel="label" display="employee"
+                                                [ngModelOptions]="{ standalone: true }" disabled>
+                                            </p-multiSelect>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" *ngIf="isCustomer">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Customer Name</span>
+                                            </div>
+                                            <input type="text" id="customerName" formControlName="customerName"
+                                                class="form-control" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">No Of Person</span>
+                                            </div>
+                                            <input type="number" id="noOfPerson" formControlName="noOfPerson"
+                                                class="form-control" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Participant Names</span>
+                                            </div>
+                                            <input type="text" id="participantName" formControlName="participantName"
+                                                class="form-control" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Pickup Location</span>
+                                            </div>
+                                            <input type="text" id="pickupLocation" formControlName="pickupLocation"
+                                                class="form-control" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Req. Date & Time</span>
+                                            </div>
+                                            <input class="p-inputtext-sm form-control" type="datetime-local"
+                                                formControlName="startTime" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Drop Location</span>
+                                            </div>
+                                            <input type="text" id="dropLocation" formControlName="dropLocation"
+                                                class="form-control" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Drop Date & Time</span>
+                                            </div>
+                                            <input class="p-inputtext-sm form-control" type="datetime-local"
+                                                formControlName="endTime" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Requisition Purpose</span>
+                                            </div>
+                                            <select id="purpose" formControlName="purpose"
+                                                class="p-inputtext-sm form-control" disabled>
+                                                <option value="Buyer Meeting">Buyer Meeting</option>
+                                                <option value="Supplier Meeting">Supplier Meeting</option>
+                                                <option value="Meeting">Meeting</option>
+                                                <option value="Factory Visit">Factory Visit</option>
+                                                <option value="Shop Visit">Shop Visit</option>
+                                                <option value="Area Visit">Area Visit</option>
+                                                <option value="Sub Contract">Sub Contract</option>
+                                                <option value="Quality Check">Quality Check</option>
+                                                <option value="Sample Review">Sample Review</option>
+                                                <option value="Training">Training</option>
+                                                <option value="Commercial Work">Commercial Work</option>
+                                                <option value="Audit">Audit</option>
+                                                <option value="Accounts Work">Accounts Work</option>
+                                                <option value="Others">Others</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="input-group mb-1">
+                                        <div class="input-group-prepend paheight col-6">
+                                            <span class="input-group-text col-12">Buyer </span>
+                                        </div>
+
+                                        <select class="form-control " formControlName="buyerId" id="buyerId" disabled>
+                                            <option *ngFor="let item of commonService.BuyerSelectList"
+                                                [ngValue]="item.value" disabled>
+                                                <ng-container *ngIf="item.label != 'Select'">
+                                                    {{ item.label }}
+                                                </ng-container>
+                                                <ng-container *ngIf="item.label == 'Select'">
+                                                    ===Select One===
+                                                </ng-container>
+                                            </option>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="input-group mb-1">
+                                        <div class="input-group-prepend paheight col-6">
+                                            <span class="input-group-text col-12">Buyer Person Name
+                                            </span>
+                                        </div>
+                                        <input type="text" id="buyerPersonName" formControlName="buyerPersonName"
+                                            class="form-control" readonly />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="input-group mb-1">
+                                        <div class="input-group-prepend paheight col-6">
+                                            <span class="input-group-text col-12">Buyer Person Phn No
+                                            </span>
+                                        </div>
+                                        <input type="text" id="buyerPersonMobileNo"
+                                            formControlName="buyerPersonMobileNo" class="form-control" readonly />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Vehicle Reg. No.</span>
+                                            </div>
+                                            <input class="p-inputtext-sm form-control" type="text"
+                                                formControlName="registrationNumber" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Driver Name</span>
+                                            </div>
+                                            <input class="p-inputtext-sm form-control" type="text"
+                                                formControlName="employeeName" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Mobile No.</span>
+                                            </div>
+                                            <input class="p-inputtext-sm form-control" type="text"
+                                                formControlName="mobileNo" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Pickup Date & Time</span>
+                                            </div>
+                                            <input class="p-inputtext-sm form-control" type="datetime-local"
+                                                formControlName="fromDate" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Req. Remarks</span>
+                                            </div>
+                                            <textarea id="remarks" name="remarks" rows="2" cols="10"
+                                                formControlName="remarks" class="form-control textarea" autocomplete="off"
+                                                readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">Reject Reason</span>
+                                            </div>
+                                            <textarea id="supervisorRemarks" name="supervisorRemarks" rows="2" cols="10"
+                                                formControlName="supervisorRejectReason" class="form-control textarea"
+                                                 autocomplete="off"
+                                                readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend paheight col-6">
+                                                <span class="input-group-text col-12">T.Dept. Reject Reason</span>
+                                            </div>
+                                            <textarea id="transportDptRejectReason" name="transportDptRejectReason" rows="2" cols="10"
+                                                formControlName="transportDptRejectReason" class="form-control textarea" autocomplete="off"
+                                                readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </fieldset>
+                    </div>
+                    <!-- <div class="col-md-12">
+                        <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Requisition Activity Log</legend>
+                            <div class="row">
+                                <div style="padding-left: 70px;" class="col-md-10">
+                                    <div class="row">
+                                        <p-table #dt [value]="AllRequisitionLogList" dataKey="id" editMode="row"
+                                            [scrollable]="true" [rows]="200">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th style="width: 30px">SL</th>
+                                                    <th>Status</th>
+                                                    <th>Remarks</th>
+                                                    <th>Activity By</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-vehicle let-rowIndex="rowIndex">
+                                                <tr>
+                                                    <td style="width: 30px">{{ rowIndex+1 }}</td>
+                                                    <td>{{vehicle.status}}</td>
+                                                    <td>{{vehicle.remarks}}</td>
+                                                    <td>{{vehicle.userName}}</td>
+                                                    <td>{{vehicle.createDate}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div> -->
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</form>

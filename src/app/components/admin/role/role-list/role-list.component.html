@@ -1,0 +1,47 @@
+<div class="container">
+  
+    <p-panel header="Role Create" [toggleable]="true">
+        <app-role-create #role (RoleToCreate)="LoadRoleData()"></app-role-create>
+    </p-panel>
+    <br>
+    <p-panel header="Role List" [toggleable]="true">
+        <ng-template pTemplate="icons">
+            <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                <span class="pi pi-cog"></span>
+            </button>
+            <!-- <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu> -->
+        </ng-template>
+        <p-table #dt [value]="roleService.roleList" [globalFilterFields]="['roleName']" dataKey="supplierId"
+            editMode="row" [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5,10,50,100]">
+            <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix" style="text-align: left">
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="float:right">
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th hidden>SL</th>
+                    <th [pSortableColumn]="'roleName'">Role Name<p-sortIcon [field]="'roleName'"
+                            ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData">
+                    <td hidden>
+                        <span hidden>{{rowData.id}}</span>
+                    </td>
+                    <td>{{rowData.roleName}}</td>
+                    <td> <a style="cursor: pointer;" class="mr-2" (click)="editRole(rowData)"><i
+                                class="fa fa-edit"></i></a></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+
+</div>

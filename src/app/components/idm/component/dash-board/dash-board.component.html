@@ -1,0 +1,1148 @@
+<p-panel header="My IDM Dashboard" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+  <form [formGroup]="dashboardForm">
+    <section>
+      <div class="row">
+        <div class="col-md-4 pull-left">
+          <table class="table table-hover">
+            <thead *ngFor="let employee of myInfo;">
+              <tr>
+                <th>Employee Id</th>
+                <th>{{myId}}</th>
+              </tr>
+              <tr>
+                <th>Employee Name</th>
+                <th>{{employee.employeeName}}</th>
+
+              </tr>
+              <tr>
+                <th>Department</th>
+                <th>{{employee.department}}</th>
+
+              </tr>
+              <tr>
+                <th>Section</th>
+                <th>{{employee.section}}</th>
+
+              </tr>
+              <tr>
+                <th>Designation</th>
+                <th>{{employee.designation}}</th>
+
+              </tr>
+              <tr>
+                <th>Company</th>
+                <th>{{ employee.company }}</th>
+              </tr>
+              <tr>
+                <th>Joining Date</th>
+                <th>{{ employee.doj | date:'dd MMM, yyyy' }}</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-6">
+
+          <!-- <fieldset class="scheduler-border">
+            <legend class="scheduler-border"><span class="scheduler-border" style="color: #5793cb !important;">
+                IDM User Manual</span></legend>
+                <button pButton pRipple type="button" label="User Manual" icon="pi pi-user"
+                (click)="getshowvid()" 
+                style="width:120px!important;font-size: 12px!important;background: #87cf96!important;">
+              </button>
+          </fieldset> -->
+
+
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border"><span class="scheduler-border" style="color: #5793cb !important;">Job
+                Summary/Title</span></legend>
+            <span
+              style="color: #635f65!important;text-align:center;font-size:18px;font-weight: bold;">{{myJobSummary}}</span>
+          </fieldset>
+
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border"><span class="scheduler-border" style="color: #5793cb !important;">Job
+                Description</span> </legend>
+            <table class="table table-hover">
+              <thead *ngFor="let job of jobDescriptionListByEmployee;">
+                <tr>
+                  <th>{{ job.jobDes}}</th>
+                  <th style="width:100px ;">{{ job.createdDate | date:'dd MMM, yyyy'}}</th>
+                </tr>
+              </thead>
+            </table>
+          </fieldset>
+        </div>
+
+        <div class="col-md-12">
+          <hr />
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border"><span class="scheduler-border" style="color: #5793cb !important;">IDM MEETING SCHEDULE FROM TEAM LEAD</span> </legend>
+
+            <p-table #dt dataKey="id" editMode="row" [scrollable]="true" scrollHeight="400px">
+
+              <ng-template pTemplate="header">
+                <tr class="bc">
+
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                  </th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    January</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    February</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    March</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    April</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    May</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    June</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    July</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Auguest</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    September</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    October</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    November</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    December</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Total</th>
+
+                </tr>
+                <tr
+                  style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                  <td>Forecast</td>
+                  <td>
+                    {{meetingList.forecastJanuary | date:'dd MMM, yyyy'}}
+                  <td>
+                    {{meetingList.forecastFebruary | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.forecastMarch | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.forecastApril | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.forecastMay | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.forecastJune | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.forecastJuly | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.forecastAugust | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.forecastSeptember | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.forecastOctober | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.forecastNovember | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.forecastDecember | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{forecastMeeting}}
+                  </td>
+                </tr>
+                <tr
+                  style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                  <td>Real</td>
+                  <td>
+                    {{meetingList.realJanuary | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.realFebruary | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.realMarch | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.realApril | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.realMay | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.realJune | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.realJuly | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.realAugust | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.realSeptember | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.realOctober | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.realNovember | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{meetingList.realDecember | date:'dd MMM, yyyy'}}
+                  </td>
+                  <td>
+                    {{realMeeting}}
+                  </td>
+
+                </tr>
+
+              </ng-template>
+
+            </p-table>
+
+
+          </fieldset>
+        </div>
+
+
+
+
+
+        <div class="col-md-12">
+          <hr />
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border"><span class="scheduler-border" style="color: #5793cb !important;">My Vision
+                & Mission</span> </legend>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold; ">
+                    SL</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold; ">
+                    Vision</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold; ">
+                    DeadLine</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold; ">
+                    Target</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold; ">
+                    Achievement</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold; ">
+                    Action</th>
+
+                </tr>
+              </thead>
+
+              <tr *ngFor="let rowData of visions; let i = index"
+                style=" background-color: #dee2e6; padding: 2px 3px !important; color: black !important; background-color: #e8e8e8 !important; text-align: center; font-size: 12px; font-weight: bold;border: 1px solid #007ad9; ">
+                <td>{{ i + 1 }}</td>
+                <td>{{ rowData.vision }}</td>
+                <td>{{ rowData.deadline | date:'dd MMM, yyyy' }}</td>
+                <td>{{ rowData.target }}</td>
+                <td>{{ rowData.achievement }}</td>
+                <!-- <td><span class="{{ rowData.status }}"> <i class="pi pi-spin pi-spinner" style="font-size: 1rem" *ngIf="rowData.status=='Pending'"></i> <i class="pi pi-check" style="font-size: 1rem" *ngIf="rowData.status=='Approved'"></i> {{ rowData.status }}</span></td> -->
+                <td>
+                  <button
+                    style=" padding: 2px 3px !important; color: black !important; text-align: center; font-size: 12px; font-weight: bold!important; "
+                    (click)="getMissionForTable(rowData)" class="btn btn-outline-warning btn-xs mr-2">
+                    <i class="fa fa-list">Mission</i>
+                  </button>
+                </td>
+              </tr>
+            </table>
+            <hr />
+
+
+            <table class="table table-bordered table-sm" *ngIf="showMission">
+              <thead>
+                <tr class="text-center">
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold; width: 5%;">
+                    SL</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold; width: 15%; ">
+                    Action</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;  width: 15%;">
+                    How</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold; width: 17%;">
+                    Who</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold; width: 10%; ">
+                    When</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold; width: 10%;">
+                    Indicator</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold; width: 8%;">
+                    Target</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold; width: 10%;">
+                    Achievement</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold; width: 10%; ">
+                    Remarks &nbsp;&nbsp; &nbsp;
+                    <button
+                      style="padding: 0px 2px !important; color: black !important; text-align: center; font-size: 12px; font-weight: bold!important; "
+                      (click)="closeMission()" class="btn btn-outline-primary btn-xs mr-2">
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold; ">
+                    Action</th>
+                </tr>
+              </thead>
+              <tr *ngFor="let mission of missions; let i = index"
+                style=" padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold; ">
+                <td>
+                  {{ i + 1 }}
+                </td>
+                <td>
+                  {{ mission.action }}
+                </td>
+
+                <td>
+                  {{ mission.how }}
+                </td>
+                <td style="width: 250px!important;">
+                  {{ mission.who }}
+                </td>
+                <td>
+                  {{ mission.when | date:'dd MMM, yyyy'}}
+                </td>
+                <td>
+                  {{ mission.indicator }}
+                </td>
+                <td>
+                  {{ mission.target }}
+                </td>
+                <td>
+                  {{ mission.achievement }}
+                </td>
+                <td>
+                  {{ mission.remarks }}
+                </td>
+                <td>
+                  <button
+                    style=" padding: 2px 3px !important; color: black !important; text-align: center; font-size: 12px; font-weight: bold!important; "
+                    (click)="getMissionAchivement(mission)" class="btn btn-outline-warning btn-xs mr-2">
+                    Achivements
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="showMissionApproveStatus">
+                <td style="color: #f6877d;font-weight: bold;font-size: 14px;" colspan="9">{{showMissionApproveStatus}}
+                </td>
+              </tr>
+            </table>
+            <hr />
+            <div style="overflow-x: auto;">
+              <p-table #dt1 *ngIf="showMissionAchivement" dataKey="id" editMode="row" [scrollable]="true"
+                scrollHeight="500px">
+                <ng-template pTemplate="header">
+                  <!-- <thead *ngFor="let missionachivement of missionachivements;"> -->
+                  <tr class="bc">
+                    <th
+                      style=" width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    </th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      Year</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      January</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      February</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      March</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      April</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      May</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      June</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      July</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      Auguest</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      September</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      October</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      November</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      December</th>
+                    <th
+                      style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #ffbc58 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      Action</th>
+                  </tr>
+
+
+                  <tr
+                    style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    <td>Mission Achivement</td>
+                    <td>
+                      <input formControlName="yearId" type="number" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="january" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="february" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="march" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="april" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="may" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="june" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="jul" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="august" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="september" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="october" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="november" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <input formControlName="december" type="text" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                      <button
+                        style=" padding: 2px 3px !important; color: black !important; text-align: center; font-size: 12px; font-weight: bold!important; "
+                        (click)="onSaveMissionAchivement()" class="btn btn-outline-warning btn-xs mr-2">
+                        Save
+                      </button>
+                    </td>
+
+                  </tr>
+                  <!-- </thead> -->
+                </ng-template>
+              </p-table>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="col-md-12">
+          <hr />
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-2">
+              <span style="font-weight: bold;font-size: 14px;color: #5793cb;">Number Of Target : </span><span
+                style="font-weight: bold;font-size: 14px;color: #f3a19a;">{{participation}}</span>
+            </div>
+            <div class="col-md-2">
+              <span style="font-weight: bold;font-size: 14px;color: #5793cb;">Training Done : </span><span
+                style="font-weight: bold;font-size: 14px;color: #f3a19a;">{{trainingDonePrct | number :
+                '1.2-2'}}% ( {{trainingDoneNumber}} )</span>
+            </div>
+            <div class="col-md-2">
+              <span style="font-weight: bold;font-size: 14px;color: #5793cb;">Autonomy : </span><span
+                style="font-weight: bold;font-size: 14px;color: #f3a19a;">{{autonmyPrct | number : '1.2-2'}}% (
+                {{RealizeAutonomy}} )</span>
+            </div>
+            <div class="col-md-2">
+              <span style="font-weight: bold;font-size: 14px;color: #5793cb;">Coach : </span><span
+                style="font-weight: bold;font-size: 14px;color: #f3a19a;">{{coachPrct | number : '1.2-2'}}%
+                ({{RealizeCoach}} ) </span>
+            </div>
+          </div>
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border"><span class="scheduler-border" style="color: #5793cb !important;">My
+                Skill Status</span> </legend>
+
+            <p-table #dt2 rowExpandMode="single" expandableRows="true" [value]="trainingScheduleList" dataKey="id"
+              editMode="row" [scrollable]="true" scrollHeight="400px">
+              <ng-template pTemplate="header">
+                <tr class="bc">
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                    SL</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Code</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Training Title</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Type</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Trainer</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Deaprtment</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Section</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Target</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Target Date</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Sheduled Date</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    Status</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #F5B7B1 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    File</th>
+                </tr>
+
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                <tr
+                  style=" background-color: #dee2e6; padding: 2px 3px !important; color: black !important; background-color: #e8e8e8 !important; text-align: center; font-size: 12px; font-weight: bold;border: 1px solid #007ad9; ">
+                  <td style="width: 5%;">{{ri+1}}</td>
+                  <td>{{rowData.trainingCode}}</td>
+                  <td>{{rowData.trainingName}}</td>
+                  <td>{{rowData.typeName}}</td>
+                  <td>{{rowData.trainerName}}</td>
+                  <td>{{rowData.employeeDepartment}}</td>
+                  <td>{{rowData.employeeSection}}</td>
+                  <td>{{rowData.target}}</td>
+                  <td>{{rowData.targetDate | date: "d/M/y"}}</td>
+                  <td>{{rowData.scheduleDate | date: "medium"}}</td>
+                  <td>{{rowData.achievePoint}}</td>
+                  <td><button placement="right" type="button" class="btn btn-primary btn-xs"
+                      (click)="ShowFiles(rowData)" [outsideClick]="true" [popover]="commonFilesListTemplate" on>
+                      <i class="fa fa-file"></i>
+                    </button></td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+          </fieldset>
+        </div>
+
+        <div class="col-md-12">
+          <hr />
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border"><span class="scheduler-border" style="color: #5793cb !important;">My
+                Pleasure List</span> </legend>
+
+            <p-table #dt3 rowExpandMode="single" expandableRows="true" [value]="allPlesureList" dataKey="id"
+              editMode="row" [scrollable]="true" scrollHeight="400px">
+              <ng-template pTemplate="header">
+                <tr class="bc">
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: 	rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                    SL</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: 	rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Date</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: 	rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 40%;">
+                    What was good</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: 	rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 35%;">
+                    Manager Comment
+                  </th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: 	rgb(139, 229, 123) !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Discussed Status
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                <tr
+                  style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                  <td style="width: 5%;">{{ri+1}}</td>
+                  <td style="width: 10%;">{{rowData.pleasureDate | date: "d/M/y"}}</td>
+                  <td style="width: 40%;">{{rowData.pleasure}}</td>
+                  <td style="width: 35%;">{{rowData.managerCmt}}</td>
+                  <td *ngIf="rowData.isDiscussed == 'Sub'" style="width: 10%;">Discussed & Submitted</td>
+                  <td *ngIf="rowData.isDiscussed == 'Yes'" style="width: 10%;">Discussed</td>
+                  <td *ngIf="rowData.isDiscussed == 'No' || rowData.isDiscussed == null " style="width: 10%;">Not Discussed</td>
+
+                </tr>
+              </ng-template>
+            </p-table>
+
+          </fieldset>
+        </div>
+
+        <div class="col-md-12">
+          <hr />
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border"><span class="scheduler-border" style="color: #5793cb !important;">My
+                Displeasure List</span> </legend>
+
+            <p-table #dt4 rowExpandMode="single" expandableRows="true" [value]="allDisPlesureList" dataKey="id"
+              editMode="row" [scrollable]="true" scrollHeight="400px">
+              <ng-template pTemplate="header">
+                <tr class="bc">
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 5%;">
+                    SL</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Date</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 40%;">
+                    What we could do better</th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 35%;">
+                    Manager Comment
+                  </th>
+                  <th
+                    style=" padding: 2px 3px !important; color: black !important; background-color: #ea4049cc !important; text-align: center; font-size: 12px; font-weight: bold;width: 10%;">
+                    Discussed Status
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+                <tr
+                  style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                  <td style="width: 5%;">{{ri+1}}</td>
+                  <td style="width: 10%;">{{rowData.displeasureDate | date: "d/M/y"}}</td>
+                  <td style="width: 40%;">{{rowData.displeasure}}</td>
+                  <td style="width: 35%;">{{rowData.managerCmt}}</td>
+                  <td *ngIf="rowData.isDiscussed == 'Sub'" style="width: 10%;">Discussed & Submitted</td>
+                  <td *ngIf="rowData.isDiscussed == 'Yes'" style="width: 10%;">Discussed</td>
+                  <td *ngIf="rowData.isDiscussed == 'No' || rowData.isDiscussed == null" style="width: 10%;">Not Discussed</td>
+
+                </tr>
+              </ng-template>
+            </p-table>
+
+          </fieldset>
+        </div>
+
+      </div>
+      <hr />
+
+    </section>
+  </form>
+
+
+  <ng-template #dtl>
+    <div class="modal-body text-center">
+      <table class="table table-bordered table-sm">
+        <thead>
+          <tr class="text-center">
+            <th>SL</th>
+            <th>Action</th>
+            <th>How</th>
+            <th>Who</th>
+            <th>When</th>
+            <th>Indicator</th>
+            <th>Target</th>
+            <th>Achievement</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let mission of missions; let i = index">
+          <tr>
+            <td>
+              {{ i + 1 }}
+            </td>
+            <td>
+              {{ mission.action }}
+            </td>
+
+            <td>
+              {{ mission.how }}
+            </td>
+            <td style="width: 250px!important;">
+              {{ mission.who }}
+            </td>
+            <td>
+              {{ mission.when | date:'dd MMM, yyyy'}}
+            </td>
+            <td>
+              {{ mission.indicator }}
+            </td>
+            <td>
+              {{ mission.target }}
+            </td>
+            <td>
+              {{ mission.achievement }}
+            </td>
+            <td>
+              {{ mission.remarks }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-template>
+  <ng-template #commonFilesListTemplate>
+    <p-table #dt5 *ngIf="displayBasic" [value]="commonService.commonFilesList" dataKey="id" [scrollable]="true"
+      scrollHeight="200px">
+      <ng-template pTemplate="caption"> </ng-template>
+      <ng-template pTemplate="header">
+        <tr style="border: 0 !important" class="bc">
+          <th style="width: 40px; position: relative;">SL</th>
+          <th style="width: 80px;">File</th>
+        </tr>
+
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+        <tr style="border: 0 !important" [pEditableRow]="rowData" class="center">
+          <td style="width: 40px; position: relative;">{{ ri + 1 }}</td>
+          <td style="width: 80px;"> <a href="{{url}}{{ rowData.location}}" target="_blank">{{rowData.docTitle}}</a>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-template>
+</p-panel>
+<br>
+<p-panel header="My KPI Dashboard" [toggleable]="true">
+
+  <form [formGroup]="dashboardForm">
+    <section>
+      <div class="row">
+        <div class="col-md-4 pull-left">
+          <thead *ngFor="let employee of myInfo;">
+            <tr>
+              <legend class="scheduler-border"><span class="scheduler-border" style="color: #5793cb !important;">
+                  Name: {{employee.employeeName}}
+                </span> </legend>
+              <legend class="scheduler-border"><span class="scheduler-border" style="color: #5793cb !important;">
+                  Id: {{myId}} </span> </legend>
+            </tr>
+          </thead>
+        </div>
+      </div>
+    </section>
+  </form>
+
+
+  <div class="card">
+    <!-- Caption -->
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <button pTooltip="New Project Add" class="btn btn-success btn-xs mr-2">
+          <i class="fa fa-plus" aria-hidden="true"></i> Add New Project
+        </button><br>
+
+        <input type="text" pInputText size="50" placeholder="Global Filter"
+          (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+      </div>
+    </ng-template>
+    <!-- header -->
+    <p-table #dt6 rowExpandMode="single" expandableRows="true" [value]="allKpiAssignedList" dataKey="id" editMode="row"
+      [scrollable]="true" scrollHeight="400px">
+      <ng-template pTemplate="header">
+        <tr>
+          <th
+            style=" width: 100px; padding: 2px 3px !important; color: black !important; background-color: #58cdff !important; text-align: center; font-size: 12px; font-weight: bold;">
+            SL</th>
+          <th
+            style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #58cdff !important; text-align: center; font-size: 12px; font-weight: bold;">
+            KPI</th>
+          <th
+            style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #58cdff!important; text-align: center; font-size: 12px; font-weight: bold;">
+            Weight</th>
+          <th
+            style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #58cdff !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Target/Goal</th>
+          <th
+            style="width: 100px; padding: 2px 3px !important; color: black !important; background-color: #58cdff !important; text-align: center; font-size: 12px; font-weight: bold;">
+            Details</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+        <tr
+          style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          <td>{{ri+1}}</td>
+          <td>{{rowData.kpiName}}</td>
+          <td>{{rowData.weightNumber}}</td>
+          <td>{{rowData.targetNumber}}</td>
+          <td>
+            <button
+              style=" padding: 2px 3px !important; color: black !important; text-align: center; font-size: 12px; font-weight: bold!important; "
+              class="btn btn-outline-warning btn-xs mr-2" (click)="getKpiDetailsDisplay(rowData)">
+              Details
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+
+
+  <p-dialog header="KPI INFO" [(visible)]="kpidetailsDisplay" [style]="{ width: '80vw'}" [baseZIndex]="10000">
+    <form [formGroup]="kpiForm">
+      <p-table #dt7 dataKey="id" [scrollable]="true" [value]="kpidetails" scrollDirection="both" scrollHeight="50vw">
+        <ng-template pTemplate="header">
+          <tr class="bc">
+            <td colspan="7">
+              <input type="text" formControlName="kpiName" class="form-control form-control-sm"
+                style="text-align:center;" readonly />
+            </td>
+            <td colspan="2">
+              <!-- prev year -->
+              <input type="number" formControlName="previousYearId" class="form-control form-control-sm"
+                style="text-align:center;" readonly />
+            </td>
+            <td colspan="2">
+              <input type="number" formControlName="yearId" class="form-control form-control-sm"
+                style="text-align:center;" readonly />
+            </td>
+            <td colspan="2"
+              style=" padding: 2px 3px !important; color: rgb(76, 76, 76) !important; background-color: #E8ADAA !important; text-align: center; font-size: 12px; font-weight: bold;">
+              %
+            </td>
+          </tr>
+          <tr>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              SL
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Leader
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Co-Leader
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Target
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              YTD
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Type
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Month
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="doubleTypeColOne" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="doubleTypeColTwo" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="doubleTypeColOne" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="doubleTypeColTwo" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="avgKpiOneTitle" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="avgKpiTwoTitle" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+          <tr>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12">{{ri+1}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="leaderName" pInputText type="text" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="coLeaderName" pInputText type="text" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="targetNumber" pInputText type="number" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="ytdValue" pInputText type="number" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="typeName" pInputText type="text" class="form-control" readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{rowData.month}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.dblTypValOnePrevYr"
+                class="form-control form-control-sm" (input)="doubleTypeCalPrevYrOne(rowData)"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Dependent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.dblTypValTwoPrevYr"
+                (input)="doubleTypeCalPrevYrTwo(rowData)" class="form-control form-control-sm"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Dependent'? true : null " />
+            </td>
+
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.doubleTypeValOne"
+                class="form-control form-control-sm" (input)="doubleTypeCalOne(rowData)"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Dependent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.doubleTypeValTwo"
+                (input)="doubleTypeCalTwo(rowData)" class="form-control form-control-sm"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Dependent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">{{rowData.firstAverage}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;">{{rowData.secondAverage}}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              colspan="7">Total Value =</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{doubleTypeTotalValOnePrevYr}}</td>
+              <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{doubleTypeTotalValTwoPrevYr}}</td>
+              <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+          
+              {{doubleTypeTotalValOne}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{doubleTypeTotalValTwo}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{doubleTypeTotalValFirstAvg}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{doubleTypeTotalValSecAvg}}</td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+      <button type="button" class="btn btn-outline-success" style="margin-top: 20px;" (click)="onSaveKpiDetail()"><i
+          class="fa fa-plus" aria-hidden="true"></i> Save </button>&nbsp;&nbsp;
+    </form>
+
+  </p-dialog>
+
+
+
+
+
+  <!-- //new table -->
+
+  <p-dialog header="KPI INFO" [(visible)]="kpidetailsDisplay2" [style]="{ width: '80vw'}" [baseZIndex]="10000">
+    <form [formGroup]="kpiForm">
+      <p-table #dt7 dataKey="id" [scrollable]="true" [value]="kpidetails" scrollDirection="both" scrollHeight="50vw">
+        <ng-template pTemplate="header">
+
+          <tr class="bc">
+            <td colspan="10">
+              <input type="text" formControlName="kpiName" class="form-control form-control-sm"
+                style="text-align:center;" readonly />
+            </td>
+            <td colspan="2"
+              style=" padding: 2px 3px !important; color: rgb(76, 76, 76) !important; background-color: #E8ADAA !important; text-align: center; font-size: 12px; font-weight: bold;">
+              %
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style=" width: 50px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              SL
+            </td>
+            <td
+              style=" width: 120px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Leader
+            </td>
+            <td
+              style=" width: 120px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Co-Leader
+            </td>
+            <td
+              style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Target
+            </td>
+            <td
+              style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              YTD
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Type
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Month
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="tripleTypeColOne" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="tripleTypeColTwo" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="tripleTypeColThree" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="avgKpiOneTitle" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              readonly>
+              <input type="text" formControlName="avgKpiTwoTitle" pInputText type="text" class="form-control"
+                readonly />
+            </td>
+
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+          <tr>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12">{{ri+1}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="leaderName" pInputText type="text" class="form-control" readonly />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="coLeaderName" pInputText type="text" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="targetNumber" pInputText type="number" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="ytdValue" pInputText type="number" class="form-control" readonly /></td>
+            <td style=" width: 100px; padding: 2px 3px !important;" *ngIf="ri == 0" rowspan="12"><input type="text"
+                formControlName="typeName" pInputText type="text" class="form-control" readonly />
+            </td>
+            <td
+              style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{rowData.month}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.tripleTypeValOne"
+                class="form-control form-control-sm" (input)="tripleTypeCalFstCol(rowData)"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Dependent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.tripleTypeValTwo"
+                class="form-control form-control-sm" (input)="tripleTypeCalAvgSecCol(rowData)"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Dependent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">
+              <input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData.tripleTypeValThree"
+                class="form-control form-control-sm" (input)="tripleTypeCalAvgThirdCol(rowData)"
+                [attr.readonly]="kpiForm.get('typeName').value == 'Dependent'? true : null " />
+            </td>
+            <td style=" width: 100px; padding: 2px 3px !important;">{{rowData.firstAverage}}</td>
+            <td style=" width: 100px; padding: 2px 3px !important;">{{rowData.secondAverage}}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;"
+              colspan="7">Total Value =</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{tripleTypeTotalValOne}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{tripleTypeTotalValTwo}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{tripleTypeTotalValThree}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{tripleTypeTotalValFirstAvg}}</td>
+            <td
+              style=" color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              {{tripleTypeTotalValSecAvg}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <button type="button" class="btn btn-outline-success" style="margin-top: 20px;" (click)="onSaveKpiDetail()"><i
+          class="fa fa-plus" aria-hidden="true"></i> Save </button>&nbsp;&nbsp;
+    </form>
+
+  </p-dialog>

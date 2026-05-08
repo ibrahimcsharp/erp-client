@@ -1,0 +1,40 @@
+export class BomEntryManualModel{
+
+      id:number;
+      supplierId: number;
+      itemType: string;
+      category: string;
+      component: string;
+      categoryId: number;
+      fabricCategoryId:number;
+      stCodeId:number;
+      stCode:string;
+      hsCode:string;
+      itemId :number;
+      description :string;
+      gmtColor :string;
+      itemColor :string;
+      gmtSize :string;
+      itemSize :string;
+      refCode:string;
+      itemPlacement:string;
+      consumption:number;
+      wastagePercentage:number;
+      effectedQty:number;
+      requiredQty:number;
+      additionalQty:number;
+      totalQty:number;
+      uomId:number;
+      uomName:string;
+      cutAbleWidth:number;
+      rate:number;
+      totalAmount:number;
+      mkuId:number;
+      mkuName:string;
+      marketRelation:number;
+      remarks:string;
+      currencyConversion:number;
+      currencyId:number;
+      currencyName:number;
+      costCategoryGroup:string;
+}

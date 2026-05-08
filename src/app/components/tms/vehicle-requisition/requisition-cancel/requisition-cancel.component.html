@@ -1,0 +1,29 @@
+<form [formGroup]="RequisitionPasserngersCancelForm">
+    <section>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <textarea id="reason" name="reason" rows="3" cols="30" formControlName="reason"
+                                    class="form-control" placeholder="Please Enter Reason..."
+                                    autocomplete="off"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" style="padding-top: 10px">
+                            <button class="btn btn-x btn-outline-success mr-2" (click)="cancel()">
+                                <i class="fa fa-file"></i> {{ButtonName}}
+                            </button>
+                            <button class="btn btn-x btn-outline-warning" (click)="clear()">
+                                <i class="fa fa-refresh"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

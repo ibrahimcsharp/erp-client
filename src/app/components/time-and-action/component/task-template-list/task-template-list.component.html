@@ -1,0 +1,226 @@
+<p-panel header="Template List" [toggleable]="true">
+   
+    <form [formGroup]="CustomTemplateForm">
+      <section>
+        <div class="row">
+          <div class="col-md-12">
+            <fieldset class="scheduler-border" style="background: #D5F9F8;">
+              <!-- <legend class="scheduler-border" style="background: #D5F9F8;">Buyer Info</legend> -->
+              <div class="row">
+                <div class="col-md-4" style="margin-top: 17px;">
+                </div>
+                <!-- Buyer -->
+                <div class="col-md-4" style="margin-top: 17px;">
+                  <div class="form-group">
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Buyer<span class="required">&nbsp;*</span></span>
+                      </div>
+                      <select formControlName="buyerId" class="p-inputtext-sm form-control uppercase" [ngClass]="{
+                              'is-invalid':
+                              CustomTemplateForm.get('buyerId').errors &&
+                                (CustomTemplateForm.get('buyerId').touched ||
+                                CustomTemplateForm.get('buyerId').dirty)
+                            }" (ngModelChange)="LoadTemplateMasterList($event)">
+                        <option *ngFor="let buyer of commonService.BuyerSelectList" [ngValue]="buyer.value">
+                          {{ buyer.label | uppercase }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4" style="margin-top: 17px;">
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="row" *ngIf="TemplateMasterList.length > 0">
+            <div class="col-md-12">
+              <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Buyer Wise Template List</legend>
+                <p-table
+                #dt
+                [value]="TemplateMasterList"
+                [globalFilterFields]="[
+                  'template',
+                  'leadTime'
+                 
+                ]"
+                [scrollable]="true"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[5, 10, 50, 100]"
+              >
+                <ng-template pTemplate="caption">
+                  <div class="ui-helper-clearfix" style="text-align: left">
+                    <input
+                      type="text"
+                      pInputText
+                      size="50"
+                      placeholder="Global Filter"
+                      (input)="dt.filterGlobal($event.target.value, 'contains')"
+                      style="float: right"
+                    />
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr class="bc">
+                    
+                    <th [pSortableColumn]="'template'">
+                      Template Name
+                      <p-sortIcon
+                        [field]="'template'"
+                        ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"
+                      ></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'leadTime'">
+                      Lead Time(Days)
+                      <p-sortIcon
+                        [field]="'leadTime'"
+                        ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"
+                      ></p-sortIcon>
+                    </th>
+                    
+                
+                    <th>Action</th>
+                  </tr>
+                  <tr>
+                    
+                    <td>
+                      <input
+                        pInputText
+                        type="text"
+                        (input)="dt.filter($event.target.value, 'template', 'contains')"
+                        class="p-column-filter"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        pInputText
+                        type="text"
+                        (input)="dt.filter($event.target.value, 'leadTime', 'contains')"
+                        class="p-column-filter"
+                      />
+                    </td>
+                    <td></td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+                  <tr class="center">
+                    <td>{{ rowData.template }}</td>
+                    <!-- <td>{{ rowData.bookDate | date: "dd/MM/yyyy" }}</td> -->
+                    <td>{{ rowData.leadTime}}</td>
+                    <td>
+          
+                      <button
+                        pTooltip="View Details"
+                        class="btn btn-outline-primary btn-xs mr-2"
+                        type="button"
+                        (click)="PreviewTemplate(rowData)">
+                        <i class="fa fa-edit" aria-hidden="true">Dtails</i>
+                      </button>
+                      <a class="" target="_blank" href="/time-and-action/task-template-create/edit/{{rowData.id}}">
+                        <button
+                        pTooltip="Edit Template"
+                        class="btn btn-outline-info btn-xs mr-2"
+                        type="button"
+                        >
+                        <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                      </button>
+                      </a>
+
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+              </fieldset>
+            </div>          
+          </div>
+
+          
+
+        <!-- <div class="col-md-12" style="margin-top: 12px;margin-bottom: -16px" *ngIf="showItems">
+        <div class="col-md-3">
+          <span style="font-weight: bold; font-size: 14px; color: #5793cb"></span>
+        </div>
+        <div class="col-md-3">
+          <span style="font-size: 14px; color: #5793cb">Template: </span
+          ><span style="font-weight: bold; font-size: 14px; color: #5793cb">{{Template}}</span>
+        </div>
+        <div class="col-md-2">
+          <span style="font-size: 14px; color: #5793cb">Lead Time: </span
+            ><span style="font-weight: bold; font-size: 14px; color: #5793cb">{{LeadTimePeriod}}</span>
+        </div>
+      </div>
+   -->
+
+      <div class="row" *ngIf="showItems">
+        <div class="col-md-12">
+
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Task Details</legend>
+            <p-table
+            [value]="TemplateItemList"
+            #dt1
+            dataKey="id"
+            [scrollable]="true"
+            scrollHeight="400px"
+            editMode="row"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>SL</th>
+                <th>Task Name</th>
+                <th>Deadline(Day)</th>
+                <th>Deadline Backward(Day)</th>
+                <th>Execution(Days)</th>
+                <th>Notice Before</th>
+                <th>Source</th>
+                <th>Dependent Task</th>
+                <th>Responsible Dept</th>
+                <th >Accountable</th>
+                <th >Consulted</th>
+                <th >Informed</th>
+              </tr>
+
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-rowData
+              let-editing="editing"
+              let-ri="rowIndex"
+            >
+              <tr [pEditableRow]="rowData" [ngStyle]="{ 'background-color': '#e0fede' }">
+                <td>{{ ri + 1}}</td>
+                <td>{{ rowData.tasks }}</td>
+                <!-- <td>{{ rowData.deadline  | date: "dd/MM/yyyy"}}</td> -->
+                <td>{{ rowData.deadlineDays }}</td>
+                <td>{{rowData.deadlineDaysBackward}}</td>
+                <td>{{ rowData.executionDays }}</td>
+                <td>{{ rowData.noticeBefore }}</td>
+                <td>{{ rowData.source }}</td>
+                <td>{{ rowData.dependentTask }}</td>
+                <td>{{ rowData.responsibleDept }}</td>
+                <td>{{ rowData.accountablePerson }}</td>
+                <td>{{ rowData.consultedPerson }}</td>
+                <td>{{ rowData.informedPerson }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+      
+          </fieldset>
+        </div>   
+      </div>
+        </div>
+      </section> 
+    </form> 
+
+  </p-panel>
+

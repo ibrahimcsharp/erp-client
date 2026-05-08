@@ -1,0 +1,319 @@
+<p-panel header="Composition Create" [toggleable]="true">
+    <ng-template pTemplate="icons">
+        <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+            <span class="pi pi-cog"></span>
+        </button>
+        <p-menu #menu id="config_menu" [popup]="true"></p-menu>
+    </ng-template>
+    <div class="col-md-12">
+
+        <form [formGroup]="compositionSetupForm" id="compositionSetupForm" class="needs-validation">
+<!-- 
+            <div class="row">
+                <div class="form-group">
+                    <div style="width: 450px;" class="input-group-prepend" pTooltip="Design">
+                        <span style="height: 38px;" class="input-group-text">Material Type <span
+                                class="required">&nbsp;*</span></span>
+                        <select [ngClass]="{
+                                'is-invalid':
+                                compositionSetupForm.get('materialTypeName').errors &&
+                                  (compositionSetupForm.get('materialTypeName').touched ||
+                                  compositionSetupForm.get('materialTypeName').dirty)
+                              }" class="form-control" formControlName="materialTypeName">
+                            <option value="0">===Select===</option>
+                            <option value="1">Natural Fiber types</option>
+                            <option value="2">Manmade Fiber</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div style="width: 450px;" class="input-group-prepend" pTooltip="Design">
+                        <span style="height: 38px;" class="input-group-text">Material Name <span
+                                class="required">&nbsp;*</span></span>
+                        <select [ngClass]="{
+                                'is-invalid':
+                                compositionSetupForm.get('materialName').errors &&
+                                  (compositionSetupForm.get('materialName').touched ||
+                                  compositionSetupForm.get('materialName').dirty)
+                              }" class="form-control" formControlName="materialName">
+                            <option value="0">===Select===</option>
+                            <option *ngFor="let materialName of materialNameDropdownList"
+                                [ngValue]="materialName.value">
+                                {{ materialName.label }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <br>
+                <div class="form-group">
+                    <div style="height: 38px; width: 450px;" class="input-group-prepend" pTooltip="Design">
+                        <span class="input-group-text"> Material Short Name <span class="required">&nbsp;*</span></span>
+                        <input style="height: 38px;" type="text" [ngClass]="{ 'is-invalid': compositionSetupForm.get('materialShortName').errors
+                            && (compositionSetupForm.get('materialShortName').touched 
+                            || (compositionSetupForm.get('materialShortName').dirty)) }" id="materialShortName"
+                            formControlName="materialShortName" class="form-control"
+                            placeholder="Material Name Short form...."
+                            (input)="compositionSetupForm.get('materialShortName').setValue($event.target.value.toUpperCase())" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div style="width: 450px;" class="input-group-prepend" pTooltip="Design">
+                        <span style="height: 38px;" class="input-group-text">Material Catagory <span
+                                class="required">&nbsp;*</span></span>
+                        <select [ngClass]="{
+                                    'is-invalid':
+                                    compositionSetupForm.get('materialType').errors &&
+                                      (compositionSetupForm.get('materialType').touched ||
+                                      compositionSetupForm.get('materialType').dirty)
+                                  }" class="form-control" formControlName="materialType">
+                            <option value="0">===Select===</option>
+                            <option *ngFor="let materialType of materialTypeDropdownList"
+                                [ngValue]="materialType.value">
+                                {{ materialType.label }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <br>
+                <div class="form-group">
+                    <div style="height: 38px; width: 450px;" class="input-group-prepend" pTooltip="Design">
+                        <span class="input-group-text"> Userd Percentage <span class="required">&nbsp;*</span></span>
+
+                        <input style="height: 38px;" type="number" [ngClass]="{ 'is-invalid': compositionSetupForm.get('materialUserPerc').errors
+                        && (compositionSetupForm.get('materialUserPerc').touched 
+                        || (compositionSetupForm.get('materialUserPerc').dirty)) }" id="materialUserPerc"
+                            formControlName="materialUserPerc" class="form-control" placeholder="input % ...." />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <br>
+                <div class="form-group">
+                    <div style="height: 38px; width: 450px;" class="input-group-prepend" pTooltip="Design">
+                        <span class="input-group-text"> Add Composition Note <span
+                                class="required">&nbsp;*</span></span>
+
+                        <input style="height: 38px;" type="number" [ngClass]="{ 'is-invalid': compositionSetupForm.get('addCompositionNote').errors
+                        && (compositionSetupForm.get('addCompositionNote').touched 
+                        || (compositionSetupForm.get('addCompositionNote').dirty)) }" id="addCompositionNote"
+                            formControlName="addCompositionNote" class="form-control"
+                            placeholder="Add Composition Note  ...." />
+                    </div>
+                </div>
+            </div> -->
+
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border"><span class="scheduler-border"
+                        style="color: #5793cb !important;">Fabric Composition
+                    </span> </legend>
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- col1 -->
+                    <div class="form-group">
+
+
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend" pTooltip="Material Type">
+                                    <span style="font-size: 16px;" class="input-group-text">
+                                        Material Type
+                                        <span class="required">&nbsp;*</span>
+                                    </span>
+                                </div>
+                                <select style="font-size: 16px;" 
+                                    [ngClass]="{
+                                      'is-invalid':
+                                        compositionSetupForm.get('materialTypeName').errors &&
+                                        (compositionSetupForm.get('materialTypeName').touched ||
+                                          compositionSetupForm.get('materialTypeName').dirty)
+                                    }" class="form-control" formControlName="materialTypeName">
+                                    <option value="0">===Select===</option>
+                                    <!-- <option *ngFor="let materialName of materialNameDropdownList"
+                                            [ngValue]="materialName.value">
+                                            {{ materialName.label }}
+                                        </option> -->
+                                    <option value="1">Natural Fiber types</option>
+                                    <option value="2">Manmade Fiber</option>
+                                </select>
+                            </div>
+
+
+
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend" pTooltip="Material Name">
+                                    <span style="font-size: 16px;" class="input-group-text">Material Catagory<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <select style="font-size: 16px;" [ngClass]="{
+                                        'is-invalid':
+                                          compositionSetupForm.get('materialType').errors &&
+                                          (compositionSetupForm.get('materialType').touched ||
+                                            compositionSetupForm.get('materialType').dirty)
+                                      }" class="form-control" formControlName="materialType">
+                                    <option value="0">===Select===</option>
+                                    <option *ngFor="let materialType of materialTypeDropdownList"
+                                        [ngValue]="materialType.value">
+                                        {{ materialType.label }}
+                                    </option>
+                                </select>
+                            </div>
+                    </div>
+
+                </div>
+
+
+                <!-- COL2 -->
+                <div class="col-md-4">
+                     <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend" pTooltip="Material Name">
+                                <span style="font-size: 16px;" class="input-group-text">Material Name <span
+                                        class="required">&nbsp;*</span></span>
+                            </div>
+                            <select style="font-size: 16px;" [ngClass]="{
+                                  'is-invalid':
+                                    compositionSetupForm.get('materialName').errors &&
+                                    (compositionSetupForm.get('materialName').touched ||
+                                      compositionSetupForm.get('materialName').dirty)
+                                }" class="form-control" formControlName="materialName">
+                                <option value="0">===Select===</option>
+                                <option *ngFor="let materialName of materialNameDropdownList"
+                                    [ngValue]="materialName.value">
+                                    {{ materialName.label }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend" pTooltip="Userd Percentage">
+                                <span style="font-size: 16px;" class="input-group-text">Userd Percentage
+                                    <span class="required">&nbsp;*</span></span>
+                            </div>
+
+                            <input style="font-size: 16px;" type="number" class="form-control"
+                                formControlName="materialUserPerc" />
+                        </div>
+                     </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <!-- col3 -->
+                        
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend" pTooltip="Material Short Name">
+                                <span style="font-size: 16px;" class="input-group-text">Material Short Name
+                                    <span class="required">&nbsp;*</span></span>
+                            </div>
+
+                            <input style="font-size: 16px;" type="text" class="form-control"
+                                formControlName="materialShortName" />
+                        </div>
+
+
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend" pTooltip="Add Composition Note">
+                                <span style="font-size: 16px;" class="input-group-text">Add Composition Note
+                                    <span class="required">&nbsp;*</span></span>
+                            </div>
+
+                            <input style="font-size: 16px;" type="text" class="form-control"
+                                formControlName="addCompositionNote" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-outline-success btn" (click)="addCompositionToList()"><i class="fa fa-plus"
+                    aria-hidden="true"></i> Add </button>&nbsp;&nbsp;
+            <button class="btn btn-outline-info " type="button" (click)="BtnClear()"><i class="fa fa-refresh"
+                    aria-hidden="true"></i> Clear</button>
+        </fieldset>
+
+
+        </form>
+
+    
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div *ngIf="showCompositionList">
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">New Composition List</legend>
+                    <div class="row" *ngIf="CompositionList.length>0">
+                        <div class="col-md-12">
+                            <p-table [value]="CompositionList" #dt editMode="row">
+                                <ng-template pTemplate="header">
+                                    <tr class="bc">
+                                        <th>SL</th>
+                                        <th>Material Name</th>
+                                        <th>Material Short Name</th>
+                                        <th>Material Type</th>
+                                        <th>Userd Percentage</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                                    <tr [pEditableRow]="rowData">
+                                        <td>{{ rowIndex+1 }}</td>
+                                        <td>{{ rowData.materialName}}</td>
+                                        <td>{{ rowData.materialShortName}}</td>
+                                        <td>{{ rowData.materialType}}</td>
+                                        <td>{{ rowData.materialUserPerc}}</td>
+                                        <td>
+                                            <a class="btn btn-outline-primary btn-xs ml-1" type="button"
+                                                (click)="deleteItem(rowData)"> <i class="fa fa-trash"
+                                                    aria-hidden="true"></i></a>
+                                        </td>
+                                    </tr>
+
+                                </ng-template>
+                                <ng-template pTemplate="footer">
+                                    <tr>
+                                        <td colspan="4" style="text-align: right">Total</td>
+                                        <td style="text-align: left">{{ totalUsedPerc | number: "1.2-2" }}</td>
+                                        <td colspan="1" style="text-align: left"></td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <table *ngIf="showCompositionName">
+                                    <tr>
+                                        <td>Generated Composition :</td>
+                                        <td>{{compositionName}}</td>
+                                    </tr>
+                                </table>
+                                <!-- <button style="margin-top: 8px;" type="button"
+                                class="btn btn-outline-success btn-xs" (click)="createComposition(CompositionList)"><i
+                                    class="fa fa-file" aria-hidden="true"></i>Create Composition</button> -->
+                                <button *ngIf="showCompositionName" style="margin-top: 8px;" type="button"
+                                    class="btn btn-outline-success" (click)="createComposition(compositionName)"><i
+                                        class="fa fa-database"></i>Save Composition {{compositionName}}</button>
+                                <!-- <p *ngIf="showCompositionName">
+                                          Created Composition Name: {{compositionName}}
+                                    </p> -->
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</p-panel>
+
+<!-- <label for="RegionName" class="label-title">Userd Percentage <span>*</span></label> -->

@@ -1,0 +1,77 @@
+<form [formGroup]="TripCompleteForm">
+  <section>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend paheight col-6">
+            <span class="input-group-text col-12">Kilometer<span class="required">&nbsp;*</span></span>
+          </div>
+          <input type="number" id="totalKM" formControlName="totalKM" class="form-control" />
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <div class="input-group mb-1">
+            <div class="input-group-prepend paheight col-6">
+              <span class="input-group-text col-12">Driver Charge<span class="required"></span></span>
+            </div>
+            <input type="number" id="driverCost" formControlName="driverCost" class="form-control" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <div class="input-group mb-1">
+            <div class="input-group-prepend paheight col-6">
+              <span class="input-group-text col-12">Toll Bill<span class="required">&nbsp;*</span></span>
+            </div>
+            <input type="number" id="tollCost" formControlName="tollCost" class="form-control" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <div class="input-group mb-1">
+            <div class="input-group-prepend paheight col-6">
+              <span class="input-group-text col-12">Parking Bill Cost<span class="required">&nbsp;*</span></span>
+            </div>
+            <input type="number" id="parkingCost" formControlName="parkingCost" class="form-control" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <div class="input-group mb-1">
+            <div class="input-group-prepend paheight col-6">
+              <span class="input-group-text col-12">Fuel Cost<span class="required">&nbsp;*</span></span>
+            </div>
+            <input type="number" id="fuelCost" formControlName="fuelCost" class="form-control" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <div class="input-group mb-1">
+            <div class="input-group-prepend paheight col-6">
+              <span class="input-group-text col-12">Other Bill<span class="required">&nbsp;*</span></span>
+            </div>
+            <input type="number" id="otherCost" formControlName="otherCost" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group" style="padding-top: 10px">
+          <button class="btn btn-x btn-outline-success mr-2" (click)="Onsubmit()">
+            <i class="fa fa-file"></i> {{ButtonName}}
+          </button>
+          <button class="btn btn-x btn-outline-warning mr-2" (click)="Clear()">
+            <i class="fa fa-refresh"></i> Clear
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</form>

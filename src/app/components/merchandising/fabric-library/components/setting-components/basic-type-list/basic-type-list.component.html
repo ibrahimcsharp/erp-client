@@ -1,0 +1,90 @@
+<p-panel header="Basic Type List" [toggleable]="true">
+  <div class="card">
+    <p-table
+      *ngIf="service.basicTypeList != null"
+      [value]="service.basicTypeList"
+      [globalFilterFields]="['keyName']"
+      dataKey="id"
+      editMode="row"
+      [scrollable]="true"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[5, 10, 50, 100]"
+      >>
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+          <button
+            (click)="OpenNew()"
+            pTooltip="New Key Name"
+            class="btn btn-success btn-xs mr-2"
+          >
+            <i class="fa fa-plus" aria-hidden="true"></i> New
+          </button>
+          <button pTooltip="Delete checked row" class="btn btn-primary btn-xs" style="display: none;">
+            <i class="fa fa-trash"></i> Delete
+          </button>
+
+          <input
+            type="text"
+            pInputText
+            size="50"
+            placeholder="Global Filter"
+            (input)="dt.filterGlobal($event.target.value, 'contains')"
+            style="float: right"
+          />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr class="bc center">
+      
+          <th [pSortableColumn]="'keyName'" style="width: 50%;">
+            Key Name
+            <p-sortIcon
+              [field]="'keyName'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            ></p-sortIcon>
+          </th>
+          <th>Action</th>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-rowData
+        let-editing="editing"
+        let-ri="rowIndex"
+      >
+        <tr [pEditableRow]="rowData" class="center">
+          <td  style="width: 50%;">{{ rowData.keyName }}</td>
+          <td>
+            <a
+              style="cursor: pointer"
+              class="mr-2"
+              (click)="editMillName(rowData)"
+              ><i class="fa fa-edit"></i
+            ></a>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-panel>
+
+<p-dialog
+  header="Basic Type Create"
+  [(visible)]="displayBasic2"
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+>
+  <app-basic-type-create
+    #basicType
+    (basicTypeToCreate)="LoadBasicType()"
+  ></app-basic-type-create>
+</p-dialog>
+
+<!-- <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+  <p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position" [baseZIndex]="10000">
+  </p-confirmDialog> -->

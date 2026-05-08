@@ -1,0 +1,809 @@
+<div class="col-md-6" *ngIf="test==''" >
+  <div class="input-group input-group-sm">
+    <div class="input-group-prepend">
+      <span class="input-group-text" style="background-color: #238dcf; color: #FFF9E5; font: bold">Select TNA Process</span>
+    </div>
+    <select [value]="0" class="form-control" style="background-color:#FFF9E5" [ngClass]="" [(ngModel)]="selectedTnaProcess" [ngStyle]="" (change)="SetTnaProcess(selectedTnaProcess)">      
+      <option value="0" >By PO</option>
+      <option value="1">By Style</option>
+    </select>
+  </div>
+</div>
+
+<wbr>
+<p-panel header="TNA Maunal Process(PO wise)" [toggleable]="true"  *ngIf="test1==''">     
+    <p-table #dt
+    *ngIf="tnaData != null"
+                [value]="tnaData"
+                [globalFilterFields]="['buyerName', 'yearName', 'seasonName','styleName','poNo']"
+                dataKey="id"
+                editMode="row"
+                [scrollable]="true"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[5, 10, 50, 100]"
+                
+    >
+
+    <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+
+          <input
+            type="text"
+            pInputText
+            size="20"
+            placeholder="Global Filter"
+            (input)="dt.filterGlobal($event.target.value, 'contains')"
+            style="float: right"
+          />
+        </div>
+      </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="bc" style="background-color: blue;">
+                <th>SL</th>
+                <th>Buyer</th>
+                <th>Year</th>
+                <th style="width: 100px;">Season</th>
+                <th>Style</th>
+                <th>PO</th>
+                <th style="width: 100px;">Order Qty</th>
+                <th>Order Rec Date</th>
+                <th>Ship Date</th>
+                <th>Template</th>
+                <th style="width: 100px;">Process Type</th>
+                <th style="width: 100px;">Process</th>
+            </tr>
+            <tr >
+                <td>                        
+                    <input pInputText type="text"  class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'yearName', 'contains')" class="p-column-filter" />
+                </td>
+                <td style="width: 100px;">                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'seasonName', 'contains')" class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'styleName', 'contains')"  class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'poNo', 'contains')"  class="p-column-filter" />
+                </td>
+                <td style="width: 100px;">                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'orderQty', 'contains')"  class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'orderRcvDate', 'contains')"  class="p-column-filter" />
+                </td>
+                <td>                        
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+                </td>
+                <td></td>
+                <td style="width: 100px;"></td>
+                <td style="width: 100px;"> </td>
+            </tr>
+        </ng-template>
+        <ng-template let-rowData pTemplate="body" let-editing="editing" let-ri="rowIndex">
+            
+            <tr>
+                <td >{{ ri + 1 }}</td>
+                <td >{{rowData.buyerName}}</td>
+                <td>{{rowData.yearName}} </td>
+                <td style="width: 100px;">{{rowData.seasonName}}</td>
+                <td>{{rowData.styleName}}</td>
+                <td>{{rowData.poNo}}</td>
+                <td style="width: 100px;">{{rowData.orderQty}}</td>
+                <td>{{rowData.orderRcvDate | date :'short'}}</td>
+                <td>{{rowData.shiftDate | date :'short'}}</td>
+                <td>
+                    <select                    
+                    class="p-inputtext-sm form-control"
+                    [ngClass]=""
+                    [(ngModel)]="rowData.templateId"
+                    >
+                    <option
+                      *ngFor="let tempList of commonService.tamplateList"
+                      [ngValue]="tempList.value"
+                    >
+                      {{tempList.label}}
+                    </option>
+                    </select>
+                </td>
+                <td style="width: 100px;">
+                   <select                    
+                    class="p-inputtext-sm form-control"
+                    [ngClass]=""
+                    [(ngModel)]="rowData.processType"
+                    [ngStyle]=""            
+                   >
+                     <option value="0">Backward</option>
+                     <option value="1">Forward</option>
+                  </select>
+                </td>
+                <td style="width: 100px;"> 
+                    <!-- <a style="cursor: pointer" class="mr-2" (click)="editTask(rowData)">Process</a> -->
+                    <!-- <a href="#" routerLink="" class="btn btn-success btn-xs mr-2"><i class="" aria-hidden="true"></i> Process </a> -->
+                    <button  class="btn btn-info btn-xs mr-2" (click)="LoadTnaMasterData(rowData)" [hidden]="!rowData.processType"> Process </button>
+                </td>
+            </tr>
+
+        </ng-template>
+    </p-table>
+    
+    
+</p-panel>
+
+<p-panel header="TNA Maunal Process(Style wise)" [toggleable]="true"  *ngIf="test2==''">     
+  <p-table #dt
+  [(selection)]="selectedEmpInfo"
+  *ngIf="tnaData != null"
+              [value]="tnaData"
+              [globalFilterFields]="['buyerName', 'yearName', 'seasonName','styleName','poNo']"
+              dataKey="sl"
+              editMode="row"
+              [scrollable]="true"
+              [paginator]="true"
+              [rows]="10"
+              [showCurrentPageReport]="true"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [rowsPerPageOptions]="[5, 10, 50, 100]"
+              
+  >
+
+  <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <div class="row">
+          <div class="col-md-2">
+            <button class="btn btn-success btn-xs">
+              {{ selectedEmpInfo.length }}- PO Selected for TNA
+            </button>
+          </div>
+
+         <div class="col-md-3">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="background-color: aqua;">Template</span>
+            </div>
+            <select class="p-inputtext-sm form-control" [ngClass]="" [(ngModel)]="templateId">
+              <option *ngFor="let tempList of commonService.tamplateList" [ngValue]="tempList.value">
+                {{tempList.label}}
+              </option>
+            </select>
+          </div>       
+         </div>
+
+         <div class="col-md-3">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="background-color: aqua;">Process Type</span>
+            </div>
+            <select class="p-inputtext-sm form-control" [ngClass]="" [(ngModel)]="processType" [ngStyle]="">
+              <option value="0">Backward</option>
+              <option value="1">Forward</option>
+            </select>
+          </div>       
+         </div>
+         
+         <div class="col-md-2">
+          <button class="btn btn-info btn-xs mr-2" (click)="LoadDataStyleWise(selectedEmpInfo,templateId,processType)" [hidden]="!processType"> Process</button>       
+         </div>
+
+        </div>
+
+
+
+        <input
+          type="text"
+          pInputText
+          size="20"
+          placeholder="Global Filter"
+          (input)="dt.filterGlobal($event.target.value, 'contains')"
+          style="float: right"
+        />
+      </div>
+    </ng-template>
+      <ng-template pTemplate="header">
+          <tr class="bc" style="background-color: blue;">
+              <th>
+                <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+              </th>
+              <!-- <th>SL</th> -->
+              <th>Buyer</th>
+              <th>Year</th>
+              <th>Season</th>
+              <th>Style</th>
+              <th>PO</th>
+              <th>Order Qty</th>
+              <th>Order Rec Date</th>
+              <th>Ship Date</th>
+              <!-- <th>Template</th> -->
+              <!-- <th>Process Type</th> -->
+              <!-- <th>Process</th> -->
+          </tr>
+          <tr >
+              <td>                        
+                  
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'buyerName', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'yearName', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'seasonName', 'contains')" class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'styleName', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'poNo', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'orderQty', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'orderRcvDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <td>                        
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'shiftDate', 'contains')"  class="p-column-filter" />
+              </td>
+              <!-- <td></td> -->
+              <!-- <td></td> -->
+              <!-- <td> </td> -->
+          </tr>
+      </ng-template>
+      <ng-template let-rowData pTemplate="body" let-editing="editing" let-ri="rowIndex">
+          
+          <tr>
+              <td>
+                 <p-tableCheckbox [value]="rowData" (click)="selectionCheck(rowData,ri)"></p-tableCheckbox>
+              </td>
+              <!-- <td >{{ ri + 1 }}</td> -->
+              <td >{{rowData.buyerName}}</td>
+              <td>{{rowData.yearName}} </td>
+              <td>{{rowData.seasonName}}</td>
+              <td>{{rowData.styleName}}</td>
+              <td>{{rowData.poNo}}</td>
+              <td>{{rowData.orderQty}}</td>
+              <td>{{rowData.orderRcvDate | date :'short'}}</td>
+              <td>{{rowData.shiftDate | date :'short'}}</td>
+              <!-- <td> -->
+                  <!-- <select                    
+                  class="p-inputtext-sm form-control"
+                  [ngClass]=""
+                  [(ngModel)]="rowData.templateId"
+                  >
+                  <option
+                    *ngFor="let tempList of commonService.tamplateList"
+                    [ngValue]="tempList.value"
+                  >
+                    {{tempList.label}}
+                  </option>
+                  </select> -->
+              <!-- </td> -->
+              <!-- <td> -->
+                 <!-- <select                    
+                  class="p-inputtext-sm form-control"
+                  [ngClass]=""
+                  [(ngModel)]="rowData.processType"
+                  [ngStyle]=""            
+                 >
+                   <option value="0">Backward</option>
+                   <option value="1">Forward</option>
+                </select> -->
+              <!-- </td> -->
+              <!-- <td>  -->
+                  <!-- <button  class="btn btn-info btn-xs mr-2" (click)="LoadTnaMasterData(rowData)" [hidden]="!rowData.processType"> Process </button> -->
+              <!-- </td> -->
+          </tr>
+
+      </ng-template>
+  </p-table>
+  
+  
+</p-panel>
+
+<wbr>
+
+<p-panel header="TNA Details" [toggleable]="true">
+  
+  <form [formGroup]="TnaProcessForm">
+      <div class="row">
+          
+          <div class="col-md-4">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Buyer</span>
+                </div>
+                <input
+                  class="form-control uppercase"
+                  type="number"
+                  formControlName="buyerId"
+                  hidden
+                />
+                <input
+                  class="form-control uppercase"
+                  type="text"
+                  formControlName="buyerName"
+                  readonly
+                />
+              </div>
+              <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Style</span>
+                  </div>
+                  <input
+                    class="form-control uppercase"
+                    type="number"
+                    formControlName="styleId"
+                    hidden
+                  />
+                  <input
+                    class="form-control uppercase"
+                    type="text"
+                    formControlName="styleName"
+                    readonly
+                  />
+              </div>
+              <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Style Description</span>
+                  </div>
+                  <input
+                    class="form-control uppercase"
+                    type="text"
+                    formControlName="styleDescription"
+                    readonly
+                  />
+              </div>
+
+              <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Order Quantity</span>
+                  </div>
+                  <input
+                    class="form-control uppercase"
+                    type="number"
+                    formControlName="orderQuantity"
+                    readonly
+                  />
+              </div>
+
+              <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Order Received Date</span>
+                  </div>
+                  <input
+                    class="form-control uppercase"
+                    type="datetime-local"
+                    formControlName="orderRecivedDate"
+                    readonly
+                  />
+              </div>
+
+              <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">SMV</span>
+                  </div>
+                  <input
+                    class="form-control uppercase"
+                    type="number"
+                    formControlName="smv"
+                    readonly
+                  />
+              </div> 
+
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Efficiency</span>
+                </div>
+                <input
+                  class="form-control uppercase"
+                  type="number"
+                  formControlName="efficency"
+                  readonly
+                />
+            </div> 
+              
+              <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Ex-Factory Date (According to PO)</span>
+                  </div>
+                  <input
+                    class="form-control uppercase"
+                    type="datetime-local"
+                    formControlName="shipmentDate"
+                    readonly
+                  />
+              </div>   
+
+              <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Ex-Factory Date (According to Plan)</span>
+                  </div>
+                  <input
+                    class="form-control uppercase"
+                    type="datetime-local"
+                    formControlName="exFactoryDatePlan"
+                    readonly
+                  />
+              </div>   
+              <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Lead Time (Days)</span>
+                  </div>
+                  <input
+                    class="form-control uppercase"
+                    type="number"
+                    formControlName="leadTime"
+                    readonly
+                  />
+              </div>   
+              <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Query Date</span>
+                  </div>
+                  <input
+                    class="form-control uppercase"
+                    type="datetime-local"
+                    formControlName="queryDate"
+                    readonly
+                  />
+              </div>  
+              
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Fit Sample Approved Date</span>
+                </div>
+                <input
+                  class="form-control uppercase"
+                  type="datetime-local"
+                  formControlName="fitSampleApproveDate"
+                  readonly
+                />
+            </div>   
+              
+              <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Development Lead Time</span>
+                  </div>
+                  <input
+                    class="form-control uppercase"
+                    type="text"
+                    formControlName="developmentLeadTime"
+                  />
+              </div>   
+
+          </div>   
+          
+          <div class="col-md-2"></div>
+
+          <div class="col-md-4">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Year</span>
+                    </div>
+                    <input
+                      class="form-control uppercase"
+                      type="number"
+                      formControlName="yearId"
+                      hidden
+                    />
+                    <input
+                      class="form-control uppercase"
+                      type="text"
+                      formControlName="year"
+                      readonly
+                    />
+                  </div>
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Season</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="number"
+                        formControlName="seasonId"
+                        hidden
+                       />
+                      <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="seasonName"
+                        readonly
+                      />
+                  </div>
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">PO</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="poNo"
+                        readonly
+                      />
+                  </div>
+  
+                  <!-- <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Color</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="color"
+                      />
+                  </div> -->
+  
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Destination</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="destination"
+                        readonly
+                      />
+                  </div>
+  
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Quilting Status</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="quiltingStatus"
+                        readonly
+                      />
+                  </div> 
+                  
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Printing Status</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="printingStatus"
+                        readonly
+                      />
+                  </div>   
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Wash Status</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="washStatus"
+                        readonly
+                      />
+                  </div>   
+
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Embroidery Status</span>
+                    </div>
+                    <input
+                      class="form-control uppercase"
+                      type="text"
+                      formControlName="embroideryStatus"
+                      readonly
+                    />
+                </div>
+  
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Sales Contract No</span>
+                      </div>
+                      <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="salesContractNo"
+                        readonly
+                      />
+                  </div>   
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Merchant Business Leader</span>
+                      </div>
+                      <!-- <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="mrcntBussinessLeader"
+                      /> -->
+                      <input  formControlName="mrcntBussinessLeader" [typeahead]="commonService.GatePassEmployeeList"
+                      [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                      (typeaheadNoResults)="typeaheadNoResultsEmployee1($event)" (typeaheadOnSelect)="onSelectEmployee1($event)"
+                      typeaheadOptionField="label" class="form-control form-control-sm" />
+                  </div>   
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Factory Business Leader</span>
+                      </div>
+                      <!-- <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="factoryBussinessLeader"
+                      /> -->
+
+                     <input  formControlName="factoryBussinessLeader" [typeahead]="commonService.GatePassEmployeeList"
+                      [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                      (typeaheadNoResults)="typeaheadNoResultsEmployee2($event)" (typeaheadOnSelect)="onSelectEmployee2($event)"
+                      typeaheadOptionField="label" class="form-control form-control-sm" />
+                  </div>   
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Floor Production Leader</span>
+                      </div>
+                      <!-- <input
+                        class="form-control uppercase"
+                        type="text"
+                        formControlName="floorProductionLeader"
+                      /> -->
+
+                      <input  formControlName="floorProductionLeader" [typeahead]="commonService.GatePassEmployeeList"
+                         [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                         (typeaheadNoResults)="typeaheadNoResultsEmployee3($event)" (typeaheadOnSelect)="onSelectEmployee3($event)"
+                         typeaheadOptionField="label" class="form-control form-control-sm" />
+                  </div>   
+          </div>
+  </div>
+  
+  <hr />
+</form>
+
+
+
+
+  <div>
+     <a class="btn btn-info" target="_blank" href="/time-and-action/material-tna/show/{{routeID}}" *ngIf="test3==''" (click)="material_tna_check()">Go to Material TNA</a>
+  </div>
+
+    
+ <wbr/>
+
+<p-table #dt
+*ngIf="tnaJobDetails != null"
+            [value]="tnaJobDetails"
+            [globalFilterFields]="['name']"
+            dataKey="id"
+            editMode="row"
+            [scrollable]="true"
+            [paginator]="true"
+            [rows]="50"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]"
+>
+
+<ng-template pTemplate="caption">
+    <!-- <div class="ui-helper-clearfix" style="text-align: left">
+
+      <input
+        type="text"
+        pInputText
+        size="20"
+        placeholder="Global Filter"
+        (input)="dt.filterGlobal($event.target.value, 'contains')"
+        style="float: right"
+      />
+    </div> -->
+  </ng-template>
+    <ng-template pTemplate="header">
+        <tr class="bc">
+            <th>SL</th>
+            
+            <th>Tasks</th>
+            <!-- <th>Deadline Days</th> -->
+            <!-- <th>Execution Days</th> -->
+            <th>Notice Before</th>
+            <!-- <th>LeadTime</th> -->
+            <th>Plan Start</th>
+            <th>Plan End</th>
+            <th>Required Days</th>
+            <th>Start Date (Revised)</th>
+            <th>End Date(Revised)</th>
+            <!-- <th>Actual Start</th> -->
+            <th>Done Date</th>
+            <th >Concern</th>
+            <th >Accountable</th>
+            <th >Consulted</th>
+            <th >Informed</th>
+            <th >Due Days</th>
+            <th >Status</th>
+        </tr>
+    </ng-template>
+    <ng-template  let-rowData pTemplate="body" let-editing="editing" let-ri="rowIndex">
+        
+        <tr>
+            <td>{{ ri + 1 }}</td>           
+            <td style="background-color: #F5B7B1!important;"><input style="border-style: hidden;" title="{{rowData.tasks}}" type="text" value="{{rowData.tasks}}" class="form-control"  readonly/></td>
+            <td><input value="{{rowData.noticeBefore}}" class="form-control" /></td>       
+            <td style="background-color: #F5B7B1!important;">{{rowData.planStart | date :'d-MMM-y'}}</td>
+            <td style="background-color: #F5B7B1!important;">{{rowData.planEnd | date :'d-MMM-y'}}</td>
+            <td><input value="{{rowData.requiredDays }}" class="form-control"/></td>
+
+            <td *ngIf="rowData.status == 1" style="background-color: #F5B7B1!important;">{{rowData.startDateRevised | date :'d-MMM-y'}}</td>
+            <td *ngIf="rowData.status == 1" style="background-color: #F5B7B1!important;">{{rowData.endDateRevised | date :'d-MMM-y'}}</td>
+
+            <td *ngIf="rowData.status == 0"><input type="date"  [(ngModel)]="rowData.startDateRevised" [ngModelOptions]="{standalone: true}" [ngStyle]="{ color: rowData.startDateRevised != null ? 'black' : 'transparent' }" class="form-control" (input)="C(rowData,ri)"/></td>
+            <td *ngIf="rowData.status == 0"><input type="date"  [(ngModel)]="rowData.endDateRevised" [ngModelOptions]="{standalone: true}" [ngStyle]="{ color: rowData.endDateRevised != null ? 'black' : 'transparent' }" class="form-control" (input)="C(rowData,ri)" /></td>
+
+
+            <td *ngIf="rowData.status == 1" style="background-color: #F5B7B1!important;">{{rowData.doneDate | date :'d-MMM-y'}}</td>
+            <td *ngIf="rowData.status == 0"><input type="date"  [ngModel]="rowData.doneDate"  [ngModelOptions]="{standalone: true}"  [ngStyle]="{ color: rowData.doneDate != null ? 'black' : 'transparent' }" class="form-control"/></td>
+            
+            <td >
+              <input style="font-size: small;" [(ngModel)]="rowData.concernPerson" [typeahead]="commonService.GatePassEmployeeList"
+                         [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                         (typeaheadNoResults)="typeaheadNoResultsEmployee($event,ri,rowData)" (typeaheadOnSelect)="onSelectEmployee($event,ri,rowData)"  
+                         typeaheadOptionField="label" class="form-control form-control-sm"  class="form-control" />
+            </td>
+            <td >
+              <input style="font-size: small;" [(ngModel)]="rowData.accountablePerson" [typeahead]="commonService.GatePassEmployeeList"
+                         [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                         (typeaheadNoResults)="typeaheadNoResultsEmployee($event,ri,rowData)" (typeaheadOnSelect)="onSelectEmployee($event,ri,rowData)"  
+                         typeaheadOptionField="label" class="form-control form-control-sm"  class="form-control" />              
+            </td>
+            <td >
+               <input style="font-size: small;" [(ngModel)]="rowData.consultedPerson" [typeahead]="commonService.GatePassEmployeeList"
+                         [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                         (typeaheadNoResults)="typeaheadNoResultsEmployee($event,ri,rowData)" (typeaheadOnSelect)="onSelectEmployee($event,ri,rowData)"  
+                         typeaheadOptionField="label" class="form-control form-control-sm"  class="form-control" />             
+            </td>
+            <td >
+               <input style="font-size: small;" [(ngModel)]="rowData.informedPerson" [typeahead]="commonService.GatePassEmployeeList"
+                         [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                         (typeaheadNoResults)="typeaheadNoResultsEmployee($event,ri,rowData)" (typeaheadOnSelect)="onSelectEmployee($event,ri,rowData)"  
+                         typeaheadOptionField="label" class="form-control form-control-sm"  class="form-control" />             
+            </td>
+            
+            <td ><input  value="{{rowData.dueDays}}" class="form-control" /></td>
+            <td>
+              <select                    
+              class="p-inputtext-sm form-control"
+              [ngClass]=""
+              [(ngModel)]="rowData.status"
+              [ngStyle]="{'background-color': getColor(rowData.status),'color': '#FFF'}"  
+              (change)="GetDoneDate(rowData,ri)"                       
+              >
+              <option value="0">Pending</option>
+              <option value="1">Done</option>
+              </select>
+                
+            </td>
+        </tr>
+
+    </ng-template>
+</p-table>
+ 
+<hr/>
+<div class="row">
+  <div class="col-md-4" >
+    <button type="submit" class="btn btn-outline-success  mr-2" (click)="onSubmit()"
+    *ngIf="test5==''"
+    >
+      <i class="fa fa-database"></i> Save
+    </button>
+    <button      
+      type="submit"
+      class="btn btn-outline-info  mr-2" (click)="statusUpdate()" 
+      *ngIf="test4==''"
+    >
+      <i class="fa fa-refresh"></i> Update
+    </button>
+  </div>
+</div>
+</p-panel>
+
+

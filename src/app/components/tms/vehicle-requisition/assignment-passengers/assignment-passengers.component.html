@@ -1,0 +1,114 @@
+<p-panel header="Assign Vehicle For Passengers" [toggleable]="true">
+  <p-table #dt [value]="VehicleRequisitionModelList" [(selection)]="SelectedVehicle" dataKey="requisitionId"
+    editMode="row" [scrollable]="true" [paginator]="true" [rows]="200" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <button pTooltip="Assign Check Row" (click)="assign()" class="btn btn-success btn-xs">
+          <i class="fa fa-check"></i> Vehicle Assign({{ SelectedVehicle.length }})
+        </button>
+        <input type="text" pInputText size="50" placeholder="Global Filter"
+          (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th>Created By</th>
+        <th>Created Date</th>
+        <th>Requisition For</th>
+        <th>Pickup Location</th>
+        <th>Drop Location</th>
+        <th>Requisition Date Time</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'createDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'requisitionForName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'pickupLocation', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'dropLocation', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'startTime', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'status', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-vehicle let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="vehicle"></p-tableCheckbox>
+        </td>
+        <td>{{vehicle.createBy }}</td>
+        <td>{{vehicle.createDate | date:'MMMM d, y, h:mm a'}}</td>
+        <td>{{vehicle.requisitionForName}}</td>
+        <td>{{vehicle.pickupLocation}}</td>
+        <td>{{vehicle.dropLocation}}</td>
+        <td>{{vehicle.startTime | date:'MMMM d, y, h:mm a'}}</td>
+        <td
+          [ngClass]="{ 'text-success':vehicle.status === 'Approved',  'text-danger':vehicle.status === 'Cancel' ,  'text-primary':vehicle.status === 'Pending',  'text-warning':vehicle.status === 'Rejected',  'bg-info text-white':vehicle.status.includes('assigned'),  'bg-success text-white':vehicle.status === 'Trip Completed'}">
+          {{vehicle.status}}</td>
+
+        <td>
+          <!-- <div class="row" style="margin-left: 50px;"> -->
+          <ng-container *ngIf="vehicle.status === 'Pending' || vehicle.status === 'Approved' || vehicle.status.includes('assigned')">
+            <button class="btn-x btn-outline-primary mr-2" (click)="reject(vehicle)">
+              <i class="fa fa-pencil"></i>Reject
+            </button>
+            <!-- <button class="btn-xs btn-outline-success mr-2" (click)="assign(vehicle)">
+              <i class="fa fa-pencil"></i>Vehicle Assign
+            </button> -->
+          </ng-container>
+          <button class="btn-x btn-outline-success mr-2" (click)="show(vehicle)">
+            <i class="fa fa-eye"></i>
+          </button>
+          <!-- </div> -->
+        </td>
+      </tr>
+    </ng-template>
+
+
+  </p-table>
+</p-panel>
+
+<p-dialog header="Vehicle Assign" [(visible)]="displayAssign" [style]="{ width: '85vw' }" [baseZIndex]="10000">
+  <!-- <ng-container *ngFor="let item of SelectedVehicle"> -->
+  <app-assign (loadVehicleRequisition)="loadVehicleRequisition()" [(displayAssign)]="displayAssign"
+    [(SelectedVehicle)]="SelectedVehicle" #VehicleAssign></app-assign>
+  <!-- </ng-container> -->
+
+</p-dialog>
+<p-dialog header="Vehicle Requisition Details" [(visible)]="displayCreate" [style]="{ width: '70vw' }"
+  [baseZIndex]="10000">
+  <app-requisition-passengers-view #VehicleRequisitionDeatills (submitSuccess)="onChildSubmit()"
+    (loadVehicleRequisition)="loadVehicleRequisition()">
+  </app-requisition-passengers-view>
+</p-dialog>
+<p-dialog header="Vehicle Requisition Cancel/Rejected Reason" [(visible)]="displayCancel" [style]="{ width: '70vw' }"
+  [baseZIndex]="10000">
+  <app-requisition-cancel (submitSuccess)="onChildSubmit()" #VehicleRequisitionCancel
+    (loadVehicleRequisition)="loadVehicleRequisition()">
+  </app-requisition-cancel>
+</p-dialog>

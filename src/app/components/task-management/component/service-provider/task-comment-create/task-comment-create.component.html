@@ -1,0 +1,18 @@
+<form autocomplete="off" [formGroup]="reactiveForm" class="form" role="form">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">New Comments </label>
+                <input [ngClass]="{
+          'is-invalid':
+          reactiveForm.get('comments').errors &&
+            (reactiveForm.get('comments').touched || reactiveForm.get('comments').dirty)
+        }" class="form-control" type="text" formControlName="comments" />
+            </div>
+            <div class="form-group">
+                <button (click)="onSubmit()" class="btn btn-outline-success btn-xs">
+                    Send</button>
+            </div>
+        </div>
+    </div>
+</form>

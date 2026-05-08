@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="modal-header">
+            <h5 class="modal-title f-w-600" id="exampleModalLabel">{{ title }}</h5>
+            <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form autocomplete="off" [formGroup]="reactiveForm" class="form" role="form">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend paheight col-6">
+                                <span class="input-group-text col-12" pTooltip="Responsible Department">Res. Department <span
+                                        class="required"> &nbsp; *</span>
+                                </span>
+                            </div>
+                            <input [typeahead]="taskCommonService.departments" [typeaheadMinLength]="0"
+                                [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                                (typeaheadNoResults)="DepartmentSelectNoResults($event)"
+                                (typeaheadOnSelect)="OnSelectDepartment($event)" typeaheadOptionField="departmentName"
+                                [ngClass]="{
+                  'is-invalid':
+                  reactiveForm.get('responsibleDeptName').errors &&
+                    (reactiveForm.get('responsibleDeptName').touched ||
+                    reactiveForm.get('responsibleDeptName').dirty)
+                }" class="form-control" type="text" formControlName="responsibleDeptName" />
+    
+                        </div>
+                    </div>                
+                    <div class="col-md-12">
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend paheight col-6">
+                                <span class="input-group-text col-12" pTooltip="Responsible Section">Res. Section <span
+                                        class="required"> &nbsp; *</span>
+                                </span>
+                            </div>
+                            <input [typeahead]="taskCommonService.sections" [typeaheadMinLength]="0"
+                                [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                                (typeaheadNoResults)="SectionSelectNoResults($event)"
+                                (typeaheadOnSelect)="OnSelectSection($event)" typeaheadOptionField="sectionName" [ngClass]="{
+                  'is-invalid':
+                  reactiveForm.get('responsibleSectionName').errors &&
+                    (reactiveForm.get('responsibleSectionName').touched ||
+                    reactiveForm.get('responsibleSectionName').dirty)
+                }" class="form-control" type="text" formControlName="responsibleSectionName" />
+    
+                        </div>
+                    </div>  
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <button (click)="onSubmit()" class="btn btn-outline-success"><i class="fa fa-save"
+                                    aria-hidden="true"></i>
+                                Submit</button>
+                        </div>
+                    </div>  
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div class="alert">
+                <button (click)="bsModalRef.hide()" class="btn btn-outline-primary" role="button">
+                    <i class="fa fa-arrow-left mr-2"></i>Back
+                </button>
+            </div>
+        </div>
+    </div>   
+</div>

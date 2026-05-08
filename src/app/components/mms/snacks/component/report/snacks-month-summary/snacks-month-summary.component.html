@@ -1,0 +1,483 @@
+<p-panel header="Snacks Items Monthly Summary" [toggleable]="true">
+    <form
+      [formGroup]="reactiveForm"
+      class="form"
+      (ngSubmit)="Process()"
+      role="form"
+    >
+      <div class="row">
+        <div class="col-md-4 offset-md-4">
+          <div class="form-group">
+            <div class="input-group input-group-sm mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  >Month<span class="required">&nbsp;*</span></span
+                >
+              </div>
+              <select
+                [ngClass]="{
+                  'is-invalid':
+                    reactiveForm.get('monthId').errors &&
+                    (reactiveForm.get('monthId').touched ||
+                      reactiveForm.get('monthId').dirty)
+                }"
+                class="form-control form-control-sm"
+                formControlName="monthId"
+              >
+                <option value="">==Select One==</option>
+                <option *ngFor="let item of mmsSnackService.mealMonthsList" [ngValue]="item.id">
+                  {{ item.monthName }}
+                </option>
+              </select>
+            </div>
+            <div class="input-group input-group-sm mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  >Year<span class="required">&nbsp;*</span></span
+                >
+              </div>
+              <select
+                [ngClass]="{
+                  'is-invalid':
+                    reactiveForm.get('yearId').errors &&
+                    (reactiveForm.get('yearId').touched ||
+                      reactiveForm.get('yearId').dirty)
+                }"
+                class="form-control form-control-sm"
+                formControlName="yearId"
+              >
+                <option value="">==Select One==</option>
+                <option
+                  *ngFor="let year of commonService.YearSelectList"
+                  [ngValue]="year.value"
+                >
+                  {{ year.label }}
+                </option>
+              </select>
+            </div>           
+            <button
+              type="submit"
+              class="btn btn-outline-success btn-block btn-xs"
+            >
+              <i class="fa fa-search"></i> Search
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr />
+  
+      <p-table
+      #dt
+      *ngIf="itemList != null"
+      [value]="itemList"
+      [globalFilterFields]="[
+        'monthName',
+        'itemName',
+        'costPrice',
+        'makingQty',
+        'makingCost',
+        'damageQty',
+        'damageCost',
+        'actualQty',
+        'actualCost',
+        'personalSaleQty',
+        'personalSaleAmount',
+        'guestPurposeQty',
+        'guestPurposeCost',
+        'totalSaleQty',
+        'totalSaleAmount',
+        'actualSaleAmount',
+        'balance'
+      ]"
+      dataKey="itemId"
+      editMode="row"
+      [scrollable]="true"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[5, 10, 50, 100]"
+      >>
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+          <button
+            (click)="exportExcel()"
+            type="button"
+            class="btn btn-outline-success btn-xs mr-2"
+          >
+            <i class="fa fa-excel"></i>
+            Excel
+          </button>
+  
+          <input
+            type="text"
+            pInputText
+            size="50"
+            placeholder="Global Filter"
+            (input)="dt.filterGlobal($event.target.value, 'contains')"
+            style="float: right"
+          />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr class="bc">       
+          <th>SL</th>
+          <th [pSortableColumn]="'monthName'">
+            Month
+            <p-sortIcon
+              [field]="'monthName'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'itemName'">
+            Item Name
+            <p-sortIcon
+              [field]="'itemName'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'costPrice'">
+            Cost Price
+            <p-sortIcon
+              [field]="'costPrice'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'makingQty'">
+            Making Qty
+            <p-sortIcon
+              [field]="'makingQty'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'makingCost'">
+            Making Cost
+            <p-sortIcon
+              [field]="'makingCost'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th  [pSortableColumn]="'damageQty'">
+            Damage Qty
+            <p-sortIcon
+              [field]="'damageQty'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>
+          <th  [pSortableColumn]="'damageCost'">
+            Damage Cost
+            <p-sortIcon
+              [field]="'damageCost'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>          
+          <th  [pSortableColumn]="'actualQty'">
+            Actual Qty
+            <p-sortIcon
+              [field]="'actualQty'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>          
+          <th  [pSortableColumn]="'actualCost'">
+            Actual Cost
+            <p-sortIcon
+              [field]="'actualCost'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>          
+          <th  [pSortableColumn]="'personalSaleQty'">
+            Personal Sale Qty
+            <p-sortIcon
+              [field]="'personalSaleQty'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>   
+          <th  [pSortableColumn]="'personalSaleAmount'">
+            Personal Sale Amount
+            <p-sortIcon
+              [field]="'personalSaleAmount'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>   
+          <th  [pSortableColumn]="'guestPurposeQty'">
+            Guest Purpose Qty
+            <p-sortIcon
+              [field]="'guestPurposeQty'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>         
+          <th  [pSortableColumn]="'guestPurposeCost'">
+            Guest Purpose Cost
+            <p-sortIcon
+              [field]="'guestPurposeCost'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>       
+          <th  [pSortableColumn]="'totalSalQty'">
+            Total Sale Qty
+            <p-sortIcon
+              [field]="'totalSaleQty'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>  
+          <th  [pSortableColumn]="'totalSaleAmount'">
+            Total Sale Amount
+            <p-sortIcon
+              [field]="'totalSaleAmount'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>  
+          <th  [pSortableColumn]="'actualSaleAmount'">
+            Actual Sale Amount
+            <p-sortIcon
+              [field]="'actualSaleAmount'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>  
+          <th  [pSortableColumn]="'balance'">
+            Balance
+            <p-sortIcon
+              [field]="'balance'"
+              ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"
+            >
+            </p-sortIcon>
+          </th>  
+
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'monthName', 'contains')"
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'itemName', 'contains')"
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter($event.target.value, 'costPrice', 'contains')
+              "
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter($event.target.value, 'makingQty', 'contains')
+              "
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'makingCost', 'contains')"
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter($event.target.value, 'damageQty', 'contains')
+              "
+              class="p-column-filter"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'damageCost', 'contains')"
+              class="p-column-filter"
+            />
+          </td>  
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'actualQty', 'contains')"
+              class="p-column-filter"
+            />
+          </td>  
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'actualCost', 'contains')"
+              class="p-column-filter"
+            />
+          </td>  
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'personalSaleQty', 'contains')"
+              class="p-column-filter"
+            />
+          </td>  
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'personalSaleAmount', 'contains')"
+              class="p-column-filter"
+            />
+          </td>  
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'guestPurposeQty', 'contains')"
+              class="p-column-filter"
+            />
+          </td>  
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'guestPurposeCost', 'contains')"
+              class="p-column-filter"
+            />
+          </td>  
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'totalSalQty', 'contains')"
+              class="p-column-filter"
+            />
+          </td>  
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'totalSaleAmount', 'contains')"
+              class="p-column-filter"
+            />
+          </td>  
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'actualSaleAmount', 'contains')"
+              class="p-column-filter"
+            />
+          </td>  
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'balance', 'contains')"
+              class="p-column-filter"
+            />
+          </td>  
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-rowData
+        let-editing="editing"
+        let-ri="rowIndex"
+      >
+        <tr [pEditableRow]="rowData" class="center">      
+          <td>{{ ri + 1 }}</td>
+          <td>{{ rowData.monthName }}</td>
+          <td>{{ rowData.itemName }}</td>
+          <td>{{ rowData.costPrice }}</td>
+          <td>{{ rowData.makingQty }}</td>
+          <td>{{ rowData.makingCost }}</td>
+          <td>{{ rowData.damageQty }}</td>
+          <td>{{ rowData.damageCost }}</td>        
+          <td>{{ rowData.actualQty }}</td>  
+          <td>{{ rowData.actualCost }}</td>  
+          <td>{{ rowData.personalSaleQty }}</td>  
+          <td>{{ rowData.personalSaleAmount }}</td>
+          <td>{{ rowData.guestPurposeQty }}</td>
+          <td>{{ rowData.guestPurposeCost }}</td>
+          <td>{{ rowData.totalSaleQty }}</td>        
+          <td>{{ rowData.totalSaleAmount }}</td>  
+          <td>{{ rowData.actualSaleAmount }}</td>  
+          <td>{{ rowData.balance }}</td>  
+        </tr>
+      </ng-template>
+      <!-- <ng-template pTemplate="footer" class="ui-table-tfoot">
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th style="text-align: right">{{ totalMonthlyCost }}</th>
+              <th></th>
+            </tr>
+          </ng-template> -->
+    </p-table>
+     
+    </form>
+  </p-panel>

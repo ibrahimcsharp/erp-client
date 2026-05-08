@@ -1,0 +1,56 @@
+<p-panel header="Brand List" [toggleable]="true">
+  <p-table #dt [value]="AllBrandList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true" [rows]="200"
+    [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <button (click)="OpenNew()" pTooltip="Add New Brand" class="btn btn-success btn-xs mr-2">
+          <i class="fa fa-plus" aria-hidden="true"></i> New
+        </button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr style="text-align: center;">
+        <th style="width: 30px">SL</th>
+        <th>Brand Name</th>
+        <th>Status</th>
+        <th>Remarks</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'brandName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'statusName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'remarks', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-brand let-rowIndex="rowIndex">
+      <tr>
+        <td style="width: 30px">{{ rowIndex+1 }}</td>
+        <td>{{brand.brandName}}</td>
+        <td
+          [ngClass]="{ 'text-success':brand.statusName === 'Active',  'text-danger':brand.statusName === 'Inactive' }">
+          {{brand.statusName}}</td>
+        <td>{{brand.remarks}}</td>
+        <td>
+          <button class="btn btn-xs btn-outline-success mr-2" (click)="edit(brand)">
+            <i class="fa fa-pencil"></i> Edit
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+<p-dialog header="TMS Brand Create" [(visible)]="displayCreate" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+  <app-brand-create #CreateTmsBrand (tmsBrandList)="LoadBrands()" (submitSuccess)="onChildSubmit()"></app-brand-create>
+</p-dialog>

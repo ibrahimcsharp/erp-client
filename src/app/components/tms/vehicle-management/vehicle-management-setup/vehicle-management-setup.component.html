@@ -1,0 +1,28 @@
+<!-- <p>vehicle-management-setup works!</p> -->
+
+
+<p-panel header="Vehicle Management Setup" [toggleable]="true">
+  <!-- <div class="container"> -->
+  <ul class="nav nav-tabs">
+    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#VehicleBrand">Vehicle Brand</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#VehicleModel">Vehicle Model</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#VehicleType">Vehicle Type</a></li>
+    <!--<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#VehicleRoute">Vehicle Route</a></li> -->
+  </ul>
+  <div class="tab-content">
+    <div id="VehicleBrand" class="tab-pane fade in active show">
+      <app-brand-create-list></app-brand-create-list>
+    </div>
+    <div id="VehicleModel" class="tab-pane fade">
+      <app-model-create-list></app-model-create-list>
+    </div>
+    <div id="VehicleType" class="tab-pane fade">
+      <app-vehicle-type-list></app-vehicle-type-list>
+    </div>
+    <!-- <div id="VehicleRoute" class="tab-pane fade">
+              <app-vehicle-route-list></app-vehicle-route-list>
+            </div> -->
+
+  </div>
+  <!-- </div> -->
+</p-panel>

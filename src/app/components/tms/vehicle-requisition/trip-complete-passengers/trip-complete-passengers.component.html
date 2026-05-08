@@ -1,0 +1,163 @@
+<br>
+<p-panel header="Trip Complete" [toggleable]="true">
+  <p-table #dt [value]="VehicleAssignModelList" dataKey="assignmentId" editMode="row" [scrollable]="true"
+    [paginator]="true" [rows]="200" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 30px">SL</th>
+        <th>Assigned For</th>
+        <th>Pickup Location</th>
+        <th>Total No. of Person</th>
+        <th>Drop Location</th>
+        <th>Pickup Date Time</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'assignedForName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'pickupLocation', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'dropLocation', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <!-- <input pInputText type="text" (input)="dt.filter($event.target.value, 'fromDate 'contains')"
+            class="p-column-filter"  style=" width: 100%; " /> -->
+        </td>
+        <td>
+          <!-- <input pInputText type="text" (input)="dt.filter($event.target.value, 'toDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; " /> -->
+        </td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-vehicle let-rowIndex="rowIndex" class="font-size:14px;">
+      <tr>
+        <td style="width: 30px">{{ rowIndex+1 }}</td>
+        <td>{{vehicle.assignedForName}}</td>
+        <td>{{vehicle.pickupLocation}}</td>
+        <td>{{vehicle.noOfPerson}}</td>
+        <td>{{vehicle.dropLocation}}</td>
+        <td>{{vehicle.fromDate | date:'MMMM d, y, h:mm:ss a'}}</td>
+        <td
+          [ngClass]="{ 'text-success':vehicle.status === 'Approved',  'text-danger':vehicle.status === 'Cancel' ,  'text-primary':vehicle.status === 'Pending',  'text-warning':vehicle.status === 'Rejected',  'bg-info text-white':vehicle.status === 'Vehicle Assigned',  'bg-success text-white':vehicle.status === 'Trip Completed'}">
+          {{vehicle.status}}</td>
+
+        <td>
+          <ng-container *ngIf="vehicle.status === 'Approved' || vehicle.status === 'Pending'">
+            <button class="btn-xs btn-outline-primary mr-2" (click)="tripReject(vehicle)">
+              <i class="fa fa-trash"></i> Cancel
+            </button>
+            <button class="btn-xs btn-outline-secondary mr-2" (click)="tripReassign(vehicle)">
+              <i class="fa fa-refresh"></i> Reassign
+            </button>
+            <button class="btn-xs btn-outline-success mr-2" (click)="tripComplete(vehicle)">
+              <i class="fa fa-pencil"></i> Complete
+            </button>
+          </ng-container>
+          <button class="btn-xs btn-outline-success mr-2" (click)="show(vehicle)">
+            <i class="fa fa-eye"></i>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+
+
+  </p-table>
+</p-panel>
+
+<p-dialog header="Trip Complete" [(visible)]="displayCreate" [style]="{ width: '70vw' }" [baseZIndex]="10000">
+  <app-trip-complete-transaction #TripComplete (submitSuccess)="onChildSubmit()"></app-trip-complete-transaction>
+</p-dialog>
+
+<p-dialog header="Trip Complete Details" [(visible)]="displayRequisitionDeatills" [style]="{ width: '70vw' }"
+  [baseZIndex]="10000">
+  <p-table #dt [value]="VehicleRequisitionModelList" dataKey="requisitionId" editMode="row" [scrollable]="true"
+    [paginator]="true" [rows]="20" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <!-- <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+        <button pTooltip="Assign Check Row" (click)="assign()" class="btn btn-success btn-xs">
+          <i class="fa fa-check"></i> Vehicle Assign({{ SelectedVehicle.length }})
+        </button>
+        <input type="text" pInputText size="50" placeholder="Global Filter"
+          (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+        </div>
+      </ng-template> -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Created By</th>
+        <th>Created Date</th>
+        <th>Requisition For</th>
+        <th>No. of Person</th>
+        <th>Pickup Location</th>
+        <th>Drop Location</th>
+        <th>Pickup Date Time</th>
+        <th>Driver Name</th>
+        <th>Driver Mobile No.</th>
+        <th>Vehicle Reg. No.</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-vehicle let-rowIndex="rowIndex">
+      <tr>
+        <td>{{vehicle.createBy}}</td>
+        <td>{{vehicle.createDate}}</td>
+        <td>{{vehicle.requisitionForName}}</td>
+        <td>{{vehicle.noOfPerson}}</td>
+        <td>{{vehicle.pickupLocation}}</td>
+        <td>{{vehicle.dropLocation}}</td>
+        <td>{{vehicle.startTime | date:'MMMM d, y, h:mm:ss a'}}</td>
+        <td>{{vehicle.employeeName}}</td>
+        <td>{{vehicle.mobileNo}}</td>
+        <td>{{vehicle.registrationNumber}}</td>
+        <td
+          [ngClass]="{ 'text-success':vehicle.status === 'Approved',  'text-danger':vehicle.status === 'Cancel' ,  'text-primary':vehicle.status === 'Pending',  'text-warning':vehicle.status === 'Rejected',  'bg-info text-white':vehicle.status === 'Vehicle Assigned',  'bg-success text-white':vehicle.status === 'Trip Completed'}">
+          {{vehicle.status}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>
+
+<p-dialog header="Trip Cancel/Rejected Reason" [(visible)]="displayCancel" [style]="{ width: '70vw' }"
+  [baseZIndex]="10000">
+  <form [formGroup]="CancelForm">
+    <section>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <div class="input-group input-group-sm">
+                  <textarea id="reason" name="reason" rows="3" cols="30" formControlName="reason" class="form-control"
+                    placeholder="Please Enter Reason..." autocomplete="off"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group" style="padding-top: 10px">
+                <button class="btn btn-x btn-outline-success mr-2" (click)="cancel()">
+                  <i class="fa fa-file"></i> {{ButtonName}}
+                </button>
+                <button class="btn btn-x btn-outline-warning" (click)="clearCancelForm()">
+                  <i class="fa fa-refresh"></i> Clear
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </form>
+</p-dialog>

@@ -1,0 +1,207 @@
+<div class="row">
+  <div class="col-md-8">
+    <form
+      [formGroup]="unitTypeForm"
+      id="unitTypeForm"
+      class="needs-validation"
+      autocomplete="off"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  >Unit Name<span class="required">&nbsp;*</span></span
+                >
+              </div>
+              <input
+                (keyup)="GetName()"
+                type="text"
+                [ngClass]="{
+                  'is-invalid':
+                    unitTypeForm.get('unitName').errors &&
+                    (unitTypeForm.get('unitName').touched ||
+                      unitTypeForm.get('unitName').dirty)
+                }"
+                id="unitName"
+                formControlName="unitName"
+                class="form-control"
+                placeholder=" Enter Unit Name"
+              />
+            </div>
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  >Unit Short Name<span class="required">&nbsp;*</span></span
+                >
+              </div>
+              <input
+                type="text"
+                [ngClass]="{
+                  'is-invalid':
+                    unitTypeForm.get('shortName').errors &&
+                    (unitTypeForm.get('shortName').touched ||
+                      unitTypeForm.get('shortName').dirty)
+                }"
+                id="shortName"
+                formControlName="shortName"
+                class="form-control"
+                placeholder=" Enter Unit Short Name"
+              />
+            </div>
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  >Unit Method<span class="required">&nbsp;*</span></span
+                >
+              </div>
+              <select
+                (change)="GetDefaultUnit()"
+                [ngClass]="{
+                  'is-invalid':
+                    unitTypeForm.get('methodId').errors &&
+                    (unitTypeForm.get('methodId').touched ||
+                      unitTypeForm.get('methodId').dirty)
+                }"
+                id="methodId"
+                formControlName="methodId"
+                class="form-control"
+              >
+                <option
+                  *ngFor="let item of commonService.MeasurementMethodList"
+                  [ngValue]="item.value"
+                >
+                  {{ item.label }}
+                </option>
+              </select>
+            </div>
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  >Type<span class="required">&nbsp;*</span></span
+                >
+              </div>
+              <select
+                [ngClass]="{
+                  'is-invalid':
+                    unitTypeForm.get('type').errors &&
+                    (unitTypeForm.get('type').touched ||
+                      unitTypeForm.get('type').dirty)
+                }"
+                id="type"
+                formControlName="type"
+                class="form-control"
+              >
+                <option value="">===Select One===</option>
+                <option value="F">Fixed</option>
+                <option value="V">Variable</option>
+              </select>
+            </div>
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  >Default Value (1 {{ defaultUnitLabel }} = )<span
+                    class="required"
+                    >&nbsp;*</span
+                  ></span
+                >
+              </div>
+              <input
+                type="number"
+                [ngClass]="{
+                  'is-invalid':
+                    unitTypeForm.get('defaultValue').errors &&
+                    (unitTypeForm.get('defaultValue').touched ||
+                      unitTypeForm.get('defaultValue').dirty)
+                }"
+                id="defaultValue"
+                formControlName="defaultValue"
+                class="form-control"
+                placeholder="Enter Default Value"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text">{{ Ref }}</span>
+              </div>
+            </div>
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Remarks</span>
+              </div>
+              <input
+                type="text"
+                id="remarks"
+                formControlName="remarks"
+                class="form-control"
+              />
+            </div>
+            <hr />
+            <button
+              type="button"
+              class="btn btn-outline-success"
+              [disabled]="!unitTypeForm.valid"
+              (click)="onSubmit()"
+            >
+              <i class="fa fa-database" aria-hidden="true"></i>
+              {{ saveButtonTitle }}
+            </button>
+            <button
+              class="btn btn-outline-info ml-3"
+              type="button"
+              (click)="BtnClear()"
+            >
+              <i class="fa fa-refresh" aria-hidden="true"></i> Clear
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="form-group">
+        <label for="unitName" class="label-title"
+          >Unit Name<span>*</span></label
+        >
+
+        <input type="hidden" id="id" formControlName="id" />
+
+        <input
+          type="text"
+          [ngClass]="{
+            'is-invalid':
+              unitTypeForm.get('unitName').errors &&
+              (unitTypeForm.get('unitName').touched ||
+                unitTypeForm.get('unitName').dirty)
+          }"
+          id="unitName"
+          formControlName="unitName"
+          class="form-control"
+          placeholder=" Enter Unit Type Name"
+        />
+
+        <div
+          class="invalid-feedback"
+          *ngIf="unitTypeForm.get('unitName').hasError('required')"
+        >
+          Unit Type Name is required!
+        </div>
+      </div>
+      <div class="form-group">
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          [disabled]="!unitTypeForm.valid"
+          (click)="onSubmit()"
+        >
+          <i class="fa fa-database" aria-hidden="true"></i>
+          {{ saveButtonTitle }}
+        </button>
+        <button
+          class="btn btn-outline-info ml-3"
+          type="button"
+          (click)="BtnClear()"
+        >
+          <i class="fa fa-refresh" aria-hidden="true"></i> Clear
+        </button>
+      </div> -->
+    </form>
+  </div>
+</div>

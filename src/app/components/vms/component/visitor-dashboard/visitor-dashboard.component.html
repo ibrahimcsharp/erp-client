@@ -1,0 +1,98 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-4 col-md-12 xl-50">
+            <div class="card o-hidden widget-cards">
+                <div class="bg-warning card-body">
+                    <div class="media static-top-widget row">
+                        <div class="icons-widgets col-4">
+                            <div class="align-self-center text-center">
+                                <app-feather-icons [icon]="'users'" class="font-primary"></app-feather-icons>
+                            </div>
+                        </div>
+                        <div class="media-body col-8">
+                            <span class="m-0">Todays Visitor</span>
+                            <h3 class="mb-0">
+                                Total:{{DailyDashboardInfo.todaycount}}
+                                <!-- <span class="counter">{{navigation
+                                    thisMonthAvgMealRate | number: "1.2-2"
+                                    }}</span> -->
+                            </h3>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-12 xl-50">
+            <div class="card o-hidden widget-cards">
+                <div class="bg-secondary card-body">
+                    <div class="media static-top-widget row">
+                        <div class="icons-widgets col-4">
+                            <div class="align-self-center text-center">
+                                <app-feather-icons [icon]="'users'" class="font-primary"></app-feather-icons>
+                            </div>
+                        </div>
+                        <div class="media-body col-8">
+                            <span class="m-0">This Week Visitor</span>
+                            <h3 class="mb-0">
+                                Total:{{WeeklyDashboardInfo.thisWeeklycount}}
+                                <!-- <span class="counter">{{ navigation
+                                    thisMonthAvgMealRate | number: "1.2-2"
+                                    }}</span> -->
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-12 xl-50">
+            <div class="card o-hidden widget-cards">
+                <div class="bg-primary card-body">
+                    <div class="media static-top-widget row">
+                        <div class="icons-widgets col-4">
+                            <div class="align-self-center text-center">
+                                <app-feather-icons [icon]="'users'" class="font-primary"></app-feather-icons>
+                            </div>
+                        </div>
+                        <div class="media-body col-8">
+                            <span class="m-0">This Month Visitor</span>
+                            <h3 class="mb-0">
+                                Total{{MonthlyDashboardInfo.thisMonthcount}}
+                                <!-- <span class="counter">{{ navigation
+                                    thisMonthNetPayable | number: "1.2-2"
+                                    }}</span> -->
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br /> 
+<div class="row">
+    <div class="col-xl-6 xl-100">
+        <div class="card" style="height: 600px!important">
+            <div class="card-header">
+                <h5>Month Wise Visitor </h5>
+            </div>
+            <div class="card-body">
+                <app-visitor-bar-chart></app-visitor-bar-chart>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6 xl-100">        
+        <div class="card" style="height: 600px!important">
+            <div class="card-header">
+                <h5>Frequesnt Visitor </h5>
+            </div>
+            <div class="card-body">
+                <app-visitor-frequent></app-visitor-frequent>
+            </div>
+        </div>
+    </div>
+</div>

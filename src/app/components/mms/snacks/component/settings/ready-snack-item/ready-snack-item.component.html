@@ -1,0 +1,70 @@
+<div class="modal-header">
+    <h5 class="modal-title f-w-600" id="exampleModalLabel">{{ title }}</h5>
+    <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form autocomplete="off" [formGroup]="reactiveForm" class="form" role="form">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Snack Items</label>
+                    <select [ngClass]="{
+              'is-invalid':
+              reactiveForm.get('itemId').errors &&
+                (reactiveForm.get('itemId').touched || reactiveForm.get('itemId').dirty)
+            }" class="form-control" type="text" formControlName="itemId">
+                        <option value="">===Select One====</option>
+                        <option *ngFor="let item of Items" [ngValue]="item.id">{{item.itemName}}</option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Declare Date(MM-DD-YYYY)</label>
+                    <input [ngClass]="{
+              'is-invalid':
+              reactiveForm.get('declareDate').errors &&
+                (reactiveForm.get('declareDate').touched || reactiveForm.get('declareDate').dirty)
+            }" class="form-control" type="date"  formControlName="declareDate" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Ready Qty</label>
+                    <input [ngClass]="{
+              'is-invalid':
+              reactiveForm.get('qty').errors &&
+                (reactiveForm.get('qty').touched || reactiveForm.get('qty').dirty)
+            }" class="form-control" type="number" formControlName="qty" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Damage Qty</label>
+                    <input [ngClass]="{
+              'is-invalid':
+              reactiveForm.get('damageQty').errors &&
+                (reactiveForm.get('damageQty').touched || reactiveForm.get('damageQty').dirty)
+            }" class="form-control" type="number" formControlName="damageQty" />
+                </div>
+               
+                <div class="form-group">
+                    <label class="control-label">Reason</label>
+                    <input class="form-control" type="text" formControlName="remarks" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="alert">
+        <button type="button" (click)="onSubmit()" class="button-save mr-2" role="button">
+            <i class="fa fa-save mr-2"></i> Save
+        </button>
+        <button (click)="OnClear()" class="button-clear mr-2" role="button">
+            <i class="fa fa-refresh mr-2"></i>Clear
+        </button>
+
+        <button (click)="bsModalRef.hide()" class="button-back mr-2" role="button">
+            <i class="fa fa-arrow-left mr-2"></i>Back
+        </button>
+    </div>
+</div>

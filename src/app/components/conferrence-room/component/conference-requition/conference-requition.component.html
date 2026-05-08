@@ -1,0 +1,431 @@
+<p-panel header="Conference Room" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+  <form [formGroup]="CustomConferenceForm">
+    <fieldset class="scheduler-border">
+      <legend class="scheduler-border">Create Booking</legend>
+      <div class="row">
+
+        <div class="col-md-3">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Booking Date<span class="required">&nbsp;*</span></span>
+            </div>
+            <input type="date" placeholder="dd-mm-yyyy" class="form-control" [ngClass]="{
+                  'is-invalid':
+                  CustomConferenceForm.get('bookDate').errors &&
+                    (CustomConferenceForm.get('bookDate').touched ||
+                    CustomConferenceForm.get('bookDate').dirty)
+                }" formControlName="bookDate" (change)="LoadDateWiseAvailableRoom()" />
+
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Department<span class="required">&nbsp;*</span></span>
+              </div>
+              <input type="text" id="department" [ngClass]="{
+                    'is-invalid':
+                      CustomConferenceForm.get('department').errors &&
+                      (CustomConferenceForm.get('department').touched ||
+                      CustomConferenceForm.get('department').dirty)
+                  }" formControlName="department" class="form-control" autocomplete="off"
+                oninput="this.value = this.value.toUpperCase()" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Start<span class="required">&nbsp;*</span></span>
+            </div>
+            <input type="time" placeholder="Time" class="form-control" [ngClass]="{
+                  'is-invalid':
+                  CustomConferenceForm.get('startTime').errors &&
+                    (CustomConferenceForm.get('startTime').touched ||
+                    CustomConferenceForm.get('startTime').dirty)
+                }" formControlName="startTime" (change)="changeStartTime()" />
+
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">End<span class="required">&nbsp;*</span></span>
+            </div>
+            <input type="time" placeholder="Time" class="form-control" [ngClass]="{
+                  'is-invalid':
+                  CustomConferenceForm.get('endTime').errors &&
+                    (CustomConferenceForm.get('endTime').touched ||
+                    CustomConferenceForm.get('endTime').dirty)
+                }" formControlName="endTime" (change)="changeEndTime()" />
+
+          </div>
+        </div>
+
+        <div class="col-md-3">
+         
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  >Company<span class="required">&nbsp;*</span></span
+                >
+              </div>
+              <select
+                [ngClass]="{
+                  'is-invalid':
+                  CustomConferenceForm.get('companyId').errors &&
+                    (CustomConferenceForm.get('companyId').touched ||
+                    CustomConferenceForm.get('companyId').dirty)
+                }"
+                class="form-control"
+                type="text"
+                formControlName="companyId"
+                (ngModelChange)="LoadDateWiseAvailableRoom()"
+              >
+                <option value=""> Select One </option>
+                <option *ngFor="let item of commonService.CompanySelectedList" [ngValue]="item.value">
+                  {{ item.label }}
+                </option>
+              </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Agenda<span class="required">&nbsp;*</span></span>
+              </div>
+              <input type="text" id="agenda" formControlName="agenda" class="form-control" autocomplete="off" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">No of Participants</span>
+              </div>
+              <input type="number" id="nop" formControlName="nop" class="form-control" autocomplete="off" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Guest</span>
+              </div>
+              <input type="text" id="guestName" formControlName="guestName" class="form-control" autocomplete="off" />
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" style="height: 35px;">Participants<span class="required">&nbsp;*</span></span>
+              </div>
+              <p-multiSelect formControlName="participantId" id="participantId" [ngClass]="{
+                      'is-invalid':
+                      CustomConferenceForm.get('participantId').errors &&
+                        (CustomConferenceForm.get('participantId').touched ||
+                        CustomConferenceForm.get('participantId').dirty)
+                    }" [style]="{ 'width': '32vw','height':'35px', 'font-size':'3px !important'  }"
+                 [options]="commonService.GatePassEmployeeList"
+                [(ngModel)]="selectedParticipant" defaultLabel="  Select " optionLabel="label"
+                display="employee" [ngModelOptions]="{ standalone: true }" (ngModelChange)="ChangeEmployeeName()">
+              </p-multiSelect>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input-group input-group-sm" style="margin-top: -8px;">
+            <button (click)="LoadAvailableRoom()" class="btn btn-success btn-xs mt-2" style="height: 33px;">
+              <i class="fa fa-search"></i> Search Room
+            </button>
+          </div>
+        </div>
+
+        <div class="col-md-5" *ngIf="selectedParticipant">
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Participant List</legend>
+            <div class="row" >
+              <div class="col-md-12">                    
+                  <p-table [value]="selectedParticipant"  #dt  editMode="row">
+                    <ng-template pTemplate="header">
+                      <tr class="bc">
+                        <!-- <th>SL</th> -->
+                        <!-- <th>Employee Id</th> -->
+                        <th>Participant Name</th>
+                        <th>Action</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                       <tr [pEditableRow]="rowData">
+                        <!-- <td>{{ rowIndex+1 }}</td> -->
+                        <!-- <td>{{ rowData.employeeId}}</td> -->
+                        <td>{{ rowData.label}}</td>
+                        <td>
+                          <a class="btn btn-outline-primary btn-xs ml-1" type="button" (click)="deleteItem(rowData)"> <i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                      </tr>
+                    </ng-template>
+
+                  </p-table>   
+              </div>     
+            </div>
+          </fieldset>
+        </div>
+
+      </div>
+    </fieldset>
+
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <p-pickList [source]="sourceRoom" [target]="targetRoom" sourceHeader="Available Meeting Room"
+          targetHeader="Selected Meeting Room" [responsive]="true" filterBy="roomName" dragdrop="true"
+          sourceFilterPlaceholder="Search by Room Name" targetFilterPlaceholder="Search by Room Name"
+          [sourceStyle]="{'height':'200px'}" [targetStyle]="{'height':'200px'}" [showSourceControls]="false"
+          [showTargetControls]="false">
+          <ng-template let-room pTemplate="item">
+            <div class="ui-helper-clearfix">
+              <!-- <img src="assets/images/dashboard/{{room.roomName}}.jpg" style="display:inline-block;margin:2px 0 2px 2px"
+                width="48"> -->
+              <div style="font-size:16px;float:right;margin:15px 5px 0 0"><span
+                  style="font-weight: bold;">{{room.roomName}}</span> - <span>{{room.buildingNo}}</span> -<span>Capacity
+                  {{room.capacity}} Persons - {{room.projector}}</span> </div>
+            </div>
+          </ng-template>
+        </p-pickList>
+      </div>
+      <div class="col-md-8">
+
+      </div>
+      <div class="col-md-4">
+        <button pButton pRipple type="button" label="SAVE YOUR ROOM FOR BOOKING" icon="pi pi-file"
+          class="p-button-raised p-button-success p-button-text"
+          style="background: #D5F9F8;height: 25px;width: 50px;color: black;font-weight: bold;font-size: 8px!important;"
+          (click)="onSubmit()"
+          style="width:270px!important;font-size: 14px!important;margin-top: 5px;float: right;"></button>
+
+      </div>
+    </div>
+
+
+
+  </form>
+  <fieldset class="form-group p-4">
+
+    <legend class="w-auto px-2">Booked Room List</legend>
+
+    <p-table [value]="ConferenceRoomBookList" #dt dataKey="id" [scrollable]="true" scrollHeight="400px" editMode="row">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="font-weight: bold;font-size: 12px;">Room </th>
+          <th>Building</th>
+          <th>Facility</th>
+          <th>Capacity</th>
+          <th>07:30am-08:00am</th>
+          <th>08:00am-08:30am</th>
+          <th>08:30am-09:00am</th>
+          <th>09:00am-09:30am</th>
+          <th>09:30am-10:00am</th>
+          <th>10:00am-10:30am</th>
+          <th>10:30am-11:00am</th>
+          <th>11:00am-11:30am</th>
+          <th>11:30am-12:00pm</th>
+          <th>12:00pm-12:30pm</th>
+          <th>12:30pm-01:00pm</th>
+          <th>01:00pm-01:30pm</th>
+          <th>01:30pm-02:00pm</th>
+          <th>02:00pm-02:30pm</th>
+          <th>02:30pm-03:00pm</th>
+          <th>03:00pm-03:30pm</th>
+          <th>03:30pm-04:00pm</th>
+          <th>04:00pm-04:30pm</th>
+          <th>04:30pm-05:00pm</th>
+          <th>05:00pm-05:30pm</th>
+          <th>05:30pm-06:00pm</th>
+          <th>06:00pm-06:30pm</th>
+          <th>06:30pm-07:00pm</th>
+          <th>07:00pm-07:30pm</th>
+          <th>07:30pm-08:00pm</th>
+
+        </tr>
+
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="rowData" style="font-family: Monospace !important;font-weight: bold!important;">
+          <td style="font-weight: bold;font-size: 12px;">{{ rowData.roomName }}</td>
+          <td style="font-weight: bold;font-size: 12px;">{{rowData.buildingNo}}</td>
+          <td style="font-weight: bold;font-size: 12px;">{{ rowData.projector }}</td>
+          <td style="font-weight: bold;font-size: 12px;">{{ rowData.capacity }}</td> 
+          <td [ngStyle]="rowData.sevenThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'SevenThirty')">
+            {{ rowData.sevenThirty }}
+          </td>
+          <td [ngStyle]="rowData.eight =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'Eight')">
+            {{ rowData.eight }}
+          </td>
+          <td
+            [ngStyle]="rowData.eightThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'EightThirty')">
+            {{ rowData.eightThirty }}
+          </td>
+          <td [ngStyle]="rowData.nine =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'Nine')">
+            {{ rowData.nine }}</td>
+          <td
+            [ngStyle]="rowData.nineThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'NineThirty')">
+            {{ rowData.nineThirty }}
+          </td>
+          <td [ngStyle]="rowData.ten =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'Ten')">
+            {{ rowData.ten }}</td>
+          <td
+            [ngStyle]="rowData.tenThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'TenThirty')">
+            {{ rowData.tenThirty }}</td>
+          <td
+            [ngStyle]="rowData.eleven =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'Eleven')">
+            {{ rowData.eleven }}</td>
+          <td
+            [ngStyle]="rowData.elevenThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'ElevenThirty')">
+            {{ rowData.elevenThirty }}</td>
+          <td
+            [ngStyle]="rowData.twelve =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'Twelve')">
+            {{ rowData.twelve }}</td>
+          <td
+            [ngStyle]="rowData.twelveThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'TwelveThirty')">
+            {{ rowData.twelveThirty }}</td>
+          <td [ngStyle]="rowData.one =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'One')">
+            {{ rowData.one }}</td>
+          <td
+            [ngStyle]="rowData.oneThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'OneThirty')">
+            {{ rowData.oneThirty }}</td>
+          <td [ngStyle]="rowData.two =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'Two')">
+            {{ rowData.two }}</td>
+          <td
+            [ngStyle]="rowData.twoThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'TwoThirty')">
+            {{ rowData.twoThirty }}</td>
+          <td
+            [ngStyle]="rowData.three =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'Three')">
+            {{ rowData.three }}</td>
+          <td
+            [ngStyle]="rowData.threeThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'ThreeThirty')">
+            {{ rowData.threeThirty }}</td>
+          <td [ngStyle]="rowData.four =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'Four')">
+            {{ rowData.four }}</td>
+          <td
+            [ngStyle]="rowData.fourThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'FourThirty')">
+            {{ rowData.fourThirty }}</td>
+          <td [ngStyle]="rowData.five =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'Five')">
+            {{ rowData.five }}</td>
+          <td
+            [ngStyle]="rowData.fiveThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'FiveThirty')">
+            {{ rowData.fiveThirty }}
+          </td>
+          <td
+            [ngStyle]="rowData.six =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'Six')">
+            {{ rowData.six }}
+          </td>
+          <td
+            [ngStyle]="rowData.sixThirty =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'SixThirty')">
+            {{ rowData.sixThirty }}
+          </td>
+          <td
+            [ngStyle]="rowData.seven =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'Seven')">
+            {{ rowData.seven }}
+          </td>
+          <td
+            [ngStyle]="rowData.sevenThirtypm =='Vacant'? { 'background-color': '#81ba00' }: { 'background-color': '#F5B7B1' }" (click)="getinfo(rowData, bookInfo, 'SevenThirtypm')">
+            {{ rowData.sevenThirtypm }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </fieldset>
+
+  <fieldset class="form-group p-4">
+
+    <legend class="w-auto px-2">My Room Booked List</legend>
+    
+    <p-table
+      [value]="MyConferenceRoomBookList"
+      #dt
+      dataKey="id"
+      [scrollable]="true"
+      scrollHeight="500px"
+      editMode="row"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Room Name</th>
+          <th>Book Date</th>
+          <th>Booked Time</th>
+          <th>Department</th>
+          <th>Action</th>
+          
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-rowData
+        let-editing="editing"
+        let-ri="rowIndex"
+      >
+        <tr [pEditableRow]="rowData">
+          <td [ngStyle]="{ 'background-color': rowData.color }" *ngIf="roomNameRowGroup[rowData.roomName].index === ri" [attr.rowspan]="roomNameRowGroup[rowData.roomName].size"><span class="p-ml-2">{{ rowData.roomName }}</span></td>
+          <td [ngStyle]="{ 'background-color': rowData.color }">{{ rowData.bookDate | date: "dd/MM/yyyy" }}</td>
+          <td [ngStyle]="{ 'background-color': rowData.color }">{{ rowData.startTime | date: "hh:mm a" }} - {{ rowData.endTime | date: "hh:mm a"}}</td>
+          <td [ngStyle]="{ 'background-color': rowData.color }">{{ rowData.department }}</td>
+          <td [ngStyle]="{ 'background-color': rowData.color }">
+            <button class="btn btn-danger btn-xs" (click)="DeleteConferenceBook(rowData)">Cancel Room Booking</button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </fieldset>
+
+
+
+
+
+</p-panel>
+
+<ng-template #bookInfo>
+  <div class="modal-body text-center">
+    <div class="row">
+      <div class="col-md-12">
+      <span style="font-weight: bold;font-size: 14px;color: #5793cb;">Department: </span><span style="font-size: 14px;">{{bookInfoDept}}</span>
+      </div>
+      <div class="col-md-12">
+        <span style="font-weight: bold;font-size: 14px;color: #5793cb;">Agenda: </span><span style="font-size: 14px;">{{bookInfoAgenda}}</span>
+      </div>
+      <div class="col-md-12">
+        <span style="font-weight: bold;font-size: 14px;color: #5793cb;">Conduct By: </span><span style="font-size: 14px;">{{bookInfoBy}}</span>
+      </div>
+    </div>
+  </div>
+</ng-template>

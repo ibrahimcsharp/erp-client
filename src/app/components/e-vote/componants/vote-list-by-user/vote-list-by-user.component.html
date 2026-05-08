@@ -1,0 +1,277 @@
+<p-panel header="E-Vote Issues By User" [toggleable]="true">
+  <p-table #dt
+    [value]="EVoteList"
+    [globalFilterFields]="[
+      'title',
+      'owner',
+      'startTime',
+      'endTime',
+      'sortOrder',
+      'typeName'
+    ]"
+    dataKey="id"
+    editMode="row"
+    [scrollable]="true"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]"
+    >>
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <!-- <button
+          (click)="OpenNew()"
+          pTooltip="New Key Name"
+          class="btn btn-success btn-xs mr-2"
+        >
+          <i class="fa fa-plus" aria-hidden="true"></i> New
+        </button> -->
+
+        <input
+          type="text"
+          pInputText
+          size="50"
+          placeholder="Global Filter"
+          (input)="dt.filterGlobal($event.target.value, 'contains')"
+          style="float: right"
+        />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr class="bc">
+        <th [pSortableColumn]="'id'">
+          Issue No.
+          <p-sortIcon
+            [field]="'id'"
+            ariaLabel="Activate to sort"
+            ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"
+          ></p-sortIcon>
+        </th>
+        <th>Files</th>
+        <th [pSortableColumn]="'title'">
+          Title
+          <p-sortIcon
+            [field]="'title'"
+            ariaLabel="Activate to sort"
+            ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"
+          ></p-sortIcon>
+        </th>
+        <th [pSortableColumn]="'owner'">
+          Owner
+          <p-sortIcon
+            [field]="'owner'"
+            ariaLabel="Activate to sort"
+            ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"
+          ></p-sortIcon>
+        </th>
+        <th [pSortableColumn]="'startTime'">
+          Start Time
+          <p-sortIcon
+            [field]="'startTime'"
+            ariaLabel="Activate to sort"
+            ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"
+          ></p-sortIcon>
+        </th>
+        <th [pSortableColumn]="'endTime'">
+          End Time
+          <p-sortIcon
+            [field]="'endTime'"
+            ariaLabel="Activate to sort"
+            ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"
+          ></p-sortIcon>
+        </th>
+        <th [pSortableColumn]="'status'">
+          Status
+          <p-sortIcon
+            [field]="'status'"
+            ariaLabel="Activate to sort"
+            ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"
+          ></p-sortIcon>
+        </th>
+        <th>Is Live</th>
+
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'id', 'contains')"
+            class="p-column-filter"
+          />
+        </td>
+        <td></td>
+        <td>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'title', 'contains')"
+            class="p-column-filter"
+          />
+        </td>
+        <td>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'owner', 'contains')"
+            class="p-column-filter"
+          />
+        </td>
+        <td>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'startTime', 'contains')"
+            class="p-column-filter"
+          />
+        </td>
+        <td>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'endTime', 'contains')"
+            class="p-column-filter"
+          />
+        </td>
+        <td>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'status', 'contains')"
+            class="p-column-filter"
+          />
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-rowData
+      let-editing="editing"
+      let-ri="rowIndex"
+    >
+      <tr
+        [pEditableRow]="rowData"
+        class="center"
+        [ngStyle]="
+          rowData.status == 'V'
+            ? { 'background-color': '#e0fede' }
+            : { 'background-color': 'white' }
+        "
+      >
+        <td>
+          {{ rowData.issueId }}
+        </td>
+        <td>
+          <button (click)="ShowFile(rowData)" type="button" class="btn btn-info btn-xs"><i class="fa fa-eye"></i></button>
+        </td>
+        <td>{{ rowData.title }}</td>
+        <td>{{ rowData.owner }}</td>
+        <td>{{ rowData.startTime | date: "medium" }}</td>
+        <td>{{ rowData.endTime | date: "medium" }}</td>
+        <td *ngIf="rowData.status == 'N'">Pending</td>
+        <td *ngIf="rowData.status == 'V'">Voted</td>
+        <td *ngIf="GetValidityOfIssue(rowData) == true">
+          <img style="height: 32px" src="assets/images/live/live.png" />
+        </td>
+        <td *ngIf="GetValidityOfIssue(rowData) == false">Expired</td>
+        <!-- <td>{{ GetLiveTime(rowData) }}</td> -->
+        <td>
+          <a
+            *ngIf="rowData.status == 'N' && GetValidityOfIssue(rowData) == true"
+            pTooltip="Go For Voting"
+            class="btn btn-outline-info btn-xs mr-2"
+            target="_blank"
+            routerLink="/e-vote/go-for-voting/edit/{{ rowData.issueId }}"
+            ><i class="fa fa-vote" aria-hidden="true"></i>Go For Vote</a
+          >
+          <a
+            *ngIf="
+              GetValidityOfIssue(rowData) == true &&
+              CurrentUser(rowData) == true
+            "
+            pTooltip="Go For Editing"
+            class="btn btn-outline-success btn-xs mr-2"
+            routerLink="/e-vote/go-for-editing/edit/{{ rowData.issueId }}"
+            ><i class="fa fa-edit" aria-hidden="true"></i>Edit</a
+          >
+
+          <button
+            (click)="ViewVoteResult(rowData)"
+            *ngIf="GetValidityOfIssue(rowData) == false"
+            pTooltip="Vote Results"
+            class="btn btn-outline-success btn-xs"
+          >
+            <i class="fa fa-eye" aria-hidden="true"></i>Result
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+
+<p-dialog
+  header="Vote Results"
+  [(visible)]="displayBasic"
+  [style]="{ width: '60vw' }"
+  [baseZIndex]="10000"
+>
+  <app-vote-results #voteResult></app-vote-results>
+</p-dialog>
+<p-dialog
+    header="File Info"
+    [(visible)]="displayBasic2"
+    [style]="{ width: '60vw' }"
+    [baseZIndex]="6000">    
+    <p-table
+    #dt2
+    [value]="fileList"
+    [globalFilterFields]=""
+    dataKey="id"
+    editMode="row"
+    [scrollable]="true"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <input type="text" pInputText size="50" placeholder="Global Filter"
+        (input)="dt2.filterGlobal($event.target.value, 'contains')" style="float: right"/>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr class="bc">        
+        <th>File Type</th>
+        <th style="width:400px">File</th>
+        <th>Reference Note</th>
+        <th>Uploded By</th>       
+        <th>Date</th>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-rowData
+      let-editing="editing"
+      let-ri="rowIndex">
+      <tr [pEditableRow]="rowData" class="center">        
+        <td>{{ rowData.fileName }}</td>
+        <td style="width:400px">  <a href="{{url}}{{ rowData.location }}" target="_blank">{{ rowData.docTitle}}</a></td>
+        <td style="text-align: center;">{{ rowData.fileComment }}</td>
+        <td>{{ rowData.employeeName }}</td>       
+        <td>{{ rowData.uploadDate | date: "d/M/y, h:mm a" }}</td>
+        
+      </tr>
+    </ng-template>
+  </p-table>   
+  </p-dialog>

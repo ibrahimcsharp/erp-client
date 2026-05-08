@@ -1,0 +1,277 @@
+<p-panel header="Vehicle Road Permit" [toggleable]="true">
+    <ng-template pTemplate="icons">
+        <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+            <span class="pi pi-cog"></span>
+        </button>
+        <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+
+    <form [formGroup]="VehicleRoadPermitForm">
+        <section>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend paheight col-6">
+                                    <span class="input-group-text col-12">Vehicle<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <input [ngClass]="{
+                                    'is-invalid':
+                                    VehicleRoadPermitForm.get('vehicleId').errors &&
+                                      (VehicleRoadPermitForm.get('vehicleId').touched ||
+                                      VehicleRoadPermitForm.get('vehicleId').dirty)
+                                  }" formControlName="vehicleId" [typeahead]="AllVehicleListDropdown"
+                                    [typeaheadMinLength]="0" [typeaheadScrollable]="true"
+                                    [typeaheadOptionsInScrollableView]="8"
+                                    (typeaheadNoResults)="typeaheadNoResultsVehicle($event)"
+                                    (typeaheadOnSelect)="onSelectVehicle($event)" typeaheadOptionField="label"
+                                    class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group mb-1">
+                                    <div class="input-group-prepend paheight col-6">
+                                        <span class="input-group-text col-12">Registration Number<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" id="registrationNumber" formControlName="registrationNumber"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group mb-1">
+                                    <div class="input-group-prepend paheight col-6">
+                                        <span class="input-group-text col-12">Road Permit Number<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" id="permitNo" formControlName="permitNo" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group mb-1">
+                                    <div class="input-group-prepend paheight col-6">
+                                        <span class="input-group-text col-12">Effective Date</span>
+                                    </div>
+                                    <input [ngClass]="{
+                                        'is-invalid':
+                                        VehicleRoadPermitForm.get('effectiveDate').errors &&
+                                          (VehicleRoadPermitForm.get('effectiveDate').touched ||
+                                          VehicleRoadPermitForm.get('effectiveDate').dirty)
+                                      }" class="p-inputtext-sm form-control" type="date"
+                                        formControlName="effectiveDate" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group mb-1">
+                                    <div class="input-group-prepend paheight col-6">
+                                        <span class="input-group-text col-12">Expiry Date</span>
+                                    </div>
+                                    <input [ngClass]="{
+                                                'is-invalid':
+                                                VehicleRoadPermitForm.get('expiryDate').errors &&
+                                                  (VehicleRoadPermitForm.get('expiryDate').touched ||
+                                                  VehicleRoadPermitForm.get('expiryDate').dirty)
+                                              }" class="p-inputtext-sm form-control" type="date"
+                                        formControlName="expiryDate" />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group mb-1">
+                                    <div class="input-group-prepend paheight col-6">
+                                        <span class="input-group-text col-12">Days To Remind<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="number" id="daysToRemind" formControlName="daysToRemind"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group mb-1">
+                                    <div class="input-group-prepend paheight col-6">
+                                        <span class="input-group-text col-12">Expense<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="number" id="expense" formControlName="expense" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group mb-1">
+                                    <div class="input-group-prepend paheight col-6">
+                                        <span class="input-group-text col-12">Other Expense<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="number" id="otherExpense" formControlName="otherExpense"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group mb-1">
+                                    <div class="input-group-prepend paheight col-6">
+                                        <span class="input-group-text col-12">Odometer<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="taxt" id="odometer" formControlName="odometer" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend paheight col-6">
+                                    <span class="input-group-text col-12">Budget Code<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <select id="budgetCode" formControlName="budgetCode" class="form-control" [ngClass]="{'is-invalid':VehicleRoadPermitForm.get('budgetCode').errors &&
+                                (VehicleRoadPermitForm.get('budgetCode').touched ||
+                                VehicleRoadPermitForm.get('budgetCode').dirty)}">
+                                    <option *ngFor="let budgetCode of AllBudgetCodeDropdown"
+                                        [ngValue]="budgetCode.value">
+                                        {{ budgetCode.label }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend paheight col-6">
+                                    <span class="input-group-text col-12">Reference Document</span>
+                                </div>
+                                <div class="col-6">
+                                    <input type="file" #inputFile multiple (change)="getFileDetails($event)" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group mb-1 mx-3">
+                                    <textarea id="remarks" name="remarks" rows="1" cols="30" formControlName="remarks"
+                                        class="form-control textarea" placeholder="Please Enter Remarks..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" style="padding-top: 10px">
+                                <button class="btn btn-s btn-outline-success mx-3 mr-2" (click)="Onsubmit()">
+                                    <i class="fa fa-file"></i> {{ ButtonName }}
+                                </button>
+                                <button class="btn btn-s btn-outline-warning" (click)="clear()">
+                                    <i class="fa fa-refresh"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </form>
+
+</p-panel>
+<br>
+
+<p-panel header="Vehicle Road Permit List" [toggleable]="true">
+    <p-table #dt [value]="VehicleRoadPermitModelList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+        [rows]="200" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 30px">SL</th>
+                <th>Registration Number</th>
+                <th>Vehicle Type</th>
+                <th>Road Permit No</th>
+                <th>Effective Date</th>
+                <th>Expiry Date</th>
+                <th>File</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'registrationNumber', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'vehicleType', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'permitNo', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'effectiveDate', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'expiryDate', 'contains')"
+                        class="p-column-filter" style=" width: 100%; " />
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr>
+                <td style="width: 30px">{{ rowIndex+1 }}</td>
+                <td>{{rowData.registrationNumber}}</td>
+                <td>{{rowData.vehicleType}}</td>
+                <td>{{rowData.permitNo}}</td>
+                <td>{{rowData.effectiveDate | date:'dd MMM yyyy'}}</td>
+                <td [ngStyle]="{ 'background-color': rowData.color }">{{rowData.expiryDate | date:'dd MMM yyyy'}}</td>
+                <td>
+                    <ng-container *ngIf="rowData.fileCount > 0">
+                        <button class="btn btn-xs btn-outline-success mr-2"
+                            (click)="FileViewVehicleRoadPermit(rowData)">
+                            <i class="fa fa-file"></i>
+                        </button>
+                    </ng-container>
+                </td>
+                <td>
+                    <button class="btn btn-xs btn-outline-success mr-2" (click)="EditVehicleRoadPermit(rowData)">
+                        <i class="fa fa-pencil"></i> Edit
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>
+<p-dialog header="File Info" [(visible)]="displayBasic" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+    <p-table [value]="commonService.commonFilesList" dataKey="id" [scrollable]="true">
+        <ng-template pTemplate="header">
+            <tr style="border: 0 !important" class="bc">
+                <th style="width: 20px; position: relative;">SL</th>
+                <th style="width: 80px;">File</th>
+                <th style="width: 40px;">Upload Date</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+            <tr style="border: 0 !important" [pEditableRow]="rowData" class="center">
+                <td style="width: 20px; position: relative;">{{ ri + 1 }}</td>
+                <td style="width: 80px;"> <a href="{{url}}{{ rowData.location}}"
+                        target="_blank">{{rowData.docTitle}}</a>
+                </td>
+                <td style="width: 40px;">{{rowData.uploadDate | date:'dd/MM/yyyy h:mm a'}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>

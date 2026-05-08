@@ -1,0 +1,62 @@
+<p-panel header="On Going Task List" [toggleable]="true">
+    <p-treeTable #tt [value]="taskCommonService.departmentOnGoingTask" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Task Title</th>
+          <th>Task Description</th>
+          <th>Task No.</th>
+          <th>Resposible Dept.</th>
+          <th pTooltip="Service Provider Name">SP</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Progress(%)</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'title', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'description', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'id', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'responsibleDeptName', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'serviceProviderName', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'taskStartDate', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'taskEndDate', 'contains')">
+          </th>
+          <th>
+            <input pInputText type="text" (input)="tt.filter($event.target.value, 'taskProgress', 'contains')">
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+        <tr [ttRow]="rowNode">
+          <td>
+            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+            {{rowData.title}}
+          </td>
+          <td>{{rowData.description}}</td>
+          <td>{{rowData.id}}</td>
+          <td>{{rowData.responsibleDeptName}}</td>
+          <td>{{rowData.serviceProviderName}}</td>
+          <td>{{rowData.taskStartDate}}</td>
+          <td>{{rowData.taskEndDate}}</td>
+          <td>{{rowData.taskProgress}}</td>
+          <td><p-splitButton label="Action" icon="pi pi-cog" (onClick)="save(rowData)" [model]="cmds(rowData)"
+              styleClass="ui-button-warning"></p-splitButton>
+          </td>
+        </tr>
+      </ng-template>
+    </p-treeTable>
+  </p-panel>

@@ -1,0 +1,242 @@
+<form [formGroup]="customForm" class="needs-validation">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Menu Name<span class="required">&nbsp;*</span></span
+            >
+          </div>
+          <input
+            type="text"
+            [ngClass]="{
+              'is-invalid':
+                customForm.get('menuName').errors &&
+                (customForm.get('menuName').touched ||
+                  customForm.get('menuName').dirty)
+            }"
+            id="menuName"
+            formControlName="menuName"
+            class="form-control"
+            placeholder=" Enter Menu Name"
+          />
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Icon<span class="required">&nbsp;*</span></span
+            >
+          </div>
+          <input
+            type="text"
+            [ngClass]="{
+              'is-invalid':
+                customForm.get('icon').errors &&
+                (customForm.get('icon').touched || customForm.get('icon').dirty)
+            }"
+            id="icon"
+            formControlName="icon"
+            class="form-control"
+            placeholder="Enter icon class"
+          />
+        </div>
+        <!-- <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Parent</span>
+          </div>
+
+          <select id="parentId" formControlName="parentId" class="form-control">
+            <option [ngValue]="0">==Select Parent==</option>
+            <option
+              *ngFor="let item of menuService.menuList"
+              [ngValue]="item.id"
+            >
+              {{ item.title }}
+            </option>
+          </select>
+        </div> -->
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Active Status<span class="required">&nbsp;*</span></span
+            >
+          </div>
+
+          <select
+            [ngClass]="{
+              'is-invalid':
+                customForm.get('activeStatus').errors &&
+                (customForm.get('activeStatus').touched ||
+                  customForm.get('activeStatus').dirty)
+            }"
+            id="activeStatus"
+            formControlName="activeStatus"
+            class="form-control"
+          >
+            <option value="1">Active</option>
+            <option value="0">In Active</option>
+          </select>
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Type<span class="required">&nbsp;*</span></span
+            >
+          </div>
+
+          <select
+            [ngClass]="{
+              'is-invalid':
+                customForm.get('type').errors &&
+                (customForm.get('type').touched || customForm.get('type').dirty)
+            }"
+            id="activeStatus"
+            formControlName="type"
+            class="form-control"
+          >
+            <option value="sub">Sub</option>
+            <option value="link">Link</option>
+          </select>
+        </div>
+
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Sort Order<span class="required">&nbsp;*</span></span
+            >
+          </div>
+          <input
+            type="number"
+            [ngClass]="{
+              'is-invalid':
+                customForm.get('sortOrder').errors &&
+                (customForm.get('sortOrder').touched ||
+                  customForm.get('sortOrder').dirty)
+            }"
+            id="customForm"
+            formControlName="sortOrder"
+            class="form-control"
+            placeholder=" Enter Sort Order"
+          />
+        </div>
+
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Url</span>
+          </div>
+          <input
+            type="text"
+            id="url"
+            formControlName="url"
+            class="form-control"
+            placeholder=" Enter Url"
+          />
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Remarks</span>
+          </div>
+          <input
+            type="text"
+            id="remarks"
+            formControlName="remarks"
+            class="form-control"
+            placeholder=" Enter remarks"
+          />
+        </div>
+        <div class="input-group input-group-sm mt-4">
+          <button
+            (click)="OnSubmit()"
+            [disabled]="!customForm.valid"
+            class="btn btn-success btn-xs mr-2"
+            type="button"
+          >
+            <i class="fa fa-save"></i> {{ saveButtonTitle }}
+          </button>
+          <button
+            (click)="OnClear()"
+            class="btn btn-primary btn-xs mr-2"
+            type="button"
+          >
+            <i class="fa fa-refresh"></i> Clear
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 ex2">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="alert alert-info">Parent Menu</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <label style="font-size: 18px; font-weight: 900; padding-left: 30px">
+            <input formControlName="parentId" type="radio" [value]="0" />
+            None
+          </label>
+          <div
+            *ngFor="let choice of menuService.menuList; let i = index"
+            class="col-md-12"
+          >
+            <div class="col-md-12">
+              <label style="font-size: 18px; font-weight: 900">
+                <input
+                  formControlName="parentId"
+                  type="radio"
+                  [value]="choice.id"
+                />
+                {{ choice.title }}
+              </label>
+              <div
+                style="padding-left: 60px"
+                *ngFor="let choice1 of choice.children; let i = index"
+                class="col-md-12"
+              >
+                <label style="font-size: 16px; font-weight: 700">
+                  <input
+                    formControlName="parentId"
+                    type="radio"
+                    [value]="choice1.id"
+                  />
+                  {{ choice1.title }}
+                </label>
+                <div
+                  style="padding-left: 60px"
+                  *ngFor="let choice2 of choice1.children; let i = index"
+                  class="col-md-12"
+                >
+                  <label style="font-size: 14px; font-weight: 600">
+                    <input
+                      formControlName="parentId"
+                      type="radio"
+                      [value]="choice2.id"
+                    />
+                    {{ choice2.title }}</label
+                  >
+                  <div
+                    style="padding-left: 60px"
+                    *ngFor="let choice3 of choice2.children; let i = index"
+                    class="col-md-12"
+                  >
+                    <label style="font-size: 12px; font-weight: 500">
+                      <input
+                        type="radio"
+                        [value]="choice3.id"
+                        formControlName="parentId"
+                      />
+                      {{ choice3.title }}</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

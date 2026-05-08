@@ -1,0 +1,30 @@
+export class OrderManagementDetail {
+  omMasterId: number;
+  poNo: string;
+  omMasterDaleDate: Date;
+  poType: string;
+  yearName: string;
+  seasonId: number;
+  seasonName: string;
+  styleId: number;
+  styleName: string;
+  buyerId: number;
+  buyerName: string;
+  omColorId: string;
+  color: string;
+  modelCode: string;
+  sizeGroup: string;
+  omColorRate: number;
+  omColorQty: number;
+  value: number;
+  omColorDelDate: Date;
+  lastModifiedDate: Date;
+  landingPortId: number;
+  landingPortName: string;
+  deliveryPlaceId: number;
+  deliveryPlaceName: string;
+  omSizeId: number;
+  orderSize: string;
+  omSizeQty: number;
+  omSizeRate: number;
+}

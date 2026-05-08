@@ -1,0 +1,224 @@
+
+<p-panel header="KPI Entry" [toggleable]="true">
+    <ng-template pTemplate="icons">
+        <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+            <span class="pi pi-cog"></span>
+        </button>
+        <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+
+
+    <form [formGroup]="kpiEntryForm">
+        <section>
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">KPI Info </legend>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Department<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <input [ngClass]="{
+                                'is-invalid':
+                                kpiEntryForm.get('departmentName').errors &&
+                                (kpiEntryForm.get('departmentName').touched ||
+                                kpiEntryForm.get('departmentName').dirty)
+                            }" formControlName="departmentName"
+                                            [typeahead]="commonService.GatePassEmployeeDepartmentList"
+                                            [typeaheadMinLength]="0" [typeaheadScrollable]="true"
+                                            [typeaheadOptionsInScrollableView]="8"
+                                            (typeaheadNoResults)="typeaheadNoResultsForDepartment($event)"
+                                            (typeaheadOnSelect)="onSelectEmployeeDepartment($event)"
+                                            (typeaheadOnSelect)="onSelectEmployeeSection($event)"
+                                            typeaheadOptionField="label" class="form-control"
+                                            (ngModelChange)="filterSectionListByDepartment()" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6" *ngIf="sectiontrue">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Section<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <input [ngClass]="{
+                                'is-invalid':
+                                kpiEntryForm.get('sectionName').errors &&
+                                (kpiEntryForm.get('sectionName').touched ||
+                                kpiEntryForm.get('sectionName').dirty)
+                                }" formControlName="sectionName" [typeahead]="KpiEntrySectionList"
+                                            [typeaheadMinLength]="0" [typeaheadScrollable]="true"
+                                            [typeaheadOptionsInScrollableView]="8"
+                                            (typeaheadNoResults)="typeaheadNoResultsForSection($event)"
+                                            (typeaheadOnSelect)="onSelectEmployeeSection($event)"
+                                            typeaheadOptionField="label" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Code</span>
+                                        </div>
+                                        <input [ngClass]="{
+                                'is-invalid':
+                                kpiEntryForm.get('kpiCode').errors &&
+                                (kpiEntryForm.get('kpiCode').touched ||
+                                kpiEntryForm.get('kpiCode').dirty)
+                            }" type="number" id="kpiCode" formControlName="kpiCode" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Format Type<span
+                                            class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <select formControlName="formatTypeName"
+                                            class="p-inputtext-sm form-control uppercase">
+                                            <option value=""> Select </option>
+                                            <option value="Double">Double Column Entry</option>
+                                            <option value="Triple">Triple Column Entry</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" *ngIf="showUpdateButton">
+                                <!-- <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <input type="file" #inputFile multiple (change)="getFileDetails($event)" />
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <textarea id="kpiName" formControlName="kpiName" name="kpiName" rows="3"
+                                            cols="50" class="form-control"
+                                            placeholder="Write KPI Title Here..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-outline-success btn-xs"
+                                    style="margin-top: 46px;margin-left: -20px;" (click)="addkpiToList()"><i
+                                        class="fa fa-plus" aria-hidden="true"></i> Add </button>&nbsp;&nbsp;
+                               
+                                        <!-- <button *ngIf="showUpdateButton" type="button" class="btn btn-outline-success btn-xs" style="margin-top: 46px;margin-left: -20px;" 
+                                (click)="updateTrainer()"><i class="fa fa-plus" aria-hidden="true"></i> Update </button>&nbsp;&nbsp; -->
+                               
+                                <button type="button" class="btn btn-outline-warning btn-xs" style="margin-top: 46px;"
+                                    (click)="clearForm()"><i class="fa fa-refresh" aria-hidden="true"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <br>
+                        <div  *ngIf="showNewkpiList">
+                            <fieldset class="scheduler-border">
+                                <legend class="scheduler-border">New KPI List</legend>
+                                <div class="row" *ngIf="AllNewKpiList.length>0">
+                                    <div class="col-md-12">
+                                        <p-table [value]="AllNewKpiList" #dt editMode="row">
+                                            <ng-template pTemplate="header">
+                                                <tr class="bc">
+                                                    <th>SL</th>
+                                                    <th>Department</th>
+                                                    <th>Section</th>
+                                                    <th>Code</th>
+                                                    <th>Format Type</th>
+                                                    <th>Title</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-rowData let-editing="editing"
+                                                let-rowIndex="rowIndex">
+                                                <tr [pEditableRow]="rowData">
+                                                    <td>{{ rowIndex+1 }}</td>
+                                                    <td>{{ rowData.departmentName}}</td>
+                                                    <td>{{ rowData.sectionName}}</td>
+                                                    <td>{{ rowData.kpiCode}}</td>
+                                                    <td>{{ rowData.formatTypeName}}</td>
+                                                    <td>{{ rowData.kpiName}}</td>
+                                                    <td>
+                                                        <a class="btn btn-outline-primary btn-xs ml-1" type="button"
+                                                            (click)="deleteItem(rowData)"> <i class="fa fa-trash"
+                                                                aria-hidden="true"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </ng-template>     
+                                        </p-table>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <button style="margin-top: 8px;" type="button"
+                                                class="btn btn-outline-success btn-xs" (click)="createKpi(rowData)"><i
+                                                    class="fa fa-file" aria-hidden="true"></i> Save KPI </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                </div>
+
+                <div class="col-md-6" *ngIf="showKpiList">
+                    <fieldset class="scheduler-border">
+                      <legend class="scheduler-border" >KPI List</legend>
+                      <!-- <div class="row"> -->
+                        <!-- <div class="col-md-12"> -->
+                          <p-table [value]="KpiList"  #dt  editMode="row" *ngIf="KpiList">
+                            <ng-template pTemplate="header">
+                              <tr class="bc">
+                                             <th style="width:30px">SL</th>
+                                            <th style="width:100px" >Department</th>
+                                            <th style="width:60px">Section</th>
+                                            <th style="width:50px">Code</th>
+                                            <th style="width:60px">Format Type</th>
+                                            <th style="width:200px">Title</th>
+                                            <th style="width: 105px">Action</th>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                               <tr [pEditableRow]="rowData" [ngStyle]="{ 'background-color': '#e0fede' }">
+                                <td >{{ rowIndex+1 }}</td>
+                                <td>{{ rowData.department}}</td>
+                                <td>{{ rowData.section}}</td>
+                                <td >{{ rowData.code}}</td>
+                                <td >{{ rowData.formatTypeName}}</td>
+                                <td >{{ rowData.kpiName}}</td>
+                               
+                               <td style="width: 90px">
+                                 <button pButton pRipple type="button" label="Edit" icon="fa fa-edit"
+                                    (click)="editKpiInfo(rowData)" style="width: 50px; ; font-size:10px!important;background: #64daa2!important;cursor: pointer;">
+                                </button>
+                                <button  pButton pRipple type="button" label="Delete" icon="fa fa-edit"
+                                    (click)="deleteKpiInfo(rowData.id,rowData.mstId)" style="width: 60px;  font-size:10px!important;background: #f85353!important;cursor: pointer;">
+                                </button>
+                                </td>
+                              </tr>
+                            </ng-template>
+          
+                          </p-table>
+                        <!-- </div> -->
+                      <!-- </div>    -->
+                    </fieldset>
+                  </div>
+            </div>
+        </section>
+    </form>
+</p-panel>

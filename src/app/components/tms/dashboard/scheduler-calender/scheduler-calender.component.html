@@ -1,0 +1,528 @@
+<!-- <div class="container"> -->
+<ul class="nav nav-tabs">
+    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Morning">Morning</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Afternoon">Afternoon</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Evening">Evening</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#LateNight">Late Night</a></li>
+</ul>
+<div class="tab-content">
+    <div id="Morning" class="tab-pane fade in active show">
+        <p-panel header="Morning Schedule">
+            <p-table #dt [value]="DashboardModelList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+                [rows]="200" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[5, 10, 50, 100]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Registration No</th>
+                        <th>06:00 AM - 06:30 AM</th>
+                        <th>06:30 AM - 07:00 AM</th>
+                        <th>07:00 AM - 07:30 AM</th>
+                        <th>07:30 AM - 08:00 AM</th>
+                        <th>08:00 AM - 08:30 AM</th>
+                        <th>08:30 AM - 09:00 AM</th>
+                        <th>09:00 AM - 09:30 AM</th>
+                        <th>09:30 AM - 10:00 AM</th>
+                        <th>10:00 AM - 10:30 AM</th>
+                        <th>10:30 AM - 11:00 AM</th>
+                        <th>11:00 AM - 11:30 AM</th>
+                        <th>11:30 AM - 12:00 PM</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'registrationNumber', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'sixAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'sixThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'sevenAm', 'contains')" class="p-column-filter"
+                                style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'sevenThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'eightAm', 'contains')" class="p-column-filter"
+                                style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'eightThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'nineAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'nineThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'tenAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'tenThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'elevenAm', 'contains')" class="p-column-filter"
+                                style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'elevenThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-morning let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{morning.registrationNumber}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.sixAm === 'Free',  'bg-danger text-white':morning.sixAm === 'Assigned'}">
+                            {{morning.sixAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.sixThirtyAm === 'Free',  'bg-danger text-white':morning.sixThirtyAm === 'Assigned'}">
+                            {{morning.sixThirtyAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.sevenAm === 'Free',  'bg-danger text-white':morning.sevenAm === 'Assigned'}">
+                            {{morning.sevenAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.sevenThirtyAm === 'Free',  'bg-danger text-white':morning.sevenThirtyAm === 'Assigned'}">
+                            {{morning.sevenThirtyAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.eightAm === 'Free',  'bg-danger text-white':morning.eightAm === 'Assigned'}">
+                            {{morning.eightAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.eightThirtyAm === 'Free',  'bg-danger text-white':morning.eightThirtyAm === 'Assigned'}">
+                            {{morning.eightThirtyAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.nineAm === 'Free',  'bg-danger text-white':morning.nineAm === 'Assigned'}">
+                            {{morning.nineAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.nineThirtyAm === 'Free',  'bg-danger text-white':morning.nineThirtyAm === 'Assigned'}">
+                            {{morning.nineThirtyAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.tenAm === 'Free',  'bg-danger text-white':morning.tenAm === 'Assigned'}">
+                            {{morning.tenAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.tenThirtyAm === 'Free',  'bg-danger text-white':morning.tenThirtyAm === 'Assigned'}">
+                            {{morning.tenThirtyAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.elevenAm === 'Free',  'bg-danger text-white':morning.elevenAm === 'Assigned'}">
+                            {{morning.elevenAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':morning.elevenThirtyAm === 'Free',  'bg-danger text-white':morning.elevenThirtyAm === 'Assigned'}">
+                            {{morning.elevenThirtyAm}}</td>
+                    </tr>
+                </ng-template>
+
+
+            </p-table>
+        </p-panel>
+    </div>
+    <div id="Afternoon" class="tab-pane fade">
+        <p-panel header="Afternoon Schedule">
+            <p-table #dtAfternoon [value]="DashboardModelList" dataKey="id" editMode="row" [scrollable]="true"
+                [paginator]="true" [rows]="200" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[5, 10, 50, 100]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Registration No</th>
+                        <th>12:00 PM - 12:30 PM</th>
+                        <th>12:30 PM - 01:00 PM</th>
+                        <th>01:00 PM - 01:30 PM</th>
+                        <th>01:30 PM - 02:00 PM</th>
+                        <th>02:00 PM - 02:30 PM</th>
+                        <th>02:30 PM - 03:00 PM</th>
+                        <th>03:00 PM - 03:30 PM</th>
+                        <th>03:30 PM - 04:00 PM</th>
+                        <th>04:00 PM - 04:30 PM</th>
+                        <th>04:30 PM - 05:00 PM</th>
+                        <th>05:00 PM - 05:30 PM</th>
+                        <th>05:30 PM - 06:00 PM</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'registrationNumber', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'twelveAm', 'contains')" class="p-column-filter"
+                                style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'twelveThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'onePm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'oneThirtyPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'twoPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'twoThirtyPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'threePm', 'contains')" class="p-column-filter"
+                                style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'threeThirtyPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'fourPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'fourThirtyPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'fivePm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'fiveThirtyPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-afternoon let-rowIndex="rowIndex">
+                    <tr>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.registrationNumber === 'Free',  'bg-danger text-white':afternoon.registrationNumber === 'Assigned'}">
+                            {{afternoon.registrationNumber}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.twelveAm === 'Free',  'bg-danger text-white':afternoon.twelveAm === 'Assigned'}">
+                            {{afternoon.twelveAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.twelveThirtyAm === 'Free',  'bg-danger text-white':afternoon.twelveThirtyAm === 'Assigned'}">
+                            {{afternoon.twelveThirtyAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.onePm === 'Free',  'bg-danger text-white':afternoon.onePm === 'Assigned'}">
+                            {{afternoon.onePm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.oneThirtyPm === 'Free',  'bg-danger text-white':afternoon.oneThirtyPm === 'Assigned'}">
+                            {{afternoon.oneThirtyPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.twoPm === 'Free',  'bg-danger text-white':afternoon.twoPm === 'Assigned'}">
+                            {{afternoon.twoPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.twoThirtyPm === 'Free',  'bg-danger text-white':afternoon.twoThirtyPm === 'Assigned'}">
+                            {{afternoon.twoThirtyPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.threePm === 'Free',  'bg-danger text-white':afternoon.threePm === 'Assigned'}">
+                            {{afternoon.threePm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.threeThirtyPm === 'Free',  'bg-danger text-white':afternoon.threeThirtyPm === 'Assigned'}">
+                            {{afternoon.threeThirtyPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.fourThirtyPm === 'Free',  'bg-danger text-white':afternoon.fourThirtyPm === 'Assigned'}">
+                            {{afternoon.fourPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.fourThirtyPm === 'Free',  'bg-danger text-white':afternoon.fourThirtyPm === 'Assigned'}">
+                            {{afternoon.fourThirtyPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.fivePm === 'Free',  'bg-danger text-white':afternoon.fivePm === 'Assigned'}">
+                            {{afternoon.fivePm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':afternoon.fiveThirtyPm === 'Free',  'bg-danger text-white':afternoon.fiveThirtyPm === 'Assigned'}">
+                            {{afternoon.fiveThirtyPm}}</td>
+                    </tr>
+                </ng-template>
+
+
+            </p-table>
+        </p-panel>
+    </div>
+    <div id="Evening" class="tab-pane fade">
+        <p-panel header="Evening Schedule">
+            <p-table #dtEvening [value]="DashboardModelList" dataKey="id" editMode="row" [scrollable]="true"
+                [paginator]="true" [rows]="200" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[5, 10, 50, 100]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Registration No</th>
+                        <th>06:00 PM - 06:30 PM</th>
+                        <th>06:30 PM - 07:00 PM</th>
+                        <th>07:00 PM - 07:30 PM</th>
+                        <th>07:30 PM - 08:00 PM</th>
+                        <th>08:00 PM - 08:30 PM</th>
+                        <th>08:30 PM - 09:00 PM</th>
+                        <th>09:00 PM - 09:30 PM</th>
+                        <th>09:30 PM - 10:00 PM</th>
+                        <th>10:00 PM - 10:30 PM</th>
+                        <th>10:30 PM - 11:00 PM</th>
+                        <th>11:00 PM - 11:30 PM</th>
+                        <th>11:30 PM - 12:00 AM</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'registrationNumber', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'sixPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'sixThirtyPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'sevenPm', 'contains')" class="p-column-filter"
+                                style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'sevenThirtyPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'eightPm', 'contains')" class="p-column-filter"
+                                style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'eightThirtyPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'ninePm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'nineThirtyPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'tenPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'tenThirtyPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'elevenPm', 'contains')" class="p-column-filter"
+                                style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'elevenThirtyPm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-evening let-rowIndex="rowIndex">
+                    <tr>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.registrationNumber === 'Free',  'bg-danger text-white':evening.registrationNumber === 'Assigned'}">
+                            {{evening.registrationNumber}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.sixPm === 'Free',  'bg-danger text-white':evening.sixPm === 'Assigned'}">
+                            {{evening.sixPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.sixThirtyPm === 'Free',  'bg-danger text-white':evening.sixThirtyPm === 'Assigned'}">
+                            {{evening.sixThirtyPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.sevenPm === 'Free',  'bg-danger text-white':evening.sevenPm === 'Assigned'}">
+                            {{evening.sevenPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.sevenThirtyPm === 'Free',  'bg-danger text-white':evening.sevenThirtyPm === 'Assigned'}">
+                            {{evening.sevenThirtyPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.eightPm === 'Free',  'bg-danger text-white':evening.eightPm === 'Assigned'}">
+                            {{evening.eightPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.eightThirtyPm === 'Free',  'bg-danger text-white':evening.eightThirtyPm === 'Assigned'}">
+                            {{evening.eightThirtyPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.ninePm === 'Free',  'bg-danger text-white':evening.ninePm === 'Assigned'}">
+                            {{evening.ninePm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.nineThirtyPm === 'Free',  'bg-danger text-white':evening.nineThirtyPm === 'Assigned'}">
+                            {{evening.nineThirtyPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.tenPm === 'Free',  'bg-danger text-white':evening.tenPm === 'Assigned'}">
+                            {{evening.tenPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.tenThirtyPm === 'Free',  'bg-danger text-white':evening.tenThirtyPm === 'Assigned'}">
+                            {{evening.tenThirtyPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.elevenPm === 'Free',  'bg-danger text-white':evening.elevenPm === 'Assigned'}">
+                            {{evening.elevenPm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':evening.elevenThirtyPm === 'Free',  'bg-danger text-white':evening.elevenThirtyPm === 'Assigned'}">
+                            {{evening.elevenThirtyPm}}</td>
+                    </tr>
+                </ng-template>
+
+
+            </p-table>
+        </p-panel>
+    </div>
+    <div id="LateNight" class="tab-pane fade">
+        <p-panel header="Late Night Schedule">
+            <p-table #dtLateNight [value]="DashboardModelList" dataKey="id" editMode="row" [scrollable]="true"
+                [paginator]="true" [rows]="200" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[5, 10, 50, 100]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Registration No</th>
+                        <th>01:00 AM - 01:30 AM</th>
+                        <th>01:30 AM - 02:00 AM</th>
+                        <th>02:00 AM - 02:30 AM</th>
+                        <th>02:30 AM - 03:00 AM</th>
+                        <th>03:00 AM - 03:30 AM</th>
+                        <th>03:30 AM - 04:00 AM</th>
+                        <th>04:00 AM - 04:30 AM</th>
+                        <th>04:30 AM - 05:00 AM</th>
+                        <th>05:00 AM - 05:30 AM</th>
+                        <th>05:30 AM - 06:00 AM</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'registrationNumber', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'oneAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'oneThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'twoAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'twoThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'threeAm', 'contains')" class="p-column-filter"
+                                style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'threeThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'fourAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'fourThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'fiveAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                        <td>
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'fiveThirtyAm', 'contains')"
+                                class="p-column-filter" style=" width: 100%; " />
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-lateNight let-rowIndex="rowIndex">
+                    <tr>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':lateNight.registrationNumber === 'Free',  'bg-danger text-white':lateNight.registrationNumber === 'Assigned'}">
+                            {{lateNight.registrationNumber}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':lateNight.oneAm === 'Free',  'bg-danger text-white':lateNight.oneAm === 'Assigned'}">
+                            {{lateNight.oneAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':lateNight.oneThirtyAm === 'Free',  'bg-danger text-white':lateNight.oneThirtyAm === 'Assigned'}">
+                            {{lateNight.oneThirtyAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':lateNight.twoAm === 'Free',  'bg-danger text-white':lateNight.twoAm === 'Assigned'}">
+                            {{lateNight.twoAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':lateNight.twoThirtyAm === 'Free',  'bg-danger text-white':lateNight.twoThirtyAm === 'Assigned'}">
+                            {{lateNight.twoThirtyAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':lateNight.threeAm === 'Free',  'bg-danger text-white':lateNight.threeAm === 'Assigned'}">
+                            {{lateNight.threeAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':lateNight.threeThirtyAm === 'Free',  'bg-danger text-white':lateNight.threeThirtyAm === 'Assigned'}">
+                            {{lateNight.threeThirtyAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':lateNight.fourAm === 'Free',  'bg-danger text-white':lateNight.fourAm === 'Assigned'}">
+                            {{lateNight.fourAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':lateNight.fourThirtyAm === 'Free',  'bg-danger text-white':lateNight.fourThirtyAm === 'Assigned'}">
+                            {{lateNight.fourThirtyAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':lateNight.fiveAm === 'Free',  'bg-danger text-white':lateNight.fiveAm === 'Assigned'}">
+                            {{lateNight.fiveAm}}</td>
+                        <td
+                            [ngClass]="{'bg-success p-2 text-white bg-opacity-50':lateNight.fiveThirtyAm === 'Free',  'bg-danger text-white':lateNight.fiveThirtyAm === 'Assigned'}">
+                            {{lateNight.fiveThirtyAm}}</td>
+                    </tr>
+                </ng-template>
+
+
+            </p-table>
+        </p-panel>
+    </div>
+</div>
+<!-- </div> -->

@@ -1,0 +1,537 @@
+<p-panel header="Vehicle Entry" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+
+  <form [formGroup]="VehicleEntryForm">
+    <section>
+      <div class="row">
+
+        <div class="col-md-12">
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Registration Information</legend>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Registration Number<span class="required">*</span></span>
+                    </div>
+                    <input type="text" id="registrationNumber" formControlName="registrationNumber" class="form-control"
+                      [ngClass]="{'is-invalid':VehicleEntryForm.get('registrationNumber').errors &&(VehicleEntryForm.get('registrationNumber').touched ||VehicleEntryForm.get('registrationNumber').dirty)}" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Registration Date<span class="required">*</span></span>
+                    </div>
+                    <input [ngClass]="{
+                        'is-invalid':
+                        VehicleEntryForm.get('registrationDate').errors &&
+                          (VehicleEntryForm.get('registrationDate').touched ||
+                          VehicleEntryForm.get('registrationDate').dirty)
+                      }" class="p-inputtext-sm form-control" type="date" formControlName="registrationDate" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Ownership Type<span class="required">*</span></span>
+                    </div>
+                    <select formControlName="ownershipType" class="p-inputtext-sm form-control"
+                      [ngClass]="{'is-invalid':VehicleEntryForm.get('ownershipType').errors &&(VehicleEntryForm.get('ownershipType').touched ||VehicleEntryForm.get('ownershipType').dirty)}">
+                      <option value="">===Select One===</option>
+                      <option value="Owned">Owned</option>
+                      <option value="Rented">Rented</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="col-md-12">
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Vehicle Information</legend>
+            <div class="row">
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Vehicle Type<span class="required">*</span></span>
+                    </div>
+                    <select id="vehicleTypeId" formControlName="vehicleTypeId" class="form-control" [ngClass]="{'is-invalid':VehicleEntryForm.get('vehicleTypeId').errors &&
+                      (VehicleEntryForm.get('vehicleTypeId').touched ||
+                      VehicleEntryForm.get('vehicleTypeId').dirty)}">
+                      <option *ngFor="let type of tmsService.allTypeListDropdown" [ngValue]="type.value">
+                        {{ type.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Brand<span class="required">*</span></span>
+                    </div>
+                    <select id="brandId" formControlName="brandId" class="form-control" [ngClass]="{'is-invalid':VehicleEntryForm.get('brandId').errors &&
+                    (VehicleEntryForm.get('brandId').touched ||
+                    VehicleEntryForm.get('brandId').dirty)}" (change)='onOptionsBrandSelected()'>>
+                      <option *ngFor="let type of tmsService.allBrandListDropdown" [ngValue]="type.value">
+                        {{ type.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Model<span class="required">*</span></span>
+                    </div>
+                    <select id="modelId" formControlName="modelId" class="form-control" [ngClass]="{'is-invalid':VehicleEntryForm.get('modelId').errors &&
+                        (VehicleEntryForm.get('modelId').touched ||
+                        VehicleEntryForm.get('modelId').dirty)}">
+                      <option *ngFor="let model of tmsService.allModelListDropdown" [ngValue]="model.value">
+                        {{ model.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Fuel Type<span class="required">*</span></span>
+                    </div>
+                    <select id="fuelType" formControlName="fuelType" class="form-control" [ngClass]="{'is-invalid':VehicleEntryForm.get('fuelType').errors &&
+                        (VehicleEntryForm.get('fuelType').touched ||
+                        VehicleEntryForm.get('fuelType').dirty)}">
+                      <option *ngFor="let fuel of tmsService.allFuelTypeListDropdown" [ngValue]="fuel.value">
+                        {{ fuel.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Model Year</span>
+                    </div>
+                    <input type="text" placeholder="YYYY" id="modelYear" formControlName="modelYear"
+                      class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Engine Number<span class="required">*</span></span>
+                    </div>
+                    <input type="text" id="engineNumber" formControlName="engineNumber" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Chassis Number<span class="required">*</span></span>
+                    </div>
+                    <input type="text" id="chassisNumber" formControlName="chassisNumber" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Engine Cc<span class="required">*</span></span>
+                    </div>
+                    <input type="text" id="engineCc" formControlName="engineCc" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Tyre Size</span>
+                    </div>
+                    <input type="text" id="tyreSize" formControlName="tyreSize" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Battery</span>
+                    </div>
+                    <input type="text" id="battery" formControlName="battery" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Total Seat<span class="required">*</span></span>
+                    </div>
+                    <input type="text" id="totalSeat" formControlName="totalSeat" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Color<span class="required">*</span></span>
+                    </div>
+                    <select formControlName="color" class="p-inputtext-sm form-control ">
+                      <option value="">===Select One===</option>
+                      <option value="Red">Red</option>
+                      <option value="Green">Green</option>
+                      <option value="Blue">Blue</option>
+                      <option value="White">White</option>
+                      <option value="Off White">Off White</option>
+                      <option value="Grey">Grey</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Fuel Capacity (L)<span class="required">*</span></span>
+                    </div>
+                    <input type="text" id="fuelCapacity" formControlName="fuelCapacity" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12" [ngClass]="{'is-invalid':VehicleEntryForm.get('isActive').errors &&
+                      (VehicleEntryForm.get('isActive').touched ||
+                      VehicleEntryForm.get('isActive').dirty)}">Is Active<span class="required">*</span></span>
+                    </div>
+                    <select formControlName="isActive" class="p-inputtext-sm form-control ">
+                      <option value="">===Select One===</option>
+                      <option value="Y">Active</option>
+                      <option value="N">Inactive</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+          </fieldset>
+        </div>
+
+        <div class="col-md-12">
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Purchase Information</legend>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Company<span class="required">*</span></span>
+                    </div>
+                    <select class="form-control " formControlName="companyId" id="companyId" [ngClass]="{
+                      'is-invalid':
+                      VehicleEntryForm.get('companyId').errors &&
+                        (VehicleEntryForm.get('companyId').touched ||
+                        VehicleEntryForm.get('companyId').dirty)
+                    }">
+
+                      <option *ngFor="let company of commonService.CompanySelectedList" [ngValue]="company.value">
+                        <ng-container *ngIf="company.label != 'Select'">
+                          {{ company.label }}
+                        </ng-container>
+                        <ng-container *ngIf="company.label == 'Select'">
+                          ===Select One===
+                        </ng-container>
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Purchase Date</span>
+                    </div>
+                    <input type="date" placeholder="dd-mm-yyyy" class="form-control" formControlName="purchaseDate" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Purchase Mileage</span>
+                    </div>
+                    <input type="text" id="purchaseMileage" formControlName="purchaseMileage" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Is Disposed</span>
+                    </div>
+                    <select formControlName="isDisposed" class="p-inputtext-sm form-control ">
+                      <option value="">===Select One===</option>
+                      <option value=1>Yes</option>
+                      <option value=2>No</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Disposed Date</span>
+                    </div>
+                    <input type="date" placeholder="dd-mm-yyyy" class="form-control" formControlName="disposeDate" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 ">
+                <div class="form-group mx-3">
+                  <div class="input-group">
+                    <textarea id="remarks" name="remarks" rows="1" cols="10" formControlName="remarks"
+                      class="form-control textarea" placeholder="Please Enter Remarks..." autocomplete="off"></textarea>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+          </fieldset>
+
+
+
+        </div>
+
+        <div class="col-md-12">
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Tracker Information (Setup Carcopolo Tracker ID)</legend>
+            <div class="row">
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group mb-1">
+                    <div class="input-group-prepend paheight col-6">
+                      <span class="input-group-text col-12">Tracker URL</span>
+                    </div>
+                    <input type="text" id="trackerId" formControlName="trackerId" class="form-control"
+                      style="background-color: #87CEEB !important;" placeholder="Enter Track URL.. " />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+          </fieldset>
+
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group" style="padding-top: 10px">
+            <button class="btn btn-s btn-outline-success mr-2" (click)="Onsubmit()">
+              <i class="fa fa-file"></i> {{ButtonName}}
+            </button>
+            <button class="btn btn-s btn-outline-warning" (click)="Clear()">
+              <i class="fa fa-refresh"></i> Clear
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </form>
+</p-panel>
+<br>
+<p-panel header="Vehicle List" [toggleable]="true">
+  <p-table #dt [value]="VehicleCreateModelList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+    [rows]="200" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 30px">SL</th>
+        <th>Company</th>
+        <th>Brand</th>
+        <th>Vehicle Type</th>
+        <th>Registration No</th>
+        <th>Reg Exp.</th>
+        <th>Tax Token Exp.</th>
+        <th>Road Permit Exp.</th>
+        <th>Fitness Exp.</th>
+        <th>Insurance Exp.</th>
+        <th>AIT Exp.</th>
+        <th>Active Status</th>
+        <th>Action</th>
+        <th>Live Location</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'companyName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'brandName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'vehicleType', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'registrationNumber', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'registrationExpiryDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'taxTokenExpiryDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'permitExpiryDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'fitnessExpiryDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'insurenceExpiryDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'aitExpiryDate', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'statusName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-vehicle let-rowIndex="rowIndex">
+      <tr>
+        <td style="width: 30px">{{ rowIndex+1 }}</td>
+        <td>{{vehicle.companyName}}</td>
+        <td>{{vehicle.brandName}}</td>
+        <td>{{vehicle.vehicleType}}</td>
+        <td>{{vehicle.registrationNumber}}</td>
+        <td [ngStyle]="{ 'background-color': vehicle.registrationColor }">{{vehicle.registrationExpiryDate | date:'MMM d, y'}}</td>
+        <td [ngStyle]="{ 'background-color': vehicle.taxTokenColor }">{{vehicle.taxTokenExpiryDate | date:'MMM d, y'}}</td>
+        <td [ngStyle]="{ 'background-color': vehicle.permitColor }">{{vehicle.permitExpiryDate | date:'MMM d, y'}}</td>
+        <td [ngStyle]="{ 'background-color': vehicle.fitnessColor }">{{vehicle.fitnessExpiryDate | date:'MMM d, y'}}</td>
+        <td [ngStyle]="{ 'background-color': vehicle.insurenceColor }">{{vehicle.insurenceExpiryDate | date:'MMM d, y'}}</td>
+        <td [ngStyle]="{ 'background-color': vehicle.aitColor }">{{vehicle.aitExpiryDate | date:'MMM d, y'}}</td>
+        <td [ngClass]="{ 'text-success':vehicle.isActive === 'Y',  'text-danger':vehicle.isActive === 'N' }">
+          <ng-container *ngIf="vehicle.isActive === 'Y'">
+            <span class="badge badge-success">Active</span>
+          </ng-container>
+          <ng-container *ngIf="vehicle.isActive === 'N'">
+            <span class="badge badge-primary">Inactive</span>
+          </ng-container>
+        <td>
+          <button class="btn btn-xs btn-outline-success mr-2" (click)="EditVehicles(vehicle)">
+            <i class="fa fa-pencil"></i> Edit
+          </button>
+        </td>
+        <td>
+          <!-- This Block of code is for Google Maps
+             <button (click)="openMap(vehicle)" pTooltip="Live Location" class="btn btn-success btn-xs mr-2">
+            <i class="fa-map-marker" aria-hidden="true"></i> Live Location
+          </button> -->
+          <a *ngIf="vehicle.trackerId" class="btn btn-success btn-xs mr-2" pTooltip="Live Location" target="_blank"
+            href="{{ vehicle.trackerId }}">
+            <i class="fa fa-map-marker" aria-hidden="true"></i> Live Location
+          </a>
+        </td>
+
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+
+<p-dialog header="map" [(visible)]="displayGoogleMap" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+  <div class="row">
+
+    <div class="col-xl-12">
+      <!--begin::Charts Widget 1-->
+      <div class="card card-custom bg-gray-100 gutter-b card-stretch card-shadowless" id="dash-chart-widget">
+
+        <!--end::Header-->
+        <!--begin::Body-->
+        <div class="card-body" id="map" style="height: 400px; position: relative; overflow: hidden;">
+          <div
+            style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+            <app-google-map></app-google-map>
+          </div>
+        </div>
+        <!--end::Body-->
+      </div>
+      <!--end::Charts Widget 1-->
+    </div>
+  </div>
+</p-dialog>

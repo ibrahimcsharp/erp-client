@@ -1,0 +1,28 @@
+<p-panel header="Team Lead" [toggleable]="true">
+    <ul class="nav nav-tabs">
+        <li class="nav-item"><a  class="nav-link active" data-toggle="tab" href="#EmployeeWizeManagement">EmployeeWise Management </a></li>
+        <!-- <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#SatisfactoryComments">Satisfactory Comments</a></li> -->
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#MissionApprove">All Mission Approve</a></li>
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#TrainingApprove">All Training Approve</a></li>
+        <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#JobDescription">Job Description</a></li> -->
+
+       
+    </ul>
+    <div class="tab-content">
+        <div id="EmployeeWizeManagement"class="tab-pane fade in active show">
+            <app-employee-wize-management></app-employee-wize-management>
+        </div>
+        <!-- <div id="SatisfactoryComments" class="tab-pane fade in active show">
+            <app-pleasure-displeasure-cmt></app-pleasure-displeasure-cmt>
+        </div> -->
+        <div id="MissionApprove" class="tab-pane fade">
+            <app-mission-approve></app-mission-approve>
+        </div>
+        <div id="TrainingApprove" class="tab-pane fade">
+            <app-training-approve></app-training-approve>
+        </div>
+        <!-- <div id="JobDescription" class="tab-pane fade">
+            <app-job-des-entry></app-job-des-entry>
+        </div> -->
+    </div>
+</p-panel>

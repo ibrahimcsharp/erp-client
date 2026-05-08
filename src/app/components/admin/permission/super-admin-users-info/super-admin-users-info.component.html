@@ -1,0 +1,118 @@
+<p-panel header="User Information" [toggleable]="true">
+    <p-table #dt *ngIf="appUsers.length > 0" [value]="appUsers"
+      [globalFilterFields]="['userName', 'email', 'phoneNumber']" dataKey="id" editMode="row" [scrollable]="true"
+      [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[5, 10, 50, 100]">>
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+          <input type="text" pInputText size="50" placeholder="Global Filter"
+            (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr class="bc">
+          <!-- <th>SL</th> -->
+          <th [pSortableColumn]="'userName'">Employee Id</th>
+          <th [pSortableColumn]="'employeeName'">Employee Name</th>
+          <th [pSortableColumn]="'designation'">Designation</th>
+          <th [pSortableColumn]="'department'">Department</th>
+          <th [pSortableColumn]="'company'">Company</th>
+          <!-- <th [pSortableColumn]="'phoneNumber'">Phone Number</th>
+          <th [pSortableColumn]="'email'">Email</th> -->
+          <th style="text-align: center!important;">Action</th>
+        </tr>
+        <tr>
+          <!-- <td></td> -->
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'userName', 'contains')"
+              class="p-column-filter uppercase" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'employeeName', 'contains')"
+              class="p-column-filter uppercase" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'designation', 'contains')"
+              class="p-column-filter uppercase" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'department', 'contains')"
+              class="p-column-filter uppercase" />
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'company', 'contains')"
+              class="p-column-filter uppercase" />
+          </td>
+          <!-- <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'phoneNumber', 'contains')"
+              class="p-column-filter uppercase"
+            />
+          </td>
+          <td>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'email', 'contains')"
+              class="p-column-filter uppercase"
+            />
+          </td> -->
+          <td></td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="rowData" class="center">
+          <!-- <td>{{ ri + 1 }}</td> -->
+          <td>{{ rowData.userName }}</td>
+          <td>{{ rowData.employeeName }}</td>
+          <td>{{ rowData.designation }}</td>
+          <td>{{ rowData.department }}</td>
+          <td>{{ rowData.company }}</td>
+          <!-- <td>{{ rowData.phoneNumber }}</td>
+          <td>{{ rowData.email }}</td> -->
+          <td style="text-align: center!important;">
+            <button (click)="DisplayBuyersUsers(rowData.id)" class="btn btn-primary btn-xs mr-2">
+              <i class="fa fa-list"></i> Buyer
+            </button>
+            <button (click)="DisplayBranchUsers(rowData.id)" class="btn btn-success btn-xs mr-2">
+              <i class="fa fa-list"></i> Branch
+            </button>
+            <button (click)="DisplayUserMenus(rowData.id)" class="btn btn-info btn-xs mr-2">
+              <i class="fa fa-list"></i> Menus
+            </button>
+            <!-- <button
+              (click)="DataPermission(rowData.id)"
+              class="btn btn-primary btn-xs mr-2"
+            >
+              <i class="fa fa-list"></i> Data
+            </button> -->
+            <button (click)="changePassword(rowData.id)" class="btn btn-success btn-xs mr-2">
+              <i class="fa fa-key"></i> Change Password
+            </button>
+            <button (click)="DisplayLocations(rowData.id)" class="btn btn-info btn-xs">
+              <i class="fa fa-list"></i> Locations
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-panel>
+  
+  <p-dialog header="Buyers Permission" [(visible)]="display" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+    <app-buyers-users-permission #id></app-buyers-users-permission>
+  </p-dialog>
+  
+  <p-dialog header="Branch Permission" [(visible)]="display3" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+    <app-branch-users-permission #branchUserId></app-branch-users-permission>
+  </p-dialog>
+  
+  <p-dialog header="User Menus" [(visible)]="display1" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+    <app-user-menu-permission #id1></app-user-menu-permission>
+  </p-dialog>
+  
+  <p-dialog header="Change Password" [(visible)]="display2" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+    <app-change-password #id2></app-change-password>
+  </p-dialog>

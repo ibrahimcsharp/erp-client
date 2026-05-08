@@ -1,0 +1,41 @@
+<p-panel header="Snacks Manual Sale and Delivery" [toggleable]="true">
+    <form autocomplete="off" [formGroup]="reactiveForm" class="form" role="form">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Employee Id</label>
+                    <input [typeahead]="snackService.empList"
+                    [typeaheadMinLength]="0"
+                    [typeaheadScrollable]="true"
+                    [typeaheadOptionsInScrollableView]="18"
+                    (typeaheadNoResults)="empployeeIdNoResults($event)"
+                    (typeaheadOnSelect)="onSelectEmploeeId($event)"
+                    typeaheadOptionField="employeeIdName" [ngClass]="{
+              'is-invalid':
+              reactiveForm.get('employeeIdName').errors &&
+                (reactiveForm.get('employeeIdName').touched || reactiveForm.get('employeeIdName').dirty)
+            }" class="form-control" type="text" formControlName="employeeIdName" />
+            <button (click)="OnClear()" class="button-clear" role="button">
+                <i class="fa fa-refresh mr-2"></i>Clear
+            </button>
+                </div>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <app-available-snacks-items></app-available-snacks-items>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <app-snacks-cart-manual></app-snacks-cart-manual>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </form>
+
+
+</p-panel>

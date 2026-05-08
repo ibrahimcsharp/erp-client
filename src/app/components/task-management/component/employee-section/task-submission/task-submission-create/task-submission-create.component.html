@@ -1,0 +1,165 @@
+<p-panel header="Task Create" [toggleable]="true">
+    <div class="modal-body">
+        <form autocomplete="off" [formGroup]="reactiveForm" class="form" role="form">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend paheight col-6">
+                            <span class="input-group-text col-12" pTooltip="Task Title">Task Title <span
+                                    class="required"> &nbsp; *</span>
+                            </span>
+                        </div>
+                        <input [maxlength]="maxTitleChars" [ngClass]="{
+                        'is-invalid':
+                        reactiveForm.get('title').errors &&
+                          (reactiveForm.get('title').touched || reactiveForm.get('title').dirty)
+                      }" class="form-control" type="text" formControlName="title" />
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend paheight col-6">
+                            <span class="input-group-text col-12" pTooltip="Task Description">Task Description
+                                <span class="required"> &nbsp; *</span>
+                            </span>
+                        </div>
+                        <input [ngClass]="{
+                            'is-invalid':
+                            reactiveForm.get('description').errors &&
+                              (reactiveForm.get('description').touched || reactiveForm.get('description').dirty)
+                          }" class="form-control" type="text" formControlName="description" />
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend paheight col-6">
+                            <span class="input-group-text col-12" pTooltip="Task Location">Task Location
+                                <span class="required"> &nbsp; *</span>
+                            </span>
+                        </div>
+                        <!-- <select formControlName="location" class="p-inputtext-sm form-control uppercase">
+                            <option *ngFor="let bookingunit of commonService.CompanySelectedList"
+                                [ngValue]="bookingunit.label">
+                                {{ bookingunit.label }}
+                            </option>
+                        </select> -->
+
+                        <input [typeahead]="taskCommonService.CompanySelectedList" [typeaheadMinLength]="0"
+                        [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                        (typeaheadNoResults)="LocationSelectNoResults($event)"
+                        (typeaheadOnSelect)="OnSelectLocation($event)" typeaheadOptionField="branchOfficeName"
+                        [ngClass]="{
+                            'is-invalid':
+                            reactiveForm.get('taskLocation').errors &&
+                                (reactiveForm.get('taskLocation').touched ||
+                                reactiveForm.get('taskLocation').dirty)
+                            }" class="form-control" type="text" formControlName="taskLocation" />
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend paheight col-6">
+                            <span class="input-group-text col-12" pTooltip="Task Priority">Task Priority <span
+                                    class="required"> &nbsp; *</span>
+                            </span>
+                        </div>
+                        <select [ngClass]="{
+                            'is-invalid':
+                            reactiveForm.get('taskPriority').errors &&
+                              (reactiveForm.get('taskPriority').touched || reactiveForm.get('taskPriority').dirty)
+                          }" class="form-control" type="text" formControlName="taskPriority">
+                            <option value="">==Select One==</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend paheight col-6">
+                            <span class="input-group-text col-12" pTooltip="Responsible Department">Res. Department
+                                <span class="required"> &nbsp; *</span>
+                            </span>
+                        </div>
+                        <input [typeahead]="taskCommonService.allDepartments" [typeaheadMinLength]="0"
+                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                            (typeaheadNoResults)="DepartmentSelectNoResults($event)"
+                            (typeaheadOnSelect)="OnSelectDepartment($event)" typeaheadOptionField="departmentName"
+                            [ngClass]="{
+                                'is-invalid':
+                                reactiveForm.get('responsibleDeptName').errors &&
+                                    (reactiveForm.get('responsibleDeptName').touched ||
+                                    reactiveForm.get('responsibleDeptName').dirty)
+                                }" class="form-control" type="text" formControlName="responsibleDeptName" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend paheight col-6">
+                            <span class="input-group-text col-12" pTooltip="Responsible Section">Res. Section <span
+                                    class="required"> &nbsp; *</span>
+                            </span>
+                        </div>
+                        <input [typeahead]="taskCommonService.allSections" [typeaheadMinLength]="0"
+                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                            (typeaheadNoResults)="SectionSelectNoResults($event)"
+                            (typeaheadOnSelect)="OnSelectSection($event)" typeaheadOptionField="sectionName" [ngClass]="{
+                                'is-invalid':
+                                reactiveForm.get('responsibleSectionName').errors &&
+                                    (reactiveForm.get('responsibleSectionName').touched ||
+                                    reactiveForm.get('responsibleSectionName').dirty)
+                                }" class="form-control" type="text" formControlName="responsibleSectionName" />
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend paheight col-6">
+                            <span class="input-group-text col-12" pTooltip="Remarks">Remarks
+                            </span>
+                        </div>
+                        <input class="form-control" type="text" formControlName="remarks" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend paheight col-6">
+                            <span class="input-group-text col-12" pTooltip="File Upload">File Upload
+                            </span>
+                        </div>
+                        <input type="file" (change)="onFileChange($event)" />
+                    </div>
+                </div>
+                <!-- <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">File Upload</label>
+                        <input type="file" (change)="onFileChange($event)" />
+                    </div>
+                </div> -->
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="alert">
+            <button type="button" (click)="onSubmit()" class="button-save mr-2" role="button">
+                <i class="fa fa-save mr-2"></i> Save
+            </button>
+            <button (click)="OnClear()" class="button-clear mr-2" role="button">
+                <i class="fa fa-refresh mr-2"></i>Clear
+            </button>
+            <!-- <button (click)="bsModalRef.hide()" class="button-back mr-2" role="button">
+                <i class="fa fa-arrow-left mr-2"></i>Back
+            </button> -->
+
+        </div>
+    </div>
+</p-panel>

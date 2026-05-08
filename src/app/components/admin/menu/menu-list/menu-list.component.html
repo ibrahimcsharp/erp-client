@@ -1,0 +1,174 @@
+<p-panel header="Menu List" [toggleable]="true">
+  <div class="row">
+    <!-- <div class="col-md-6">
+      <p-panelMenu [model]="items" [style]="{ width: '300px' }"></p-panelMenu>
+    </div> -->
+    <div class="col-md-6 offset-md-3">
+      <app-menu-create #id (ToCreate)="GetMenuList()"></app-menu-create>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <p-table
+        #dt
+        *ngIf="menuList.length > 0"
+        [value]="menuList"
+        [globalFilterFields]="[
+          'title',
+          'parentName',
+          'path',
+          'active',
+          'sortOrder',
+          'icon',
+          'type',
+          'remarks'
+        ]"
+        dataKey="id"
+        editMode="row"
+        [scrollable]="true"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]"
+        >>
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+            <input
+              type="text"
+              pInputText
+              size="50"
+              placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')"
+              style="float: right"
+            />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+            <th>SL</th>
+            <th [pSortableColumn]="'title'">Menu</th>
+            <th [pSortableColumn]="'parentName'">Parent Menu</th>
+            <th [pSortableColumn]="'path'">Path</th>
+            <th [pSortableColumn]="'active'">Is Active</th>
+            <th [pSortableColumn]="'sortOrder'">Sort Order</th>
+            <th [pSortableColumn]="'icon'">Icon</th>
+            <!-- <th [pSortableColumn]="'icon'">Icon Name</th> -->
+            <th [pSortableColumn]="'type'">Type</th>
+            <th [pSortableColumn]="'remarks'">Remarks</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filter($event.target.value, 'title', 'contains')"
+                class="p-column-filter uppercase"
+              />
+            </td>
+            <td>
+              <input
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter($event.target.value, 'parentName', 'contains')
+                "
+                class="p-column-filter uppercase"
+              />
+            </td>
+            <td>
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filter($event.target.value, 'path', 'contains')"
+                class="p-column-filter uppercase"
+              />
+            </td>
+            <td>
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filter($event.target.value, 'active', 'contains')"
+                class="p-column-filter uppercase"
+              />
+            </td>
+            <td>
+              <input
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter($event.target.value, 'sortOrder', 'contains')
+                "
+                class="p-column-filter uppercase"
+              />
+            </td>
+            <!-- <td>
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filter($event.target.value, 'icon', 'contains')"
+                class="p-column-filter uppercase"
+              />
+            </td> -->
+            <td>
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filter($event.target.value, 'icon', 'contains')"
+                class="p-column-filter uppercase"
+              />
+            </td>
+            <td>
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filter($event.target.value, 'type', 'contains')"
+                class="p-column-filter uppercase"
+              />
+            </td>
+            <td>
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filter($event.target.value, 'remarks', 'contains')"
+                class="p-column-filter uppercase"
+              />
+            </td>
+            <td></td>
+          </tr>
+        </ng-template>
+        <ng-template
+          pTemplate="body"
+          let-rowData
+          let-editing="editing"
+          let-ri="rowIndex"
+        >
+          <tr [pEditableRow]="rowData" class="center">
+            <td>{{ ri + 1 }}</td>
+            <td>{{ rowData.title }}</td>
+            <td>{{ rowData.parentName }}</td>
+            <td>{{ rowData.path }}</td>
+            <td>{{ rowData.active }}</td>
+            <td>{{ rowData.sortOrder }}</td>
+            <!-- <td>
+              <app-feather-icons [icon]="rowData.icon"></app-feather-icons>
+            </td> -->
+            <td>
+              {{ rowData.icon }}
+            </td>
+            <td>{{ rowData.type }}</td>
+            <td>{{ rowData.remarks }}</td>
+            <td>
+              <button class="btn btn-info btn-xs" (click)="Edit(rowData)">
+                <i class="fa fa-edit"></i> Edit
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</p-panel>

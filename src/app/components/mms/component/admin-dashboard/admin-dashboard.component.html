@@ -1,0 +1,468 @@
+<p-panel>
+    <!-- <ng-template pTemplate="icon">
+        <button (click)="SyncData()" pTooltip="Sync Data"
+            class="btn btn-info btn-xs mr-2">
+            <i class="fa fa-recyle" aria-hidden="true"></i> Sync
+        </button>
+        <button pButton icon="pi pi-plus" class="p-button-icon mr-2"></button>
+    </ng-template> -->
+    <p-header>
+        <div class="ui-helper-clearfix">
+            <span class="ui-panel-title">Token & Meal Count &nbsp;</span>
+
+            <!-- <button *ngIf="authService.decodedToken?.unique_name =='010100006' || 
+                authService.decodedToken?.unique_name == '010801002' || 
+                authService.decodedToken?.unique_name == '010100079' || 
+                authService.decodedToken?.unique_name == '010100383' || 
+                authService.decodedToken?.unique_name == '010100474'" pButton type="button" icon="pi pi-refresh"
+                class="btn btn-info btn-xs mr-2" (click)="SyncData()"></button> -->
+
+        </div>
+    </p-header>
+
+    <div class="row">
+        <!-- <div class="col-xl-12 col-md-6 xl-50" *ngIf="displayMessage">
+            <div class="card o-hidden widget-cards">
+                <div class="bg-primary card-body">
+                    <div class="media static-top-widget row">
+                        <div class="icons-widgets col-1">
+                            <div class="align-self-center text-center">
+                                <app-feather-icons [icon]="'box'" class="font-secondary"></app-feather-icons>
+                            </div>
+                        </div>
+                        <div class="media-body col-11">
+                            <span class="m-0 text-left"
+                                style="font-size: 38px;font-weight: 600;">{{errorMessage}}</span>
+                            <span *ngIf="displayMessage" style="background-color: red;color: white;">{{errorMessage}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-xl-6 col-md-6 xl-50">
+            <div class="card o-hidden widget-cards">
+                <div class="bg-secondary card-body">
+                    <div class="media static-top-widget row">
+                        <div class="icons-widgets col-2">
+                            <div class="align-self-center text-center">
+                                <app-feather-icons [icon]="'navigation'" class="font-warning"></app-feather-icons>
+                            </div>
+                        </div>
+                        <div class="media-body col-10">
+                            <span class="m-0 text-left" style="font-size: 38px;font-weight: 600;">Total Token Count:
+                                {{totalTokenCount}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6 xl-50">
+            <div class="card o-hidden widget-cards">
+                <div class="bg-primary card-body">
+                    <div class="media static-top-widget row">
+                        <div class="icons-widgets col-2">
+                            <div class="align-self-center text-center">
+                                <app-feather-icons [icon]="'box'" class="font-secondary"></app-feather-icons>
+                            </div>
+                        </div>
+                        <div class="media-body col-10">
+                            <span class="m-0 text-left" style="font-size: 38px;font-weight: 600;">Total Meal Count:
+                                {{totalLunchTakenCount}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-panel>
+
+<div class="row mt-2">
+    <div class="col-xl-4 col-md-6 xl-50">
+        <p-panel header="Token Count" [toggleable]="true">
+
+            <div class="row">
+                <div class="col-xl-6 col-md-6 xl-50">
+                    <div class="card o-hidden widget-cards">
+                        <div class="bg-sco card-body">
+                            <div class="media static-top-widget row">
+                                <div class="icons-widgets col-4">
+                                    <div class="align-self-center text-center">
+                                        <app-feather-icons [icon]="'navigation'"
+                                            class="font-warning"></app-feather-icons>
+                                    </div>
+                                </div>
+                                <div class="media-body col-8">
+                                    <span class="m-0 text-left" style="font-weight: 500;">SCO Token Count:
+                                        {{scoTokenCount}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 xl-50">
+                    <div class="card o-hidden widget-cards">
+                        <div class="bg-sara card-body">
+                            <div class="media static-top-widget row">
+                                <div class="icons-widgets col-4">
+                                    <div class="align-self-center text-center">
+                                        <app-feather-icons [icon]="'box'" class="font-secondary"></app-feather-icons>
+                                    </div>
+                                </div>
+                                <div class="media-body col-8">
+                                    <span class="m-0 text-left" style="font-weight: 500;">SaRa Token Count:
+                                        {{saraTokenCount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <!-- <div class="card-header"> </div> -->
+                <div class="card-body">
+                    <p-table #dt [value]="lstAdminDashboardInfo" [globalFilterFields]="[
+                            'employeeId',
+                            'employeeName',
+                            'havingToken',
+                            'company'
+                            ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+                        [showCurrentPageReport]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+                        <ng-template pTemplate="caption">
+                            <div class="ui-helper-clearfix" style="text-align: left">
+                                <input type="text" pInputText size="20" placeholder="Global Filter"
+                                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr class="bc">
+                                <th style="width: 30px!important;">SL</th>
+                                <th [pSortableColumn]="'employeeId'">
+                                    Employee Id
+                                    <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'employeeName'">
+                                    Employee Name
+                                    <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'havingToken'">
+                                    Token
+                                    <p-sortIcon [field]="'havingToken'" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'company'">
+                                    Company
+                                    <p-sortIcon [field]="'company'" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input pInputText type="text" style="max-width: 90px!important;"
+                                        (input)=" dt.filter($event.target.value, 'employeeId', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text" style="max-width: 90px!important;"
+                                        (input)="dt.filter($event.target.value, 'employeeName', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text" style="max-width: 90px!important;"
+                                        (input)="dt.filter($event.target.value, 'havingToken', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text" style="max-width: 90px!important;"
+                                        (input)="dt.filter($event.target.value, 'company', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                            <tr class="center">
+                                <td style="width: 30px!important;">{{ ri + 1 }}</td>
+                                <td>{{ rowData.employeeId }}</td>
+                                <td>{{ rowData.employeeName }}</td>
+                                <td>{{ rowData.havingToken }}</td>
+                                <td>{{ rowData.company }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-panel>
+
+    </div>
+
+    <div class="col-xl-4 col-md-6 xl-50">
+        <p-panel header="Meal Count" [toggleable]="true">
+
+            <div class="row">
+                <div class="col-xl-6 col-md-6 xl-50">
+                    <div class="card o-hidden widget-cards">
+                        <div class="bg-sco card-body">
+                            <div class="media static-top-widget row">
+                                <div class="icons-widgets col-4">
+                                    <div class="align-self-center text-center">
+                                        <app-feather-icons [icon]="'navigation'"
+                                            class="font-warning"></app-feather-icons>
+                                    </div>
+                                </div>
+                                <div class="media-body col-8">
+                                    <span class="m-0 text-left" style="font-weight: 500;">SCO Meal Count:
+                                        {{scoLunchTakenCount}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 xl-50">
+                    <div class="card o-hidden widget-cards">
+                        <div class="bg-sara card-body">
+                            <div class="media static-top-widget row">
+                                <div class="icons-widgets col-4">
+                                    <div class="align-self-center text-center">
+                                        <app-feather-icons [icon]="'box'" class="font-secondary"></app-feather-icons>
+                                    </div>
+                                </div>
+                                <div class="media-body col-8">
+                                    <span class="m-0 text-left" style="font-weight: 500;">SaRa Meal Count:
+                                        {{saraLunchTakenCount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <!-- <div class="card-header"> </div> -->
+                <div class="card-body">
+                    <p-table #dth [value]="lstAdminDashboardLunchTakenInfo" [globalFilterFields]="[
+                            'employeeId',
+                            'employeeName',
+                            'tokenNumber',
+                            'company'
+                            ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+                        [showCurrentPageReport]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+                        <ng-template pTemplate="caption">
+                            <div class="ui-helper-clearfix" style="text-align: left">
+                                <input type="text" pInputText size="20" placeholder="Global Filter"
+                                    (input)="dth.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr class="bc">
+                                <th style="width: 30px!important;">SL</th>
+                                <th [pSortableColumn]="'employeeId'">
+                                    Employee Id
+                                    <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'employeeName'">
+                                    Employee Name
+                                    <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'tokenNumber'">
+                                    Token
+                                    <p-sortIcon [field]="'tokenNumber'" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'company'">
+                                    Company
+                                    <p-sortIcon [field]="'company'" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input pInputText type="text" style="max-width: 70px!important;"
+                                        (input)=" dth.filter($event.target.value, 'employeeId', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text" style="max-width: 70px!important;"
+                                        (input)="dth.filter($event.target.value, 'employeeName', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text" style="max-width: 70px!important;"
+                                        (input)="dth.filter($event.target.value, 'tokenNumber', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text" style="max-width: 70px!important;"
+                                        (input)="dth.filter($event.target.value, 'company', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td></td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                            <!-- <tr class="center" style="background-color: red;" *ngIf="rowData.hasMealToken == 0"> -->
+                            <!-- <tr class="center" style="background-color: white;" *ngIf="rowData.hasMealToken == 1"> -->
+                            <tr class="center"
+                                [ngClass]="{'tr-bg-lunch-has-token': rowData.hasMealToken == 0, 'tr-bg-lunch-no-token': rowData.hasMealToken == 1}">
+                                <td style="width: 30px!important;">{{ ri + 1 }}</td>
+                                <td>{{ rowData.employeeId }}</td>
+                                <td>{{ rowData.employeeName }}</td>
+                                <td>{{ rowData.tokenNumber }}</td>
+                                <td>{{ rowData.company }}</td>
+                                <td >
+                                    <a type="button" class="btn btn-sm" title="Generate Token" *ngIf="rowData.hasMealToken == 0"
+                                        (click)="CreatePersonToken(rowData)">
+                                        <i class="fa fa-refresh"></i>   
+                                    </a>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-panel>
+    </div>
+
+    <div class="col-xl-4 col-md-6 xl-50">
+        <p-panel header="Guest Count" [toggleable]="true">
+
+            <div class="row">
+                <div class="col-xl-12 col-md-6 xl-50">
+                    <div class="card o-hidden widget-cards">
+                        <div class="bg-common card-body">
+                            <div class="media static-top-widget row">
+                                <div class="icons-widgets col-4">
+                                    <div class="align-self-center text-center">
+                                        <app-feather-icons [icon]="'navigation'"
+                                            class="font-warning"></app-feather-icons>
+                                    </div>
+                                </div>
+                                <div class="media-body col-8">
+                                    <span class="m-0 text-left" style="font-size: 16px;font-weight: 500;">Total Guest
+                                        Count:
+                                        {{totalGuestCount}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="card">
+                <!-- <div class="card-header"> </div> -->
+                <div class="card-body">
+                    <p-table #dtg [value]="lstAdminDashboardGuestInfo" [globalFilterFields]="[
+                            'employeeId',
+                            'employeeName',
+                            'guestId'
+                            ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+                        [showCurrentPageReport]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+                        <ng-template pTemplate="caption">
+                            <div class="ui-helper-clearfix" style="text-align: left">
+                                <input type="text" pInputText size="20" placeholder="Global Filter"
+                                    (input)="dtg.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr class="bc">
+                                <th style="width: 30px!important;">SL</th>
+                                <th [pSortableColumn]="'employeeId'">
+                                    Employee Id
+                                    <p-sortIcon [field]="'employeeId'" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'employeeName'">
+                                    Employee Name
+                                    <p-sortIcon [field]="'employeeName'" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'guestId'">
+                                    Guest ID
+                                    <p-sortIcon [field]="'guestId'" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input pInputText type="text" style="max-width: 90px!important;"
+                                        (input)=" dtg.filter($event.target.value, 'employeeId', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text" style="max-width: 90px!important;"
+                                        (input)="dtg.filter($event.target.value, 'employeeName', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text" style="max-width: 90px!important;"
+                                        (input)="dtg.filter($event.target.value, 'guestId', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                            <tr class="center">
+                                <td style="width: 30px!important;">{{ ri + 1 }}</td>
+                                <td>{{ rowData.employeeId }}</td>
+                                <td>{{ rowData.employeeName }}</td>
+                                <td>{{ rowData.guestId }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+
+        </p-panel>
+    </div>
+
+</div>
+
+<p-dialog header="{{errorMessage}}" [baseZIndex]="10000">
+</p-dialog>

@@ -1,0 +1,98 @@
+<p-tabView>
+    <p-tabPanel header="Pending {{taskCommonService.spPendingTaskList.length}}">
+        <p-table  [value]="taskCommonService.spPendingTaskList"
+            [globalFilterFields]="['id', 'title','createBy','createDate']" dataKey="id"
+            [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">>
+            <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix" style="text-align: left">
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="bc">
+                    <th>SL</th>
+                    <th>Task No.</th>
+                    <th>Task Title</th>
+                    <th>Created By</th>
+                    <th>Created Date</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData" class="center">
+                    <td>{{ ri + 1 }}</td>
+                    <td>{{ rowData.id }}</td>
+                    <td>{{ rowData.title }}</td>
+                    <td>{{ rowData.createBy }}</td>
+                    <td>{{ rowData.createDate }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-tabPanel>    
+    <p-tabPanel header="In Progress {{taskCommonService.spInProgressTaskList.length}}">
+        <p-table  [value]="taskCommonService.spInProgressTaskList"
+            [globalFilterFields]="['id', 'title','createBy','createDate']" dataKey="id"
+            [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">>
+            <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix" style="text-align: left">
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="bc">
+                    <th>SL</th>
+                    <th>Task No.</th>
+                    <th>Task Title</th>
+                    <th>Created By</th>
+                    <th>Created Date</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData" class="center">
+                    <td>{{ ri + 1 }}</td>
+                    <td>{{ rowData.id }}</td>
+                    <td>{{ rowData.title }}</td>
+                    <td>{{ rowData.createBy }}</td>
+                    <td>{{ rowData.createDate }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-tabPanel>    
+    <p-tabPanel header="Done {{taskCommonService.spDoneTaskList.length}}">
+        <p-table  [value]="taskCommonService.spDoneTaskList"
+            [globalFilterFields]="['id', 'title','createBy','createDate']" dataKey="id"
+            [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">>
+            <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix" style="text-align: left">
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="bc">
+                    <th>SL</th>
+                    <th>Task No.</th>
+                    <th>Task Title</th>
+                    <th>Created By</th>
+                    <th>Created Date</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData" class="center">
+                    <td>{{ ri + 1 }}</td>
+                    <td>{{ rowData.id }}</td>
+                    <td>{{ rowData.title }}</td>
+                    <td>{{ rowData.createBy }}</td>
+                    <td>{{ rowData.createDate }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-tabPanel>    
+</p-tabView>

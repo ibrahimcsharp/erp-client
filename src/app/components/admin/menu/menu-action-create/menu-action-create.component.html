@@ -1,0 +1,133 @@
+<form [formGroup]="customForm" class="needs-validation" autocomplete="off">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Menu<span class="required">&nbsp;*</span></span
+            >
+          </div>
+
+          <input
+            [ngClass]="{
+              'is-invalid':
+                customForm.get('title').errors &&
+                (customForm.get('title').touched ||
+                  customForm.get('title').dirty)
+            }"
+            id="title"
+            formControlName="title"
+            class="form-control"
+            [isAnimated]="true"
+            [typeahead]="menuList"
+            [typeaheadMinLength]="0"
+            [typeaheadScrollable]="true"
+            [typeaheadOptionsInScrollableView]="8"
+            (typeaheadNoResults)="typeaheadNoResults($event)"
+            (typeaheadOnSelect)="onSelectCustomer($event)"
+            typeaheadOptionField="title"
+            class="form-control"
+          />
+
+          <!-- <select
+            [ngClass]="{
+              'is-invalid':
+                customForm.get('menuId').errors &&
+                (customForm.get('menuId').touched ||
+                  customForm.get('menuId').dirty)
+            }"
+            id="menuId"
+            formControlName="menuId"
+            class="form-control"
+          >
+            <option value="">==Select One==</option>
+            <option *ngFor="let item of menuList" [ngValue]="item.id">
+              {{ item.title }}
+            </option>
+          </select> -->
+        </div>
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Action Url<span class="required">&nbsp;*</span></span
+            >
+          </div>
+
+          <input
+            [ngClass]="{
+              'is-invalid':
+                customForm.get('roleName').errors &&
+                (customForm.get('roleName').touched ||
+                  customForm.get('roleName').dirty)
+            }"
+            id="roleName"
+            formControlName="roleName"
+            class="form-control"
+            [isAnimated]="true"
+            [typeahead]="actionsList"
+            [typeaheadMinLength]="0"
+            [typeaheadScrollable]="true"
+            [typeaheadOptionsInScrollableView]="12"
+            (typeaheadNoResults)="typeaheadNoResultsForAction($event)"
+            (typeaheadOnSelect)="onSelectAction($event)"
+            typeaheadOptionField="actionName"
+            class="form-control"
+          />
+
+          <!-- <select
+            [ngClass]="{
+              'is-invalid':
+                customForm.get('roleId').errors &&
+                (customForm.get('roleId').touched ||
+                  customForm.get('roleId').dirty)
+            }"
+            id="actionListId"
+            formControlName="roleId"
+            class="form-control"
+          >
+            <option value="">==Select One==</option>
+            <option *ngFor="let item of actionsList" [ngValue]="item.id">
+              {{ item.actionName }}
+            </option>
+          </select> -->
+        </div>
+
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Action Name<span class="required">&nbsp;*</span></span
+            >
+          </div>
+
+          <input
+            [ngClass]="{
+              'is-invalid':
+                customForm.get('actionName').errors &&
+                (customForm.get('actionName').touched ||
+                  customForm.get('actionName').dirty)
+            }"
+            id="actionName"
+            formControlName="actionName"
+            class="form-control uppercase"
+          />
+        </div>
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Remarks</span>
+          </div>
+
+          <input id="remarks" formControlName="remarks" class="form-control" />
+        </div>
+        <div class="input-group input-group-sm mt-3">
+          <button (click)="OnSubmit()" class="btn btn-success btn-xs mr-2">
+            <i class="fa fa-save"></i> Save
+          </button>
+          <button (click)="OnClear()" class="btn btn-primary btn-xs">
+            <i class="fa fa-refresh"></i> Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

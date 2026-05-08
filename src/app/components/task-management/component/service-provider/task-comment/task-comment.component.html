@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h5 class="modal-title f-w-600" id="exampleModalLabel">{{ title }}</h5>
+    <!-- <h5 class="modal-title f-w-600" id="exampleModalLabel"></h5> -->
+    <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <app-task-comment-create></app-task-comment-create>
+    <app-task-comment-list></app-task-comment-list>
+</div>
+<div class="modal-footer">
+    <div class="alert">  
+        <button (click)="bsModalRef.hide()" class="btn btn-outline-primary" role="button">
+            <i class="fa fa-arrow-left mr-2"></i>Back
+        </button>
+    </div>
+</div>

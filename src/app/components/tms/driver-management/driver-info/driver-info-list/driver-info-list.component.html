@@ -1,0 +1,102 @@
+<p-panel header="Driver Info" [toggleable]="true">
+  <p-table #dt [value]="AllDriverModelList" dataKey="id" editMode="row" [scrollable]="true" [paginator]="true"
+    [rows]="200" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]">
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <button (click)="OpenNew()" pTooltip="Add New Driver" class="btn btn-success btn-xs mr-2">
+          <i class="fa fa-plus" aria-hidden="true"></i> New
+        </button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 30px">SL</th>
+        <th>Employee Id</th>
+        <th>Driver Name</th>
+        <th>Mobile No</th>
+        <th>NID</th>
+        <th>License Expiry Date</th>
+        <th>Service Status</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'employeeId', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'employeeName', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'mobileNo', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'nId', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td>
+        </td>
+        <td>
+          <input pInputText type="text" (input)="dt.filter($event.target.value, 'employeeStatus', 'contains')"
+            class="p-column-filter" style=" width: 100%; " />
+        </td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-driver let-rowIndex="rowIndex">
+      <tr>
+        <td style="width: 30px">{{ rowIndex+1 }}</td>
+        <td>{{driver.employeeId}}</td>
+        <td>{{driver.employeeName}}</td>
+        <td>{{driver.mobileNo}}</td>
+        <td>{{driver.nId}}</td>
+        <td [ngStyle]="{ 'background-color': driver.color }">{{driver.licenseExpiryDate | date:'MM dd, yyyy'}}</td>
+        <td
+          [ngClass]="{ 'text-success':driver.employeeStatus === 'Active',  'text-danger':driver.employeeStatus === 'Inactive' }">
+          {{driver.employeeStatus}}</td>
+
+        <td>
+          <ng-container *ngIf="driver.fileCount > 0">
+            <button class="btn btn-xs btn-outline-success mr-2" (click)="FileViewDriverLicense(driver)">
+              <i class="fa fa-file"></i>
+            </button>
+          </ng-container>
+          <button class="btn btn-xs btn-outline-success mr-2" (click)="edit(driver)">
+            <i class="fa fa-pencil"></i> Edit
+          </button>
+        </td>
+
+      </tr>
+    </ng-template>
+
+
+  </p-table>
+</p-panel>
+
+<p-dialog header="Driver Info Create" [(visible)]="displayCreate" [style]="{ width: '70vw' }" [baseZIndex]="10000">
+  <app-driver-info-create #CreateTmsDriver (DriverInfoList)="LoadDriver()"></app-driver-info-create>
+</p-dialog>
+
+<p-dialog header="File Info" [(visible)]="displayBasic" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+  <p-table [value]="commonService.commonFilesList" dataKey="id" [scrollable]="true">
+    <ng-template pTemplate="header">
+      <tr style="border: 0 !important" class="bc">
+        <th style="width: 20px; position: relative;">SL</th>
+        <th style="width: 80px;">File</th>
+        <th style="width: 40px;">Upload Date</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+      <tr style="border: 0 !important" [pEditableRow]="rowData" class="center">
+        <td style="width: 20px; position: relative;">{{ ri + 1 }}</td>
+        <td style="width: 80px;"> <a href="{{url}}{{ rowData.location}}" target="_blank">{{rowData.docTitle}}</a>
+        </td>
+        <td style="width: 40px;">{{rowData.uploadDate | date:'dd/MM/yyyy h:mm a'}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>

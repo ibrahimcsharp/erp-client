@@ -1,0 +1,106 @@
+<div class="modal-header"  style="background-color: rgb(87, 147, 203)">
+    <!-- <h5 class="modal-title f-w-600" id="exampleModalLabel">{{ title }}</h5> -->
+    <h5 class="modal-title f-w-600" id="exampleModalLabel" style="color: white">Task Details</h5>
+    <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <table class="table table-bordered table-hover table-striped">       
+        <tr>
+            <th>Task Title</th>
+            <td>{{model.title}}</td>
+        </tr>
+        <tr>
+            <th>Task Description</th>
+            <td>{{model.description}}</td>
+        </tr>
+        <tr>
+            <th>Task Location</th>
+            <td>{{model.taskLocation}}</td>
+        </tr>
+        <tr>
+            <th>Responsible Dept</th>
+            <td>{{model.responsibleDeptName}}</td>
+        </tr>
+        <tr>
+            <th>Company</th>
+            <td>{{model.companyName}}</td>
+        </tr>
+        <tr>
+            <th>Task Priority</th>
+            <td>{{model.taskPriority}}</td>
+        </tr>
+        <tr>
+            <th>Remarks</th>
+            <td>{{model.remarks}}</td>
+        </tr>
+        <tr>
+            <th>Task Creator</th>
+            <td>{{model.taskCreatorName}}</td>
+        </tr>
+        <tr>
+            <th>Task Creator Dept.</th>
+            <td>{{model.taskCreatorDept}}</td>
+        </tr>
+        <tr>
+            <th>Task Create Date</th>
+            <td>{{model.createDate | date:'dd/MM/yyyy, h:mm a'}}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{model.taskStatusText}}</td>
+        </tr>
+        <tr>
+            <th>Is SP Accepted</th>
+            <td>{{model.serviceProviderAcceptText}}</td>
+        </tr>
+        <tr>
+            <th>SP Accepted Date</th>
+            <td>{{model.serviceProviderAcceptDate | date:'dd/MM/yyyy, h:mm a'}}</td>
+        </tr>
+        <tr>
+            <th>Start Date</th>
+            <td>{{model.taskStartDate | date:'dd/MM/yyyy, h:mm a'}}</td>
+        </tr>
+        <tr>
+            <th>End Date</th>
+            <td>{{model.taskEndDate | date:'dd/MM/yyyy, h:mm a'}}</td>
+        </tr>
+        <tr>
+            <th>Task Progress</th>
+            <td>{{model.taskProgress}} %</td>
+        </tr>
+        <tr>
+            <th>Service Provider</th>
+            <td>{{model.serviceProvider}}</td>
+        </tr>
+        <tr>
+            <th>Service Provider Name</th>
+            <td>{{model.serviceProviderName}}</td>
+        </tr>
+        <tr>
+            <th>Service Provider Dept</th>
+            <td>{{model.taskServiceProviderDept}}</td>
+        </tr>
+        <tr>
+            <th>Team Leader</th>
+            <td>{{model.tlName}}</td>
+        </tr>
+        <tr>
+            <th>Team Leader Accept</th>
+            <td>{{model.tlAcceptDate | date:'dd/MM/yyyy, h:mm a'}}</td>
+        </tr>
+        <tr>
+            <th>Team Leader Assign To</th>
+            <td>{{model.tlTaskAssignName}}</td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer">
+    <div class="alert">
+        <button (click)="bsModalRef.hide()" class="btn btn-outline-primary" role="button">
+            <i class="fa fa-arrow-left mr-2"></i>Back
+        </button>
+    </div>
+</div>

@@ -1,0 +1,188 @@
+<p>team-setup works!</p>
+
+<p-panel header="Team Setup" [toggleable]="true">
+    <!-- <ng-template pTemplate="icons">
+      <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+        <span class="pi pi-cog"></span>
+      </button>
+      <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template> -->
+  
+    <form [formGroup]="PermissionForm">
+      <section>
+        <div class="row">
+          <div class="col-md-6">
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border">Supervisor & Employee Info</legend>
+              <div class="row">               
+                    <div class="col-md-10">
+                        <div class="form-group">
+                         <div class="input-group input-group-sm">
+                           <div class="input-group-prepend">
+                             <span class="input-group-text">Supervisor Name<span class="required">&nbsp;*</span></span>
+                           </div>
+                           <input [ngClass]="{
+                                   'is-invalid':
+                                   PermissionForm.get('supervisorName').errors &&
+                                     (PermissionForm.get('supervisorName').touched ||
+                                     PermissionForm.get('supervisorName').dirty)
+                                 }" formControlName="supervisorName" [typeahead]="commonService.TeamSetupEmployeeList"
+                             [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                             (typeaheadNoResults)="typeaheadNoResultsSupervisor($event)" (typeaheadOnSelect)="onSelectSupervisor($event)"
+                             typeaheadOptionField="label" class="form-control" />
+                         </div>
+                       </div>
+                    </div>
+                                  
+                    <!-- <div class="col-md-10">
+                        <div class="form-group">
+                         <div class="input-group input-group-sm">
+                           <div class="input-group-prepend">
+                             <span class="input-group-text">Employee Name<span class="required">&nbsp;*</span></span>
+                           </div>
+                           <input [ngClass]="{
+                                   'is-invalid':
+                                   PermissionForm.get('employeeName').errors &&
+                                     (PermissionForm.get('employeeName').touched ||
+                                     PermissionForm.get('employeeName').dirty)
+                                 }" formControlName="employeeName" [typeahead]="commonService.TeamSetupEmployeeList"
+                             [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                             (typeaheadNoResults)="typeaheadNoResults($event)" (typeaheadOnSelect)="onSelectEmployee($event)"
+                             typeaheadOptionField="label" class="form-control" />
+                         </div>
+                       </div>
+                    </div> -->
+
+                    <div class="col-md-10">
+                      <div class="form-group">
+                        <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"
+                              >Department</span
+                            >
+                          </div>
+                          <input
+                            formControlName="attentionDept"
+                            [typeahead]="commonService.GatePassEmployeeDepartmentList"
+                            [typeaheadMinLength]="0"
+                            [typeaheadScrollable]="true"
+                            [typeaheadOptionsInScrollableView]="8"
+                            (typeaheadNoResults)="typeaheadNoResultsForDepartment($event)"
+                            (typeaheadOnSelect)="onSelectEmployeeDepartment($event)"
+                            typeaheadOptionField="label"
+                            class="form-control"
+                         
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="col-md-10">
+                      <div class="form-group">
+                        <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"
+                              >Section</span
+                            >
+                          </div>
+                          <input
+                            formControlName="section"
+                            [typeahead]="commonService.GatePassEmployeeDepartmentList"
+                            [typeaheadMinLength]="0"
+                            [typeaheadScrollable]="true"
+                            [typeaheadOptionsInScrollableView]="8"
+                            (typeaheadNoResults)="typeaheadNoResultsForDepartment1($event)"
+                            (typeaheadOnSelect)="onSelectEmployeeDepartment1($event)"
+                            typeaheadOptionField="label"
+                            class="form-control"
+                         
+                          />
+                        </div>
+                      </div>
+                    </div>
+                      
+                    <div class="col-md-2">
+                        <div class="form-group">
+                          <button type="button" class="btn btn-outline-success btn-xs" (click)="addUserToList()"><i class="fa fa-plus" aria-hidden="true"></i> Add </button>
+                        </div>
+                    </div>
+              </div>
+            </fieldset>    
+          </div>
+          <div class="col-md-6">
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border">Employee List Under Supervisor</legend>
+              <div class="row">
+                <div class="col-md-12">
+                  <p-table [value]="AllGatePassEmployeeList"  #dt  editMode="row" *ngIf="AllGatePassEmployeeList.length>0">
+                    <ng-template pTemplate="header">
+                      <tr class="bc">
+                        <th>SL</th>
+                        <th>Employee Id</th>
+                        <th>Employee Name</th>
+                        
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                       <tr [pEditableRow]="rowData" [ngStyle]="{ 'background-color': '#e0fede' }">
+                        <td>{{ rowIndex+1 }}</td>
+                        <td>{{ rowData.employeeId}}</td>
+                        <td>{{ rowData.employeeName}}</td>
+                      </tr>
+                    </ng-template>
+
+                  </p-table>
+                </div>
+              </div>   
+            </fieldset>
+          </div>
+          <div class="col-md-6">
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border">New Employee List</legend>
+              <div class="row" *ngIf="AllGatePassNewEmployeeList.length>0">
+                <div class="col-md-12">                    
+                    <p-table [value]="AllGatePassNewEmployeeList"  #dt  editMode="row">
+                      <ng-template pTemplate="header">
+                        <tr class="bc">
+                          <th>SL</th>
+                          <th>Employee Id</th>
+                          <th>Employee Name</th>
+                          <th>Department</th>
+                          <th>Section</th>
+                          <th>Action</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                         <tr [pEditableRow]="rowData">
+                          <td>{{ rowIndex+1 }}</td>
+                          <td>{{ rowData.employeeId}}</td>
+                          <td>{{ rowData.employeeName}}</td>
+                          <td>{{ rowData.department}}</td>
+                          <td>{{ rowData.section}}</td>
+                          <td>
+                            <a class="btn btn-outline-primary btn-xs ml-1" type="button" (click)="deleteItem(rowData)"> <i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                        </tr>
+                      </ng-template>
+
+                    </p-table>   
+                </div> 
+                
+                <div class="col-md-4">
+                    <div class="form-group">
+                      <button style="margin-top: 8px;" type="button" class="btn btn-outline-success btn-xs" (click)="onSubmit()"><i class="fa fa-file" aria-hidden="true"></i> Save Employees </button>
+                    </div>
+                </div>           
+              </div>
+            </fieldset>
+          </div>
+  
+  
+        </div>
+
+      </section>
+  
+    </form>
+
+</p-panel>
+

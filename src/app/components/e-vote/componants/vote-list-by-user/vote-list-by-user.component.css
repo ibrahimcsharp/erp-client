@@ -1,0 +1,112 @@
+th:nth-child(1) {
+  text-align: center;
+  width: 50px;
+}
+td > input:nth-child(1) {
+  text-align: center;
+  width: 100%;
+}
+td:nth-child(1) {
+  text-align: center;
+  width: 50px;
+}
+th:nth-child(2) {
+  text-align: center;
+  width: 50px;
+}
+td > input:nth-child(2) {
+  text-align: center;
+  width: 100%;
+}
+td:nth-child(2) {
+  text-align: center;
+  width: 50px;
+}
+
+th:nth-child(3) {
+  text-align: center;
+  width: 430px;
+}
+td > input:nth-child(3) {
+  text-align: center;
+  width: 100%;
+}
+td:nth-child(3) {
+  text-align: left;
+  width: 430px;
+}
+
+th:nth-child(4) {
+  text-align: center;
+  width: 80px;
+}
+td > input:nth-child(4) {
+  text-align: center;
+  width: 100%;
+}
+td:nth-child(4) {
+  text-align: left;
+  width: 80px;
+}
+
+th:nth-child(5) {
+  text-align: center;
+  width: 80px;
+}
+td > input:nth-child(5) {
+  text-align: center;
+  width: 100%;
+}
+td:nth-child(5) {
+  text-align: left;
+  width: 80px;
+}
+
+th:nth-child(6) {
+  text-align: center;
+  width: 80px;
+}
+td > input:nth-child(6) {
+  text-align: center;
+  width: 100%;
+}
+td:nth-child(6) {
+  text-align: left;
+  width: 80px;
+}
+th:nth-child(7) {
+  text-align: center;
+  width: 50px;
+}
+td > input:nth-child(7) {
+  text-align: center;
+  width: 100%;
+}
+td:nth-child(7) {
+  text-align: left;
+  width: 50px;
+}
+th:nth-child(8) {
+  text-align: center;
+  width: 60px;
+}
+td > input:nth-child(8) {
+  text-align: center;
+  width: 100%;
+}
+td:nth-child(8) {
+  text-align: left;
+  width: 60px;
+}
+th:nth-child(9) {
+  text-align: center;
+  width: 100px;
+}
+td > input:nth-child(9) {
+  text-align: center;
+  width: 100%;
+}
+td:nth-child(9) {
+  text-align: left;
+  width: 100px;
+}

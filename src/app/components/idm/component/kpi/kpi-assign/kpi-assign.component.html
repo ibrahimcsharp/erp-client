@@ -1,0 +1,495 @@
+<p-panel header="KPI ASSIGN" [toggleable]="true">
+    <ng-template pTemplate="icons">
+        <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+            <span class="pi pi-cog"></span>
+        </button>
+        <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+
+    <form [formGroup]="KpiAssignForm">
+        <section>
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">KPI ASSIGN FORM </legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">1.Department<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <input [ngClass]="{
+                                                    'is-invalid':
+                                                    KpiAssignForm.get('departmentName').errors &&
+                                                    (KpiAssignForm.get('departmentName').touched ||
+                                                    KpiAssignForm.get('departmentName').dirty)
+                                                }" formControlName="departmentName" [typeahead]="kpiDepartmentList"
+                                            [typeaheadMinLength]="0" [typeaheadScrollable]="true"
+                                            [typeaheadOptionsInScrollableView]="8"
+                                            (typeaheadNoResults)="typeaheadNoResultsForDepartment($event)"
+                                            (typeaheadOnSelect)="onSelectdept($event)" typeaheadOptionField="label"
+                                            class="form-control" />
+                                        <!-- (ngModelChange)="filterSectionListByDepartment()"  -->
+                                        <!-- (typeaheadOnSelect)="onSelectDepartment($event)"
+                                                                  (typeaheadOnSelect)="onSelectKpi($event)" -->
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">2.Employee</span>
+                                        </div>
+                                        <input [ngClass]="{
+                                            'is-invalid':
+                                            KpiAssignForm.get('employeeName').errors &&
+                                              (KpiAssignForm.get('employeeName').touched ||
+                                              KpiAssignForm.get('employeeName').dirty)
+                                          }" formControlName="employeeName"
+                                            [typeahead]="commonService.GatePassEmployeeList" [typeaheadMinLength]="0"
+                                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                                            (typeaheadNoResults)="typeaheadNoResultsEmployee($event)"
+                                            (typeaheadOnSelect)="onSelectEmployee($event)" typeaheadOptionField="label"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">3.Leader</span>
+                                        </div>
+                                        <input [ngClass]="{
+                                            'is-invalid':
+                                            KpiAssignForm.get('leaderName').errors &&
+                                              (KpiAssignForm.get('leaderName').touched ||
+                                              KpiAssignForm.get('leaderName').dirty)
+                                          }" formControlName="leaderName"
+                                            [typeahead]="commonService.GatePassEmployeeList" [typeaheadMinLength]="0"
+                                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                                            (typeaheadNoResults)="typeaheadNoResultsLeader($event)"
+                                            (typeaheadOnSelect)="onSelectLeader($event)" typeaheadOptionField="label"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">4.Co.Leader</span>
+                                        </div>
+                                        <input [ngClass]="{
+                                            'is-invalid':
+                                            KpiAssignForm.get('coLeaderName').errors &&
+                                              (KpiAssignForm.get('coLeaderName').touched ||
+                                              KpiAssignForm.get('coLeaderName').dirty)
+                                          }" formControlName="coLeaderName"
+                                            [typeahead]="commonService.GatePassEmployeeList" [typeaheadMinLength]="0"
+                                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                                            (typeaheadNoResults)="typeaheadNoResultsCoLeader($event)"
+                                            (typeaheadOnSelect)="onSelectCoLeader($event)" typeaheadOptionField="label"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" *ngIf="kpiNametrue">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">5.KPI Name<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <input [ngClass]="{
+                                            'is-invalid':
+                                            KpiAssignForm.get('kpiName').errors &&
+                                            (KpiAssignForm.get('kpiName').touched ||
+                                            KpiAssignForm.get('kpiName').dirty)
+                                        }" formControlName="kpiName" [typeahead]="kpiNameList" [typeaheadMinLength]="0"
+                                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                                            (typeaheadNoResults)="typeaheadNoResultsForKpi($event)"
+                                            (typeaheadOnSelect)="onSelectKpi($event)" typeaheadOptionField="label"
+                                            class="form-control" />
+                                        <!-- (ngModelChange)="filterSectionListByDepartment()" -->
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">6.KPI Type</span>
+                                        </div>
+                                        <select formControlName="typeName"
+                                            class="p-inputtext-sm form-control uppercase">
+                                            <option value=""> Select </option>
+                                            <option value="Dependent">Dependent</option>
+                                            <option value="Independent">Independent</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">7.Target</span>
+                                        </div>
+                                        <input type="number" id="targetNumber" formControlName="targetNumber"
+                                            class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">8.YTD</span>
+                                        </div>
+                                        <input type="number" id="ytdValue" formControlName="ytdValue"
+                                            class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">9.Weight</span>
+                                        </div>
+                                        <input type="number" id="weightNumber" formControlName="weightNumber"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" *ngIf="formatTypeTriple || formatTypeDouble">
+                            </div>
+                            <div class="col-md-6" *ngIf="formatTypeTriple || formatTypeDouble">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Format Type</span>
+                                        </div>
+                                        <select formControlName="formatTypeName"
+                                            class="p-inputtext-sm form-control uppercase" disabled>
+                                            <option value=""> Select </option>
+                                            <option value="Double">Double Column Entry</option>
+                                            <option value="Triple">Triple Column Entry</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3" *ngIf="formatTypeTriple || formatTypeDouble">
+                            </div>
+
+                            <div class="col-md-6" *ngIf="formatTypeDouble">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Col.One Title</span>
+                                        </div>
+                                        <input type="test" id="weightNumber" formControlName="doubleTypeColOne"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" *ngIf="formatTypeDouble">
+                                <div class="form-group" *ngIf="formatTypeDouble">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Col.Two Title</span>
+                                        </div>
+                                        <input type="test" id="weightNumber" formControlName="doubleTypeColTwo"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" *ngIf="formatTypeTriple">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Col.One Title</span>
+                                        </div>
+                                        <input type="test" id="weightNumber" formControlName="tripleTypeColOne"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="formatTypeTriple">
+                                <div class="form-group" *ngIf="formatTypeTriple">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Col.Two Title</span>
+                                        </div>
+                                        <input type="test" id="weightNumber" formControlName="tripleTypeColTwo"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="formatTypeTriple">
+                                <div class="form-group" *ngIf="formatTypeTriple">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Column Three</span>
+                                        </div>
+                                        <input type="test" id="weightNumber" formControlName="tripleTypeColThree"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" *ngIf="formatTypeTriple || formatTypeDouble">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Avg Col. One Title</span>
+                                        </div>
+                                        <input type="test" id="avgColOneTitle" formControlName="avgKpiOneTitle"
+                                        class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-6" *ngIf="formatTypeTriple || formatTypeDouble">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Avg Col. Two Title</span>
+                                        </div>
+                                        <input type="test" id="avgColTwoTitle" formControlName="avgKpiTwoTitle"
+                                        class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" *ngIf="formatTypeTriple || formatTypeDouble">
+                            </div>
+                            <div class="col-md-4" *ngIf="formatTypeTriple || formatTypeDouble">
+                                <button type="button" class="btn btn-outline-success-xs" 
+                                (click)="addToList()"><i class="fa fa-plus" aria-hidden="true"></i> Preview 
+                                </button>&nbsp;&nbsp;
+                            </div>
+                            <div class="col-md-4" *ngIf="formatTypeTriple || formatTypeDouble">
+                            </div>
+                            
+
+                            <div class="col-md-12">
+                                <div *ngIf="showNewkpidoubleList">
+                                    <fieldset class="scheduler-border">
+                                        <legend class="scheduler-border">KPI LIST</legend>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p-table [value]="AllNewKpiList" #dt editMode="row">
+                                                    <ng-template pTemplate="body" let-rowData let-editing="editing"
+                                                        let-rowIndex="rowIndex">
+                                                        <tr class="bc">
+                                                            <td colspan="7">
+                                                                {{ rowData.kpiName}}
+                                                            </td>
+                                                            <td colspan="2">
+                                                                Previous Year
+                                                            </td>
+                                                            <td colspan="2">
+                                                                Year
+                                                            </td>
+                                                            <td colspan="2"
+                                                                style=" padding: 2px 3px !important; color: rgb(76, 76, 76) !important; background-color: #E8ADAA !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                %
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td
+                                                                style=" width: 50px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                SL
+                                                            </td>
+                                                            <td
+                                                                style=" width: 120px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                Leader
+                                                            </td>
+                                                            <td
+                                                                style=" width: 120px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                Co-Leader
+                                                            </td>
+                                                            <td
+                                                                style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                Target
+                                                            </td>
+                                                            <td
+                                                                style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                YTD
+                                                            </td>
+                                                            <td
+                                                                style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                Type
+                                                            </td>
+                                                            <td
+                                                                style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                Month
+                                                            </td>
+                                                            <td
+                                                                style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                {{ rowData.doubleTypeColOne}}
+                                                            </td>
+                                                            <td
+                                                                style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                {{ rowData.doubleTypeColTwo}}
+                                                            </td>
+                                                            <td
+                                                                style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471!important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                {{ rowData.doubleTypeColOne}}
+                                                            </td>
+                                                            <td
+                                                                style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                {{ rowData.doubleTypeColTwo}}
+                                                            </td>
+                                                            <td
+                                                                style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                {{ rowData.avgColOneTitle}}
+                                                            </td>
+                                                            <td
+                                                                style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                {{ rowData.avgColTwoTitle}}
+                                                            </td>
+                                                        </tr>
+                                                    </ng-template>
+                                                </p-table>
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+
+
+
+
+                                <div *ngIf="showNewkpitripleList">
+                                    <fieldset class="scheduler-border">
+                                        <legend class="scheduler-border">KPI LIST</legend>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p-table [value]="AllNewKpiList" #dt editMode="row">
+                                                    <ng-template pTemplate="body" let-rowData let-editing="editing"
+                                                        let-rowIndex="rowIndex">
+                                                        <tr class="bc">
+                                                            <td colspan="10">
+                                                                {{ rowData.kpiName}}
+                                                            </td>
+                                                            <td colspan="2"
+                                                                style=" padding: 2px 3px !important; color: rgb(76, 76, 76) !important; background-color: #E8ADAA !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                %
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td
+                                                                style=" width: 50px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                SL
+                                                            </td>
+                                                            <td
+                                                                style=" width: 120px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                Leader
+                                                            </td>
+                                                            <td
+                                                                style=" width: 120px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                Co-Leader
+                                                            </td>
+                                                            <td
+                                                                style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                Target
+                                                            </td>
+                                                            <td
+                                                                style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                YTD
+                                                            </td>
+                                                            <td
+                                                                style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                Type
+                                                            </td>
+                                                            <td
+                                                                style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                Month
+                                                            </td>
+                                                            <td
+                                                                style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                {{ rowData.tripleTypeColOne}}
+                                                            </td>
+                                                            <td
+                                                                style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                {{ rowData.tripleTypeColTwo}}
+                                                            </td>
+                                                            <td
+                                                                style=" width: 80px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471!important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                {{ rowData.tripleTypeColThree}}
+                                                            </td>
+                                                            <td
+                                                                style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                {{ rowData.avgColOneTitle}}
+                                                            </td>
+                                                            <td
+                                                                style=" width: 100px; padding: 2px 3px !important; color: rgb(255, 255, 255) !important; background-color: #E77471 !important; text-align: center; font-size: 12px; font-weight: bold;">
+                                                                {{ rowData.avgColTwoTitle}}
+                                                            </td>
+                                                        </tr>
+                                                    </ng-template>
+                                                </p-table>
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-outline-success" 
+                                    (click)="saveKpiAssign()"><i class="fa fa-plus" aria-hidden="true"></i> Save
+                                </button>&nbsp;&nbsp;
+                                <button type="button" class="btn btn-outline-warning " 
+                                    (click)="clearForm()"><i class="fa fa-refresh" aria-hidden="true"></i> Clear
+                                </button>&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </fieldset>
+                    <br>
+                </div>
+                <div class="col-md-6" *ngIf="showKpiList">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Expected Deign</legend>
+                        <!-- <div class="row"> -->
+                        <!-- <div class="col-md-12"> -->
+                        <p-table [value]="kpiListbydept" #dt editMode="row" *ngIf="kpiListbydept">
+                            <ng-template pTemplate="header">
+                                <tr class="bc">
+                                    <th style="width:30px">SL</th>
+                                    <th style="width:100px">Department</th>
+                                    <th style="width:60px">Section</th>
+                                    <th style="width:60px">Code</th>
+                                    <th style="width:60px">Format Type</th>
+                                    <th style="width:300px">Title</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                                <tr [pEditableRow]="rowData" [ngStyle]="{ 'background-color': '#e0fede' }">
+                                    <td>{{ rowIndex+1 }}</td>
+                                    <td>{{ rowData.department}}</td>
+                                    <td>{{ rowData.section}}</td>
+                                    <td>{{ rowData.code}}</td>
+                                    <td>{{ rowData.formatTypeName}}</td>
+                                    <td>{{ rowData.kpiName}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <!-- </div> -->
+                        <!-- </div>    -->
+                    </fieldset>
+                </div>
+            </div>
+        </section>
+    </form>
+</p-panel>

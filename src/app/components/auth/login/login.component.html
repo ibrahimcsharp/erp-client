@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+</head>
+
+<body>
+  <!DOCTYPE html>
+  <html>
+
+  <head> </head>
+
+  <body>
+    <div class="main">
+      <input type="checkbox" id="chk" aria-hidden="true" />
+      <h3 style="
+              font-style: oblique;
+              font-weight: bold;
+              color: #ffffff;
+              margin-left: 65px;
+              font-family: Cursive;
+              justify-content: center;
+            ">
+        Welcome To <sub>SNOWTEX ERP</sub>
+      </h3>
+
+      <div class="signup">
+        <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off">
+          <label for="chk" aria-hidden="true">Login</label>
+          <input (change)="GetCompanyList()" [ngClass]="{
+                  'is-invalid':
+                    loginForm.get('userName').errors &&
+                    (loginForm.get('userName').touched ||
+                      loginForm.get('userName').dirty)
+                }" type="text" formControlName="userName" placeholder="Employee Id" class="form-control" />
+          <input [ngClass]="{
+                  'is-invalid':
+                    loginForm.get('password').errors &&
+                    (loginForm.get('password').touched ||
+                      loginForm.get('password').dirty)
+                }" type="password" formControlName="password" name="pswd" placeholder="Password"
+            class="form-control" />
+          <select class="form-control" [ngClass]="{
+                  'is-invalid':
+                    loginForm.get('branchOfficeId').errors &&
+                    (loginForm.get('branchOfficeId').touched ||
+                      loginForm.get('branchOfficeId').dirty)
+                }" type="text" formControlName="branchOfficeId">
+            <option value="">==Select Company==</option>
+            <option *ngFor="let item of companyList" [ngValue]="item.branchOfficeId">
+              {{ item.companyShort }}
+            </option>
+          </select>
+
+          <button [disabled]="!loginForm.valid" type="submit">Login</button>
+        </form>
+      </div>
+
+      <div class="login">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <label for="chk" aria-hidden="true">Sign up</label>
+
+          <select class="form-control" [ngClass]="{
+                  'is-invalid':
+                    registerForm.get('branchOfficeId').errors &&
+                    (registerForm.get('branchOfficeId').touched ||
+                      registerForm.get('branchOfficeId').dirty)
+                }" type="text" formControlName="branchOfficeId">
+            <option *ngFor="let item of commonService.CompanySelectedList" [ngValue]="item.value">
+              {{ item.label }}
+            </option>
+          </select>
+
+          <input class="form-control" type="text" name="pswd" formControlName="employeeId" placeholder="Employee Id"
+            [ngClass]="{
+                  'is-invalid':
+                    registerForm.get('employeeId').errors &&
+                    (registerForm.get('employeeId').touched ||
+                      registerForm.get('employeeId').dirty)
+                }" />
+          <input class="form-control" type="password" name="pswd" formControlName="password" placeholder="Password"
+            [ngClass]="{
+                  'is-invalid':
+                    registerForm.get('password').errors &&
+                    (registerForm.get('password').touched ||
+                      registerForm.get('password').dirty)
+                }" />
+          <input class="form-control" type="password" name="pswd" formControlName="confirmPassword"
+            placeholder="Confirm Password" [ngClass]="{
+                  'is-invalid':
+                    registerForm.get('confirmPassword').errors &&
+                    (registerForm.get('confirmPassword').touched ||
+                      registerForm.get('confirmPassword').dirty)
+                }" />
+          <button type="submit" [disabled]="!registerForm.valid">
+            Sign up
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+
+  </html>
+  <!-- partial -->
+</body>
+
+</html>
+
+<!-- <div class="page-wrapper" *ngIf="!this.authService.loggedIn()">
+  <div class="authentication-box">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 p-0 card-right">
+          <img
+            class="blur-up lazyloaded"
+            src="assets/images/dashboard/SnowTex_ERPLogo_40.png"
+            alt=""
+          />
+          <div class="card tab2-card">
+            <div class="card-body">
+              <ngb-tabset class="tab-coupon mb-0">
+                <ngb-tab>
+                  <ng-template ngbTabTitle
+                    ><i class="icon-user mr-2"></i>Login</ng-template
+                  >
+                  <ng-template ngbTabContent>
+                    <div
+                      class="tab-pane fade active show"
+                      id="account"
+                      role="tabpanel"
+                      aria-labelledby="account-tab"
+                    >
+                      <form
+                        [formGroup]="loginForm"
+                        (ngSubmit)="login()"
+                        class="form-horizontal auth-form"
+                        novalidate=""
+                      >
+                        <div class="form-group" action="#">
+                          <input
+                            required=""
+                            name="userName"
+                            formControlName="userName"
+                            type="text"
+                            class="form-control"
+                            placeholder="Employee Id "
+                            id="exampleInputEmail1"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <input
+                            required=""
+                            name="password"
+                            formControlName="password"
+                            type="password"
+                            class="form-control"
+                            placeholder="Password"
+                          />
+                        </div>
+                        <div class="form-terms">
+                          <div class="custom-control custom-checkbox mr-sm-2">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="customControlAutosizing"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="customControlAutosizing"
+                              >Remember me</label
+                            >
+                          </div>
+                        </div>
+                        <div class="form-button">
+                          <button
+                            class="btn btn-primary"
+                            [disabled]="!loginForm.valid"
+                            type="submit"
+                          >
+                            Login
+                          </button>
+                        </div>
+                        <div class="form-footer"></div>
+                      </form>
+                    </div>
+                  </ng-template>
+                </ngb-tab>
+                <ngb-tab>
+                  <ng-template ngbTabTitle
+                    ><i class="icon-unlock mr-2"></i> Register
+                    <ng-template ngbTabContent>
+                      <form
+                        [formGroup]="registerForm"
+                        (ngSubmit)="onSubmit()"
+                        class="form-horizontal auth-form"
+                        novalidate
+                      >
+                        <div
+                          class="form-group row"
+                          *ngIf="companyDisplay == true"
+                        >
+                          <label
+                            class="col-lg-3 col-form-label form-control-label"
+                            >Company <span class="required"> *</span></label
+                          >
+                          <div class="col-lg-9">
+                            <select
+                              [ngClass]="{
+                                'is-invalid':
+                                  customForm.get('companyId').errors &&
+                                  (customForm.get('companyId').touched ||
+                                    customForm.get('companyId').dirty)
+                              }"
+                              class="form-control"
+                              type="text"
+                              formControlName="companyId"
+                            >
+                              <option
+                                *ngFor="
+                                  let item of commonService.CompanySelectedList
+                                "
+                                [ngValue]="item.value"
+                              >
+                                {{ item.label }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <select
+                            [ngClass]="{
+                              'is-invalid':
+                                registerForm.get('companyId').errors &&
+                                (registerForm.get('companyId').touched ||
+                                  registerForm.get('companyId').dirty)
+                            }"
+                            class="form-control"
+                            type="text"
+                            formControlName="companyId"
+                          >
+                            <option
+                              *ngFor="
+                                let item of commonService.CompanySelectedList
+                              "
+                              [ngValue]="item.value"
+                            >
+                              {{ item.label }}
+                            </option>
+                          </select>
+                          <div
+                            class="invalid-feedback"
+                            *ngIf="
+                              registerForm.get('companyId').hasError('required')
+                            "
+                          >
+                            Company Id is required!
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <input
+                            required=""
+                            type="email"
+                            class="form-control"
+                            formControlName="employeeId"
+                            placeholder="Employee Id"
+                            [ngClass]="{
+                              'is-invalid':
+                                registerForm.get('employeeId').errors &&
+                                (registerForm.get('employeeId').touched ||
+                                  registerForm.get('employeeId').dirty)
+                            }"
+                            id="exampleInputEmail12"
+                          />
+                          <div
+                            class="invalid-feedback"
+                            *ngIf="
+                              registerForm
+                                .get('employeeId')
+                                .hasError('required')
+                            "
+                          >
+                            Employee Id is required!
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <input
+                            required=""
+                            type="password"
+                            class="form-control"
+                            formControlName="password"
+                            placeholder="Password"
+                            [ngClass]="{
+                              'is-invalid':
+                                registerForm.get('password').errors &&
+                                (registerForm.get('password').touched ||
+                                  registerForm.get('password').dirty)
+                            }"
+                          />
+                          <div
+                            class="invalid-feedback"
+                            *ngIf="
+                              registerForm.get('password').hasError('required')
+                            "
+                          >
+                            Password is required!
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <input
+                            required=""
+                            type="password"
+                            class="form-control"
+                            formControlName="confirmPassword"
+                            placeholder="Confirm Password"
+                            [ngClass]="{
+                              'is-invalid':
+                                registerForm.get('confirmPassword').errors &&
+                                (registerForm.get('confirmPassword').touched ||
+                                  registerForm.get('confirmPassword').dirty)
+                            }"
+                          />
+                          <div
+                            *ngIf="f.confirmPassword.errors"
+                            class="invalid-feedback"
+                          >
+                            <div
+                              *ngIf="
+                                registerForm.get('confirmPassword').errors
+                                  .required
+                              "
+                            >
+                              Confirm Password is required
+                            </div>
+                            <div
+                              *ngIf="
+                                registerForm.get('confirmPassword').errors
+                                  .mustMatch
+                              "
+                            >
+                              Passwords must match
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-terms">
+                          <div class="custom-control custom-checkbox mr-sm-2">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="customControlAutosizing1"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="customControlAutosizing1"
+                              ><span
+                                >I agree all statements in
+                                <a href="javascript:void(0)" class="pull-right"
+                                  >Terms &amp; Conditions</a
+                                ></span
+                              ></label
+                            >
+                          </div>
+                        </div>
+                        <div class="form-button">
+                          <button
+                            class="btn btn-primary"
+                            type="submit"
+                            [disabled]="!registerForm.valid"
+                          >
+                            Register
+                          </button>
+                        </div>
+                      </form>
+                    </ng-template>
+                  </ng-template>
+                </ngb-tab>
+              </ngb-tabset>
+            </div>
+          </div>
+        </div>
+        <ngx-spinner></ngx-spinner>
+      </div>
+    </div>
+  </div>
+  <span>&copy;</span>
+</div> -->

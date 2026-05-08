@@ -1,0 +1,169 @@
+<form [formGroup]="customForm">
+  <div class="row">
+    <div class="col-md-6 offset-md-2">
+      <div class="form-group">
+        <div class="input-group input-group-sm">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Employee Id<span class="required">&nbsp;*</span></span
+            >
+          </div>
+          <input
+            [ngClass]="{
+              'is-invalid':
+                customForm.get('userName').errors &&
+                (customForm.get('userName').touched ||
+                  customForm.get('userName').dirty)
+            }"
+            formControlName="userName"
+            [typeahead]="appUserList"
+            [typeaheadMinLength]="0"
+            [typeaheadScrollable]="true"
+            [typeaheadOptionsInScrollableView]="8"
+            (typeaheadNoResults)="gmtItemNoResults($event)"
+            (typeaheadOnSelect)="onSelectGMTItem($event)"
+            typeaheadOptionField="userName"
+            class="form-control"
+          />
+        </div>
+        <div class="input-group input-group-sm">
+          <button (click)="Search()" class="btn btn-success btn-xs mt-2">
+            <i class="fa fa-search"></i> Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<hr />
+
+<p-table
+  [(selection)]="selectedActions"
+  dataKey="roleId"
+  #dt
+  *ngIf="MenuActionList.length > 0"
+  [value]="MenuActionList"
+  [globalFilterFields]="['menuName', 'roleName', 'actionName', 'remarks']"
+  [scrollable]="true"
+  [paginator]="true"
+  [rows]="10"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [rowsPerPageOptions]="[5, 10, 50, 100]"
+>
+  <ng-template pTemplate="caption">
+    <div class="ui-helper-clearfix" style="text-align: left">
+      <button
+        (click)="SaveCreateUserRole()"
+        pTooltip="Save data permission"
+        class="btn btn-primary btn-xs mr-2"
+      >
+        <i class="fa fa-save" aria-hidden="true"></i> SAVE CHANGES ({{
+          selectedActions.length
+        }})
+      </button>
+      <input
+        type="text"
+        pInputText
+        size="50"
+        placeholder="Global Filter"
+        (input)="dt.filterGlobal($event.target.value, 'contains')"
+        style="float: right"
+      />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr class="bc">
+      <th>SL</th>
+      <th [pSortableColumn]="'menuName'">
+        Menu
+        <p-sortIcon
+          [field]="'menuName'"
+          ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order"
+          ariaLabelAsc="Activate to sort in ascending order"
+        ></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'roleName'">
+        Role Name
+        <p-sortIcon
+          [field]="'roleName'"
+          ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order"
+          ariaLabelAsc="Activate to sort in ascending order"
+        ></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'actionName'">
+        Action Name
+        <p-sortIcon
+          [field]="'actionName'"
+          ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order"
+          ariaLabelAsc="Activate to sort in ascending order"
+        ></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'remarks'">
+        Remarks
+        <p-sortIcon
+          [field]="'remarks'"
+          ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order"
+          ariaLabelAsc="Activate to sort in ascending order"
+        ></p-sortIcon>
+      </th>
+
+      <th>
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <input
+          pInputText
+          type="text"
+          (input)="dt.filter($event.target.value, 'menuName', 'contains')"
+          class="p-column-filter"
+        />
+      </td>
+      <td>
+        <input
+          pInputText
+          type="text"
+          (input)="dt.filter($event.target.value, 'roleName', 'contains')"
+          class="p-column-filter"
+        />
+      </td>
+      <td>
+        <input
+          pInputText
+          type="text"
+          (input)="dt.filter($event.target.value, 'actionName', 'contains')"
+          class="p-column-filter"
+        />
+      </td>
+      <td>
+        <input
+          pInputText
+          type="text"
+          (input)="dt.filter($event.target.value, 'remarks', 'contains')"
+          class="p-column-filter"
+        />
+      </td>
+      <td></td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+    <tr class="center">
+      <td>{{ ri + 1 }}</td>
+      <td>{{ rowData.menuName }}</td>
+      <td>{{ rowData.roleName }}</td>
+      <td>{{ rowData.actionName }}</td>
+      <td>{{ rowData.remarks }}</td>
+      <td>
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

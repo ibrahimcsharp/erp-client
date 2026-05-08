@@ -1,0 +1,185 @@
+<p-panel header="Skill Plan" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+  </ng-template>
+
+  <div class="row">
+    <div class="col-md-12">
+      <p-table #dt2 rowExpandMode="single" expandableRows="true" [value]="SkillPlanCourseListData"
+        [globalFilterFields]="['']" dataKey="id" editMode="row" [scrollable]="true" scrollHeight="400px">
+
+        <ng-template pTemplate="header">
+          <tr class="bc">
+
+            <th
+              style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              SL</th>
+            <th
+              style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Deapartment</th>
+            <th
+              style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Training Type</th>
+            <th
+              style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Training Name</th>
+            <th
+              style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Total Requisition</th>
+            <th
+              style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Achieved(%)</th>
+            <th
+              style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Trainee List</th>
+            <th
+              style=" padding: 2px 3px !important; color: black !important; background-color: #D7BDE2 !important; text-align: center; font-size: 12px; font-weight: bold;">
+              Files</th>
+
+
+          </tr>
+          <tr>
+
+            <td
+              style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            </td>
+            <td>
+              <input pInputText type="text" (input)="dt2.filter($event.target.value, 'departmentName', 'contains')"
+                class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="dt2.filter($event.target.value, 'typeName', 'contains')"
+                class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="dt2.filter($event.target.value, 'trainingName', 'contains')"
+                class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="dt2.filter($event.target.value, 'countReq', 'contains')"
+                class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="dt2.filter($event.target.value, 'achievePointPerc', 'contains')"
+                class="p-column-filter" />
+            </td>
+            <td
+              style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            </td>
+            <td
+              style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-ri="rowIndex">
+          <tr
+            style="padding: 2px 3px !important; color: black !important; background-color: #dee2e6 !important; text-align: center; font-size: 12px; font-weight: bold;">
+            <td>{{ri+1}}</td>
+            <td>{{rowData.departmentName}}</td>
+            <td>{{rowData.typeName}}</td>
+            <td>{{rowData.trainingName}}</td>
+            <td>{{rowData.countReq}}</td>
+            <td>{{rowData.achievePointPerc}}</td>
+            <td>
+              <button pButton pRipple type="button" label="View" icon="fa fa-list" (click)="traineeList(rowData)"
+                style="font-size:10px!important;background: #5793CB!important;cursor: pointer; width: 60px;" pTooltip=" Trainee List">
+              </button>
+            </td>
+            <td><button placement="right" type="button" class="btn btn-primary btn-xs" (click)="ShowFiles(rowData)"
+                [outsideClick]="true" [popover]="commonFilesListTemplate">
+                <i class="fa fa-file"></i>
+              </button></td>
+            <!-- <td>
+                <button
+                  style=" padding: 2px 3px !important; color: black !important; text-align: center; font-size: 12px; font-weight: bold!important; "
+                  (click)="getTrainingDetails(rowData)" class="btn btn-outline-warning btn-xs mr-2">
+                  <i class="fa fa-list"> Training</i>
+                </button>
+        </td>      -->
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+</p-panel>
+
+<ng-template #commonFilesListTemplate>
+  <p-table #dt *ngIf="displayBasic" [value]="commonService.commonFilesList" dataKey="id" [scrollable]="true"
+    scrollHeight="200px">
+
+    <ng-template pTemplate="header">
+      <tr style="border: 0 !important" class="bc">
+        <th style="width: 40px; position: relative;">SL</th>
+        <th style="width: 80px;">File</th>
+      </tr>
+
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+      <tr style="border: 0 !important" [pEditableRow]="rowData" class="center">
+        <td style="width: 40px; position: relative;">{{ ri + 1 }}</td>
+        <td style="width: 80px;"> <a href="{{url}}{{ rowData.location}}" target="_blank">{{rowData.docTitle}}</a>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</ng-template>
+
+
+  <!---------------------------------------------------------popup here------------------------------------------------->
+  <p-dialog header="Trainee List" [(visible)]="showTrainee" [style]="{ width: '70vw'}">
+    <div class="row">
+      <div class="col-md-12">
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Trainee List</legend>
+          <div class="row">
+            <div class="col-md-12">
+              <p-table #dt rowExpandMode="single" expandableRows="true" [value]="TraineeList" dataKey="id"
+                editMode="row" [scrollable]="true" scrollHeight="400px">
+                <ng-template pTemplate="header">
+                  <tr class="traineeList">
+                    <th
+                      style=" padding: 2px 3px !important; color: black !important; background-color: #8abaed !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      SL</th>
+                      <th
+                      style=" padding: 2px 3px !important; color: black !important; background-color: #8abaed !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      Training Name</th>
+                    <th
+                      style=" padding: 2px 3px !important; color: black !important; background-color: #8abaed !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      Employee Name</th>
+                    <th
+                      style=" padding: 2px 3px !important; color: black !important; background-color: #8abaed !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      Employee Department</th>
+                    <th
+                      style=" padding: 2px 3px !important; color: black !important; background-color: #8abaed !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      Employee Section</th>
+                    <th
+                      style=" padding: 2px 3px !important; color: black !important; background-color: #8abaed !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      Target Point</th>
+                      <th
+                      style=" padding: 2px 3px !important; color: black !important; background-color: #8abaed !important; text-align: center; font-size: 12px; font-weight: bold;">
+                      Achieve Point</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowValue let-expanded="expanded" let-ri="rowIndex">
+                  <tr class="traineeList"
+                    style="padding: 2px 3px !important; color: black !important; background-color: #c8e3ff !important; text-align: center; font-size: 12px; font-weight: bold;">
+                    <td > {{ri+1}}</td>
+                    <td >{{rowValue.trainingName}}</td>
+                    <td >{{rowValue.employeeName}}</td>
+                    <td >{{rowValue.employeeDepartment}}</td>
+                    <td >{{rowValue.employeeSection}}</td>
+                    <td >{{rowValue.target}}</td>
+                    <td >{{rowValue.achievePoint}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </p-dialog>

@@ -1,0 +1,958 @@
+<form [formGroup]="costingForm">
+    <p-panel header="Export Challan Form" [toggleable]="true">
+        <ng-template pTemplate="icons">
+            <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                <span class="pi pi-cog"></span>
+            </button>
+            <!--<p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>-->
+        </ng-template>
+
+
+        <section>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Challan No<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <input type="text" id="challanno" formControlName="challanno" class="form-control"
+                                    style="background-color: yellow;" disabled />
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Challan Date<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" id="challandate" formControlName="challandate"
+                                        style="background-color: yellow;" class="form-control" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Depo Name</span>
+                                    </div>
+                                    <input type="text" id="deponame" formControlName="deponame" class="form-control"
+                                        style="background-color: yellow;" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Depo Address</span>
+                                    </div>
+                                    <input type="text" id="depoaddress" formControlName="depoaddress"
+                                        class="form-control" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Type of Goods</span>
+                                    </div>
+                                    <select formControlName="typeOfGoods" class="form-control input-xs select2" disabled>
+                                         <option value="RMG">Ready Made Garments</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Concern CNF Person</span>
+                                    </div>
+                                    <input type="text" id="cnfname" formControlName="cnfname" class="form-control"
+                                        disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">CNF Mobile No</span>
+                                    </div>
+                                    <input type="text" formControlName="cnfcontactno" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Forwarder Name</span>
+                                    </div>
+                                    <input type="text" formControlName="forwardername" class="form-control" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Driver Name</span>
+                                    </div>
+                                    <input type="text" formControlName="drivername" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Driver Mobile No.</span>
+                                    </div>
+                                    <input type="text" formControlName="drivermobileno" class="form-control" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Driver License No</span>
+                                    </div>
+                                    <input type="text" id="licenseno" formControlName="licenseno" class="form-control"
+                                        disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Vehicle No<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" formControlName="covervanno" class="form-control"
+                                        style="background-color: yellow;" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Loading Date</span>
+                                    </div>
+                                    <input type="date" formControlName="loaddatetime" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Unloading Date</span>
+                                    </div>
+                                    <input type="date" formControlName="unloaddatetime" class="form-control" disabled/>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Covervan Vendor Name</span>
+                                    </div>
+                                    <input type="text" formControlName="transportcompany" class="form-control"
+                                        style="background-color: yellow;" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Security Lock No</span>
+                                    </div>
+                                    <input type="text" formControlName="securitylockno" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Type of Vehicle</span>
+                                    </div>
+                                    <select formControlName="typeOfVehicle" class="form-control input-xs select2"
+                                        disabled>
+                                        <option value="Covered Van">Covered Van</option>
+                                        <option value="Truck">Truck</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Sl. No./Trip ID</span>
+                                    </div>
+                                    <input type="text" formControlName="tripID" class="form-control" />
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Departure </span>
+                                    </div>
+                                    <input type="text" formControlName="departure" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Company Name</span>
+                                    </div>
+                                    <input type="text" formControlName="companyname" class="form-control"
+                                        style="background-color: yellow;" disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Audited Bill Amount</span>
+                                    </div>
+                                    <input type="number" formControlName="auditBillAmount" 
+                                        class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Audited Comment</span>
+                                    </div>
+                                    <input type="text" formControlName="auditComment" 
+                                        class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </p-panel>
+    <br>
+    <ng-container *ngIf="challanType == 'EXPORT_ARRIVED' || challanType == 'EXPORT_COSTING_PROCESSED'">
+        <p-panel header="Arrival Info" [toggleable]="true">
+            <ng-template pTemplate="icons">
+                <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                    <span class="pi pi-cog"></span>
+                </button>
+                <!--<p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>-->
+            </ng-template>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Arrival</span>
+                            </div>
+                            <select formControlName="arrival" class="form-control input-xs select2" [ngClass]="{
+                                        'is-invalid':
+                                        costingForm.get('arrival').errors &&
+                                        (costingForm.get('arrival').touched ||
+                                        costingForm.get('arrival').dirty)
+                                    }" disabled>
+                                <option value="">===Select One===</option>
+                                <option value="Sea Port">Sea Port</option>
+                                <option value="Benapol">Benapol</option>
+                                <option value="Airport">Airport</option>
+                                <option value="ICP">ICP</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Arrival Date</span>
+                            </div>
+                            <input type="datetime-local" formControlName="arrivalDateTime" class="form-control"
+                                disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Factory In Time</span>
+                            </div>
+                            <input type="datetime-local" formControlName="factoryInTime" class="form-control"
+                                disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Vehicle In Time</span>
+                            </div>
+                            <input type="datetime-local" formControlName="vehicleInTime" class="form-control"
+                                disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Parking time</span>
+                            </div>
+                            <input type="datetime-local" formControlName="parkingTime" class="form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Exit Time</span>
+                            </div>
+                            <input type="datetime-local" formControlName="exitTime" class="form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+        <br>
+    </ng-container>
+    <ng-container *ngIf="challanType == 'IMPORT'">
+        <p-panel header="Import Info" [toggleable]="true">
+            <ng-template pTemplate="icons">
+                <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                    <span class="pi pi-cog"></span>
+                </button>
+                <!--<p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>-->
+            </ng-template>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Sl </span>
+                            </div>
+                            <input type="text" formControlName="departure" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Delivery Place</span>
+                            </div>
+                            <input type="text" formControlName="departure" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Address</span>
+                            </div>
+                            <input type="text" formControlName="departure" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Truck No</span>
+                            </div>
+                            <input type="text" formControlName="departure" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Driver Name</span>
+                            </div>
+                            <input type="text" formControlName="departure" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Driver Phn No.</span>
+                            </div>
+                            <input type="text" formControlName="departure" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Shed No.</span>
+                            </div>
+                            <input type="text" formControlName="departure" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Gate No.</span>
+                            </div>
+                            <input type="text" formControlName="departure" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Buyer Description</span>
+                            </div>
+                            <input type="text" formControlName="departure" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+        <br>
+    </ng-container>
+    <p-panel header="Export Bill Info" [toggleable]="true">
+        <ng-template pTemplate="icons">
+            <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                <span class="pi pi-cog"></span>
+            </button>
+            <!--<p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>-->
+        </ng-template>
+        <section formArrayName="Transport">
+            <!-- <div *ngFor="let transport of costingForm.get('Transport').controls; let i=index"> -->
+            <div *ngFor="let transport of costingForm.get('Transport')['controls']; let i=index">
+                <div [formGroupName]="i" class="row">
+                    <div class="col-md-12">
+                        <div class="row" *ngIf="tag != 'AB'">
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Bill No<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" formControlName="billNo" class="form-control" [ngClass]="{
+                                        'is-invalid':
+                                        transport.get('billNo').errors &&
+                                          (transport.get('billNo').touched ||
+                                          transport.get('billNo').dirty)
+                                      }" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Fare Amount</span>
+                                        </div>
+                                        <input type="text" formControlName="fareAmount" (change)="calculateTotal()"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Bill Date<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <input type="date" formControlName="billDate" class="form-control" [ngClass]="{
+                                            'is-invalid':
+                                            transport.get('billDate').errors &&
+                                              (transport.get('billDate').touched ||
+                                              transport.get('billDate').dirty)
+                                          }" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Damage Amount</span>
+                                        </div>
+                                        <input type="text" formControlName="damageAmount" (change)="calculateTotal()"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Type of Trip<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+
+                                        <ng-container *ngIf="challanType; else exportText">
+                                            <input formControlName="typeOfTrip" class="form-control"
+                                                [value]="challanType" disabled />
+                                        </ng-container>
+
+                                        <ng-template #exportText>
+                                            <input formControlName="typeOfTrip" class="form-control" value="Export"
+                                                disabled />
+                                        </ng-template>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Warehouse Rent</span>
+                                        </div>
+                                        <input type="text" formControlName="warehouseRent" (change)="calculateTotal()"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Billing Month<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <select formControlName="billingMonth" class="form-control input-xs select2"
+                                            [ngClass]="{
+                                            'is-invalid':
+                                            transport.get('billingMonth').errors &&
+                                              (transport.get('billingMonth').touched ||
+                                              transport.get('billingMonth').dirty)
+                                          }">
+                                            <option value="">===Select One===</option>
+                                            <option value="January">January</option>
+                                            <option value="February">February</option>
+                                            <option value="March">March</option>
+                                            <option value="April">April</option>
+                                            <option value="May">May</option>
+                                            <option value="June">June</option>
+                                            <option value="July">July</option>
+                                            <option value="August">August</option>
+                                            <option value="September">September</option>
+                                            <option value="October">October</option>
+                                            <option value="November">November</option>
+                                            <option value="December">December</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Additional Charge</span>
+                                        </div>
+                                        <input type="text" formControlName="additionalCharge"
+                                            (change)="calculateTotal()" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!--  <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span>Truck Fair Applicable</span>&nbsp; &nbsp; <input type="checkbox"
+                                                id="isTruckFairApplicable" formControlName="isTruckFairApplicable" />
+                                        </div>
+
+                                    </div>
+                                </div> -->
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Extra Charge</span>
+                                        </div>
+                                        <input type="text" formControlName="extraCharge" (change)="calculateTotal()"
+                                            class="form-control" />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <!--   <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span>Truck Fair Paid</span>&nbsp; &nbsp; <input type="checkbox"
+                                                formControlName="isTruckFairPaid" />
+                                        </div>
+
+                                    </div>
+                                </div>-->
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Total</span>
+                                        </div>
+                                        <input type="text" formControlName="totalCharge" disabled
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Submitted Bill Amount</span>
+                                        </div>
+                                        <input type="text" value="{{actualCost}}" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="tag == 'AB'">
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Bill No<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" formControlName="billNo" class="form-control" [ngClass]="{
+                                        'is-invalid':
+                                        transport.get('billNo').errors &&
+                                          (transport.get('billNo').touched ||
+                                          transport.get('billNo').dirty)
+                                      }" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Fare Amount</span>
+                                        </div>
+                                        <input type="text" formControlName="fareAmount" (change)="calculateTotal()"
+                                            class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Bill Date<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <input type="date" formControlName="billDate" class="form-control" [ngClass]="{
+                                            'is-invalid':
+                                            transport.get('billDate').errors &&
+                                              (transport.get('billDate').touched ||
+                                              transport.get('billDate').dirty)
+                                          }" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Damage Amount</span>
+                                        </div>
+                                        <input type="text" formControlName="damageAmount" (change)="calculateTotal()"
+                                            class="form-control" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Type of Trip<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+
+                                        <ng-container *ngIf="challanType; else exportText">
+                                            <input formControlName="typeOfTrip" class="form-control"
+                                                [value]="challanType" disabled />
+                                        </ng-container>
+
+                                        <ng-template #exportText>
+                                            <input formControlName="typeOfTrip" class="form-control" value="Export"
+                                                disabled />
+                                        </ng-template>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Warehouse Rent</span>
+                                        </div>
+                                        <input type="text" formControlName="warehouseRent" (change)="calculateTotal()"
+                                            class="form-control" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Billing Month<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <select formControlName="billingMonth" class="form-control input-xs select2"
+                                            [ngClass]="{
+                                            'is-invalid':
+                                            transport.get('billingMonth').errors &&
+                                              (transport.get('billingMonth').touched ||
+                                              transport.get('billingMonth').dirty)
+                                          }" disabled>
+                                            <option value="">===Select One===</option>
+                                            <option value="January">January</option>
+                                            <option value="February">February</option>
+                                            <option value="March">March</option>
+                                            <option value="April">April</option>
+                                            <option value="May">May</option>
+                                            <option value="June">June</option>
+                                            <option value="July">July</option>
+                                            <option value="August">August</option>
+                                            <option value="September">September</option>
+                                            <option value="October">October</option>
+                                            <option value="November">November</option>
+                                            <option value="December">December</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Additional Charge</span>
+                                        </div>
+                                        <input type="text" formControlName="additionalCharge"
+                                            (change)="calculateTotal()" class="form-control" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!--  <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span>Truck Fair Applicable</span>&nbsp; &nbsp; <input type="checkbox"
+                                                id="isTruckFairApplicable" formControlName="isTruckFairApplicable" />
+                                        </div>
+
+                                    </div>
+                                </div> -->
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Extra Charge</span>
+                                        </div>
+                                        <input type="text" formControlName="extraCharge" (change)="calculateTotal()"
+                                            class="form-control" disabled/>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <!--   <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span>Truck Fair Paid</span>&nbsp; &nbsp; <input type="checkbox"
+                                                formControlName="isTruckFairPaid" />
+                                        </div>
+
+                                    </div>
+                                </div>-->
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Total</span>
+                                        </div>
+                                        <input type="text" formControlName="totalCharge" disabled
+                                            class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Submitted Bill Amount</span>
+                                        </div>
+                                        <input type="text" value="{{actualCost}}" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </p-panel>
+    <br>
+    <p-panel header="Export Product Info" [toggleable]="true">
+        <ng-template pTemplate="icons">
+            <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                <span class="pi pi-cog"></span>
+            </button>
+        </ng-template>
+        <section formArrayName="ChallanDets">
+            <div class="table-responsive" style="height: 300px; overflow: auto;">
+                <table class="table table-bordered table-striped table-hover AppointmentDetTable sticky-header">
+                    <thead class="sticky">
+                        <tr>
+                            <th style="width: 30px">SL</th>
+                            <th style="min-width:150px;"> Buyer Name</th>
+                            <th style="min-width:150px;">PO</th>
+                            <th style="min-width:150px;">Style</th>
+                            <th style="min-width:100px;">Color</th>
+                            <th style="min-width:100px;">CTN Qty</th>
+                            <th style="min-width:100px;">Total Qty</th>
+                            <th style="min-width:100px;">UnitMeasure</th>
+                            <th style="min-width:100px;">CBM</th>
+                            <th style="min-width:100px;">Cost</th>
+                            <th style="min-width:100px;">Percentage</th>
+                            <th style="min-width:200px;">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of costingForm.get('ChallanDets')['controls']; let i = index"
+                            [formGroupName]="i">
+
+                            <td style="min-width:30px;">{{i+1}}</td>
+                            <input type="hidden" formControlName="id" /><input type="hidden"
+                                formControlName="challanId" />
+                            <!--<td style="min-width:30px;"><input formControlName="sn" class="form-control " /></td>-->
+                            <td style="min-width:150px;"><input formControlName="buyername" class="form-control" /></td>
+                            <td style="min-width:150px;"><input formControlName="pono" class="form-control " /></td>
+                            <td style="min-width:150px;"><input formControlName="stylename" class="form-control " />
+                            </td>
+                            <td style="min-width:100px;"><input formControlName="color" class="form-control" /></td>
+                            <td style="min-width:100px;"><input formControlName="deliverycartonqty"
+                                    class="form-control" /></td>
+                            <td style="min-width:100px;"><input formControlName="deliverypcsqty" class="form-control" />
+                            </td>
+                            <td style="min-width:100px;"><input formControlName="unitMeasure"
+                                    class="form-control input-xs " /></td>
+                            <td style="min-width:100px;"><input formControlName="deliverycbm"
+                                    class="form-control input-xs " (change)="calculateCost(i)" disabled /></td>
+                            <td style="min-width:100px;"><input formControlName="cost" class="form-control input-xs "
+                                    disabled />
+                            </td>
+                            <td style="min-width:100px;"><input formControlName="percentage"
+                                    class="form-control input-xs " disabled /></td>
+                            <td style="min-width:200px;"><input formControlName="remarks"
+                                    class="form-control input-xs " /></td>
+
+                        </tr>
+                    </tbody>
+                    <tfoot class="sticky">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td style="height:30px;font-size: 12px;"><strong>Total:</strong></td>
+                            <td style="text-align: left;padding-left: 20px;font-size: 12px;">
+                                <strong>{{totalcbm}}</strong> </td>
+                            <td style="text-align: left;padding-left: 20px;font-size: 12px;">
+                                <strong>{{totalBuyerCostPrice}}</strong> </td>
+                            <td style="text-align: left;padding-left: 20px;font-size: 12px;">
+                                <strong>{{totalBuyerCostPercentage}}</strong> </td>
+                            <td></td>
+
+                        </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+        </section>
+    </p-panel>
+
+    <div class="form-group" style="padding-top: 10px">
+        <div class="col-md-6" *ngIf="tag != 'V'">
+            <button type="button" (click)="saveData()" class=" btn btn-xs btn-outline-success mr-2">
+                <i class="fa fa-file"></i>{{ButtonName}}
+            </button>
+            <!-- <button type="button" class="btn btn-xs btn-outline-primary" (click)="Clear()">
+                <i class="fa fa-refresh"></i> Clear
+              </button>  -->
+        </div>
+    </div>
+    <br>
+</form>

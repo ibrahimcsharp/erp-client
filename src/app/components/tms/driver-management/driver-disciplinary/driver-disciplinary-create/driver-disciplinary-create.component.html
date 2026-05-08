@@ -1,0 +1,79 @@
+<form [formGroup]="DriverDisplinaryForm">
+  <section>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Disciplinary Type</span>
+                </div>
+                <select id="displinaryTypeId" formControlName="displinaryTypeId" class="form-control">
+                  <option *ngFor="let displinary of DisplinarySelectList" [ngValue]="displinary.value">
+                    {{ displinary.label | uppercase }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Occurrence Date</span>
+                </div>
+                <input type="date" placeholder="dd-mm-yyyy" class="form-control" formControlName="occurrenceDate" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Action Date</span>
+                </div>
+                <input type="date" placeholder="dd-mm-yyyy" class="form-control" formControlName="actionDate" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend paheight col-6">
+                  <span class="input-group-text col-12">Reason</span>
+                </div>
+                <input type="text" id="reason" formControlName="reason" class="form-control" autocomplete="off" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group mb-1">
+              <div class="input-group-prepend paheight col-6">
+                <span class="input-group-text col-12">File<span class="required">&nbsp;*</span></span>
+              </div>
+              <div class="col-6">
+                <input type="file" #inputFile multiple (change)="getFileDetails($event)" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group" style="padding-top: 10px">
+              <button class="btn btn-s btn-outline-success mr-2 mx-3" (click)="Onsubmit()">
+                <i class="fa fa-file"></i> {{ButtonName}}
+              </button>
+              <button class="btn btn-s btn-outline-warning" (click)="clear()">
+                <i class="fa fa-refresh"></i> Clear
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</form>

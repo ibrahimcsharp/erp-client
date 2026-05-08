@@ -1,0 +1,78 @@
+<p-panel header="E-Vote Report" [toggleable]="true">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="VoteReport" class="form">
+          <div class="row">
+            <div class="col-md-6">
+            
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label class="control-label"> From Date </label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid':
+                        VoteReport.get('fDate').errors &&
+                          (VoteReport.get('fDate').touched ||
+                          VoteReport.get('fDate').dirty)
+                      }"
+                      class="form-control"
+                      type="date"
+                      formControlName="fDate"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label class="control-label"> To Date </label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid':
+                        VoteReport.get('tDate').errors &&
+                          (VoteReport.get('tDate').touched ||
+                          VoteReport.get('tDate').dirty)
+                      }"
+                      class="form-control"
+                      type="date"
+                      formControlName="tDate"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group" >
+                      <label class="control-label"> </label>
+                      <button pButton pRipple type="button" label="View Report" icon="pi pi-file"
+                      class="p-button-raised p-button-success p-button-text"
+                      style="background: #D5F9F8;height: 25px;width: 50px;color: black;font-weight: bold;font-size: 8px!important;"
+                      (click)="onSubmit()" style="width:145px!important;font-size: 15px!important;"></button>
+                    </div>
+                  </div>
+              </div>
+              <div class="row">
+
+                <!-- <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"> Company </label>
+                    <select [ngClass]="{'is-invalid':UserGatepassReport.get('companyId').errors && (UserGatepassReport.get('companyId').touched || UserGatepassReport.get('companyId').dirty)}"
+                      class="form-control"
+                      type="text"
+                      formControlName="companyId"
+                    >
+                      <option *ngFor="let item of commonService.CompanySelectedList" [ngValue]="item.value">
+                        {{ item.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div> -->
+
+                 
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer"></div>
+    </div>
+  </p-panel>
+  
+

@@ -1,0 +1,91 @@
+<p-panel header="VehicleRegistration" [toggleable]="true">
+    <ng-template pTemplate="icons">
+        <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+            <span class="pi pi-cog"></span>
+        </button>
+        <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+
+    <form [formGroup]="SupplierForm">
+        <section>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Supplier Name<span class="required">&nbsp;*</span></span>
+                                </div>
+                                <input [ngClass]="{
+                                'is-invalid':
+                                ModelForm.get('vehicleName').errors &&
+                                  (ModelForm.get('vehicleName').touched ||
+                                  ModelForm.get('vehicleName').dirty)
+                              }" formControlName="vehicleName" [typeahead]="commonService.TmsVehicleSelectList"
+                                    [typeaheadMinLength]="0" [typeaheadScrollable]="true"
+                                    [typeaheadOptionsInScrollableView]="8"
+                                    [typeaheadOptionsLimit]="50"
+                                    (typeaheadNoResults)="typeaheadNoResults($event)"
+                                    (typeaheadOnSelect)="onSelectVehicle($event)" typeaheadOptionField="label"
+                                    class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Short Name<span
+                                                class="required">&nbsp;*</span></span>
+                                    </div>
+                                    <input type="text" id="ShortName" formControlName="ShortName"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Supplier Type<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <input [ngClass]="{
+                                'is-invalid':
+                                ModelForm.get('SupplierType').errors &&
+                                  (ModelForm.get('SupplierType').touched ||
+                                  ModelForm.get('SupplierType').dirty)
+                              }" formControlName="SupplierType" [typeahead]="commonService.TmsBudgetCodeSelectList"
+                                    [typeaheadMinLength]="0" [typeaheadScrollable]="true"
+                                    [typeaheadOptionsInScrollableView]="8"
+                                    [typeaheadOptionsLimit]="50"
+                                    (typeaheadNoResults)="typeaheadNoResults($event)"
+                                    (typeaheadOnSelect)="onSelectSupplierType($event)" typeaheadOptionField="label"
+                                    class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <textarea id="remarks" name="remarks" rows="3" cols="30" formControlName="remarks"
+                                        class="form-control" placeholder="Please Enter Remarks..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" style="padding-top: 10px">
+                                <button class="btn btn-xs btn-outline-success mr-2" (click)="Onsubmit()">
+                                    <i class="fa fa-file"></i> Save
+                                </button>
+                                <button class="btn btn-xs btn-outline-primary" (click)="clear()">
+                                    <i class="fa fa-refresh"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </form>
+
+</p-panel>
+<br>

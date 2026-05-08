@@ -1,0 +1,214 @@
+<p-panel header="Employee Survey" [toggleable]="true">
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text"> Company </span>
+            <input [(ngModel)]="companyName" [ngModelOptions]="{standalone: true}" [typeahead]="companyList" placeholder="Select Company to Loads Department"
+                [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                (typeaheadNoResults)="typeaheadNoResultCompany($event)" (typeaheadOnSelect)="onSelectCompany($event)"
+                typeaheadOptionField="label" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs" *ngIf="eVotedepartmentList.length > 0" >
+        <!-- <li class="nav-item mr-2 mt-2" *ngFor="let item  of commonService.gatePassDepartmentList; let i = index" -->
+        <li class="nav-item mr-2 mt-2" *ngFor="let item  of eVotedepartmentList; let i = index"
+            style="width: 250px; border: 1px solid rgb(55, 119, 236); border-radius: 5px;"
+            pTooltip="{{item.department}}">
+            <a class="nav-link active btn-outline-info" data-toggle="tab" (click)="ShowEmployeeList(item)"
+                *ngIf="i == 0" style="text-align: center;">{{item.department | slice: 0:20 }}</a>
+            <a class="nav-link btn-outline-info" data-toggle="tab" (click)="ShowEmployeeList(item)" *ngIf="i > 0"
+                style="text-align: center;">{{item.department | slice: 0:20}}</a>
+        </li>
+    </ul>
+
+    <ul>
+        <div class="row" *ngIf="showSection==true" >
+            <div class="col-md-4">
+                <div class="input-group mr-2 mt-2">
+                    <span class="input-group-text"> Section </span>
+                <input [(ngModel)]="section" [ngModelOptions]="{standalone: true}" [typeahead]="sectiontList" placeholder="Select department to loads section"
+                    [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8" [typeaheadOptionsLimit]="50"
+                    (typeaheadNoResults)="typeaheadNoResultSection($event)" (typeaheadOnSelect)="onSelectSection($event)"
+                    typeaheadOptionField="label" class="form-control" #myname/>
+                </div>
+            </div>
+        </div>
+        
+
+        <li class="nav-item mr-2 mt-2" style="text-align: right;">
+            <button class="btn btn-outline-info btn-sm">You Have {{myVoteAvailable}} Vote Left</button>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <!-- <div id="EmployeeWizeManagement"class="tab-pane fade in active show">
+            <app-employee-wize-management></app-employee-wize-management>
+        </div> -->
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Employee Information 
+                <button  *ngIf="selectedEmployeeForVote.length>0" class="btn btn-info btn-sm"(click)="SaveVoteFromMainTable(selectedEmployeeForVote)">Submit Vote <span>({{selectedEmployeeForVote.length}})</span></button> </legend>
+            <div class="row">
+                <div class="col-md-12">
+                    <p-table #dt1 [value]="AllEmployeeList" rowExpandMode="single" [globalFilterFields]="['']"
+                        dataKey="employeeId" expandableRows="true" editMode="row" *ngIf="AllEmployeeList.length>0"
+                        [scrollable]="true" scrollHeight="500px" [(selection)]="selectedEmployeeForVote">
+                        <ng-template pTemplate="header">
+                            <tr class="bc">
+                                <th>
+                                    <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+                                </th>
+                                <th>SL</th>
+                                <th>Employee Id</th>
+                                <th>Employee Name</th>
+                                <th>Designation</th>
+                                <th>Company</th>
+                                <th>Department</th>
+                                <th>Section</th>
+                                <th>Image</th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <input pInputText type="text"
+                                        (input)="dt1.filter($event.target.value, 'employeeId', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text"
+                                        (input)="dt1.filter($event.target.value, 'employeeName', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text"
+                                        (input)="dt1.filter($event.target.value, 'designation', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text"
+                                        (input)="dt1.filter($event.target.value, 'company', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text"
+                                        (input)="dt1.filter($event.target.value, 'department', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td>
+                                    <input pInputText type="text"
+                                        (input)="dt1.filter($event.target.value, 'section', 'contains')"
+                                        class="p-column-filter" />
+                                </td>
+                                <td></td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-editing="editing" let-rowIndex="rowIndex">
+                            <tr [pEditableRow]="rowData" [ngStyle]="{'background-color': rowData.color == 'y'?  '#B8B8B8': '#bdcdff' }">
+                                <td>
+                                    <!-- <button (click)="viewVote(rowData)" type="button" pButton pRipple
+                                        [pRowToggler]="rowData"
+                                        class="p-button-text p-button-rounded p-button-plain btn-sm"
+                                        [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'">
+                                    </button> -->
+                                    <span *ngIf="rowData.color !='y'"><p-tableCheckbox [value]="rowData" (click)="VoteReCalculation()"></p-tableCheckbox></span>
+                                </td>
+                                <td >{{ rowIndex+1 }}</td>
+                                <td >{{rowData.employeeId}}</td>
+                                <td >{{rowData.employeeName}}</td>
+                                <td >{{rowData.designation}}</td>
+                                <td >{{ rowData.company}}</td>
+                                <td >{{ rowData.department}}</td>
+                                <td >{{ rowData.section}}</td>
+                                <td >
+                                    <!-- <button pButton pRipple type="button" label="Vote" icon="pi pi-user"
+                                        (click)="viewVote2(rowData)" [disabled]="show"
+                                        style="width:83px!important;font-size: 12px!important;background: #695eff!important;">
+                                    </button> -->
+
+                                    <!-- <img src="{{rowData.imageUrl}}" alt="No Image Found" width="50" height="50"> -->
+                                   
+                                    <img src="{{rowData.imageUrl}}" alt="No img found" width="50" height="50" class="hover-image">
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="rowexpansion">
+                            <tr>
+                                <td colspan="8">
+                                    <div class="p-p-3">
+                                        <p-table rowExpandMode="single" expandableRows="true" [value]="voteCategoryList"
+                                            dataKey="categoryId" [rows]="10" [(selection)]="selectedVoteCategories">
+                                            <ng-template pTemplate="header">
+                            <tr style="word-break: break-all;">
+                                <th style="width: 20px;">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+                                <th style="width: 40px;">Subject</th>
+                                <th style="width: 80px;">Comments</th>
+                            </tr>
+                            <tr>
+                                <td style="width: 20px;"></td>
+                                <td style="width: 40px;"></td>
+                                <td style="width: 80px;"><button class="btn btn-info btn-xs"
+                                        (click)="SaveVote(selectedVoteCategories)">SubmitVote</button></td>
+                            </tr>
+
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-i="rowIndex">
+                            <tr style="word-break: break-all;">
+                                <td style="width: 20px;">
+                                    <span><p-tableCheckbox [value]="item"></p-tableCheckbox></span>
+                                </td>
+                                <td style="width: 40px;">{{item.categoryName}}</td>
+                                <td class="mt-2" style="width: 80px;">
+                                    <input type="text" [(ngModel)]="item.comments" [ngModelOptions]="{standalone: true}"
+                                        class="form-control" />
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                </td>
+                </tr>
+                </ng-template>
+                </p-table>
+            </div>
+    </div>
+    </fieldset>
+
+    </div>
+</p-panel>
+
+
+
+<p-dialog header="Vote" [(visible)]="showVotePopup" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+    <p-table #dt [value]="voteCategoryList" [(selection)]="selectedVoteCategories">
+        <ng-template pTemplate="header">
+            <tr class="bc">
+                <th style="width: 20px;">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th style="width: 40px;">Subject</th>
+                <th style="width: 80px;">Comments</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="rowData">
+                <td style="width: 20px;">
+                    <span><p-tableCheckbox [value]="rowData"></p-tableCheckbox></span>
+                </td>
+                <td style="width: 40px;">
+                    {{rowData.categoryName}}
+                </td>
+                <td class="mt-2" style="width: 80px;">
+                    <input type="text" [(ngModel)]="rowData.comment" [ngModelOptions]="{standalone: true}"
+                        class="form-control" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <br>
+    <button class="btn btn-success btn-xs" (click)="SaveVote(selectedVoteCategories)">Submit Vote</button>
+
+</p-dialog>

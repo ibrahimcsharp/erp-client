@@ -1,0 +1,111 @@
+<p-panel header="Menu Create" [toggleable]="true">
+  <ng-template pTemplate="icons">
+    <button
+      pButton
+      class="p-panel-header-icon p-link"
+      (click)="menu.toggle($event)"
+    >
+      <span class="pi pi-cog"></span>
+    </button>
+    <p-menu #menu id="config_menu" [popup]="true"></p-menu>
+  </ng-template>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="setMenuForm" id="setMenuForm" class="needs-validation">
+        <div class="col-md-4">
+          <div class="form-group">
+            <input type="number" formControlName="setMenuId" hidden />
+            <label class="label-control">Main Menu Name</label>
+            <select
+              [ngClass]="{
+                'is-invalid':
+                  setMenuForm.get('menuId').errors &&
+                  (setMenuForm.get('menuId').touched ||
+                    setMenuForm.get('menuId').dirty)
+              }"
+              class="form-control"
+              formControlName="menuId"
+            >
+              <option value="">===Select Main Menu===</option>
+              <option
+                *ngFor="let menu of service.menuList"
+                value="{{ menu.Id }}"
+              >
+                {{ menu.menuName }}
+              </option>
+            </select>
+            <div
+              class="invalid-feedback"
+              *ngIf="setMenuForm.get('menuId').hasError('required')"
+            >
+              Menu is required!
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <!-- <input type="number" formControlName="setMenuId" hidden> -->
+            <label class="label-control">Sub Menu Name</label>
+            <select
+              [ngClass]="{
+                'is-invalid':
+                  setMenuForm.get('subMenuId').errors &&
+                  (setMenuForm.get('subMenuId').touched ||
+                    setMenuForm.get('subMenuId').dirty)
+              }"
+              class="form-control"
+              formControlName="subMenuId"
+            >
+              <!-- <option value="">===Select Main Menu===</option>
+                  <option *ngFor="let sub of service.subMenuList" value="{{sub.Id}}">
+                    {{sub.subMenuName}}</option> -->
+            </select>
+            <div
+              class="invalid-feedback"
+              *ngIf="setMenuForm.get('subMenuId').hasError('required')"
+            >
+              Sub Menu is required!
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="label-control">Delivery Place Name</label>
+            <input
+              [ngClass]="{
+                'is-invalid':
+                  setMenuForm.get('subSubMenuName').errors &&
+                  (setMenuForm.get('subSubMenuName').touched ||
+                    setMenuForm.get('subSubMenuName').dirty)
+              }"
+              class="form-control"
+              formControlName="subSubMenuName"
+              type="text"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="setMenuForm.get('subSubMenuName').hasError('required')"
+            >
+              Delivery Place is required!
+            </div>
+          </div>
+          <div class="form-group">
+            <button
+              type="button"
+              class="btn btn-outline-success"
+              [disabled]="!setMenuForm.valid"
+            >
+              <i class="fa fa-database" aria-hidden="true"></i>
+              {{ saveButtonTitle }}
+            </button>
+            <button type="button" class="btn btn-outline-info ml-3">
+              <i class="fa fa-refresh" aria-hidden="true"></i> Clear
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</p-panel>

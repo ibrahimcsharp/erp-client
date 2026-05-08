@@ -1,0 +1,429 @@
+<div class="modal-header" style="padding: 0.12rem 1rem !important;">
+  <h5 class="modal-title f-w-600" id="exampleModalLabel">{{ title }}</h5>
+  <!-- <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button> -->
+</div>
+<div class="modal-body">
+  <form [formGroup]="reactiveForm" class="form" role="form">
+    <div class="row">
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label">Date <span class="required">&nbsp;*</span></label>
+          <input type="date" [ngClass]="{
+'is-invalid':
+  reactiveForm.get('entryDate').errors &&
+  (reactiveForm.get('entryDate').touched ||
+    reactiveForm.get('entryDate').dirty)
+}" class="form-control" formControlName="entryDate" />
+        </div>
+      </div>
+      <!-- <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label">Month <span class="required">&nbsp;*</span></label>
+          <select [ngClass]="{
+      'is-invalid':
+        reactiveForm.get('monthId').errors &&
+        (reactiveForm.get('monthId').touched ||
+          reactiveForm.get('monthId').dirty)
+    }" class="form-control" formControlName="monthId">
+            <option value="">==Select One==</option>
+            <option *ngFor="let item of mealMonthsList" [ngValue]="item.id">
+              {{ item.monthName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label">Year <span class="required">&nbsp;*</span></label>
+          <select [ngClass]="{
+      'is-invalid':
+        reactiveForm.get('yearId').errors &&
+        (reactiveForm.get('yearId').touched ||
+          reactiveForm.get('yearId').dirty)
+    }" class="form-control" formControlName="yearId">
+            <option value="">==Select One==</option>
+            <option *ngFor="let year of commonService.YearSelectList" [ngValue]="year.value">
+              {{ year.label }}
+            </option>
+          </select>
+        </div>
+      </div> -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label">Item Category <span class="required">&nbsp;*</span></label>
+          <select (change)="ChangeCategory()" [ngClass]="{
+      'is-invalid':
+        reactiveForm.get('categoryId').errors &&
+        (reactiveForm.get('categoryId').touched ||
+          reactiveForm.get('categoryId').dirty)
+    }" class="form-control" formControlName="categoryId">
+            <option value="">==Select One==</option>
+            <option *ngFor="let year of categoryList" [ngValue]="year.id">
+              {{ year.categoryName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label">Item Name <span class="required">&nbsp;*</span></label>
+          <select [ngClass]="{
+      'is-invalid':
+        reactiveForm.get('itemId').errors &&
+        (reactiveForm.get('itemId').touched ||
+          reactiveForm.get('itemId').dirty)
+    }" class="form-control" formControlName="itemId">
+            <option value="">==Select One==</option>
+            <option *ngFor="let year of mealItems" [ngValue]="year.id">
+              {{ year.itemName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label">Cost Amount <span class="required">&nbsp;*</span></label>
+          <input type="number" min="0" [ngClass]="{
+      'is-invalid':
+        reactiveForm.get('costAmount').errors &&
+        (reactiveForm.get('costAmount').touched ||
+          reactiveForm.get('costAmount').dirty)
+    }" class="form-control" formControlName="costAmount" />
+        </div>
+      </div>
+
+
+      <!-- <div class="col-md-8">
+        <div class="form-group">
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Date<span class="required">&nbsp;*</span></span>
+            </div>
+            <input type="date" [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('entryDate').errors &&
+                (reactiveForm.get('entryDate').touched ||
+                  reactiveForm.get('entryDate').dirty)
+            }" class="form-control form-control-sm" formControlName="entryDate" />
+          </div>
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Month<span class="required">&nbsp;*</span></span>
+            </div>
+            <select [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('monthId').errors &&
+                (reactiveForm.get('monthId').touched ||
+                  reactiveForm.get('monthId').dirty)
+            }" class="form-control form-control-sm" formControlName="monthId">
+              <option value="">==Select One==</option>
+              <option *ngFor="let item of mealMonthsList" [ngValue]="item.id">
+                {{ item.monthName }}
+              </option>
+            </select>
+          </div>
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Year<span class="required">&nbsp;*</span></span>
+            </div>
+            <select [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('yearId').errors &&
+                (reactiveForm.get('yearId').touched ||
+                  reactiveForm.get('yearId').dirty)
+            }" class="form-control form-control-sm" formControlName="yearId">
+              <option value="">==Select One==</option>
+              <option *ngFor="let year of commonService.YearSelectList" [ngValue]="year.value">
+                {{ year.label }}
+              </option>
+            </select>
+          </div>
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Item Category<span class="required">&nbsp;*</span></span>
+            </div>
+            <select (change)="ChangeCategory()" [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('categoryId').errors &&
+                (reactiveForm.get('categoryId').touched ||
+                  reactiveForm.get('categoryId').dirty)
+            }" class="form-control form-control-sm" formControlName="categoryId">
+              <option value="">==Select One==</option>
+              <option *ngFor="let year of categoryList" [ngValue]="year.id">
+                {{ year.categoryName }}
+              </option>
+            </select>
+          </div>
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Item Name<span class="required">&nbsp;*</span></span>
+            </div>
+            <select [ngClass]="{
+            'is-invalid':
+              reactiveForm.get('itemId').errors &&
+              (reactiveForm.get('itemId').touched ||
+                reactiveForm.get('itemId').dirty)
+          }" class="form-control form-control-sm" formControlName="itemId">
+              <option value="">==Select One==</option>
+              <option *ngFor="let year of mealItems" [ngValue]="year.id">
+                {{ year.itemName }}
+              </option>
+            </select>
+          </div>
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Cost Amount<span class="required">&nbsp;*</span></span>
+            </div>
+            <input type="number" min="0" [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('costAmount').errors &&
+                (reactiveForm.get('costAmount').touched ||
+                  reactiveForm.get('costAmount').dirty)
+            }" class="form-control form-control-sm" formControlName="costAmount" />
+          </div>
+          <div class="input-group input-group-sm mb-1">
+        <div class="input-group-prepend">
+          <span class="input-group-text"
+            >Cost Type<span class="required">&nbsp;*</span></span
+          >
+        </div>
+        <select
+          [ngClass]="{
+            'is-invalid':
+              reactiveForm.get('costType').errors &&
+              (reactiveForm.get('costType').touched ||
+                reactiveForm.get('costType').dirty)
+          }"
+          class="form-control form-control-sm"
+          formControlName="costType"
+        >
+          <option value="">==Select One==</option>
+          <option value="D">Daily</option>
+          <option value="M">Monthly</option>
+        </select>
+      </div>
+         
+        </div>
+      </div> -->
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <div class="alert">
+    <button type="button" (click)="SaveData()" class="button-save mr-2">
+      <i class="fa fa-save"></i> Save
+    </button>
+    <button (click)="OnClear()" class="button-clear mr-2" role="button">
+      <i class="fa fa-refresh mr-2"></i>Clear
+    </button>
+
+    <!-- <button (click)="bsModalRef.hide()" class="button-back mr-2" role="button">
+      <i class="fa fa-arrow-left mr-2"></i>Back
+    </button> -->
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <form
+  [formGroup]="reactiveForm"
+  class="form"
+  (ngSubmit)="OnSubmit()"
+  role="form"
+>
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <div class="form-group">
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Date<span class="required">&nbsp;*</span></span
+            >
+          </div>
+          <input
+            type="date"
+            [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('entryDate').errors &&
+                (reactiveForm.get('entryDate').touched ||
+                  reactiveForm.get('entryDate').dirty)
+            }"
+            class="form-control form-control-sm"
+            formControlName="entryDate"
+          />
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Month<span class="required">&nbsp;*</span></span
+            >
+          </div>
+          <select
+            [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('monthId').errors &&
+                (reactiveForm.get('monthId').touched ||
+                  reactiveForm.get('monthId').dirty)
+            }"
+            class="form-control form-control-sm"
+            formControlName="monthId"
+          >
+            <option value="">==Select One==</option>
+            <option *ngFor="let item of mealMonthsList" [ngValue]="item.id">
+              {{ item.monthName }}
+            </option>
+          </select>
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Year<span class="required">&nbsp;*</span></span
+            >
+          </div>
+          <select
+            [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('yearId').errors &&
+                (reactiveForm.get('yearId').touched ||
+                  reactiveForm.get('yearId').dirty)
+            }"
+            class="form-control form-control-sm"
+            formControlName="yearId"
+          >
+            <option value="">==Select One==</option>
+            <option
+              *ngFor="let year of commonService.YearSelectList"
+              [ngValue]="year.value"
+            >
+              {{ year.label }}
+            </option>
+          </select>
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Item Category<span class="required">&nbsp;*</span></span
+            >
+          </div>
+          <select (change)="ChangeCategory()"
+            [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('categoryId').errors &&
+                (reactiveForm.get('categoryId').touched ||
+                  reactiveForm.get('categoryId').dirty)
+            }"
+            class="form-control form-control-sm"
+            formControlName="categoryId"
+          >
+            <option value="">==Select One==</option>
+            <option
+              *ngFor="let year of categoryList"
+              [ngValue]="year.id"
+            >
+              {{ year.categoryName }}
+            </option>
+          </select>
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Item Name<span class="required">&nbsp;*</span></span
+            >
+          </div>
+          <select
+          [ngClass]="{
+            'is-invalid':
+              reactiveForm.get('itemId').errors &&
+              (reactiveForm.get('itemId').touched ||
+                reactiveForm.get('itemId').dirty)
+          }"
+          class="form-control form-control-sm"
+          formControlName="itemId"
+          >
+            <option value="">==Select One==</option>
+            <option
+              *ngFor="let year of mealItems"
+              [ngValue]="year.id"
+            >
+              {{ year.itemName }}
+            </option>
+          </select>          
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Item Name<span class="required">&nbsp;*</span></span
+            >
+          </div>
+          <input
+            [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('itemName').errors &&
+                (reactiveForm.get('itemName').touched ||
+                  reactiveForm.get('itemName').dirty)
+            }"
+            class="form-control form-control-sm"
+            formControlName="itemName"
+          />
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              >Cost Amount<span class="required">&nbsp;*</span></span
+            >
+          </div>
+          <input
+            type="number"
+            min="0"
+            [ngClass]="{
+              'is-invalid':
+                reactiveForm.get('costAmount').errors &&
+                (reactiveForm.get('costAmount').touched ||
+                  reactiveForm.get('costAmount').dirty)
+            }"
+            class="form-control form-control-sm"
+            formControlName="costAmount"
+          />
+        </div>
+        <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text"
+                >Cost Type<span class="required">&nbsp;*</span></span
+              >
+            </div>
+            <select
+              [ngClass]="{
+                'is-invalid':
+                  reactiveForm.get('costType').errors &&
+                  (reactiveForm.get('costType').touched ||
+                    reactiveForm.get('costType').dirty)
+              }"
+              class="form-control form-control-sm"
+              formControlName="costType"
+            >
+              <option value="">==Select One==</option>
+              <option value="D">Daily</option>
+              <option value="M">Monthly</option>
+            </select>
+          </div>
+        <button type="submit" class="btn btn-outline-success btn-xs btn-block">
+          <i class="fa fa-save"></i> Save
+        </button>
+      </div>
+    </div>
+  </div>
+</form> -->

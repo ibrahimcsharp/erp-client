@@ -1,0 +1,292 @@
+<p-panel header="Daily Meal Cost" [toggleable]="true">
+  <form [formGroup]="reactiveForm" class="form" (ngSubmit)="Process()" role="form">
+    <div class="row">
+      <div class="col-md-4 offset-md-4">
+        <div class="form-group">
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Month<span class="required">&nbsp;*</span></span>
+            </div>
+            <select [ngClass]="{
+                'is-invalid':
+                  reactiveForm.get('monthId').errors &&
+                  (reactiveForm.get('monthId').touched ||
+                    reactiveForm.get('monthId').dirty)
+              }" class="form-control form-control-sm" formControlName="monthId">
+              <option value="">==Select One==</option>
+              <option *ngFor="let item of mealMonthsList" [ngValue]="item.id">
+                {{ item.monthName }}
+              </option>
+            </select>
+          </div>
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Year<span class="required">&nbsp;*</span></span>
+            </div>
+            <select [ngClass]="{
+                'is-invalid':
+                  reactiveForm.get('yearId').errors &&
+                  (reactiveForm.get('yearId').touched ||
+                    reactiveForm.get('yearId').dirty)
+              }" class="form-control form-control-sm" formControlName="yearId">
+              <option value="">==Select One==</option>
+              <option *ngFor="let year of commonService.YearSelectList" [ngValue]="year.value">
+                {{ year.label }}
+              </option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-outline-success btn-block btn-xs">
+            <i class="fa fa-search"></i> Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <hr />
+  <div class="row">
+    <div class="col-md-4">
+      <div class="modal-header" style="padding: 0.12rem 1rem !important;">
+        <h5 class="modal-title f-w-600" id="exampleModalLabel">{{ title }}</h5>       
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="reactiveDailyCostForm" class="form" role="form">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Date <span class="required">&nbsp;*</span></label>
+                <input type="date" [ngClass]="{
+                      'is-invalid':
+                      reactiveDailyCostForm.get('entryDate').errors &&
+                        (reactiveDailyCostForm.get('entryDate').touched ||
+                        reactiveDailyCostForm.get('entryDate').dirty)
+                    }" class="form-control" formControlName="entryDate" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Item Category <span class="required">&nbsp;*</span></label>
+                <select (change)="ChangeCategory()" [ngClass]="{
+                      'is-invalid':
+                      reactiveDailyCostForm.get('categoryId').errors &&
+                        (reactiveDailyCostForm.get('categoryId').touched ||
+                        reactiveDailyCostForm.get('categoryId').dirty)
+                    }" class="form-control" formControlName="categoryId">
+                  <option value="">==Select One==</option>
+                  <option *ngFor="let year of categoryList" [ngValue]="year.id">
+                    {{ year.categoryName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Item Name <span class="required">&nbsp;*</span></label>
+                <select [ngClass]="{
+                      'is-invalid':
+                      reactiveDailyCostForm.get('itemId').errors &&
+                        (reactiveDailyCostForm.get('itemId').touched ||
+                        reactiveDailyCostForm.get('itemId').dirty)
+                    }" class="form-control" formControlName="itemId">
+                  <option value="">==Select One==</option>
+                  <option *ngFor="let year of mealItems" [ngValue]="year.id">
+                    {{ year.itemName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Qty <span class="required">&nbsp;*</span></label>
+                <input type="number" min="0" [ngClass]="{
+                      'is-invalid':
+                      reactiveDailyCostForm.get('quantity').errors &&
+                        (reactiveDailyCostForm.get('quantity').touched ||
+                        reactiveDailyCostForm.get('quantity').dirty)
+                    }" class="form-control" formControlName="quantity" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Unit <span class="required">&nbsp;*</span></label>
+                <select [ngClass]="{
+                      'is-invalid':
+                      reactiveDailyCostForm.get('uomId').errors &&
+                        (reactiveDailyCostForm.get('uomId').touched ||
+                        reactiveDailyCostForm.get('uomId').dirty)
+                    }" class="form-control" formControlName="uomId">
+                  <option *ngFor="let year of commonService.UnitTypeList" [ngValue]="year.value">
+                    {{ year.label }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Cost Amount <span class="required">&nbsp;*</span></label>
+                <input type="number" min="0" [ngClass]="{
+                      'is-invalid':
+                      reactiveDailyCostForm.get('costAmount').errors &&
+                        (reactiveDailyCostForm.get('costAmount').touched ||
+                        reactiveDailyCostForm.get('costAmount').dirty)
+                    }" class="form-control" formControlName="costAmount" />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="alert">
+          <button type="button" (click)="SaveData()" class="button-save mr-2">
+            <i class="fa fa-save"></i>&nbsp;{{submitButton}}
+          </button>
+          <button (click)="OnClear()" class="button-clear mr-2" role="button">
+            <i class="fa fa-refresh mr-2"></i>Clear
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-8">
+      <h5 class="modal-title f-w-600" id="exampleModalLabel">Daily Meal Cost List</h5>
+      <hr>
+      <br>
+      <p-table #dt [(selection)]="selectedEmpInfo" *ngIf="empList != null" [value]="empList" [globalFilterFields]="[
+        'costAmount',
+        'itemName',
+        'costType',
+        'monthName',
+        'yearName',
+        'curDate'
+      ]" dataKey="employeeId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix" style="text-align: left">
+            <!-- <button (click)="AddNew()" type="button" class="btn btn-outline-primary btn-xs mr-2">
+              <i class="fa fa-plus"></i>
+              New
+            </button> -->
+            <button (click)="Print()" type="button" class="btn btn-outline-success btn-xs mr-2">
+              <i class="fa fa-print"></i>
+              Print
+            </button>
+
+            <input type="text" pInputText size="50" placeholder="Global Filter"
+              (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="bc">
+            <!-- <th>
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th> -->
+            <th>SL</th>
+            <th [pSortableColumn]="'entryDate'">
+              Date
+              <p-sortIcon [field]="'entryDate'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'itemName'">
+              Item Name
+              <p-sortIcon [field]="'itemName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'quantity'">
+              Qty
+              <p-sortIcon [field]="'quantity'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'uomName'">
+              Unit
+              <p-sortIcon [field]="'uomName'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'costType'">
+              Cost Type
+              <p-sortIcon [field]="'costType'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th style="text-align: right" [pSortableColumn]="'costAmount'">
+              Cost Amount
+              <p-sortIcon [field]="'costAmount'" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td></td>
+            <!-- <td></td> -->
+            <td>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'curDate', 'contains')" style="width: 120px!important;"
+                class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'itemName', 'contains')" style="width: 120px!important;"
+                class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'quantity', 'contains')" style="width: 120px!important;"
+                class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'uomName', 'contains')" style="width: 120px!important;"
+                class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'costType', 'contains')" style="width: 120px!important;"
+                class="p-column-filter" />
+            </td>
+            <td>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'costAmount', 'contains')" style="width: 120px!important;"
+                class="p-column-filter" />
+            </td>
+            <td></td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr [pEditableRow]="rowData" class="center">
+            <!-- <td>
+            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+          </td> -->
+            <td>{{ ri + 1 }}</td>
+            <td>{{ rowData.curDate }}</td>
+            <td>{{ rowData.itemName }}</td>
+            <td>{{ rowData.quantity }}</td>
+            <td>{{ rowData.uomName }}</td>
+            <td *ngIf="rowData.costType == 'D'">Daily</td>
+            <td *ngIf="rowData.costType == 'M'">Monthly</td>
+            <td style="text-align: right">{{ rowData.costAmount }}</td>
+            <td>
+              <button type="button" (click)="edit(rowData)" class="btn btn-outline-success btn-xs mr-2">
+                <i class="fa fa-edit"></i>
+              </button>
+
+              <!-- <button class="btn btn-outline-info btn-xs mr-2">
+                <i class="fa fa-trash"></i>
+              </button> -->
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer" class="ui-table-tfoot">
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th style="text-align: right">{{ totalMonthlyCost }}</th>
+            <th></th>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+</p-panel>

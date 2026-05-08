@@ -1,0 +1,756 @@
+<form [formGroup]="challanForm">
+    <p-panel header="Challan Form" [toggleable]="true">
+        <ng-template pTemplate="icons">
+            <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                <span class="pi pi-cog"></span>
+            </button>
+            <!--<p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>-->
+        </ng-template>
+
+        <section>
+            <div class="row">
+                <div class="col-md-4" *ngIf="isCreateMode;">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Challan Type<span class="required">&nbsp;*</span></span>
+                            </div>
+                            <select formControlName="status" class="form-control input-xs select2">
+                                <option value="">===Select One===</option>
+                                <option value="EXPORT">EXPORT</option>
+                                <option value="IMPORT">IMPORT</option>
+                                <option value="LOCAL">LOCAL</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- For Export Form -->
+                <ng-container *ngIf="challanForm.value.status == 'EXPORT'">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">CNF Contact No</span>
+                                </div>
+                                <input type="text" formControlName="cnfcontactno" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Departure </span>
+                                </div>
+                                <input type="text" formControlName="departure" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Challan No<span class="required">&nbsp;*</span></span>
+                            </div>
+                            <input type="hidden" formControlName="status" class="form-control" />
+
+                            <input type="text" id="challanno" formControlName="challanno" class="form-control"
+                                [ngClass]="{
+                                'is-invalid':
+                                challanForm.get('challanno').errors &&
+                                (challanForm.get('challanno').touched ||
+                                challanForm.get('challanno').dirty)
+                            }" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Vehicle No<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <input type="text" formControlName="covervanno" class="form-control" [ngClass]="{
+                                    'is-invalid':
+                                    challanForm.get('covervanno').errors &&
+                                    (challanForm.get('covervanno').touched ||
+                                    challanForm.get('covervanno').dirty)
+                                }" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Covervan Vendor Name<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <input type="text" formControlName="transportcompany" class="form-control" [ngClass]="{
+                                    'is-invalid':
+                                    challanForm.get('transportcompany').errors &&
+                                    (challanForm.get('transportcompany').touched ||
+                                    challanForm.get('transportcompany').dirty)
+                                }" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Driver Name<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <input type="text" formControlName="drivername" class="form-control" [ngClass]="{
+                                    'is-invalid':
+                                    challanForm.get('drivername').errors &&
+                                    (challanForm.get('drivername').touched ||
+                                    challanForm.get('drivername').dirty)
+                                }" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Challan Date<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <input type="date" id="challandate" formControlName="challandate" class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                        challanForm.get('challandate').errors &&
+                                        (challanForm.get('challandate').touched ||
+                                        challanForm.get('challandate').dirty)
+                                    }" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Forwarder Name</span>
+                                </div>
+                                <input type="text" formControlName="forwardername" class="form-control" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Driver Mobile No<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <input type="text" formControlName="drivermobileno" class="form-control" [ngClass]="{
+                                    'is-invalid':
+                                    challanForm.get('drivermobileno').errors &&
+                                    (challanForm.get('drivermobileno').touched ||
+                                    challanForm.get('drivermobileno').dirty)
+                                }" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Depo Name</span>
+                                </div>
+                                <input type="text" id="deponame" formControlName="deponame" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Driver License No</span>
+                                </div>
+                                <input type="text" id="licenseno" formControlName="licenseno" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Depo Address</span>
+                                </div>
+                                <input type="text" id="depoaddress" formControlName="depoaddress"
+                                    class="form-control" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Loading Date</span>
+                                </div>
+                                <input type="date" formControlName="loaddatetime" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Unloading Date</span>
+                                </div>
+                                <input type="date" formControlName="unloaddatetime" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Type of Goods</span>
+                                </div>
+                                <select formControlName="typeOfGoods" class="form-control input-xs select2">
+                                    <option value="">==Select One==</option>
+                                    <option value="RMG">Ready Made Garments</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Security Lock No</span>
+                                </div>
+                                <input type="text" formControlName="securitylockno" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Type of Vehicle</span>
+                                </div>
+                                <select formControlName="typeOfVehicle" class="form-control input-xs select2">
+                                    <option value="Covered Van">Covered Van</option>
+                                    <option value="Truck">Truck</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">CNF Name</span>
+                                </div>
+                                <input type="text" id="cnfname" formControlName="cnfname" class="form-control" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Arrival</span>
+                                </div>
+                                <input type="text" formControlName="arrival" class="form-control" />
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Company Name</span>
+                                </div>
+                                <input type="text" formControlName="companyname" class="form-control" />
+
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <!-- For Import Form -->
+                <ng-container *ngIf="challanForm.value.status == 'IMPORT'">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Truck No<span class="required">&nbsp;*</span></span>
+                                </div>
+                                <input type="text" formControlName="truckNumber" class="form-control" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">CNF Clearing Zone</span>
+                                </div>
+                                <input type="text" formControlName="cnfClearingZoneName" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Good Release Date<span
+                                            class="required">&nbsp;*</span></span>
+                                </div>
+                                <input type="date" id="goodsReleaseDate" formControlName="goodsReleaseDate"
+                                    class="form-control" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Driver Name & No</span>
+                                </div>
+                                <input type="text" formControlName="driverDlNumber" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">CNF Agent Name</span>
+                                </div>
+                                <input type="text" id="cnfAgentName" formControlName="cnfAgentName"
+                                    class="form-control" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Truck Challan No<span
+                                        class="required">&nbsp;*</span></span>
+                            </div>
+                            <input type="hidden" formControlName="status" class="form-control" />
+
+                            <input type="text" id="truckChallanNo" formControlName="truckChallanNo" class="form-control"
+                                required />
+
+                        </div>
+                    </div>
+
+                </ng-container>
+            </div>
+        </section>
+    </p-panel>
+    <br>
+    <!-- Bill Info -->
+    <ng-container *ngIf="!isCreateMode">
+        <p-panel header="Bill Info" [toggleable]="true">
+            <ng-template pTemplate="icons">
+                <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                    <span class="pi pi-cog"></span>
+                </button>
+            </ng-template>
+
+
+            <section formArrayName="Transport">
+                <div *ngFor="let transport of challanForm.get('Transport').controls; let i=index">
+                    <div [formGroupName]="i" class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Bill No<span
+                                                    class="required">&nbsp;*</span></span>
+                                        </div>
+                                        <input type="text" formControlName="billNo" class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Fare Amount</span>
+                                            </div>
+                                            <input type="text" formControlName="fareAmount" (change)="calculateTotal()"
+                                                class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Bill Date<span
+                                                        class="required">&nbsp;*</span></span>
+                                            </div>
+                                            <input type="date" formControlName="billDate" class="form-control" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Damage Amount</span>
+                                            </div>
+                                            <input type="text" formControlName="damageAmount"
+                                                (change)="calculateTotal()" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Type of Trip<span
+                                                        class="required">&nbsp;*</span></span>
+                                            </div>
+                                            <select formControlName="typeOfTrip" class="form-control input-xs select2">
+                                                <option value="">===Select One===</option>
+                                                <option value="EXPORT">EXPORT</option>
+                                                <option value="IMPORT">IMPORT</option>
+                                                <option value="LOCAL">LOCAL</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Ware house Rent</span>
+                                            </div>
+                                            <input type="text" formControlName="warehouseRent"
+                                                (change)="calculateTotal()" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Billing Month<span
+                                                        class="required">&nbsp;*</span></span>
+                                            </div>
+                                            <select formControlName="billingMonth"
+                                                class="form-control input-xs select2">
+                                                <option value="">===Select One===</option>
+                                                <option value="January">January</option>
+                                                <option value="February">February</option>
+                                                <option value="March">March</option>
+                                                <option value="April">April</option>
+                                                <option value="May">May</option>
+                                                <option value="June">June</option>
+                                                <option value="July">July</option>
+                                                <option value="August">August</option>
+                                                <option value="September">September</option>
+                                                <option value="October">October</option>
+                                                <option value="November">November</option>
+                                                <option value="December">December</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Additional Charge</span>
+                                            </div>
+                                            <input type="text" formControlName="additionalCharge"
+                                                (change)="calculateTotal()" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span>Truck Fair Applicable</span>&nbsp; &nbsp; <input type="checkbox"
+                                                    id="isTruckFairApplicable"
+                                                    formControlName="isTruckFairApplicable" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Extra Charge</span>
+                                            </div>
+                                            <input type="text" formControlName="extraCharge" (change)="calculateTotal()"
+                                                class="form-control" />
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span>Truck Fair Paid</span>&nbsp; &nbsp; <input type="checkbox"
+                                                    formControlName="isTruckFairPaid" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Total</span>
+                                            </div>
+                                            <input type="text" formControlName="totalCharge" disabled="disabled"
+                                                class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </p-panel>
+    </ng-container>
+    <br>
+    <!-- Export Product Info -->
+    <ng-container *ngIf="challanForm.value.status == 'EXPORT'">
+        <p-panel header="Product Info" [toggleable]="true">
+            <ng-template pTemplate="icons">
+                <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                    <span class="pi pi-cog"></span>
+                </button>
+                <!--<p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>-->
+            </ng-template>
+
+            <section formArrayName="ChallanDets">
+                <div class="table-responsive" style="height: 300px; overflow: auto;">
+                    <table class="table table-bordered table-striped table-hover AppointmentDetTable ">
+
+                        <thead>
+                            <tr>
+                                <th class="col-lg-1">SN</th>
+                                <th style="min-width:150px;">Buyer Name</th>
+                                <th style="min-width:150px;">PO</th>
+                                <th style="min-width:150px;">Style</th>
+                                <th style="min-width:100px;">Color</th>
+                                <th style="min-width:100px;">CTN Qty</th>
+                                <th style="min-width:100px;">Total Qty</th>
+                                <th style="min-width:100px;">UnitMeasure</th>
+                                <th style="min-width:100px;">CBM</th>
+                                <!-- <th style="min-width:100px;">Cost</th>
+                                <th style="min-width:100px;">Percentage</th> -->
+                                <th style="min-width:200px;">Remarks</th>
+                                <th class="col-lg-1">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let item of challanForm.get('ChallanDets')['controls']; let i = index"
+                                [formGroupName]="i">
+
+                                <td style="min-width:70px;">{{i+1}}</td>
+                                <!-- <td style="min-width:150px;"><input formControlName="buyername" class="form-control" /></td> -->
+                                <td style="min-width:150px;">
+                                    <select formControlName="buyername" class="form-control input-xs select2">
+                                        <option value="">===Select One===</option>
+                                        <option *ngFor="let buyer of commonService.BuyerSelectList"
+                                            [ngValue]="buyer.label">
+                                            {{ buyer.label }}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td style="min-width:150px;"><input formControlName="pono" class="form-control " /></td>
+                                <td style="min-width:150px;"><input formControlName="stylename" class="form-control " />
+                                </td>
+                                <td style="min-width:100px;"><input formControlName="color" class="form-control" /></td>
+                                <td style="min-width:100px;"><input formControlName="deliverycartonqty"
+                                        class="form-control" /></td>
+                                <td style="min-width:100px;"><input formControlName="deliverypcsqty"
+                                        class="form-control" />
+                                </td>
+                                <td style="min-width:100px;"><input formControlName="unitMeasure"
+                                        class="form-control input-xs " /></td>
+                                <td style="min-width:100px;"><input formControlName="deliverycbm"
+                                        class="form-control input-xs " (change)="calculateTotalcbm()" /></td>
+                                <!--                               
+                                <td style="min-width:100px;"><input formControlName="cost" class="form-control input-xs " disabled="disabled"/>
+                                </td>
+                                <td style="min-width:100px;"><input formControlName="percentage"
+                                        class="form-control input-xs " disabled="disabled"/></td> -->
+                                <td style="min-width:200px;"><input formControlName="remarks"
+                                        class="form-control input-xs " /></td>
+
+                                <td><button class="btn btn-xs btn-danger" type="button" (click)="removechallanDet(i)">
+                                        <i class="fa fa-trash" style="color: red;"></i>
+                                    </button></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td><button type="button" [disabled]="!isCreateMode" (click)="addChallanDetRow()"
+                                        class="btn btn-xs btn-primary" id="btnAddRow"><i class="fa fa-plus"
+                                            aria-hidden="true">
+                                        </i>Add</button>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td style="height:30px;font-size: 12px;"><strong>Total:</strong></td>
+                                <td style="text-align: left;padding-left: 20px;font-size: 12px;">
+                                    <strong>{{totalcbm}}</strong> </td>
+                                <!-- <td style="text-align: left;padding-left: 20px;font-size: 12px;"> <strong>{{totalBuyerCostPrice}}</strong> </td>
+                                <td style="text-align: left;padding-left: 20px;font-size: 12px;"> <strong>{{totalBuyerCostPercentage}}</strong> </td> -->
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                </div>
+            </section>
+        </p-panel>
+    </ng-container>
+    <!-- Import Product Info -->
+    <ng-container *ngIf="challanForm.value.status == 'IMPORT'">
+        <p-panel header="Product Info" [toggleable]="true">
+            <ng-template pTemplate="icons">
+                <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event)">
+                    <span class="pi pi-cog"></span>
+                </button>
+
+            </ng-template>
+
+            <section formArrayName="ImportDetails">
+                <div class="table-responsive" style="height: 300px; overflow: auto;">
+                    <table class="table table-bordered table-striped table-hover AppointmentDetTable ">
+
+                        <thead>
+                            <tr>
+                                <th class="col-lg-1">SN</th>
+                                <th style="min-width:150px;">Buyer Name</th>
+                                <th style="min-width:150px;">Consignment</th>
+                                <th style="min-width:150px;">Supplier</th>
+                                <th style="min-width:100px;">Invoice</th>
+                                <th style="min-width:100px;">Invoice Date</th>
+                                <th style="min-width:100px;">Total Qty</th>
+                                <th style="min-width:100px;">Quantity</th>
+                                <th style="min-width:100px;">CBM</th>
+                                <th style="min-width:200px;">Remarks</th>
+                                <th class="col-lg-1">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let item of challanForm.get('ImportDetails')['controls']; let i = index"
+                                [formGroupName]="i">
+
+                                <td style="min-width:70px;">{{i+1}}</td>
+                                <td style="min-width:150px;">
+                                    <select formControlName="buyerId" class="form-control input-xs select2">
+                                        <option value="">===Select One===</option>
+                                        <option *ngFor="let buyer of commonService.BuyerSelectList"
+                                            [ngValue]="buyer.value">
+                                            {{ buyer.label }}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td style="min-width:150px;"><input formControlName="supplierName"
+                                        class="form-control " /></td>
+                                <td style="min-width:150px;"><input formControlName="consignment"
+                                        class="form-control " />
+                                </td>
+                                <td style="min-width:100px;"><input formControlName="invoiceNo" class="form-control" />
+                                </td>
+                                <td style="min-width:100px;"><input formControlName="invoiceDate" type="date"
+                                        class="form-control" /></td>
+                                <td style="min-width:100px;"><input formControlName="deliveryQty"
+                                        class="form-control" />
+                                </td>
+                                <td style="min-width:100px;"><input formControlName="cbmUnit"
+                                        class="form-control input-xs " /></td>
+                                <td style="min-width:100px;"><input formControlName="cbm" class="form-control input-xs "
+                                        (change)="calculateTotalcbm()" /></td>
+                                <td style="min-width:200px;"><input formControlName="remarks"
+                                        class="form-control input-xs " /></td>
+
+                                <td><button class="btn btn-xs btn-danger" type="button"
+                                        (click)="removeImportchallanDet(i)">
+                                        <i class="fa fa-trash" style="color: red;"></i>
+                                    </button></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td><button type="button" [disabled]="!isCreateMode" (click)="addImportChallanDetRow()"
+                                        class="btn btn-xs btn-primary" id="btnAddRow"><i class="fa fa-plus"
+                                            aria-hidden="true">
+                                        </i>Add</button>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="height:30px;font-size: 12px;"><strong>Total:</strong></td>
+                                <td style="text-align: left;padding-left: 20px;font-size: 12px;">
+                                    <strong>{{totalcbm}}</strong> </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                </div>
+            </section>
+        </p-panel>
+    </ng-container>
+
+    <!-- Buttons -->
+    <div class="form-group" style="padding-top: 10px">
+        <div class="col-md-6">
+            <button type="button" (click)="saveData()" class=" btn btn-xs btn-outline-success mr-2"><i
+                    class="fa fa-file"></i> {{ButtonName}}
+            </button>
+            <button type="button" class="btn btn-xs btn-outline-primary" (click)="Clear()">
+                <i class="fa fa-refresh"></i> Clear
+            </button>
+        </div>
+    </div>
+
+
+</form>

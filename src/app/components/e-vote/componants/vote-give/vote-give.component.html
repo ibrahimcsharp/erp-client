@@ -1,0 +1,91 @@
+<p-panel header="ISSUE NO.{{ eVote.id }}" [toggleable]="true">
+  <div style="margin-top: 50px; margin-bottom: 80px">
+    <div class="row" style="margin-top:-50px ;">
+      <div style="text-align: center;" class="col-md-8"> 
+        <!-- <img style="height: 350px;width: 650px; margin-bottom: 10px; margin-left: 250px;" src="{{ showImagePath }}" /><span>&nbsp;&nbsp;</span> -->
+        <!-- <p-carousel [value]="fileList" [numVisible]="3" [numScroll]="3">
+          <ng-template let-item pTemplate="item">
+            <div class="item">{{ item }}</div>
+          </ng-template>
+        </p-carousel> -->
+        <p-carousel
+        [value]="fileList"
+        [numVisible]="1"
+        [numScroll]="1"
+        [circular]="false"
+        [responsiveOptions]="responsiveOptions"
+      >
+        <ng-template pTemplate="header">
+          <h5>Basic</h5>
+        </ng-template>
+        <ng-template let-product pTemplate="item">
+          <div class="product-item">
+            <div class="product-item-content">              
+              <div>             
+                  <img style="height: 350px;width: 650px; margin-bottom: 10px;" src="{{product.loc}}"/>               
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-carousel>
+
+
+
+      </div>
+      <div style="text-align: center" class="col-md-4">
+        
+        <img style="height: 50px" src="assets/images/live/live.png" /><span
+          >&nbsp;&nbsp;</span>
+        <span style="color: green; font-weight: bold; font-size: 18px">{{
+          demo
+        }}</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="alert alert-info">
+          <span style="font-size: 20px">{{ eVote.title }}</span>
+        </h3>
+      </div>
+      <!-- <div class="col-md-2">
+        <h4 class="alert alert-success">
+          <span>{{ demo }}</span>
+        </h4>
+      </div> -->
+    </div>
+
+    <div class="row">
+      <div *ngFor="let item of eVote.issueOptions; index as i" class="col-md-3">
+        <!-- <button (click)="Vote(eVote.id, item.id)" class="green-btn">
+            {{ item.optionName }}
+          </button> -->
+        <div class="form-group">
+          <button
+            style="font-size: 14px !important"
+            type="button"
+            (click)="Vote(eVote.id, item.id)"
+            class="btn btn-outline-success btn-lg btn-block"
+          >
+            <span style="color: darkgoldenrod !important">{{ i + 1 }}. </span>
+            {{ item.optionName }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <h5 class="card-title">Special title treatment</h5>
+  <p class="card-text">
+    With supporting text below as a natural lead-in to additional content.
+  </p>
+  <a href="#" class="btn btn-primary">Go somewhere</a> -->
+</p-panel>
+
+<p-messages [value]="msgs"></p-messages>
+
+<p-confirmDialog
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+></p-confirmDialog>
+
+

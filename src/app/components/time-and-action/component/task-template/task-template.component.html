@@ -1,0 +1,176 @@
+<p-panel header="Template Create" [toggleable]="true">
+    <form [formGroup]="templateForm">
+
+        <div class="row">
+            <div class="col-md-3 offset-md-4">
+              <div class="form-group">
+                <div class="input-group input-group-sm mb-1">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Buyer<span class="required">&nbsp;*</span></span>
+                  </div>
+                  <select formControlName="buyerId" class="p-inputtext-sm form-control uppercase" 
+                  [ngClass]="{
+                    'is-invalid':
+                    templateForm.get('buyerId').errors &&
+                      (templateForm.get('buyerId').touched ||
+                      templateForm.get('buyerId').dirty)
+                    }"
+                    >
+                    <option *ngFor="let buyer of BuyerSelectList" [ngValue]="buyer.value">
+                        {{ buyer.label | uppercase }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="input-group input-group-sm mb-1">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Captype</span>
+                  </div>
+                  <input class="form-control" type="text" formControlName="captype"/>
+                </div>
+                <div class="input-group input-group-sm mb-1">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Template</span>
+                  </div>
+                  <input class="form-control" type="text" formControlName="template"/>
+                </div>
+                <div class="input-group input-group-sm mb-1">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Lead Time</span>
+                  </div>
+                  <input class="form-control" type="number" formControlName="leadTime"
+                  (focusout)="UndoZeroForLeadTime()"
+                    (mouseout)="UndoZeroForLeadTime()"
+                    (click)="RemoveZeroForLeadTime()"/>
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">days</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered table-hover table-sm">
+            <thead>
+              <tr>
+                <th style="width: 60px;"><button (click)="addNewItem()" type="button" class="btn btn-info btn-xs"><i class="fa fa-plus"></i> New </button></th>
+                <th>Tasks</th>
+                <th>Deadline(Days)</th>
+                <th>Execution Days</th>
+                <th>Notice Before</th>
+                <th>Source</th>
+                <th>Dependent Task</th>
+                <th>Responsible Dept.</th>
+                <th >Accountable</th>
+                <th >Consulted</th>
+                <th >Informed</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody
+              formArrayName="templateTaskList" *ngFor="let item of templateForm.get('templateTaskList')['controls'];let i = index">
+              <tr [formGroup]="item">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <select formControlName="TnaTaskSetupId" class="form-control-sm form-control uppercase">
+                    <option *ngFor="let task of TaskSelectList" [ngValue]="task.value">
+                      {{ task.label }}
+                    </option>
+                  </select>
+                </td>
+                <!-- <td>
+                  <input formControlName="Deadline" type="date" class="form-control form-control-sm"/>
+                </td> -->
+                <td>
+                  <input formControlName="DeadlineDays" type="number" class="form-control form-control-sm"
+                            (focusout)="UndoZeroForDeadline(i)"
+                            (mouseout)="UndoZeroForDeadline(i)"
+                            (click)="RemoveZeroForDeadline(i)"/>
+                </td>
+                <td>
+                  <input formControlName="ExecutionDays" type="number" class="form-control form-control-sm"
+                            (focusout)="UndoZeroForExecutionDays(i)"
+                            (mouseout)="UndoZeroForExecutionDays(i)"
+                            (click)="RemoveZeroForExecutionDays(i)"/>
+                </td>
+                <td>
+                  <input formControlName="NoticeBefore" type="number" class="form-control form-control-sm"
+                            (focusout)="UndoZeroForNoticeBefore(i)"
+                            (mouseout)="UndoZeroForNoticeBefore(i)"
+                            (click)="RemoveZeroForNoticeBefore(i)"/>
+                </td>
+                <td>
+                  <input formControlName="Source" type="text" class="form-control form-control-sm"/>
+                </td>
+                <td>
+                  <!-- <input formControlName="DependentTask" type="text" class="form-control form-control-sm"/> -->
+                  <select formControlName="DependentTaskId" class="form-control-sm form-control uppercase">
+                    <option *ngFor="let task of TaskSelectList" [ngValue]="task.value">
+                      {{ task.label }}
+                    </option>
+                  </select>
+                </td>
+                <td>
+                  <!-- <input formControlName="ResponsibleDept" type="text" class="form-control form-control-sm"/> -->
+                  <input  formControlName="ResponsibleDept" [typeahead]="commonService.GatePassEmployeeList"
+                         [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                         (typeaheadNoResults)="typeaheadNoResultsEmployee($event,i)" (typeaheadOnSelect)="onSelectEmployee($event,i)"
+                         typeaheadOptionField="label" class="form-control form-control-sm" />
+                </td>
+                <td>
+                  <!-- <input formControlName="ResponsibleDept" type="text" class="form-control form-control-sm"/> -->
+                  <input  formControlName="AccountablePerson" [typeahead]="commonService.GatePassEmployeeList"
+                         [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                         (typeaheadNoResults)="typeaheadNoResultsEmployee($event,i)" (typeaheadOnSelect)="onSelectEmployee($event,i)"
+                         typeaheadOptionField="label" class="form-control form-control-sm" />
+                </td>
+                <td>
+                  <!-- <input formControlName="ResponsibleDept" type="text" class="form-control form-control-sm"/> -->
+                  <input  formControlName="ConsultedPerson" [typeahead]="commonService.GatePassEmployeeList"
+                         [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                         (typeaheadNoResults)="typeaheadNoResultsEmployee($event,i)" (typeaheadOnSelect)="onSelectEmployee($event,i)"
+                         typeaheadOptionField="label" class="form-control form-control-sm" />
+                </td>
+                <td>
+                  <!-- <input formControlName="ResponsibleDept" type="text" class="form-control form-control-sm"/> -->
+                  <input  formControlName="InformedPerson" [typeahead]="commonService.GatePassEmployeeList"
+                         [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="8"
+                         (typeaheadNoResults)="typeaheadNoResultsEmployee($event,i)" (typeaheadOnSelect)="onSelectEmployee($event,i)"
+                         typeaheadOptionField="label" class="form-control form-control-sm" />
+                </td>
+                <td>
+                  <button class="btn btn-primary btn-xs" (click)="DeleteRow(i)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+
+      <hr />
+      <div class="row">
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-outline-success btn-xs mr-2" (click)="onSubmit()">
+            <i class="fa fa-database"></i> Save
+          </button>
+          <button
+            
+            type="button"
+            class="btn btn-outline-info btn-xs mr-2"
+          >
+            <i class="fa fa-refresh"></i> Clear
+          </button>
+        </div>
+      </div>
+    </form>
+  </p-panel>
+
+
+  <p-confirmDialog  [style]="{ width: '50vw' }" key="positionDialog" [position]="position" [baseZIndex]="10000">
+  </p-confirmDialog>
+  

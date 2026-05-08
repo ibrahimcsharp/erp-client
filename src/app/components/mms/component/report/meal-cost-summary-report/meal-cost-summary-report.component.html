@@ -1,0 +1,753 @@
+<p-panel header="{{mealSnacks}}" [toggleable]="true">
+    <form [formGroup]="reactiveSearchForm" (ngSubmit)="Process()" role="form">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm mb-1 report-list">
+
+                            <span *ngFor="let rsl of reportsList" class="report-item">
+                                <input type="radio" (click)="LoadDropDown(rsl)" name="reportFor"
+                                    formControlName="reportFor" class="mr-1 ml-3" value="{{rsl.name}}"
+                                    [checked]="rsl.name == dfltReportName ? true : false">
+                                <label for="{{rsl.name}}">{{rsl.name}}</label>
+                            </span>
+
+
+                            <!-- <div class="input-group-prepend">
+                                <span class="input-group-text">Report For<span class="required">&nbsp;*</span></span>
+                            </div>
+                            <select [ngClass]="{
+                                'is-invalid':
+                                reactiveSearchForm.get('reportFor').errors &&
+                                    (reactiveSearchForm.get('reportFor').touched ||
+                                    reactiveSearchForm.get('reportFor').dirty)
+                                }" class="form-control form-control-sm" (ngModelChange)="LoadDropDown($event)"
+                                formControlName="reportFor">
+                                <option value="meal">Meal</option>
+                                <option value="snacks">Snacks</option>
+                            </select> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-1" *ngIf="showMeal">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Year<span class="required">&nbsp;*</span></span>
+                        </div>
+                        <select [ngClass]="{
+                            'is-invalid':
+                            reactiveSearchForm.get('yearId').errors &&
+                                (reactiveSearchForm.get('yearId').touched ||
+                                reactiveSearchForm.get('yearId').dirty)
+                            }" class="form-control form-control-sm" formControlName="yearId">
+                            <option value="">==Select One==</option>
+                            <option *ngFor="let year of commonService.YearSelectList" [ngValue]="year.value">
+                                {{ year.label }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-1" *ngIf="showSnacks || showDayWiseMeal || showIndvDayWiseMeal">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">From Date<span class="required">&nbsp;*</span></span>
+                        </div>
+
+                        <input type="date" placeholder="dd-mm-yyyy" class="form-control" [ngClass]="{
+                      'is-invalid':
+                      reactiveSearchForm.get('snacksSummaryReportFromDate').errors &&
+                        (reactiveSearchForm.get('snacksSummaryReportFromDate').touched ||
+                        reactiveSearchForm.get('snacksSummaryReportFromDate').dirty)
+                        }" formControlName="snacksSummaryReportFromDate" />
+                    </div>
+                    <div class="input-group input-group-sm mb-1" *ngIf="showSnacks || showDayWiseMeal || showIndvDayWiseMeal">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">To Date<span class="required">&nbsp;*</span></span>
+                        </div>
+
+                        <input type="date" placeholder="dd-mm-yyyy" class="form-control" [ngClass]="{
+                      'is-invalid':
+                      reactiveSearchForm.get('snacksSummaryReportToDate').errors &&
+                        (reactiveSearchForm.get('snacksSummaryReportToDate').touched ||
+                        reactiveSearchForm.get('snacksSummaryReportToDate').dirty)
+                    }" formControlName="snacksSummaryReportToDate" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-1" *ngIf="showIndvDayWiseMeal">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Employee ID</span>
+                        </div>
+                        <input  type="text" [ngClass]="{
+                            'is-invalid':
+                              reactiveForm.get('employeeId').errors &&
+                              (reactiveForm.get('employeeId').touched ||
+                                reactiveForm.get('employeeId').dirty)
+                          }" class="form-control" formControlName="employeeId" />
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn btn-outline-success btn-block btn-xs">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+
+
+
+        <hr />
+
+        <p-table #dt *ngIf="showMeal && itemList != null" [value]="itemList" [globalFilterFields]="[
+                'monthName',
+                'scoCompanyNet60PercentCont',
+                'scoEmp40PercentCont',
+                'scoMealCost',
+                'perMealCost',
+                'totalMeal',
+                'scoMealCount',
+                'perMealCost',
+                'scoMealCount',
+                'saraCompanyNet60PercentCont',
+                'saraEmp40PercentCont',
+                'saraMealCost',
+                'saraMealCount',
+                'totalGuestCost',
+                'saraGuestCost',
+                'saraGuestMeal',
+                'scoGuestCost',
+                'scoGuestMeal',
+                'totalCost',
+                'fixedCost',
+                'foodCost'
+            ]" dataKey="itemId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">>
+            <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix" style="text-align: left">
+                    <button (click)="exportExcelMeal()" type="button" class="btn btn-outline-success btn-xs mr-2">
+                        <i class="fa fa-excel"></i>
+                        Excel
+                    </button>
+
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="bc">
+                    <th>SL</th>
+                    <th [pSortableColumn]="'monthName'">
+                        Month
+                        <p-sortIcon [field]="'monthName'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'foodCost'">
+                        Food Cost
+                        <p-sortIcon [field]="'foodCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'fixedCost'">
+                        Fixed Cost
+                        <p-sortIcon [field]="'fixedCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'totalCost'">
+                        Total Cost
+                        <p-sortIcon [field]="'totalCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'scoGuestMeal'">
+                        SCO Guest Meal
+                        <p-sortIcon [field]="'scoGuestMeal'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'scoGuestCost'">
+                        SCO Guest Cost
+                        <p-sortIcon [field]="'scoGuestCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'saraGuestMeal'">
+                        SaRa Guest Meal
+                        <p-sortIcon [field]="'saraGuestMeal'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'saraGuestCost'">
+                        SaRa Guest Cost
+                        <p-sortIcon [field]="'saraGuestCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'totalGuestCost'">
+                        Total Guest Cost
+                        <p-sortIcon [field]="'totalGuestCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'saraMealCount'">
+                        SaRa Meal Count
+                        <p-sortIcon [field]="'saraMealCount'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'saraMealCost'">
+                        SaRa Meal Cost
+                        <p-sortIcon [field]="'saraMealCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'saraEmp40PercentCont'">
+                        SaRa Employee 40% Contribution
+                        <p-sortIcon [field]="'saraEmp40PercentCont'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'saraCompanyNet60PercentCont'">
+                        SaRa Net Meal 60% Company Contribution
+                        <p-sortIcon [field]="'saraCompanyNet60PercentCont'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'scoMealCount'">
+                        SCO Meal Count
+                        <p-sortIcon [field]="'scoMealCount'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'totalMeal'">
+                        Total Meal
+                        <p-sortIcon [field]="'totalMeal'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'perMealCost'">
+                        Per Meal Cost
+                        <p-sortIcon [field]="'perMealCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'scoMealCost'">
+                        SCO Meal Cost
+                        <p-sortIcon [field]="'scoMealCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'scoEmp40PercentCont'">
+                        SCO Employee 40% Contribution
+                        <p-sortIcon [field]="'scoEmp40PercentCont'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'scoCompanyNet60PercentCont'">
+                        SCO Net Meal 60% Company Contribution
+                        <p-sortIcon [field]="'scoCompanyNet60PercentCont'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'monthName', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'foodCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'fixedCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'totalCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'scoGuestMeal', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'scoGuestCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'saraGuestMeal', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'saraGuestCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'totalGuestCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'saraMealCount', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'saraMealCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'saraEmp40PercentCont', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'saraCompanyNet60PercentCont', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'scoMealCount', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'totalMeal', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'perMealCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'scoMealCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'scoEmp40PercentCont', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'scoCompanyNet60PercentCont', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData" class="center">
+                    <td>{{ ri + 1 }}</td>
+                    <td>{{ rowData.monthName }}</td>
+                    <td>{{ rowData.foodCost }}</td>
+                    <td>{{ rowData.fixedCost }}</td>
+                    <td>{{ rowData.totalCost }}</td>
+                    <td>{{ rowData.scoGuestMeal }}</td>
+                    <td>{{ rowData.scoGuestCost | number:'1.2-2'}}</td>
+                    <td>{{ rowData.saraGuestMeal }}</td>
+                    <td>{{ rowData.saraGuestCost | number:'1.2-2'}}</td>
+                    <td>{{ rowData.totalGuestCost | number:'1.2-2'}}</td>
+                    <td>{{ rowData.saraMealCount }}</td>
+                    <td>{{ rowData.saraMealCost | number:'1.2-2'}}</td>
+                    <td>{{ rowData.saraEmp40PercentCont | number:'1.2-2'}}</td>
+                    <td>{{ rowData.saraCompanyNet60PercentCont | number:'1.2-2'}}</td>
+                    <td>{{ rowData.scoMealCount }}</td>
+                    <td>{{ rowData.totalMeal }}</td>
+                    <td>{{ rowData.perMealCost | number:'1.2-2'}}</td>
+                    <td>{{ rowData.scoMealCost | number:'1.2-2'}}</td>
+                    <td>{{ rowData.scoEmp40PercentCont | number:'1.2-2'}}</td>
+                    <td>{{ rowData.scoCompanyNet60PercentCont | number:'1.2-2'}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+        <p-table #dt *ngIf="showSnacks && itemList != null" [value]="itemList" [globalFilterFields]="[
+                'declareDate',
+                'itemName',
+                'makeQty',
+                'makeCost',
+                'saleQty',
+                'salePrice',
+                'totalSaleAmount',
+                'officialQty',
+                'officialGuestCost',
+                'damageQty',
+                'damageCost',
+                'balance'
+            ]" dataKey="itemId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">>
+            <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix" style="text-align: left">
+                    <button (click)="exportExcelSnacks()" type="button" class="btn btn-outline-success btn-xs mr-2">
+                        <i class="fa fa-excel"></i>
+                        Excel
+                    </button>
+
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="bc">
+                    <th>SL</th>
+                    <th [pSortableColumn]="'declareDate'">
+                        Date
+                        <p-sortIcon [field]="'declareDate'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'itemName'">
+                        Item Name
+                        <p-sortIcon [field]="'itemName'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'makeQty'">
+                        Making Qty
+                        <p-sortIcon [field]="'makeQty'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'makeCost'">
+                        Making Cost Per Unit
+                        <p-sortIcon [field]="'makeCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'saleQty'">
+                        Sale Qty
+                        <p-sortIcon [field]="'saleQty'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'salePrice'">
+                        Sale Price
+                        <p-sortIcon [field]="'salePrice'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'totalSaleAmount'">
+                        Total Sale Amount
+                        <p-sortIcon [field]="'totalSaleAmount'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'officialQty'">
+                        Official Guest Qty
+                        <p-sortIcon [field]="'officialQty'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'officialGuestCost'">
+                        Official Guest Cost
+                        <p-sortIcon [field]="'officialGuestCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'damageQty'">
+                        Damage Qty
+                        <p-sortIcon [field]="'damageQty'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'damageCost'">
+                        Damage Cost
+                        <p-sortIcon [field]="'damageCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'balance'">
+                        Balance
+                        <p-sortIcon [field]="'balance'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+
+
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'declareDate', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'itemName', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'makeQty', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'makeCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'saleQty', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'salePrice', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'totalSaleAmount', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'officialQty', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'officialGuestCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'damageQty', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'damageCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'balance', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData" class="center">
+                    <td>{{ ri + 1 }}</td>
+                    <td>{{ rowData.declareDate }}</td>
+                    <td>{{ rowData.itemName }}</td>
+                    <td>{{ rowData.makeQty }}</td>
+                    <td>{{ rowData.makeCost }}</td>
+                    <td>{{ rowData.saleQty }}</td>
+                    <td>{{ rowData.salePrice }}</td>
+                    <td>{{ rowData.totalSaleAmount }}</td>
+                    <td>{{ rowData.officialQty }}</td>
+                    <td>{{ rowData.officialGuestCost }}</td>
+                    <td>{{ rowData.damageQty }}</td>
+                    <td>{{ rowData.damageCost }}</td>
+                    <td>{{ rowData.balance }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+        <p-table #dt *ngIf="showDayWiseMeal && itemList != null" [value]="itemList" [globalFilterFields]="[
+                'declareDate',
+                'itemName',
+                'makeQty',
+                'makeCost',
+                'saleQty',
+                'salePrice',
+                'totalSaleAmount',
+                'officialQty',
+                'officialGuestCost',
+                'damageQty',
+                'damageCost',
+                'balance'
+            ]" dataKey="itemId" editMode="row" [scrollable]="true" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 50, 100]">>
+            <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix" style="text-align: left">
+                    <button (click)="exportDayWiseMealCost()" type="button" class="btn btn-outline-success btn-xs mr-2">
+                        <i class="fa fa-excel"></i>
+                        Excel
+                    </button>
+
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="bc">
+                    <th>SL</th>
+                    <th [pSortableColumn]="'tokenDate'">
+                        Date
+                        <p-sortIcon [field]="'tokenDate'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'mealCost'">
+                        Meal Cost
+                        <p-sortIcon [field]="'mealCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'fixedCost'">
+                        Fixed Cost
+                        <p-sortIcon [field]="'fixedCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'perDayMeal'">
+                        Per Day Meal
+                        <p-sortIcon [field]="'perDayMeal'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'mealRate'">
+                        Meal Rate
+                        <p-sortIcon [field]="'mealRate'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'dailyGuestMeal'">
+                        Per Day Guest Meal
+                        <p-sortIcon [field]="'dailyGuestMeal'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'perMealFixedCost'">
+                        Per Meal Fixed Cost
+                        <p-sortIcon [field]="'perMealFixedCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'actualMealRate'">
+                        Actual Meal Rate
+                        <p-sortIcon [field]="'actualMealRate'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'guestCost'">
+                        Guest Cost
+                        <p-sortIcon [field]="'guestCost'" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tokenDate', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'mealCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'fixedCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'perDayMeal', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'mealRate', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'dailyGuestMeal', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'perMealFixedCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'actualMealRate', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'guestCost', 'contains')"
+                            class="p-column-filter width-130" />
+                    </td>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData" class="center">
+                    <td>{{ ri + 1 }}</td>
+                    <td>{{ rowData.tokenDate }}</td>
+                    <td>{{ rowData.mealCost }}</td>
+                    <td>{{ rowData.mealFixedCost }}</td>
+                    <td>{{ rowData.perDayMeal }}</td>
+                    <td>{{ rowData.mealRate }}</td>
+                    <td>{{ rowData.dailyGuestMeal }}</td>
+                    <td>{{ rowData.perMealFixedCost }}</td>
+                    <td>{{ getTotalMealCost(rowData) | number: '1.2-2' }}</td>
+                    <td>{{ (getTotalMealCost(rowData) * rowData.dailyGuestMeal) | number: '1.2-2' }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </form>
+</p-panel>

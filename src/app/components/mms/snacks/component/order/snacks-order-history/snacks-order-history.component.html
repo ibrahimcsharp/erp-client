@@ -1,0 +1,79 @@
+
+    <p-table *ngIf="snackService.orderedItems != null" [value]="snackService.orderedItems"
+        [globalFilterFields]="['id', 'totalCost','orderStatus','dinningComments']" dataKey="id"
+        editMode="row" [scrollable]="true" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 50, 100]">>
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left">               
+
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="float: right" />
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="bc">
+                <th>SL</th>               
+                <th [pSortableColumn]="'id'">
+                    Order No
+                    <p-sortIcon [field]="'id'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'orderDate'">
+                    Order Date
+                    <p-sortIcon [field]="'orderDate'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'itemName'">
+                   Item Name
+                    <p-sortIcon [field]="'itemName'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+               
+                <th [pSortableColumn]="'totalCost'">
+                    Total Cost
+                    <p-sortIcon [field]="'totalCost'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'orderStatus'">
+                    Order Status
+                    <p-sortIcon [field]="'orderStatus'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'costType'">
+                    Cost Type
+                    <p-sortIcon [field]="'costType'" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+               
+                <th>Action</th>                
+
+           
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+            <tr [ngStyle]="
+            rowData.orderStatus == 'PENDING'
+              ? { 'background-color': 'yellow' }
+              : { 'background-color': 'white' }
+          " [pEditableRow]="rowData" class="center">
+                <td>{{ ri + 1 }}</td>          
+                <td>{{ rowData.id }}</td>
+                <td>{{ rowData.orderDate2 }}</td>
+                <td>{{ rowData.itemName }}</td>
+                <td>{{ rowData.totalCost }}</td>
+                <td>{{ rowData.orderStatus }}</td>
+                <td>{{ rowData.costType }}</td>              
+              
+                <td><button class="btn btn-outline-primary btn-xs" (click)="Details(rowData)"><i class="fa fa-list"></i>Details</button></td>
+                
+            </tr>
+        </ng-template>
+    </p-table>
+  

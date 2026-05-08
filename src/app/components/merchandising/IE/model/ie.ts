@@ -1,0 +1,33 @@
+export class Ie {
+  id: number;
+  styleId: number;
+  seasonId: number;
+  yearId: number;
+  ieDate: Date;
+  versionNo: number;
+  companyId: number;
+  moq: number;
+  smv: number;
+  averageEfficiencyPercentage: number;
+  targetWorkingHour: number;
+  averagePph: number;
+  cpm: number;
+  ppm: number;
+  buyerId: number;
+  buyerName: string;
+  branchOfficeName: string;
+  lineMp: number;
+  cm: number;
+  cmCPM: number;
+  stylePartId: number;
+  partName: string;
+  styleName: string;
+  styleStatus: string;
+  ieStatus: string;
+  callFor: string;
+  comments: string;
+  gmtName: string;
+  ieMasterId: number;
+  ieMaster: string;
+  styleNtfComments: string;
+}

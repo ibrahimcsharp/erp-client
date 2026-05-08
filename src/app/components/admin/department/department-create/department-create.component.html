@@ -1,0 +1,39 @@
+<!-- <p>department-create works!</p> -->
+<!-- <p-panel header="Role Create" [toggleable]="true"> -->
+    <p-panel header="Department Create" [toggleable]="true">
+        <p-messages [value]="msgs"></p-messages>
+        <form [formGroup]="departmentForm" id="departmentForm" class="needs-validation">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Department Name<span class="required">&nbsp;*</span></span>
+                            </div>
+                            <input type="text" [ngClass]="{ 
+                        'is-invalid': 
+                        departmentForm.get('departmentName').errors
+                            && (departmentForm.get('departmentName').touched 
+                            || (departmentForm.get('departmentName').dirty)) }" id="departmentName" formControlName="departmentName"
+                                class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            <!-- </div>
+            <div class="row"> -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-outline-success btn-xs" [disabled]="!departmentForm.valid"
+                            (click)="onSubmit()"><i class="fa fa-database" aria-hidden="true"></i> {{saveButtonTitle}}</button>
+                        &nbsp;
+                        <button class="btn btn-outline-success btn-xs" type="button" (click)="BtnClear()"><i
+                                class="fa fa-refresh" aria-hidden="true"></i> Clear</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        <!-- </p-panel> -->
+        <p-confirmDialog [style]="{ width: '50vw' }" key="positionDialog" [position]="position" [baseZIndex]="10000">
+        </p-confirmDialog>
+    </p-panel>

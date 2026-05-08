@@ -1,0 +1,122 @@
+<p-panel header="Menus Action Create" [toggleable]="true">
+  <app-menu-action-create
+    (DataToCreate)="GetMenuActionsList()"
+  ></app-menu-action-create>
+</p-panel>
+<br />
+<p-panel header="Menus Action List" [toggleable]="true">
+  <p-table
+    #dt
+    *ngIf="MenuActionList.length > 0"
+    [value]="MenuActionList"
+    [globalFilterFields]="['menuName', 'roleName', 'actionName', 'remarks']"
+    [scrollable]="true"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 50, 100]"
+  >
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" style="text-align: left">
+        <input
+          type="text"
+          pInputText
+          size="50"
+          placeholder="Global Filter"
+          (input)="dt.filterGlobal($event.target.value, 'contains')"
+          style="float: right"
+        />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr class="bc">
+        <th>SL</th>
+        <th [pSortableColumn]="'menuName'">
+          Menu
+          <p-sortIcon
+            [field]="'menuName'"
+            ariaLabel="Activate to sort"
+            ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"
+          ></p-sortIcon>
+        </th>
+        <th [pSortableColumn]="'roleName'">
+          Role Name
+          <p-sortIcon
+            [field]="'roleName'"
+            ariaLabel="Activate to sort"
+            ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"
+          ></p-sortIcon>
+        </th>
+        <th [pSortableColumn]="'actionName'">
+          Action
+          <p-sortIcon
+            [field]="'actionName'"
+            ariaLabel="Activate to sort"
+            ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"
+          ></p-sortIcon>
+        </th>
+        <th [pSortableColumn]="'remarks'">
+          Remarks
+          <p-sortIcon
+            [field]="'remarks'"
+            ariaLabel="Activate to sort"
+            ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"
+          ></p-sortIcon>
+        </th>
+
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'menuName', 'contains')"
+            class="p-column-filter"
+          />
+        </td>
+        <td>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'roleName', 'contains')"
+            class="p-column-filter"
+          />
+        </td>
+        <td>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'actionName', 'contains')"
+            class="p-column-filter"
+          />
+        </td>
+        <td>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($event.target.value, 'remarks', 'contains')"
+            class="p-column-filter"
+          />
+        </td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+      <tr class="center">
+        <td>{{ ri + 1 }}</td>
+        <td>{{ rowData.menuName }}</td>
+        <td>{{ rowData.roleName }}</td>
+        <td>{{ rowData.actionName }}</td>
+        <td>{{ rowData.remarks }}</td>
+        <td></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>

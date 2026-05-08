@@ -1,0 +1,56 @@
+<div>
+    <button type="button" class="btn btn-outline-success" (click)="onSubmit()"> <i class="fa fa-database"
+            aria-hidden="true"></i>Save</button>
+</div>
+<br>
+<div>
+    <div class="row" style="margin-left: 1px;">
+        <span class="input-group-text" style="line-height: 1px;">Buyer</span>
+        <p-multiSelect [showToggleAll]="true" 
+        [style]="{ 'width': '18vw','height':'30px', 'font-size':'3px !important'  }"
+        [options]="commonService.BuyerSelectList" [(ngModel)]="selectedBuyerList" defaultLabel="Select "
+        optionLabel="label" display="buyerName" [ngModelOptions]="{ standalone: true }" (onChange)="BuyerEvent($event)">
+      </p-multiSelect>
+    </div>   
+        
+
+</div>
+<br>
+<div>
+    <!-- <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Buyer Wise UI List Permission</legend> -->
+    <table *ngIf="filteredList.length>0">
+        <tr style="text-align: center; font-size: 14px; font-weight: bold;">
+            <th style="font-size: 14px; font-weight: bold;  background-color:ghostwhite !important;">
+                Menu
+            </th>
+            <th style="font-size: 14px; font-weight: bold;  background-color:ghostwhite !important;">
+                All Buyer
+            </th>
+
+            <th *ngFor="let item of filteredList[0].buyerList;" style="font-size: 14px; font-weight: bold;  background-color:ghostwhite !important;">
+                {{item.buyerName}}
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <input class="input-group-text" type="text" placeholder="Search..." [(ngModel)]="filteredText" (input)="filterText($event)"/>
+            </td>
+            <td></td>
+            <td *ngFor="let item of filteredList[0].buyerList;"></td>
+        </tr>
+        <tr *ngFor="let menu of filteredList;  let i = index" style="text-align: center;">
+            <td style="font-weight: bold; font-size: 14px; height: 60px;">
+                {{ menu.menuName }}
+            </td>
+            <td>
+                <input type="checkbox" (click)="allBuyerCheck($event,buyer, menu)" class="chk" />
+            </td>
+
+            <td *ngFor="let buyer of menu.buyerList">
+                <input type="checkbox" class="chk" [checked]="buyer.status" (click)="menuCheck($event, buyer)" />
+            </td>
+        </tr>
+    </table>
+    <!-- </fieldset> -->
+</div>
