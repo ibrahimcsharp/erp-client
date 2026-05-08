@@ -1,7 +1,0 @@
-{
-    "scripts": {
-        "start": "ng serve",
-        "build": "ng build",
-        "build-prod": "npx ng build --prod"
-    }
-}
