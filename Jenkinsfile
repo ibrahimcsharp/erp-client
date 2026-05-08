@@ -4,6 +4,7 @@ node {
     }
 
     stage('Install node modules') {
+        bat 'if exist node_modules rmdir /s /q node_modules'
         bat 'npm install'
     }
 
