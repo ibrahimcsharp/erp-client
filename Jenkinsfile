@@ -3,8 +3,11 @@ node {
         git branch: 'main', url: 'https://github.com/ibrahimcsharp/erp-client.git'
     }
 
-    stage('Build') {
+    stage('Install node modules') {
         bat 'npm install'
+    }
+
+    stage('Build') {
         bat 'npm run build --prod'
     }
 
